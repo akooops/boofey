@@ -3,6 +3,8 @@
 namespace App\Http\Requests\Users;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\ValidationException;
+use Illuminate\Http\JsonResponse;
 
 class StoreUserRequest extends FormRequest
 {
@@ -24,13 +26,26 @@ class StoreUserRequest extends FormRequest
     public function rules()
     {
         return [
+            'role_id' => 'required|numeric',
             'firstname' => 'required|string|max:500',
             'lastname' => 'required|string|max:500',
             'username' => 'required|username|unique:users,username',
-            'email' => 'required|email|unique:users,email',
+            'email' => 'required|email:rfc,dns|unique:users,email',
             'phone' => 'required|phone|unique:users,phone',
             'password' => 'required|password|confirmed',
-            'password_confirmation' => 'required',
         ];
+    }
+
+    protected function failedValidation(\Illuminate\Contracts\Validation\Validator $validator)
+    {
+        throw new ValidationException($validator, $this->buildFailedValidationResponse($validator));
+    }
+
+    protected function buildFailedValidationResponse(\Illuminate\Contracts\Validation\Validator $validator)
+    {
+        return new JsonResponse([
+            'status' => 'error',
+            'errors' => $validator->errors(),
+        ], 422);
     }
 }

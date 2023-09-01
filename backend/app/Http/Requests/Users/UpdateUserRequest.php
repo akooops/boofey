@@ -3,6 +3,8 @@
 namespace App\Http\Requests\Users;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\ValidationException;
+use Illuminate\Http\JsonResponse;
 
 class UpdateUserRequest extends FormRequest
 {
@@ -23,13 +25,29 @@ class UpdateUserRequest extends FormRequest
      */
     public function rules()
     {
+        $user = request()->route('user');
+
         return [
+            'role_id' => 'required|numeric',
             'firstname' => 'required|string|max:500',
             'lastname' => 'required|string|max:500',
-            'username' => 'required|username|unique:users,username,'.$this->user->id,
-            'email' => 'required|email|unique:users,email,'.$this->user->id,
-            'phone' => 'required|phone|unique:users,phone,'.$this->user->id,
+            'username' => 'required|username|unique:users,username,'.$user,
+            'email' => 'required|email:rfc,dns|unique:users,email,'.$user,
+            'phone' => 'required|phone|unique:users,phone,'.$user,
             'password' => 'sometimes|required|password|confirmed',
         ];
+    }
+
+    protected function failedValidation(\Illuminate\Contracts\Validation\Validator $validator)
+    {
+        throw new ValidationException($validator, $this->buildFailedValidationResponse($validator));
+    }
+
+    protected function buildFailedValidationResponse(\Illuminate\Contracts\Validation\Validator $validator)
+    {
+        return new JsonResponse([
+            'status' => 'error',
+            'errors' => $validator->errors(),
+        ], 422);
     }
 }
