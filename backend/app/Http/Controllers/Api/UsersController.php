@@ -19,7 +19,10 @@ class UsersController extends Controller
         $perPage = $request->query('perPage', 10); 
         $page = $request->query('page', 1);
 
-        $users = User::latest()->paginate($perPage, ['*'], 'page', $page);
+        $users = User::latest()->with([
+            'roles:id,name,guard_name', 
+            'roles.permissions:id,name,guard_name'
+        ])->paginate($perPage, ['*'], 'page', $page);
 
         $response = [
             'status' => 'success',
@@ -48,7 +51,7 @@ class UsersController extends Controller
     public function store(User $user, StoreUserRequest $request) 
     {
         $user->create(array_merge($request->validated()));
-        $user->syncRoles($request->get('role'));
+        $user->syncRoles($request->get('role_id'));
 
         return response()->json([
             'status' => 'success'
@@ -64,7 +67,7 @@ class UsersController extends Controller
      */
     public function show($id) 
     {
-        $user = User::find($id);
+        $user = User::with(['roles:id,name,guard_name', 'roles.permissions:id,name,guard_name'])->find($id);
 
         if (!$user) {
             return response()->json([
@@ -106,7 +109,7 @@ class UsersController extends Controller
 
         $user->update($request->validated());
 
-        $user->syncRoles($request->get('role'));
+        $user->syncRoles($request->get('role_id'));
 
         return response()->json([
             'status' => 'success'

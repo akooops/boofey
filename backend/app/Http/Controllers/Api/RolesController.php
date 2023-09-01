@@ -19,7 +19,7 @@ class RolesController extends Controller
         $perPage = $request->query('perPage', 10); 
         $page = $request->query('page', 1);
 
-        $roles = Role::latest()->with('permissions')->paginate($perPage, ['*'], 'page', $page);
+        $roles = Role::latest()->with('permissions:id,name,guard_name')->paginate($perPage, ['*'], 'page', $page);
 
         $response = [
             'status' => 'success',
@@ -64,7 +64,7 @@ class RolesController extends Controller
      */
     public function show($id) 
     {
-        $role = Role::with('permissions')->find($id);
+        $role = Role::with('permissions:id,name,guard_name')->find($id);
 
         if (!$role) {
             return response()->json([
