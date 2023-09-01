@@ -166,6 +166,15 @@ return [
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],
+        'username' => [
+            'username' => 'The :attribute must only contain letters, numbers, and underscores.',
+        ],
+        'phone' => [
+            'phone' => 'The :attribute must be a valid phone number.',
+        ],
+        'password' => [
+            'password' => 'The :attribute must be at least 8 characters long and contain at least one digit, one uppercase letter, or one special character.',
+        ],
     ],
 
     /*
