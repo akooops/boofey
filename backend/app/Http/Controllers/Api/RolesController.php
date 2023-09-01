@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\User;
 use Illuminate\Http\Request;
-use App\Http\Requests\Users\StoreUserRequest;
-use App\Http\Requests\Users\UpdateUserRequest;
+use App\Http\Requests\Roles\StoreRoleRequest;
+use App\Http\Requests\Roles\UpdateRoleRequest;
+use Spatie\Permission\Models\Role;
 
-class UsersController extends Controller
+class RolesController extends Controller
 {
     /**
-     * Display all users
+     * Display all roles
      * 
      * @return \Illuminate\Http\Response
      */
@@ -19,18 +19,18 @@ class UsersController extends Controller
         $perPage = $request->query('perPage', 10); 
         $page = $request->query('page', 1);
 
-        $users = User::latest()->paginate($perPage, ['*'], 'page', $page);
+        $roles = Role::latest()->with('permissions')->paginate($perPage, ['*'], 'page', $page);
 
         $response = [
             'status' => 'success',
-            'data' => $users->items(), 
+            'data' => $roles->items(), 
             'pagination' => [
-                'per_page' => $users->perPage(),
-                'current_page' => $users->currentPage(),
-                'last_page' => $users->lastPage(),
-                'from' => $users->firstItem(),
-                'to' => $users->lastItem(),
-                'total' => $users->total(),
+                'per_page' => $roles->perPage(),
+                'current_page' => $roles->currentPage(),
+                'last_page' => $roles->lastPage(),
+                'from' => $roles->firstItem(),
+                'to' => $roles->lastItem(),
+                'total' => $roles->total(),
             ],
         ];
 
@@ -38,17 +38,17 @@ class UsersController extends Controller
     }
 
     /**
-     * Store a newly created user
+     * Store a newly created role
      * 
-     * @param User $user
-     * @param StoreUserRequest $request
+     * @param Role $role
+     * @param StoreRoleRequest $request
      * 
      * @return \Illuminate\Http\Response
      */
-    public function store(User $user, StoreUserRequest $request) 
+    public function store(Role $role, StoreRoleRequest $request) 
     {
-        $user->create(array_merge($request->validated()));
-        $user->syncRoles($request->get('role'));
+        $role = Role::create(['name' => $request->get('name')]);
+        $role->syncPermissions($request->get('permissions'));
 
         return response()->json([
             'status' => 'success'
@@ -56,17 +56,17 @@ class UsersController extends Controller
     }
 
     /**
-     * Show user data
+     * Show role data
      * 
-     * @param User $user
+     * @param Role $role
      * 
      * @return \Illuminate\Http\Response
      */
     public function show($id) 
     {
-        $user = User::find($id);
+        $role = Role::with('permissions')->find($id);
 
-        if (!$user) {
+        if (!$role) {
             return response()->json([
                 'status' => 'error',
                 'errors' => [
@@ -78,24 +78,24 @@ class UsersController extends Controller
         return response()->json([
             'status' => 'success',
             'data' => [
-                'user' => $user
+                'role' => $role
             ]
         ]);
     }
 
     /**
-     * Update user data
+     * Update role data
      * 
-     * @param User $user
-     * @param UpdateUserRequest $request
+     * @param Role $role
+     * @param UpdateRoleRequest $request
      * 
      * @return \Illuminate\Http\Response
      */
-    public function update($id, UpdateUserRequest $request) 
+    public function update($id, UpdateRoleRequest $request) 
     {
-        $user = User::find($id);
-        
-        if (!$user) {
+        $role = Role::find($id);
+
+        if (!$role) {
             return response()->json([
                 'status' => 'error',
                 'errors' => [
@@ -104,9 +104,8 @@ class UsersController extends Controller
             ], 404);
         }
 
-        $user->update($request->validated());
-
-        $user->syncRoles($request->get('role'));
+        $role->update($request->only('name'));
+        $role->syncPermissions($request->get('permissions'));
 
         return response()->json([
             'status' => 'success'
@@ -114,17 +113,17 @@ class UsersController extends Controller
     }
 
     /**
-     * Delete user data
+     * Delete role data
      * 
-     * @param User $user
+     * @param Role $role
      * 
      * @return \Illuminate\Http\Response
      */
     public function destroy($id) 
     {
-        $user = User::find($id);
+        $role = Role::find($id);
 
-        if (!$user) {
+        if (!$role) {
             return response()->json([
                 'status' => 'error',
                 'errors' => [
@@ -133,7 +132,7 @@ class UsersController extends Controller
             ], 404);
         }
 
-        $user->delete();
+        $role->delete();
 
         return response()->json([
             'status' => 'success'

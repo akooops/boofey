@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\User;
 use Illuminate\Http\Request;
-use App\Http\Requests\Users\StoreUserRequest;
-use App\Http\Requests\Users\UpdateUserRequest;
+use App\Http\Requests\Permissions\StorePermissionRequest;
+use App\Http\Requests\Permissions\UpdatePermissionRequest;
+use Spatie\Permission\Models\Permission;
 
-class UsersController extends Controller
+class PermissionsController extends Controller
 {
     /**
-     * Display all users
+     * Display all permissions
      * 
      * @return \Illuminate\Http\Response
      */
@@ -19,18 +19,18 @@ class UsersController extends Controller
         $perPage = $request->query('perPage', 10); 
         $page = $request->query('page', 1);
 
-        $users = User::latest()->paginate($perPage, ['*'], 'page', $page);
+        $permissions = Permission::latest()->paginate($perPage, ['*'], 'page', $page);
 
         $response = [
             'status' => 'success',
-            'data' => $users->items(), 
+            'data' => $permissions->items(), 
             'pagination' => [
-                'per_page' => $users->perPage(),
-                'current_page' => $users->currentPage(),
-                'last_page' => $users->lastPage(),
-                'from' => $users->firstItem(),
-                'to' => $users->lastItem(),
-                'total' => $users->total(),
+                'per_page' => $permissions->perPage(),
+                'current_page' => $permissions->currentPage(),
+                'last_page' => $permissions->lastPage(),
+                'from' => $permissions->firstItem(),
+                'to' => $permissions->lastItem(),
+                'total' => $permissions->total(),
             ],
         ];
 
@@ -38,17 +38,16 @@ class UsersController extends Controller
     }
 
     /**
-     * Store a newly created user
+     * Store a newly created permission
      * 
-     * @param User $user
-     * @param StoreUserRequest $request
+     * @param Permission $permission
+     * @param StorePermissionRequest $request
      * 
      * @return \Illuminate\Http\Response
      */
-    public function store(User $user, StoreUserRequest $request) 
+    public function store(Permission $permission, StorePermissionRequest $request) 
     {
-        $user->create(array_merge($request->validated()));
-        $user->syncRoles($request->get('role'));
+        $permission->create(array_merge($request->validated()));
 
         return response()->json([
             'status' => 'success'
@@ -56,17 +55,17 @@ class UsersController extends Controller
     }
 
     /**
-     * Show user data
+     * Show permission data
      * 
-     * @param User $user
+     * @param Permission $permission
      * 
      * @return \Illuminate\Http\Response
      */
     public function show($id) 
     {
-        $user = User::find($id);
+        $permission = Permission::find($id);
 
-        if (!$user) {
+        if (!$permission) {
             return response()->json([
                 'status' => 'error',
                 'errors' => [
@@ -78,24 +77,24 @@ class UsersController extends Controller
         return response()->json([
             'status' => 'success',
             'data' => [
-                'user' => $user
+                'permission' => $permission
             ]
         ]);
     }
 
     /**
-     * Update user data
+     * Update permission data
      * 
-     * @param User $user
-     * @param UpdateUserRequest $request
+     * @param Permission $permission
+     * @param UpdatePermissionRequest $request
      * 
      * @return \Illuminate\Http\Response
      */
-    public function update($id, UpdateUserRequest $request) 
+    public function update($id, UpdatePermissionRequest $request) 
     {
-        $user = User::find($id);
-        
-        if (!$user) {
+        $permission = Permission::find($id);
+
+        if (!$permission) {
             return response()->json([
                 'status' => 'error',
                 'errors' => [
@@ -104,9 +103,7 @@ class UsersController extends Controller
             ], 404);
         }
 
-        $user->update($request->validated());
-
-        $user->syncRoles($request->get('role'));
+        $permission->update($request->validated());
 
         return response()->json([
             'status' => 'success'
@@ -114,17 +111,17 @@ class UsersController extends Controller
     }
 
     /**
-     * Delete user data
+     * Delete permission data
      * 
-     * @param User $user
+     * @param Permission $permission
      * 
      * @return \Illuminate\Http\Response
      */
     public function destroy($id) 
     {
-        $user = User::find($id);
+        $permission = Permission::find($id);
 
-        if (!$user) {
+        if (!$permission) {
             return response()->json([
                 'status' => 'error',
                 'errors' => [
@@ -133,7 +130,7 @@ class UsersController extends Controller
             ], 404);
         }
 
-        $user->delete();
+        $permission->delete();
 
         return response()->json([
             'status' => 'success'
