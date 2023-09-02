@@ -16,7 +16,7 @@ class UsersController extends Controller
      */
     public function index(Request $request) 
     {
-        $perPage = $request->query('perPage', 10); 
+        $perPage = limitPerPage($request->query('perPage', 10));
         $page = $request->query('page', 1);
         $search = $request->query('search');
 
@@ -43,7 +43,7 @@ class UsersController extends Controller
                 'from' => $users->firstItem(),
                 'to' => $users->lastItem(),
                 'total' => $users->total(),
-                'pages' => pages($users->currentPage(), $users->lastPage(), $users->perPage())
+                'pages' => pages($users->currentPage(), $users->lastPage())
             ],
         ];
 

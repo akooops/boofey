@@ -16,7 +16,7 @@ class RolesController extends Controller
      */
     public function index(Request $request) 
     {
-        $perPage = $request->query('perPage', 10); 
+        $perPage = limitPerPage($request->query('perPage', 10));
         $page = $request->query('page', 1);
         $search = $request->query('search');
 
@@ -38,7 +38,7 @@ class RolesController extends Controller
                 'from' => $roles->firstItem(),
                 'to' => $roles->lastItem(),
                 'total' => $roles->total(),
-                'pages' => pages($roles->currentPage(), $roles->lastPage(), $roles->perPage())
+                'pages' => pages($roles->currentPage(), $roles->lastPage())
             ],
         ];
 

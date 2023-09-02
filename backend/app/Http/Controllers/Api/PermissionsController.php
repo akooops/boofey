@@ -16,7 +16,7 @@ class PermissionsController extends Controller
      */
     public function index(Request $request) 
     {
-        $perPage = $request->query('perPage', 10); 
+        $perPage = limitPerPage($request->query('perPage', 10));
         $page = $request->query('page', 1);
         $search = $request->query('search');
 
@@ -38,7 +38,7 @@ class PermissionsController extends Controller
                 'from' => $permissions->firstItem(),
                 'to' => $permissions->lastItem(),
                 'total' => $permissions->total(),
-                'pages' => pages($permissions->currentPage(), $permissions->lastPage(), $permissions->perPage())
+                'pages' => pages($permissions->currentPage(), $permissions->lastPage())
             ],
         ];
 
