@@ -43,6 +43,14 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'middleware' => ['auth:
         Route::get('/', 'ProfilesController@show')->name('api.profiles.show');
         Route::post('/update', 'ProfilesController@update')->name('api.profiles.update');
     });
+
+    Route::group(['prefix' => 'schools'], function() {
+        Route::get('/', 'SchoolsController@index')->name('api.schools.index');
+        Route::get('/{school}', 'SchoolsController@show')->name('api.schools.show');
+        Route::post('/store', 'SchoolsController@store')->name('api.schools.store');
+        Route::post('/{school}/update', 'SchoolsController@update')->name('api.schools.update');
+        Route::delete('/{school}/destroy', 'SchoolsController@destroy')->name('api.schools.destroy');
+    });
 });
 
 Route::group(['namespace' => 'App\Http\Controllers\Api\Auth', 'prefix' => 'auth'], function(){  

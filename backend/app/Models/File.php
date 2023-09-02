@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\URL;
 
 class File extends Model
 {
@@ -18,6 +19,9 @@ class File extends Model
     ];
 
     function getFullPathAttribute() {  
-        return $this->path .'/'.$this->current_name;
+        $baseUrl = URL::to('/');
+        $uploadsPath = 'uploads';
+
+        return $baseUrl . '/' . $uploadsPath . '/' . $this->path . '/' . $this->current_name;
     }
 }
