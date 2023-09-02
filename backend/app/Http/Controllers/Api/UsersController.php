@@ -57,10 +57,14 @@ class UsersController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function store(User $user, StoreUserRequest $request) 
+    public function store(StoreUserRequest $request) 
     {
-        $user->create(array_merge($request->validated()));
+        $user = User::create(array_merge($request->validated()));
+        $user->save();
+
         $user->syncRoles($request->get('role_id'));
+
+        $user->profile()->create(array_merge($request->validated()));
 
         return response()->json([
             'status' => 'success'
@@ -117,8 +121,14 @@ class UsersController extends Controller
         }
 
         $user->update($request->validated());
+        
+        $user->profile()->update([
+            'firstname' => $request->get('firstname'),
+            'lastname' => $request->get('lastname'),
+        ]);
 
         $user->syncRoles($request->get('role_id'));
+
 
         return response()->json([
             'status' => 'success'
