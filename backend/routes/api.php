@@ -38,6 +38,11 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'middleware' => ['auth:
         Route::post('/{user}/update', 'UsersController@update')->name('api.users.update');
         Route::delete('/{user}/destroy', 'UsersController@destroy')->name('api.users.destroy');
     });
+
+    Route::group(['prefix' => 'profiles'], function() {
+        Route::get('/', 'ProfilesController@show')->name('api.profiles.show');
+        Route::post('/update', 'ProfilesController@update')->name('api.profiles.update');
+    });
 });
 
 Route::group(['namespace' => 'App\Http\Controllers\Api\Auth', 'prefix' => 'auth'], function(){  
