@@ -18,8 +18,15 @@ class PermissionsController extends Controller
     {
         $perPage = $request->query('perPage', 10); 
         $page = $request->query('page', 1);
+        $search = $request->query('search');
 
-        $permissions = Permission::latest()->paginate($perPage, ['*'], 'page', $page);
+        $permissions = Permission::latest();
+
+        if ($search) {
+            $permissions->where('name', 'like', '%' . $search . '%');
+        }
+
+        $permissions = $permissions->paginate($perPage, ['*'], 'page', $page);
 
         $response = [
             'status' => 'success',

@@ -18,8 +18,15 @@ class RolesController extends Controller
     {
         $perPage = $request->query('perPage', 10); 
         $page = $request->query('page', 1);
+        $search = $request->query('search');
 
-        $roles = Role::latest()->with('permissions:id,name,guard_name')->paginate($perPage, ['*'], 'page', $page);
+        $roles = Role::latest()->with('permissions:id,name,guard_name');
+
+        if ($search) {
+            $roles->where('name', 'like', '%' . $search . '%');
+        }
+
+        $roles = $roles->paginate($perPage, ['*'], 'page', $page);
 
         $response = [
             'status' => 'success',

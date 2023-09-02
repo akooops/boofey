@@ -18,11 +18,20 @@ class UsersController extends Controller
     {
         $perPage = $request->query('perPage', 10); 
         $page = $request->query('page', 1);
+        $search = $request->query('search');
 
         $users = User::latest()->with([
             'roles:id,name,guard_name', 
             'roles.permissions:id,name,guard_name'
-        ])->paginate($perPage, ['*'], 'page', $page);
+        ]);
+
+        if ($search) {
+            $users->where('username', 'like', '%' . $search . '%')
+            ->orWhere('email', 'like', '%' . $search . '%')
+            ->orWhere('phone', 'like', '%' . $search . '%');
+        }
+
+        $users = $users->paginate($perPage, ['*'], 'page', $page);
 
         $response = [
             'status' => 'success',
