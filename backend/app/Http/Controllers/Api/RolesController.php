@@ -38,6 +38,7 @@ class RolesController extends Controller
                 'from' => $roles->firstItem(),
                 'to' => $roles->lastItem(),
                 'total' => $roles->total(),
+                'pages' => pages($roles->currentPage(), $roles->lastPage(), $roles->perPage())
             ],
         ];
 

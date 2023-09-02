@@ -38,6 +38,7 @@ class PermissionsController extends Controller
                 'from' => $permissions->firstItem(),
                 'to' => $permissions->lastItem(),
                 'total' => $permissions->total(),
+                'pages' => pages($permissions->currentPage(), $permissions->lastPage(), $permissions->perPage())
             ],
         ];
 
