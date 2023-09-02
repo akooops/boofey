@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\Api\UsersController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -15,11 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
-Route::group(['namespace' => 'App\Http\Controllers\Api'], function(){    
+Route::group(['namespace' => 'App\Http\Controllers\Api', 'middleware' => ['auth:sanctum']], function(){    
     Route::group(['prefix' => 'permissions'], function() {
         Route::get('/', 'PermissionsController@index')->name('api.permissions.index');
         Route::get('/{permission}', 'PermissionsController@show')->name('api.permissions.show');
@@ -43,6 +38,13 @@ Route::group(['namespace' => 'App\Http\Controllers\Api'], function(){
         Route::post('/{user}/update', 'UsersController@update')->name('api.users.update');
         Route::delete('/{user}/destroy', 'UsersController@destroy')->name('api.users.destroy');
     });
+});
 
-
+Route::group(['namespace' => 'App\Http\Controllers\Api\Auth', 'prefix' => 'auth'], function(){  
+    Route::get('authenticate', 'AuthController@authenticate')->name('authenticate');
+    Route::post('register', 'AuthController@register');
+    Route::post('login', 'AuthController@login');
+    Route::post('logout', 'AuthController@logout');
+    Route::post('password/email', 'AuthController@sendResetLinkEmail');
+    Route::post('password/reset', 'AuthController@reset');
 });
