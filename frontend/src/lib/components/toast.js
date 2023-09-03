@@ -5,7 +5,7 @@ export function toast(text,type){
     };
     Toastify({
         text,
-        duration: 1300,
+        duration: 3000,
         close: true,
         gravity: "bottom", // `top` or `bottom`
         position: "right", // `left`, `center` or `right`

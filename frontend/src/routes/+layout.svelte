@@ -763,7 +763,7 @@ page.subscribe(() => {
                  <!-- start page title -->
                  <div class="row">
                     <div class="col-12">
-                        <div class="page-title-box d-sm-flex align-items-center justify-content-between title-bread">
+                        <div class="page-title-box d-sm-flex align-items-center justify-content-between">
                             <h4 class="mb-sm-0">Permissions</h4>
 
                             <div class="page-title-right">
@@ -782,11 +782,3 @@ page.subscribe(() => {
         </div>
     </div>
 </div>
-
-
-<style>
-    .title-bread {
-        border-bottom: none;
-        background-color:transparent;
-    }
-</style>

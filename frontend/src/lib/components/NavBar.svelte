@@ -57,7 +57,7 @@
                         {#if submenu.links.length > 0}
                             <li class="nav-item">
                                 <a class="nav-link menu-link" href="#sidebarDashboards" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
-                                    <i  class="icon-dual"></i> <span >{submenu.title}</span>
+                                    <i class="ri-dashboard-2-line"></i> <span >{submenu.title}</span>
                                 </a>
                                 {#each submenu.links as link}
                                 <div class="collapse menu-dropdown" id="sidebarDashboards">
@@ -74,7 +74,7 @@
                         {:else}
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="{submenu.route}"  role="button" aria-expanded="false" >
-                                <i  class="icon-dual"></i> <span >{submenu.title}</span>
+                                <i class="ri-dashboard-2-line"></i> <span >{submenu.title}</span>
                             </a>
                         </li>
                         {/if}
