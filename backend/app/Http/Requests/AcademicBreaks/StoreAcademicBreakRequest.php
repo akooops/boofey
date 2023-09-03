@@ -26,6 +26,7 @@ class StoreAcademicBreakRequest extends FormRequest
     public function rules()
     {
         return [
+                        'name' => 'required|string|max:500',
             'from' => 'required|date_format:Y-m-d',
             'to' => 'required|date_format:Y-m-d|after_or_equal:from',
         ];

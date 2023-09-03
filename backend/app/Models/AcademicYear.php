@@ -10,6 +10,7 @@ class AcademicYear extends Model
     use HasFactory;
 
     protected $fillable = [
+        'name',
         'from',
         'to',
         'current',

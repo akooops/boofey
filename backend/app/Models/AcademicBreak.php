@@ -10,6 +10,7 @@ class AcademicBreak extends Model
     use HasFactory;
 
     protected $fillable = [
+        'name',
         'from',
         'to',
         'academic_year_id',
