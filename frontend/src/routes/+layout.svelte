@@ -1,5 +1,19 @@
 <script>
 import NavBar from "$lib/components/NavBar.svelte";
+import { page } from "$app/stores"; 
+import { browser } from '$app/environment';
+page.subscribe(() => {
+    if(browser){
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl,{
+                boundary: document.body
+            })
+        })
+        
+    }
+})
+
 
 </script>
 
@@ -640,7 +654,7 @@ import NavBar from "$lib/components/NavBar.svelte";
                                             <div class="form-check notification-check">
                                                 <input class="form-check-input" type="checkbox" value="" id="messages-notification-check03">
                                                 <label class="form-check-label" for="messages-notification-check03"></label>
-                                            </div>
+                                            </div>i 
                                         </div>
                                     </div>
                                 </div>
@@ -768,6 +782,7 @@ import NavBar from "$lib/components/NavBar.svelte";
         </div>
     </div>
 </div>
+
 
 <style>
     .title-bread {

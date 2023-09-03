@@ -1,10 +1,19 @@
 <script>
 import Pagination from "$lib/components/Pagination.svelte";
 import PermissionTable from "$lib/tables/PermissionTable.svelte";
+import AddPermissionModal from "$lib/modals/AddPermissionModal.svelte";
 export let data
 $: permissionsList = data.permissionsResponse.data  
 $: permissionsPagination = data.permissionsResponse.pagination
 
+let path = "$lib"
+import { browser } from '$app/environment';
+
+// onMount(() => {
+//     import("$lib/assets/libs/bootstrap/js/bootstrap.bundle.min.js")
+//     import("$lib/assets/js/plugins.js")
+//     // import("$lib/assets/js/app.js")
+// })
 
 </script>
 <div class="row">
@@ -13,7 +22,8 @@ $: permissionsPagination = data.permissionsResponse.pagination
             <div class="card-header align-items-center d-flex">
                 <h4 class="card-title mb-0 flex-grow-1">My Permissions</h4>
                 <div class="flex-shrink-0">
-                    <button type="button" class="btn btn-primary waves-effect waves-light"><i class="ri-add-line align-bottom me-1"></i> Add Permission</button>
+                    <button type="button" data-bs-toggle="modal" data-bs-target="#addPermisionModal" class="btn btn-primary waves-effect waves-light"><i class="ri-add-line align-bottom me-1"></i> Add Permission</button>
+                    <AddPermissionModal />
                 </div>
             </div><!-- end card header -->
 
@@ -41,3 +51,4 @@ $: permissionsPagination = data.permissionsResponse.pagination
     </div>
     <!-- end col -->
 </div>
+
