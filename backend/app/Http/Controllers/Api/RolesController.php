@@ -61,7 +61,7 @@ class RolesController extends Controller
     public function store(Role $role, StoreRoleRequest $request) 
     {
         $role = Role::create(['name' => $request->get('name')]);
-        $role->syncPermissions($request->get('permissions'));
+        $role->syncPermissions(json_decode($request->get('permissions'), true));
 
         return response()->json([
             'status' => 'success'
@@ -118,7 +118,7 @@ class RolesController extends Controller
         }
 
         $role->update($request->only('name'));
-        $role->syncPermissions($request->get('permissions'));
+        $role->syncPermissions(json_decode($request->get('permissions'), true));
 
         return response()->json([
             'status' => 'success'
