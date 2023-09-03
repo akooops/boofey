@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use App\Http\Requests\Roles\StoreRoleRequest;
 use App\Http\Requests\Roles\UpdateRoleRequest;
+use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
 class RolesController extends Controller
@@ -27,10 +28,14 @@ class RolesController extends Controller
         }
 
         $roles = $roles->paginate($perPage, ['*'], 'page', $page);
+        $permissions = Permission::get();
 
         $response = [
             'status' => 'success',
-            'data' => $roles->items(), 
+            'data' => [
+                'roles' => $roles->items(),
+                'permissions' => $permissions
+            ], 
             'pagination' => [
                 'per_page' => $roles->perPage(),
                 'current_page' => $roles->currentPage(),

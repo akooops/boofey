@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\Users\StoreUserRequest;
 use App\Http\Requests\Users\UpdateUserRequest;
+use Spatie\Permission\Models\Role;
 
 class UsersController extends Controller
 {
@@ -32,10 +33,14 @@ class UsersController extends Controller
         }
 
         $users = $users->paginate($perPage, ['*'], 'page', $page);
+        $roles = Role::get();
 
         $response = [
             'status' => 'success',
-            'data' => $users->items(), 
+            'data' => [
+                'users' => $users->items(), 
+                'roles' => $roles
+            ],
             'pagination' => [
                 'per_page' => $users->perPage(),
                 'current_page' => $users->currentPage(),
