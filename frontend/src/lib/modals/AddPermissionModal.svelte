@@ -2,15 +2,16 @@
 import { PathAddPermission } from "$lib/api/paths";
 import {onMount} from "svelte"
 import { toast } from "$lib/components/toast.js";
+import { invalidate } from '$app/navigation';
 
-let modal
 let permissionName
 let close
 
 async function save(){
+
+
     let formData = new FormData()
     formData.append("name",permissionName)
-    // modal.modal("hide")
 
     let res = await (await fetch(PathAddPermission(),{
         method:"POST",
@@ -21,6 +22,8 @@ async function save(){
         close.click()
         let text = `Added ${permissionName} as a new permission` 
         toast(text,"success")
+        invalidate("permissions:refresh")
+        
     }
 
 
@@ -28,7 +31,7 @@ async function save(){
 </script>
 
 
-<div class="modal  fade" id="addPermisionModal" bind:this={modal} tabindex="-1" aria-labelledby="exampleModalgridLabel" aria-modal="true" >
+<div class="modal  fade" id="addPermisionModal" tabindex="-1" aria-labelledby="exampleModalgridLabel" aria-modal="true" >
     <div class="modal-dialog modal-dialog-centered" >
         <div class="modal-content">
             <div class="modal-header">

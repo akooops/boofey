@@ -2,7 +2,8 @@
     import { PathAddUser } from "$lib/api/paths";
     import {onMount} from "svelte"
     import { toast } from "$lib/components/toast.js";
-    
+    import { invalidate } from '$app/navigation';
+
     let close
     let username
     let form 
@@ -22,9 +23,10 @@
             close.click()
             let text = `Added ${username} as a new user` 
             toast(text,"success")
+            invalidate("users:refresh")
         }
-    
-        return false;
+
+        
     }
     </script>
     
@@ -41,8 +43,8 @@
                         <div class="row g-3">
     
                                 <div class="col-lg-12">
-                                    <label for="username" class="form-label" bind:value={username}>Username</label>
-                                    <input type="text" name="username" class="form-control" id="username" placeholder="Enter Username name" >
+                                    <label for="username" class="form-label" >Username</label>
+                                    <input type="text" name="username" class="form-control" id="username" placeholder="Enter Username name" bind:value={username} >
                                 </div>
                                 <div class="col-xxl-6">
                                     <div>

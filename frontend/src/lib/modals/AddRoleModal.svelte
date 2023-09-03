@@ -2,7 +2,9 @@
     import { PathAddRole } from "$lib/api/paths";
     import {onMount} from "svelte"
     import { toast } from "$lib/components/toast.js";
-import { PathGetPermissions } from "../api/paths";
+    import { PathGetPermissions } from "../api/paths";
+    import { invalidate } from '$app/navigation';
+
     
     let modal
     let roleName
@@ -30,6 +32,7 @@ import { PathGetPermissions } from "../api/paths";
             close.click()
             let text = `Added ${roleName} as a new role` 
             toast(text,"success")
+            invalidate("roles:refresh")
         }
 
     }
