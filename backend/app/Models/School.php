@@ -28,4 +28,9 @@ class School extends Model
     {
         return $this->hasOne(AcademicYear::class, 'school_id', 'id')->where('current', 1);
     }
+
+    public function packages()
+    {
+        return $this->hasMany(Package::class, 'school_id', 'id');
+    }
 }
