@@ -20,4 +20,10 @@ class AcademicYear extends Model
     {
         return $this->belongsTo(School::class);
     }
+
+    
+    public function academicBreaks()
+    {
+        return $this->hasMany(AcademicBreak::class, 'academic_year_id', 'id');
+    }
 }
