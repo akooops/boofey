@@ -18,4 +18,9 @@ class School extends Model
     {
         return $this->hasOne(File::class, 'id', 'file_id');
     }
+
+    public function academicYears()
+    {
+        return $this->hasMany(AcademicYear::class, 'school_id', 'id');
+    }
 }
