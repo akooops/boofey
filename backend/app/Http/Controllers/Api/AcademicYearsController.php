@@ -104,7 +104,7 @@ class AcademicYearsController extends Controller
      */
     public function show($id) 
     {
-        $academicYear = AcademicYear::with('school:id,name')->find($id);
+        $academicYear = AcademicYear::with(['school:id,name', 'academicBreaks'])->find($id);
 
         if (!$academicYear) {
             return response()->json([
