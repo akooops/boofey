@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\AcademicYears\StoreAcademicYearRequest;
 use App\Http\Requests\AcademicYears\UpdateAcademicYearRequest;
 use App\Models\File;
+use App\Models\School;
 
 class AcademicYearsController extends Controller
 {
@@ -15,19 +16,28 @@ class AcademicYearsController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request) 
+    public function index($id, Request $request) 
     {
+        $school = School::find($id);
+
+        if (!$school) {
+            return response()->json([
+                'status' => 'error',
+                'errors' => [
+                    '404' => 'Not found.'
+                ]
+            ], 404);
+        }
+
         $perPage = limitPerPage($request->query('perPage', 10));
         $page = $request->query('page', 1);
         $search = $request->query('search');
 
-        $academicYears = AcademicYear::latest()->with([
-            'logo:id,path,current_name', 
+        $academicYears = AcademicYear::latest()->where([
+            'school_id' => $school->id
+        ])->with([
+            'School:id,name', 
         ]);
-
-        if ($search) {
-            $academicYears->where('name', 'like', '%' . $search . '%');
-        }
 
         $academicYears = $academicYears->paginate($perPage, ['*'], 'page', $page);
 
@@ -56,13 +66,26 @@ class AcademicYearsController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreAcademicYearRequest $request) 
+    public function store($id, StoreAcademicYearRequest $request) 
     {
-        $file = uploadFile($request->file('file'), 'academicYears');
+        $school = School::find($id);
+
+        if (!$school) {
+            return response()->json([
+                'status' => 'error',
+                'errors' => [
+                    '404' => 'Not found.'
+                ]
+            ], 404);
+        }
+
+        if($request->input('current') == true) {
+            AcademicYear::where('school_id', $school->id)->update(['current' => false]);
+        }
 
         $academicYear = AcademicYear::create(array_merge(
             $request->validated(),
-            ['file_id' => $file->id]
+            ['school_id' => $school->id]
         ));
 
         $academicYear->save();
@@ -81,7 +104,7 @@ class AcademicYearsController extends Controller
      */
     public function show($id) 
     {
-        $academicYear = AcademicYear::with('logo:id,path,current_name')->find($id);
+        $academicYear = AcademicYear::with('school:id,name')->find($id);
 
         if (!$academicYear) {
             return response()->json([
@@ -121,18 +144,13 @@ class AcademicYearsController extends Controller
             ], 404);
         }
 
-        $file = File::find($academicYear->file_id);
-
-        if($request->file('file')) {
-            removeFile($file);
-
-            $file = uploadFile($request->file('file'), 'academicYears');
+        if($request->input('current') == true) {
+            AcademicYear::where('school_id', $academicYear->school_id)->update(['current' => false]);
         }
 
-        $academicYear->update(array_merge(
-            $request->validated(),
-            ['file_id' => $file->id]
-        ));
+        $academicYear->update(array_merge($request->validated()));
+
+        $academicYear->save();
 
         return response()->json([
             'status' => 'success'
@@ -159,11 +177,7 @@ class AcademicYearsController extends Controller
             ], 404);
         }
 
-        $file = File::find($academicYear->file_id);
-
         $academicYear->delete();
-
-        removeFile($file);
 
         return response()->json([
             'status' => 'success'

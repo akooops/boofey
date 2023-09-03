@@ -50,12 +50,13 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'middleware' => ['auth:
         Route::post('/store', 'SchoolsController@store')->name('api.schools.store');
         Route::post('/{school}/update', 'SchoolsController@update')->name('api.schools.update');
         Route::delete('/{school}/destroy', 'SchoolsController@destroy')->name('api.schools.destroy');
+
+        Route::get('/{school}/academicYears', 'AcademicYearsController@index')->name('api.academicYears.index');
+        Route::post('/{school}/academicYears/store', 'AcademicYearsController@store')->name('api.academicYears.store');
     });
 
     Route::group(['prefix' => 'academicYears'], function() {
-        Route::get('/', 'AcademicYearsController@index')->name('api.academicYears.index');
         Route::get('/{academicYear}', 'AcademicYearsController@show')->name('api.academicYears.show');
-        Route::post('/store', 'AcademicYearsController@store')->name('api.academicYears.store');
         Route::post('/{academicYear}/update', 'AcademicYearsController@update')->name('api.academicYears.update');
         Route::delete('/{academicYear}/destroy', 'AcademicYearsController@destroy')->name('api.academicYears.destroy');
     });

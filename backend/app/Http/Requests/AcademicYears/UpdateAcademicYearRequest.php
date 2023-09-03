@@ -25,11 +25,10 @@ class UpdateAcademicYearRequest extends FormRequest
      */
     public function rules()
     {
-        $school = request()->route('school');
-
         return [
-            'name' => 'required|string|max:500|unique:schools,name,'.$school,
-            'file' => 'sometimes|file|mimes:jpeg,png'       
+            'from' => 'required|date_format:Y-m-d',
+            'to' => 'required|date_format:Y-m-d|after_or_equal:from',
+            'current' => 'required|boolean'       
         ];
     }
 
