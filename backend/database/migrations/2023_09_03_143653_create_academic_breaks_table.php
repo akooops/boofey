@@ -13,14 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('academic_years', function (Blueprint $table) {
+        Schema::create('academic_breaks', function (Blueprint $table) {
             $table->id();
             $table->string('name', 500)->nullable(false);
             $table->date('from');
             $table->date('to');
-            $table->boolean('current');
-            $table->unsignedBigInteger('school_id')->nullable();
-            $table->foreign('school_id')->nullable()->references('id')->on('schools')->onDelete('cascade');
+            $table->unsignedBigInteger('academic_year_id')->nullable();
+            $table->foreign('academic_year_id')->nullable()->references('id')->on('academic_years')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -32,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('academic_years');
+        Schema::dropIfExists('academic_breaks');
     }
 };
