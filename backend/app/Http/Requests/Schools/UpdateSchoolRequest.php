@@ -25,8 +25,10 @@ class UpdateSchoolRequest extends FormRequest
      */
     public function rules()
     {
+        $school = request()->route('school');
+
         return [
-            'name' => 'required|string|max:500',
+            'name' => 'required|string|max:500|unique:schools,name,'.$school,
             'file' => 'sometimes|file|mimes:jpeg,png'       
         ];
     }

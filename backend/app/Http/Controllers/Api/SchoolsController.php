@@ -6,6 +6,7 @@ use App\Models\School;
 use Illuminate\Http\Request;
 use App\Http\Requests\Schools\StoreSchoolRequest;
 use App\Http\Requests\Schools\UpdateSchoolRequest;
+use App\Models\File;
 
 class SchoolsController extends Controller
 {
@@ -80,7 +81,7 @@ class SchoolsController extends Controller
      */
     public function show($id) 
     {
-        $school = School::with('logo:id,full_path')->find($id);
+        $school = School::with('logo:id,path,current_name')->find($id);
 
         if (!$school) {
             return response()->json([
@@ -120,15 +121,18 @@ class SchoolsController extends Controller
             ], 404);
         }
 
-        $school->update($request->validated());
+        $file = File::find($school->file_id);
 
-        $school->profile()->update([
-            'firstname' => $request->get('firstname'),
-            'lastname' => $request->get('lastname'),
-        ]);
+        if($request->file('file')) {
+            removeFile($file);
 
-        $school->syncRoles($request->get('role_id'));
+            $file = uploadFile($request->file('file'), 'schools');
+        }
 
+        $school->update(array_merge(
+            $request->validated(),
+            ['file_id' => $file->id]
+        ));
 
         return response()->json([
             'status' => 'success'
@@ -155,7 +159,11 @@ class SchoolsController extends Controller
             ], 404);
         }
 
+        $file = File::find($school->file_id);
+
         $school->delete();
+
+        removeFile($file);
 
         return response()->json([
             'status' => 'success'

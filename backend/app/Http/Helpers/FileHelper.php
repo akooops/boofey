@@ -27,3 +27,13 @@ function uploadFile($file, $path){
 
     return $file;
 }
+
+function removeFile($file){
+    if($file != null){
+        $filePath = public_path('uploads/').$file->path.'/'.$file->current_name;
+
+        if(file_exists($filePath) == true) unlink($filePath);
+
+        $file->delete();
+    }
+}
