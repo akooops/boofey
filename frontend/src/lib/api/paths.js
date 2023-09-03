@@ -12,7 +12,16 @@ export function PathAddPermission(){
 export function PathGetRoles(){
     return `${DOMAIN}/roles`
 }
+export function PathAddRole(){
+    return `${DOMAIN}/roles/store`
+}
+
+
 export function PathGetUsers(){
     return `${DOMAIN}/users`
+
+}
+export function PathAddUser(){
+    return `${DOMAIN}/users/store`
 
 }
