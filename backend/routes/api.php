@@ -53,6 +53,9 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'middleware' => ['auth:
 
         Route::get('/{school}/academicYears', 'AcademicYearsController@index')->name('api.academicYears.index');
         Route::post('/{school}/academicYears/store', 'AcademicYearsController@store')->name('api.academicYears.store');
+
+        Route::get('/{school}/packages', 'PackagesController@index')->name('api.packages.index');
+        Route::post('/{school}/packages/store', 'PackagesController@store')->name('api.packages.store');
     });
 
     Route::group(['prefix' => 'academicYears'], function() {
@@ -68,6 +71,12 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'middleware' => ['auth:
         Route::get('/{academicBreak}', 'AcademicBreaksController@show')->name('api.academicBreak.show');
         Route::post('/{academicBreak}/update', 'AcademicBreaksController@update')->name('api.academicBreak.update');
         Route::delete('/{academicBreak}/destroy', 'AcademicBreaksController@destroy')->name('api.academicBreak.destroy');
+    });
+
+    Route::group(['prefix' => 'packages'], function() {
+        Route::get('/{package}', 'PackagesController@show')->name('api.packages.show');
+        Route::post('/{package}/update', 'PackagesController@update')->name('api.packages.update');
+        Route::delete('/{package}/destroy', 'PackagesController@destroy')->name('api.packages.destroy');
     });
 });
 

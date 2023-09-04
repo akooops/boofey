@@ -22,9 +22,39 @@ class Package extends Model
         'school_id',
     ];
 
+    public function school()
+    {
+        return $this->belongsTo(School::class);
+    }
+
     public function packageFeatures()
     {
         return $this->hasMany(PackageFeature::class, 'package_id', 'id');
+    }
+
+    public function syncPackageFeatures($features)
+    {
+        $this->packageFeatures()->sync($features);
+    }
+
+    public function storePackagesFeatures(array $features)
+    {
+        $this->packageFeatures()->createMany($features);
+    }
+
+    public function updatePackagesFeatures(array $features)
+    {
+        $featureIds = collect($features)->pluck('id')->filter();
+
+        $this->packageFeatures()->whereIn('id', $featureIds)->update($features);
+
+        $newFeatures = collect($features)->filter(function ($feature) {
+            return (!isset($feature['id']) || $feature['id'] == null);
+        });
+
+        $this->packageFeatures()->createMany($newFeatures);
+
+        $this->packageFeatures()->whereNotIn('id', $featureIds)->delete();
     }
 
     function getCurrentPriceAttribute() {  
