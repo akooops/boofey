@@ -1,8 +1,14 @@
 <script>
-    export let usersList
-    function tooltip(node){
-        // node.tooltip()
-    }
+import UserItem from "./items/UserItem.svelte";
+import DeleteUserModal from "$lib/modals/delete/DeleteUserModal.svelte"
+export let usersList
+import { setContext } from 'svelte';
+import { writable } from 'svelte/store';
+
+    setContext('userDelete', {
+	    userStore: writable({})
+    });
+
 </script>
 
 
@@ -26,26 +32,10 @@
             </thead>
             <tbody>
                 {#each usersList as user,i}
-                    <tr scope="row">
-                        <td>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option1">
-                            </div>
-                        </td>
-                        <td>{user.id}</td>
-                        <td>{user.username}</td>
-                        <td>{user.email}</td>
-                        <td>{user.phone}</td>
-                        <td>
-                            <div class="hstack gap-3 flex-wrap">
-                                <a href="javascript:void(0);" class="fs-15" use:tooltip data-bs-toggle="tooltip" data-bs-original-title="View" ><i class="ri-eye-fill"></i></a>
-                                <a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Edit" ><i class="ri-edit-2-line"></i></a>
-                                <a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Delete"><i class="ri-delete-bin-line"></i></a>
-                            </div>
-                        </td>
-                    </tr>
+                  <UserItem {user}/>
                 {/each}
             </tbody>
         </table>
+        <DeleteUserModal />
     </div>
 </div>

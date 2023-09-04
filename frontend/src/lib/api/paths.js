@@ -6,6 +6,10 @@ export function PathGetPermissions(){
 export function PathAddPermission(){
     return `${DOMAIN}/permissions/store`
 }
+export function PathDelPermission(id){
+    return `${DOMAIN}/permissions/${id}/destroy`
+}
+
 
 
 
@@ -15,6 +19,9 @@ export function PathGetRoles(){
 export function PathAddRole(){
     return `${DOMAIN}/roles/store`
 }
+export function PathDelRole(id){
+    return `${DOMAIN}/roles/${id}/destroy`
+}
 
 
 export function PathGetUsers(){
@@ -23,5 +30,7 @@ export function PathGetUsers(){
 }
 export function PathAddUser(){
     return `${DOMAIN}/users/store`
-
+}
+export function PathDelUser(id){
+    return `${DOMAIN}/users/${id}/destroy`
 }

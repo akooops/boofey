@@ -1,7 +1,7 @@
 <script>
     import Pagination from "$lib/components/Pagination.svelte";    
     import UsersTable from "$lib/tables/UsersTable.svelte";
-    import AddUserModal from "$lib/modals/AddUserModal.svelte";
+    import AddUserModal from "$lib/modals/add/AddUserModal.svelte";
 
     export let data
     $: usersList = data.usersResponse.data.users
