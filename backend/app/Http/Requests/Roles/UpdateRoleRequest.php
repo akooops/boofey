@@ -29,7 +29,8 @@ class UpdateRoleRequest extends FormRequest
 
         return [
             'name' => 'required|unique:roles,name,'.$role,
-            'permissions' => 'required',
+            'permissions' => 'required|array',
+            'permissions.*' => 'exists:permissions,id',
         ];
     }
 
