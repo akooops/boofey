@@ -1,12 +1,13 @@
 <script>
     import RoleItem from "./items/RoleItem.svelte";
     import DeleteRoleModal from "$lib/modals/delete/DeleteRoleModal.svelte"
+	import ViewRoleModal from "$lib/modals/view/ViewRoleModal.svelte";
     export let rolesList
 
     import { setContext } from 'svelte';
     import { writable } from 'svelte/store';
 
-    setContext('roleDelete', {
+    setContext('roleStore', {
 	    roleStore: writable({})
     });
 
@@ -35,5 +36,7 @@
             </tbody>
         </table>
         <DeleteRoleModal />
+        <ViewRoleModal />
+
     </div>
 </div>

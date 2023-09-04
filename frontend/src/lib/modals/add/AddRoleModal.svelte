@@ -65,7 +65,7 @@
                                 <div class="row">
                                     <div class="table-responsive">
                                         <table class="table table-hover align-end table-nowrap mb-0 border-top">
-                                            <thead>
+                                            <thead class="table-light">
                                                 <tr>
                                                     <th scope="col" style="width: 25px;">
                                                         <div class="form-check">

@@ -7,7 +7,7 @@
 
     let close
     
-    let {permissionStore} = getContext("permissionDelete")
+    let {permissionStore} = getContext("permissionStore")
 
     async function deleteTarget(){
         

@@ -7,7 +7,7 @@
 
     let close
     
-    let {roleStore} = getContext("roleDelete")
+    let {roleStore} = getContext("roleStore")
 
     async function deleteTarget(){
         

@@ -7,7 +7,7 @@
 
     let close
     
-    let {userStore} = getContext("userDelete")
+    let {userStore} = getContext("userStore")
 
     async function deleteTarget(){
         

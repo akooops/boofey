@@ -1,11 +1,13 @@
 <script>
 import UserItem from "./items/UserItem.svelte";
 import DeleteUserModal from "$lib/modals/delete/DeleteUserModal.svelte"
+import ViewUserModal from "$lib/modals/view/ViewUserModal.svelte"
+
 export let usersList
 import { setContext } from 'svelte';
 import { writable } from 'svelte/store';
 
-    setContext('userDelete', {
+    setContext('userStore', {
 	    userStore: writable({})
     });
 
@@ -37,5 +39,7 @@ import { writable } from 'svelte/store';
             </tbody>
         </table>
         <DeleteUserModal />
+        <ViewUserModal />
+
     </div>
 </div>

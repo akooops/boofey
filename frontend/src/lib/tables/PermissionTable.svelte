@@ -1,13 +1,13 @@
 <script>
-    export let permissionsList
-    import {onMount} from "svelte"
     import DeletePermissionModal from "$lib/modals/delete/DeletePermissionModal.svelte"
+	import ViewPermissionModal from "$lib/modals/view/ViewPermissionModal.svelte";
     import PermissionItem from "./items/PermissionItem.svelte";
-
+    
     import { setContext } from 'svelte';
     import { writable } from 'svelte/store';
-
-    setContext('permissionDelete', {
+    
+    export let permissionsList
+    setContext('permissionStore', {
 	    permissionStore: writable({})
     });
 
@@ -36,5 +36,7 @@
             </tbody>
         </table>
         <DeletePermissionModal />
+        <ViewPermissionModal />
+
     </div>
 </div>
