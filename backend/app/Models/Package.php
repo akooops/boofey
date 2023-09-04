@@ -44,17 +44,8 @@ class Package extends Model
 
     public function updatePackagesFeatures(array $features)
     {
-        $featureIds = collect($features)->pluck('id')->filter();
-
-        $this->packageFeatures()->whereIn('id', $featureIds)->update($features);
-
-        $newFeatures = collect($features)->filter(function ($feature) {
-            return (!isset($feature['id']) || $feature['id'] == null);
-        });
-
-        $this->packageFeatures()->createMany($newFeatures);
-
-        $this->packageFeatures()->whereNotIn('id', $featureIds)->delete();
+        $this->packageFeatures()->delete();
+        $this->storePackagesFeatures($features);
     }
 
     function getCurrentPriceAttribute() {  

@@ -150,8 +150,6 @@ class AcademicYearsController extends Controller
 
         $academicYear->update(array_merge($request->validated()));
 
-        $academicYear->save();
-
         return response()->json([
             'status' => 'success'
         ]);

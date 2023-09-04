@@ -85,8 +85,15 @@ class PackagesController extends Controller
             ], 404);
         }
 
+        if ($request->get('yearly') == true) {
+            $currentAcademicYear = $school->currentAcademicYear;
+            if ($currentAcademicYear) {
+                $request->merge(['days' => $currentAcademicYear->academicDays]);
+            }
+        }
+
         $package = Package::create(array_merge(
-            $request->validated(),
+            $request->all(),
             ['school_id' => $school->id]
         ));
 
@@ -148,9 +155,19 @@ class PackagesController extends Controller
             ], 404);
         }
 
-        $package->update(array_merge($request->validated()));
+        if ($request->get('yearly') == true) {
+            $school = $package->school;
 
-        $package->save();
+            if ($school) {
+                $currentAcademicYear = $school->currentAcademicYear;
+
+                if ($currentAcademicYear) {
+                    $request->merge(['days' => $currentAcademicYear->academicDays]);
+                }
+            }
+        }
+
+        $package->update(array_merge($request->all()));
 
         $package->updatePackagesFeatures($request->get('features'));
 

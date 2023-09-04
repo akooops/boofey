@@ -142,8 +142,6 @@ class AcademicBreaksController extends Controller
 
         $academicBreak->update(array_merge($request->validated()));
 
-        $academicBreak->save();
-
         return response()->json([
             'status' => 'success'
         ]);

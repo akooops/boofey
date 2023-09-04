@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('packages', function (Blueprint $table) {
             $table->id();
             $table->string('name', 500)->nullable(false);
-            $table->text('description');
+            $table->text('description')->nullable(true)->default(null);
 
             $table->float('sale_price')->nullable()->default(null);
             $table->float('price')->nullable(false)->default(0);
