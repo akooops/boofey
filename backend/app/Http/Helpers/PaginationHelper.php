@@ -10,6 +10,10 @@ function limitPerPage($value){
     return $value;
 }
 
+function checkPageIfNull($value){
+    return ($value === null || strtolower($value) === 'null') ? 1 : $value;
+}
+
 function pages($currentPage, $totalPages){
     $maxVisiblePages = 5; // Adjust the number of visible page numbers as needed
 

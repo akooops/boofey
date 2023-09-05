@@ -18,13 +18,9 @@ class FathersController extends Controller
     public function index(Request $request) 
     {
         $perPage = limitPerPage($request->query('perPage', 10));
-        $page = $request->query('page', 1);
+        $page = checkPageIfNull($request->query('page', 1));
         $search = $request->query('search');
 
-        if ($page === null || strtolower($page) === 'null') {
-            $page = 1;
-        }
-        
         $fathers = Father::latest()->with([
             'user:id,username', 
             'user.profile:id,firstname,lastname',

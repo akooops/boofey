@@ -30,13 +30,9 @@ class PackagesController extends Controller
         }
 
         $perPage = limitPerPage($request->query('perPage', 10));
-        $page = $request->query('page', 1);
+        $page = checkPageIfNull($request->query('page', 1));
         $search = $request->query('search');
 
-        if ($page === null || strtolower($page) === 'null') {
-            $page = 1;
-        }
-        
         $packages = Package::latest()->where([
             'school_id' => $school->id
         ])->with([

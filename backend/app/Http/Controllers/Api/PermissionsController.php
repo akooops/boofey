@@ -17,15 +17,11 @@ class PermissionsController extends Controller
     public function index(Request $request) 
     {
         $perPage = limitPerPage($request->query('perPage', 10));
-        $page = $request->query('page', 1);
+        $page = checkPageIfNull($request->query('page', 1));
         $search = $request->query('search');
 
         $permissions = Permission::latest();
 
-        if ($page === null || strtolower($page) === 'null') {
-            $page = 1;
-        }
-        
         if ($search) {
             $permissions->where('name', 'like', '%' . $search . '%');
         }

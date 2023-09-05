@@ -18,13 +18,9 @@ class UsersController extends Controller
     public function index(Request $request) 
     {
         $perPage = limitPerPage($request->query('perPage', 10));
-        $page = $request->query('page', 1);
+        $page = checkPageIfNull($request->query('page', 1));
         $search = $request->query('search');
 
-        if ($page === null || strtolower($page) === 'null') {
-            $page = 1;
-        }
-        
         $users = User::latest()->with([
             'profile:id,user_id,firstname,lastname',
             'roles:id,name,guard_name', 
