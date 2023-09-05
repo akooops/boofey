@@ -14,12 +14,12 @@
     let password = ""
     let roles = []
     let role
+    let editPassword = false;
     
     async function save(){
 
         let formData = new FormData(form)
-        if(password == ""){
-            console.log("del")
+        if(password == "" || editPassword == false){
             formData.delete("password")
         }
         let res = await (await fetch(PathUpdateUser($userStore.id),{
@@ -90,11 +90,20 @@
                                     <label for="phone" class="form-label">Phone</label>
                                     <input type="tel" name="phone" class="form-control" id="phone" placeholder="Enter your Phone no." bind:value={$userStore.phone}>
                                 </div>
+                               
+                                <div class="mb-2 col-lg-12">
+                                    <input class="form-check-input" type="checkbox" id="formCheck1" bind:checked={editPassword}>
+                                    <label class="form-check-label" for="formCheck1">
+                                        Edit Password 
+                                    </label>
+                                </div>
+                                {#if editPassword}
                                 <div class="col-xxl-6">
                                     <label for="password" class="form-label">Password</label>
                                     <input type="password" name="password" class="form-control" id="password"  placeholder="Enter Password" bind:value={password}/>
                                 </div>
-                                {#if password != ""}
+                                {/if}
+                                {#if editPassword}
                                 <div class="col-xxl-6">
                                     <label for="passwordconfirm" class="form-label">Confirm Password</label>
                                     <input type="password" name="password_confirmation" class="form-control" id="passwordconfirm"  placeholder="Confirm Password" />
