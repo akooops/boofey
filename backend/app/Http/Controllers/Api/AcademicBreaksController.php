@@ -35,8 +35,6 @@ class AcademicBreaksController extends Controller
 
         $academicBreaks = AcademicBreak::latest()->where([
             'academic_year_id' => $academicYear->id
-        ])->with([
-            'AcademicYear:id,from,to', 
         ]);
 
         $academicBreaks = $academicBreaks->paginate($perPage, ['*'], 'page', $page);
@@ -100,7 +98,7 @@ class AcademicBreaksController extends Controller
      */
     public function show($id) 
     {
-        $academicBreak = AcademicBreak::with('AcademicYear:id,from,to')->find($id);
+        $academicBreak = AcademicBreak::find($id);
 
         if (!$academicBreak) {
             return response()->json([

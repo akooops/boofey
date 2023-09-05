@@ -35,8 +35,6 @@ class AcademicYearsController extends Controller
 
         $academicYears = AcademicYear::latest()->where([
             'school_id' => $school->id
-        ])->with([
-            'School:id,name', 
         ]);
 
         $academicYears = $academicYears->paginate($perPage, ['*'], 'page', $page);
