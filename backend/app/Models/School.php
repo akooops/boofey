@@ -33,4 +33,21 @@ class School extends Model
     {
         return $this->hasMany(Package::class, 'school_id', 'id');
     }
+
+    public function yearlyPackages()
+    {
+        return $this->hasMany(Package::class, 'school_id', 'id')->where('yearly', true);
+    }
+
+    public function updateYearlyPackages(){
+        if(!$this->currentAcademicYear) return;
+        
+        $academicDays = $this->currentAcademicYear->academicDays;
+
+        $yearlyPackages = $this->yearlyPackages;
+
+        foreach ($yearlyPackages as $package) {
+            $package->update(['days' => $academicDays]);
+        }
+    }
 }

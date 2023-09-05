@@ -48,6 +48,10 @@ class Package extends Model
         $this->storePackagesFeatures($features);
     }
 
+    public function updateDays($days){
+        $this->update(['days' => $days]);
+    }
+
     function getCurrentPriceAttribute() {  
         return ($this->sale_price == null || $this->sale_price == 0) ? $this->price : $this->sale_price;
     }

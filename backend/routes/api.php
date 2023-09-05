@@ -78,6 +78,15 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'middleware' => ['auth:
         Route::post('/{package}/update', 'PackagesController@update')->name('api.packages.update');
         Route::delete('/{package}/destroy', 'PackagesController@destroy')->name('api.packages.destroy');
     });
+
+    Route::group(['prefix' => 'fathers'], function() {
+        Route::get('/', 'FathersController@index')->name('api.fathers.index');
+        Route::get('/{father}', 'FathersController@show')->name('api.fathers.show');
+        Route::post('/store', 'FathersController@store')->name('api.fathers.store');
+        Route::post('/{father}/update', 'FathersController@update')->name('api.fathers.update');
+        Route::delete('/{father}/destroy', 'FathersController@destroy')->name('api.fathers.destroy');
+    });
+
 });
 
 Route::group(['namespace' => 'App\Http\Controllers\Api\Auth', 'prefix' => 'auth'], function(){  

@@ -84,6 +84,8 @@ class AcademicBreaksController extends Controller
 
         $academicBreak->save();
 
+        $academicBreak->academicYear->school->updateYearlyPackages();
+
         return response()->json([
             'status' => 'success'
         ]);
@@ -139,6 +141,7 @@ class AcademicBreaksController extends Controller
         }
 
         $academicBreak->update(array_merge($request->validated()));
+        $academicBreak->academicYear->school->updateYearlyPackages();
 
         return response()->json([
             'status' => 'success'

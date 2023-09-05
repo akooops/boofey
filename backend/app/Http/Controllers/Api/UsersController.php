@@ -22,6 +22,7 @@ class UsersController extends Controller
         $search = $request->query('search');
 
         $users = User::latest()->with([
+            'profile:id,user_id,firstname,lastname',
             'roles:id,name,guard_name', 
             'roles.permissions:id,name,guard_name'
         ]);

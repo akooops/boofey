@@ -79,6 +79,7 @@ class AcademicYearsController extends Controller
 
         if($request->input('current') == true) {
             AcademicYear::where('school_id', $school->id)->update(['current' => false]);
+
         }
 
         $academicYear = AcademicYear::create(array_merge(
@@ -87,6 +88,10 @@ class AcademicYearsController extends Controller
         ));
 
         $academicYear->save();
+
+        if($request->input('current') == true) {
+            $academicYear->school->updateYearlyPackages();
+        }
 
         return response()->json([
             'status' => 'success'
@@ -147,6 +152,7 @@ class AcademicYearsController extends Controller
         }
 
         $academicYear->update(array_merge($request->validated()));
+        $academicYear->school->updateYearlyPackages();
 
         return response()->json([
             'status' => 'success'
