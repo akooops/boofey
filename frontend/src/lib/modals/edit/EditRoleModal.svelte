@@ -1,13 +1,18 @@
 <script>
-    import { PathAddRole } from "$lib/api/paths";
+    import { getContext } from "svelte";
+
+    import { PathUpdateRole } from "$lib/api/paths";
     import {onMount} from "svelte"
     import { toast } from "$lib/components/toast.js";
     import { invalidate } from '$app/navigation';
+    import { page } from '$app/stores';
 
-    
-    let roleName
+    let {roleStore} = getContext("roleStore")
+
     let close
-    export let permissions = []
+    let permissions = []
+    let roleName = ""
+    let allChecked = false
     async function save(){
         
         let selectedPermissions = []
@@ -21,31 +26,53 @@
         formData.append("name",roleName)
         formData.append("permissions",JSON.stringify(selectedPermissions))
 
-        let res = await (await fetch(PathAddRole(),{
-        method:"POST",
-        body:formData
+        let res = await (await fetch(PathUpdateRole($roleStore.id),{
+            method:"POST",
+            body:formData
         })).json()
 
         if(res.status == "success"){
             close.click()
-            let text = `Added ${roleName} as a new role` 
+            let text = `Edited ${roleName} ` 
             toast(text,"success")
             invalidate("roles:refresh")
         }
 
     }
-    onMount(() => {
+
+    function checkAll(){
+        allChecked = permissions.every((permission) => permission.checked === true); 
+    }
+    function checkAllToggle(e){
         permissions = permissions.map((permission) => {
             return {
-                checked:false,
+                ...permission,
+                checked:e.target.checked
+            }
+        })
+    }
+
+
+
+
+    roleStore.subscribe(() => {
+        roleName = $roleStore.name
+        if($page?.data?.rolesResponse?.data?.permissions == undefined || $roleStore.permissions == undefined) return;
+        console.log("calcs")
+        console.log($roleStore)
+        permissions = $page.data.rolesResponse.data.permissions.map((permission) => {
+            return {
+                checked:$roleStore.permissions.some(rolePermission => rolePermission.id == permission.id),
                 ...permission
             }
         })
+    
     })
+
     </script>
     
     
-    <div class="modal  fade" id="addRoleModal"  tabindex="-1" aria-labelledby="exampleModalgridLabel" aria-modal="true" >
+    <div class="modal  fade" id="editRoleModal" tabindex="-1" aria-labelledby="exampleModalgridLabel" aria-modal="true" >
         <div class="modal-dialog modal-dialog-centered" >
             <div class="modal-content">
                 <div class="modal-header">
@@ -68,7 +95,7 @@
                                                 <tr>
                                                     <th scope="col" style="width: 25px;">
                                                         <div class="form-check">
-                                                            <input class="form-check-input" type="checkbox" id="checkAll" value="option1">
+                                                            <input class="form-check-input" type="checkbox" id="checkAll" value="option1" checked={allChecked} on:change={checkAllToggle}>
                                                         </div>
                                                     </th>
                                                     <th scope="col">ID</th>
@@ -81,7 +108,7 @@
                                                     <tr scope="row">
                                                         <td>
                                                             <div class="form-check">
-                                                                <input bind:checked={permission.checked} class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option1" >
+                                                                <input bind:checked={permission.checked} on:change={checkAll} class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option1" >
                                                             </div>
                                                         </td>
                                                         <td>{permission.id}</td>

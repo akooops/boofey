@@ -2,6 +2,7 @@
     import RoleItem from "./items/RoleItem.svelte";
     import DeleteRoleModal from "$lib/modals/delete/DeleteRoleModal.svelte"
 	import ViewRoleModal from "$lib/modals/view/ViewRoleModal.svelte";
+	import EditRoleModal from "$lib/modals/edit/EditRoleModal.svelte";
     export let rolesList
 
     import { setContext } from 'svelte';
@@ -37,6 +38,8 @@
         </table>
         <DeleteRoleModal />
         <ViewRoleModal />
+        <EditRoleModal />
+
 
     </div>
 </div>

@@ -1,6 +1,7 @@
 <script>
     import DeletePermissionModal from "$lib/modals/delete/DeletePermissionModal.svelte"
 	import ViewPermissionModal from "$lib/modals/view/ViewPermissionModal.svelte";
+	import EditPermissionModal from "$lib/modals/edit/EditPermissionModal.svelte";
     import PermissionItem from "./items/PermissionItem.svelte";
     
     import { setContext } from 'svelte';
@@ -37,6 +38,7 @@
         </table>
         <DeletePermissionModal />
         <ViewPermissionModal />
+        <EditPermissionModal />
 
     </div>
 </div>

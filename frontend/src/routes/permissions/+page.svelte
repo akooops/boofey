@@ -22,7 +22,7 @@ import { browser } from '$app/environment';
             <div class="card-header align-items-center d-flex">
                 <h4 class="card-title mb-0 flex-grow-1">My Permissions</h4>
                 <div class="flex-shrink-0">
-                    <button type="button" data-bs-toggle="modal" data-bs-target="#addPermisionModal" class="btn btn-primary waves-effect waves-light"><i class="ri-add-line align-bottom me-1"></i> Add Permission</button>
+                    <button type="button" data-bs-toggle="modal" data-bs-target="#addPermissionModal" class="btn btn-primary waves-effect waves-light"><i class="ri-add-line align-bottom me-1"></i> Add Permission</button>
                     <AddPermissionModal />
                 </div>
             </div><!-- end card header -->
