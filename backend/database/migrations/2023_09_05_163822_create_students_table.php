@@ -20,11 +20,19 @@ return new class extends Migration
 
             $table->integer('class');
 
-            $table->unsignedBigInteger('parent_id')->nullable();
-            $table->foreign('parent_id')->nullable()->references('id')->on('parents')->onDelete('cascade');
+            $table->string('nfc_id')->nullable()->default(null);
+            $table->string('face_id')->nullable()->default(null);
+
+            $table->boolean('onhold')->default(false);
+
+            $table->unsignedBigInteger('father_id')->nullable();
+            $table->foreign('father_id')->nullable()->references('id')->on('fathers')->onDelete('cascade');
 
             $table->unsignedBigInteger('school_id')->nullable();
             $table->foreign('school_id')->nullable()->references('id')->on('schools')->nullOnDelete();
+
+            $table->unsignedBigInteger('academic_year_id')->nullable();
+            $table->foreign('academic_year_id')->nullable()->references('id')->on('academic_years')->nullOnDelete();
 
             $table->unsignedBigInteger('file_id')->nullable();
             $table->foreign('file_id')->nullable()->references('id')->on('files')->nullOnDelete();

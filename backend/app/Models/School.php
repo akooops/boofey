@@ -39,6 +39,11 @@ class School extends Model
         return $this->hasMany(Package::class, 'school_id', 'id')->where('yearly', true);
     }
 
+    public function students()
+    {
+        return $this->hasMany(Student::class, 'school_id', 'id');
+    }
+
     public function updateYearlyPackages(){
         if(!$this->currentAcademicYear) return;
         
