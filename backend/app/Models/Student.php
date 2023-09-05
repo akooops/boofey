@@ -23,23 +23,23 @@ class Student extends Model
         'file_id',
     ];
 
-    public function logo()
+    public function image()
     {
         return $this->hasOne(File::class, 'id', 'file_id');
     }
 
     public function father()
     {
-        return $this->belongsTo(father::class, 'id', 'father_id');
+        return $this->belongsTo(father::class);
     }
 
     public function school()
     {
-        return $this->belongsTo(School::class, 'id', 'school_id');
+        return $this->belongsTo(School::class);
     }
 
     public function academicYear()
     {
-        return $this->belongsTo(AcademicYear::class, 'id', 'academic_year_id');
+        return $this->belongsTo(AcademicYear::class);
     }
 }

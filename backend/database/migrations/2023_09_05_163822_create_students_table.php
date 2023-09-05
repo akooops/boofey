@@ -20,8 +20,8 @@ return new class extends Migration
 
             $table->integer('class');
 
-            $table->string('nfc_id')->nullable()->default(null);
-            $table->string('face_id')->nullable()->default(null);
+            $table->string('nfc_id')->nullable()->default(null)->unique();
+            $table->string('face_id')->nullable()->default(null)->unique();
 
             $table->boolean('onhold')->default(false);
 

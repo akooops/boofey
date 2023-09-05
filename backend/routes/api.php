@@ -87,6 +87,13 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'middleware' => ['auth:
         Route::delete('/{father}/destroy', 'FathersController@destroy')->name('api.fathers.destroy');
     });
 
+    Route::group(['prefix' => 'students'], function() {
+        Route::get('/', 'StudentsController@index')->name('api.students.index');
+        Route::get('/{student}', 'StudentsController@show')->name('api.students.show');
+        Route::post('/store', 'StudentsController@store')->name('api.students.store');
+        Route::post('/{student}/update', 'StudentsController@update')->name('api.students.update');
+        Route::delete('/{student}/destroy', 'StudentsController@destroy')->name('api.students.destroy');
+    });
 });
 
 Route::group(['namespace' => 'App\Http\Controllers\Api\Auth', 'prefix' => 'auth'], function(){  
