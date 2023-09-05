@@ -31,7 +31,7 @@ async function save(){
 </script>
 
 
-<div class="modal  fade" id="addPermisionModal" tabindex="-1" aria-labelledby="exampleModalgridLabel" aria-modal="true" >
+<div class="modal  fade" id="addPermissionModal" tabindex="-1" aria-labelledby="exampleModalgridLabel" aria-modal="true" >
     <div class="modal-dialog modal-dialog-centered" >
         <div class="modal-content">
             <div class="modal-header">

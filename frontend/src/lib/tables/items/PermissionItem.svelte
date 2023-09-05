@@ -5,7 +5,8 @@ import { getContext } from "svelte"
     let {permissionStore} = getContext("permissionStore")
     
     function setPermission(){
-        $permissionStore = permission
+        console.log("gonna set this to " ,permission)
+        $permissionStore = JSON.parse(JSON.stringify(permission));
     }
 
 </script>
@@ -21,7 +22,7 @@ import { getContext } from "svelte"
     <td>
         <div class="hstack gap-3 flex-wrap">
             <span data-bs-toggle="modal" data-bs-target="#viewPermissionModal" on:click={setPermission}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="View" ><i class="ri-eye-fill"></i></a></span>
-            <span><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Edit" ><i class="ri-edit-2-line"></i></a></span>
+            <span data-bs-toggle="modal" data-bs-target="#editPermissionModal" on:click={setPermission}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Edit" ><i class="ri-edit-2-line"></i></a></span>
             <span data-bs-toggle="modal" data-bs-target="#deletePermissionModal" on:click={setPermission}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Delete"><i class="ri-delete-bin-line"></i></a></span>
         </div>
     </td>
