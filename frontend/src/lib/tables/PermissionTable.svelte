@@ -1,9 +1,16 @@
 <script>
+    import DeletePermissionModal from "$lib/modals/delete/DeletePermissionModal.svelte"
+	import ViewPermissionModal from "$lib/modals/view/ViewPermissionModal.svelte";
+    import PermissionItem from "./items/PermissionItem.svelte";
+    
+    import { setContext } from 'svelte';
+    import { writable } from 'svelte/store';
+    
     export let permissionsList
-    import {onMount} from "svelte"
-    onMount(() => {
-        // window.$('[data-bs-toggle="tooltip"]').tooltip()
+    setContext('permissionStore', {
+	    permissionStore: writable({})
     });
+
 </script>
 
 
@@ -24,24 +31,12 @@
             </thead>
             <tbody class="list">
                 {#each permissionsList as permission}
-                    <tr scope="row">
-                        <td>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option1" >
-                            </div>
-                        </td>
-                        <td>{permission.id}</td>
-                        <td>{permission.name}</td>
-                        <td>
-                            <div class="hstack gap-3 flex-wrap">
-                                <a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="View"><i class="ri-eye-fill"></i></a>
-                                <a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Edit" ><i class="ri-edit-2-line"></i></a>
-                                <a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Delete"><i class="ri-delete-bin-line"></i></a>
-                            </div>
-                        </td>
-                    </tr>
+                    <PermissionItem {permission} />
                 {/each}
             </tbody>
         </table>
+        <DeletePermissionModal />
+        <ViewPermissionModal />
+
     </div>
 </div>

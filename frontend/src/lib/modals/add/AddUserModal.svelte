@@ -87,7 +87,7 @@
                                 </div>
     
                                 <div class="hstack gap-2 justify-content-end">
-                                    <button type="button" class="btn btn-light" data-bs-dismiss="modal" bind:this={close}>Close</button>
+                                    <button type="button" class="btn btn-light fw-light" data-bs-dismiss="modal" bind:this={close}>Close</button>
                                     <input type="submit" class="btn btn-primary waves-effect waves-light" value="Save">
                                 </div>
                         </div><!--end row-->

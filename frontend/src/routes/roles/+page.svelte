@@ -1,7 +1,7 @@
 <script>
     import Pagination from "$lib/components/Pagination.svelte";    
     import RolesTable from "$lib/tables/RolesTable.svelte";
-    import AddRoleModal from "$lib/modals/AddRoleModal.svelte";
+    import AddRoleModal from "$lib/modals/add/AddRoleModal.svelte";
 
     export let data
     $: rolesList = data.rolesResponse.data.roles

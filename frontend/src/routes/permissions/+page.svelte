@@ -1,7 +1,7 @@
 <script>
 import Pagination from "$lib/components/Pagination.svelte";
 import PermissionTable from "$lib/tables/PermissionTable.svelte";
-import AddPermissionModal from "$lib/modals/AddPermissionModal.svelte";
+import AddPermissionModal from "$lib/modals/add/AddPermissionModal.svelte";
 export let data
 $: permissionsList = data.permissionsResponse.data  
 $: permissionsPagination = data.permissionsResponse.pagination
