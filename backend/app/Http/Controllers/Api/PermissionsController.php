@@ -22,6 +22,10 @@ class PermissionsController extends Controller
 
         $permissions = Permission::latest();
 
+        if ($page === null || strtolower($page) === 'null') {
+            $page = 1;
+        }
+        
         if ($search) {
             $permissions->where('name', 'like', '%' . $search . '%');
         }

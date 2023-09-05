@@ -29,10 +29,16 @@ class AcademicBreaksController extends Controller
             ], 404);
         }
 
+
+
         $perPage = limitPerPage($request->query('perPage', 10));
         $page = $request->query('page', 1);
         $search = $request->query('search');
 
+        if ($page === null || strtolower($page) === 'null') {
+            $page = 1;
+        }
+        
         $academicBreaks = AcademicBreak::latest()->where([
             'academic_year_id' => $academicYear->id
         ]);

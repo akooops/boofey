@@ -33,6 +33,10 @@ class AcademicYearsController extends Controller
         $page = $request->query('page', 1);
         $search = $request->query('search');
 
+        if ($page === null || strtolower($page) === 'null') {
+            $page = 1;
+        }
+        
         $academicYears = AcademicYear::latest()->where([
             'school_id' => $school->id
         ]);

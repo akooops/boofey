@@ -33,6 +33,10 @@ class PackagesController extends Controller
         $page = $request->query('page', 1);
         $search = $request->query('search');
 
+        if ($page === null || strtolower($page) === 'null') {
+            $page = 1;
+        }
+        
         $packages = Package::latest()->where([
             'school_id' => $school->id
         ])->with([

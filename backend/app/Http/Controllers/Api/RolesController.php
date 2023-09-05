@@ -21,6 +21,10 @@ class RolesController extends Controller
         $page = $request->query('page', 1);
         $search = $request->query('search');
 
+        if ($page === null || strtolower($page) === 'null') {
+            $page = 1;
+        }
+        
         $roles = Role::latest()->with('permissions:id,name,guard_name');
 
         if ($search) {
