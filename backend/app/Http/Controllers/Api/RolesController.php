@@ -24,7 +24,14 @@ class RolesController extends Controller
         $roles = Role::latest()->with('permissions:id,name,guard_name');
 
         if ($search) {
-            $roles->where('name', 'like', '%' . $search . '%');
+            $roles->where(function ($query) use ($search) {
+                $query->where('name', 'like', '%' . $search . '%')
+                    ->orWhere('guard_name', 'like', '%' . $search . '%');
+            })
+            ->orWhereHas('permissions', function ($permissionQuery) use ($search) {
+                $permissionQuery->where('name', 'like', '%' . $search . '%')
+                    ->orWhere('guard_name', 'like', '%' . $search . '%');
+            });
         }
 
         $roles = $roles->paginate($perPage, ['*'], 'page', $page);
@@ -36,15 +43,7 @@ class RolesController extends Controller
                 'roles' => $roles->items(),
                 'permissions' => $permissions
             ], 
-            'pagination' => [
-                'per_page' => $roles->perPage(),
-                'current_page' => $roles->currentPage(),
-                'last_page' => $roles->lastPage(),
-                'from' => $roles->firstItem(),
-                'to' => $roles->lastItem(),
-                'total' => $roles->total(),
-                'pages' => pages($roles->currentPage(), $roles->lastPage())
-            ],
+            'pagination' => handlePagination($roles)
         ];
 
         return response()->json($response);

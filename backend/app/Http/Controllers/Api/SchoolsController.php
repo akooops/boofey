@@ -34,15 +34,7 @@ class SchoolsController extends Controller
         $response = [
             'status' => 'success',
             'data' => $schools->items(), 
-            'pagination' => [
-                'per_page' => $schools->perPage(),
-                'current_page' => $schools->currentPage(),
-                'last_page' => $schools->lastPage(),
-                'from' => $schools->firstItem(),
-                'to' => $schools->lastItem(),
-                'total' => $schools->total(),
-                'pages' => pages($schools->currentPage(), $schools->lastPage())
-            ],
+            'pagination' => handlePagination($schools)
         ];
 
         return response()->json($response);

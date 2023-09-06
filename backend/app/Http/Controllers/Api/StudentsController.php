@@ -34,6 +34,27 @@ class StudentsController extends Controller
         if ($search) {
             $students->where('firstname', 'like', '%' . $search . '%')
             ->orWhere('lastname', 'like', '%' . $search . '%');
+
+            $students->where(function ($query) use ($search) {
+                $query->where('firstname', 'like', '%' . $search . '%')
+                    ->orWhere('lastname', 'like', '%' . $search . '%');
+            })
+            ->orWhereHas('school', function ($schoolQuery) use ($search) {
+                $schoolQuery->where('name', 'like', '%' . $search . '%');
+            })
+            ->orWhereHas('father', function ($fatherQuery) use ($search) {
+                $fatherQuery->where(function ($query) use ($search) {
+                    $query->whereHas('user', function ($userQuery) use ($search) {
+                            $userQuery->where('username', 'like', '%' . $search . '%')
+                                ->orWhere('email', 'like', '%' . $search . '%')
+                                ->orWhere('phone', 'like', '%' . $search . '%')
+                                ->orWhereHas('profile', function ($profileQuery) use ($search) {
+                                    $profileQuery->where('firstname', 'like', '%' . $search . '%')
+                                        ->orWhere('lastname', 'like', '%' . $search . '%');
+                                });
+                        });
+                });
+            });
         }
 
         $students = $students->paginate($perPage, ['*'], 'page', $page);
@@ -49,15 +70,7 @@ class StudentsController extends Controller
                 'schools' => $schools, 
                 'academicYears' => $academicYears, 
             ],
-            'pagination' => [
-                'per_page' => $students->perPage(),
-                'current_page' => $students->currentPage(),
-                'last_page' => $students->lastPage(),
-                'from' => $students->firstItem(),
-                'to' => $students->lastItem(),
-                'total' => $students->total(),
-                'pages' => pages($students->currentPage(), $students->lastPage())
-            ],
+            'pagination' => handlePagination($students)
         ];
 
         return response()->json($response);

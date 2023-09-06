@@ -28,9 +28,20 @@ class UsersController extends Controller
         ]);
 
         if ($search) {
-            $users->where('username', 'like', '%' . $search . '%')
-            ->orWhere('email', 'like', '%' . $search . '%')
-            ->orWhere('phone', 'like', '%' . $search . '%');
+            $users->where(function ($query) use ($search) {
+                $query->where('username', 'like', '%' . $search . '%')
+                    ->orWhere('email', 'like', '%' . $search . '%')
+                    ->orWhere('phone', 'like', '%' . $search . '%');
+            })
+            ->orWhereHas('roles', function ($rolesQuery) use ($search) {
+                $rolesQuery->where('name', 'like', '%' . $search . '%')
+                    ->orWhere('guard_name', 'like', '%' . $search . '%');
+            })
+            ->orWhereHas('profile', function ($profileQuery) use ($search) {
+                $profileQuery->where('firstname', 'like', '%' . $search . '%')
+                    ->orWhere('lastname', 'like', '%' . $search . '%')
+                    ->orWhere('description', 'like', '%' . $search . '%');
+            });
         }
 
         $users = $users->paginate($perPage, ['*'], 'page', $page);
@@ -42,15 +53,7 @@ class UsersController extends Controller
                 'users' => $users->items(), 
                 'roles' => $roles
             ],
-            'pagination' => [
-                'per_page' => $users->perPage(),
-                'current_page' => $users->currentPage(),
-                'last_page' => $users->lastPage(),
-                'from' => $users->firstItem(),
-                'to' => $users->lastItem(),
-                'total' => $users->total(),
-                'pages' => pages($users->currentPage(), $users->lastPage())
-            ],
+            'pagination' => handlePagination($users)
         ];
 
         return response()->json($response);

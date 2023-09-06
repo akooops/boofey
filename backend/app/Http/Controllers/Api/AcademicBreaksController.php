@@ -44,15 +44,7 @@ class AcademicBreaksController extends Controller
         $response = [
             'status' => 'success',
             'data' => $academicBreaks->items(), 
-            'pagination' => [
-                'per_page' => $academicBreaks->perPage(),
-                'current_page' => $academicBreaks->currentPage(),
-                'last_page' => $academicBreaks->lastPage(),
-                'from' => $academicBreaks->firstItem(),
-                'to' => $academicBreaks->lastItem(),
-                'total' => $academicBreaks->total(),
-                'pages' => pages($academicBreaks->currentPage(), $academicBreaks->lastPage())
-            ],
+            'pagination' => handlePagination($academicBreaks)
         ];
 
         return response()->json($response);

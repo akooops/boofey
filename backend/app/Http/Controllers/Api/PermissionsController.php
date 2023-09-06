@@ -23,7 +23,8 @@ class PermissionsController extends Controller
         $permissions = Permission::latest();
 
         if ($search) {
-            $permissions->where('name', 'like', '%' . $search . '%');
+            $permissions->where('name', 'like', '%' . $search . '%')
+            ->orWhere('guard_name', 'like', '%' . $search . '%');
         }
 
         $permissions = $permissions->paginate($perPage, ['*'], 'page', $page);
@@ -31,15 +32,7 @@ class PermissionsController extends Controller
         $response = [
             'status' => 'success',
             'data' => $permissions->items(), 
-            'pagination' => [
-                'per_page' => $permissions->perPage(),
-                'current_page' => $permissions->currentPage(),
-                'last_page' => $permissions->lastPage(),
-                'from' => $permissions->firstItem(),
-                'to' => $permissions->lastItem(),
-                'total' => $permissions->total(),
-                'pages' => pages($permissions->currentPage(), $permissions->lastPage())
-            ],
+            'pagination' => handlePagination($permissions)
         ];
 
         return response()->json($response);

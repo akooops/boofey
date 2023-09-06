@@ -42,15 +42,7 @@ class AcademicYearsController extends Controller
         $response = [
             'status' => 'success',
             'data' => $academicYears->items(), 
-            'pagination' => [
-                'per_page' => $academicYears->perPage(),
-                'current_page' => $academicYears->currentPage(),
-                'last_page' => $academicYears->lastPage(),
-                'from' => $academicYears->firstItem(),
-                'to' => $academicYears->lastItem(),
-                'total' => $academicYears->total(),
-                'pages' => pages($academicYears->currentPage(), $academicYears->lastPage())
-            ],
+            'pagination' => handlePagination($academicYears)
         ];
 
         return response()->json($response);

@@ -50,15 +50,7 @@ class PackagesController extends Controller
         $response = [
             'status' => 'success',
             'data' => $packages->items(), 
-            'pagination' => [
-                'per_page' => $packages->perPage(),
-                'current_page' => $packages->currentPage(),
-                'last_page' => $packages->lastPage(),
-                'from' => $packages->firstItem(),
-                'to' => $packages->lastItem(),
-                'total' => $packages->total(),
-                'pages' => pages($packages->currentPage(), $packages->lastPage())
-            ],
+            'pagination' => handlePagination($packages)
         ];
 
         return response()->json($response);

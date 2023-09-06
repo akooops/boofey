@@ -50,15 +50,7 @@ class FathersController extends Controller
                 'fathers' => $fathers->items(), 
                 'users' => $users
             ],
-            'pagination' => [
-                'per_page' => $fathers->perPage(),
-                'current_page' => $fathers->currentPage(),
-                'last_page' => $fathers->lastPage(),
-                'from' => $fathers->firstItem(),
-                'to' => $fathers->lastItem(),
-                'total' => $fathers->total(),
-                'pages' => pages($fathers->currentPage(), $fathers->lastPage())
-            ],
+            'pagination' => handlePagination($fathers)
         ];
 
         return response()->json($response);
