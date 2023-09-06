@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('package_features', function (Blueprint $table) {
             $table->id();
             $table->string('name', 1000)->nullable(false);
-            $table->boolean('ckecked')->default(1);
+            $table->boolean('checked')->default(1);
             $table->unsignedBigInteger('package_id')->nullable();
             $table->foreign('package_id')->nullable()->references('id')->on('packages')->onDelete('cascade');
             $table->timestamps();

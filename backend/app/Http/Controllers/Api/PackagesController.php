@@ -36,8 +36,7 @@ class PackagesController extends Controller
         $packages = Package::latest()->where([
             'school_id' => $school->id
         ])->with([
-            'school:id,name', 
-            'packageFeatures'
+            'packageFeatures:id,name,checked,package_id'
         ]);
 
         if ($search) {

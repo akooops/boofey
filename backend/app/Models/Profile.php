@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Profile extends Model
 {
+    protected $appends = ["fullname"];
+
     protected $fillable = [
         'firstname',
         'lastname',

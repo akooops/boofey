@@ -35,9 +35,9 @@ class AcademicYearsController extends Controller
 
         $academicYears = AcademicYear::latest()->where([
             'school_id' => $school->id
-        ]);
+        ])->with('academicBreaks:id,academic_year_id,name,from,to');
 
-        $academicYears = $academicYears->paginate($perPage, ['*'], 'page', $page);
+        $academicYears = $academicYears->newQuery()->paginate($perPage, ['*'], 'page', $page);
 
         $response = [
             'status' => 'success',

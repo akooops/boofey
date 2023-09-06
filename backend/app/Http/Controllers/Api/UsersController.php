@@ -24,7 +24,6 @@ class UsersController extends Controller
         $users = User::latest()->with([
             'profile:id,user_id,firstname,lastname',
             'roles:id,name,guard_name', 
-            'roles.permissions:id,name,guard_name'
         ]);
 
         if ($search) {
@@ -35,7 +34,11 @@ class UsersController extends Controller
             })
             ->orWhereHas('roles', function ($rolesQuery) use ($search) {
                 $rolesQuery->where('name', 'like', '%' . $search . '%')
-                    ->orWhere('guard_name', 'like', '%' . $search . '%');
+                    ->orWhere('guard_name', 'like', '%' . $search . '%')
+                    ->orWhereHas('permissions', function ($permissionsQuery) use ($search) {
+                        $permissionsQuery->where('name', 'like', '%' . $search . '%')
+                            ->orWhere('guard_name', 'like', '%' . $search . '%');
+                    });
             })
             ->orWhereHas('profile', function ($profileQuery) use ($search) {
                 $profileQuery->where('firstname', 'like', '%' . $search . '%')

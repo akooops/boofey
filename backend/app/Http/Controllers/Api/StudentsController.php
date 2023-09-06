@@ -27,13 +27,15 @@ class StudentsController extends Controller
 
         $students = Student::latest()->with([
             'image:id,path,current_name', 
-            'school:id,name',
-            'academicYear:id,name,from,to'
+            'school:id,name,file_id',
+            'school.logo:id,path,current_name',
         ]);
 
         if ($search) {
             $students->where('firstname', 'like', '%' . $search . '%')
-            ->orWhere('lastname', 'like', '%' . $search . '%');
+            ->orWhere('lastname', 'like', '%' . $search . '%')
+            ->orWhere('nfc_id', 'like', '%' . $search . '%')
+            ->orWhere('face_id', 'like', '%' . $search . '%');
 
             $students->where(function ($query) use ($search) {
                 $query->where('firstname', 'like', '%' . $search . '%')
