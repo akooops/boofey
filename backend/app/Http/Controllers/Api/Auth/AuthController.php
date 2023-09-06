@@ -39,9 +39,9 @@ class AuthController extends Controller
             ], 200);
         }
 
-        // Authentication failed
-        throw ValidationException::withMessages([
-            'email' => ['Authentication failed. The provided email or password is incorrect.'],
-        ]);
+        return response()->json([
+            'status' => 'error',
+            'message' => 'Authentication failed. The provided email or password is incorrect.',
+        ], 200);
     }
 }

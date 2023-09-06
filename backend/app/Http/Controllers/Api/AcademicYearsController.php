@@ -41,7 +41,10 @@ class AcademicYearsController extends Controller
 
         $response = [
             'status' => 'success',
-            'data' => $academicYears->items(), 
+            'data' => [
+                'academicYears' => $academicYears->items(), 
+                'school' => $school, 
+            ],
             'pagination' => handlePagination($academicYears)
         ];
 

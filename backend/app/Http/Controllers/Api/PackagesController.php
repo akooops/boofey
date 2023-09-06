@@ -48,7 +48,10 @@ class PackagesController extends Controller
 
         $response = [
             'status' => 'success',
-            'data' => $packages->items(), 
+            'data' => [
+                'packages' => $packages->items(), 
+                'school' => $school
+            ],
             'pagination' => handlePagination($packages)
         ];
 

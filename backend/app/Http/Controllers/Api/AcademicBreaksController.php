@@ -43,7 +43,10 @@ class AcademicBreaksController extends Controller
 
         $response = [
             'status' => 'success',
-            'data' => $academicBreaks->items(), 
+            'data' => [
+                'academicBreaks' => $academicBreaks->items(), 
+                'academicYear' => $academicYear
+            ],
             'pagination' => handlePagination($academicBreaks)
         ];
 

@@ -32,14 +32,11 @@ class StudentsController extends Controller
         ]);
 
         if ($search) {
-            $students->where('firstname', 'like', '%' . $search . '%')
-            ->orWhere('lastname', 'like', '%' . $search . '%')
-            ->orWhere('nfc_id', 'like', '%' . $search . '%')
-            ->orWhere('face_id', 'like', '%' . $search . '%');
-
             $students->where(function ($query) use ($search) {
                 $query->where('firstname', 'like', '%' . $search . '%')
-                    ->orWhere('lastname', 'like', '%' . $search . '%');
+                    ->orWhere('lastname', 'like', '%' . $search . '%')
+                    ->orWhere('nfc_id', 'like', '%' . $search . '%')
+                    ->orWhere('face_id', 'like', '%' . $search . '%');
             })
             ->orWhereHas('school', function ($schoolQuery) use ($search) {
                 $schoolQuery->where('name', 'like', '%' . $search . '%');
