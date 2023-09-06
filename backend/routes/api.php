@@ -100,6 +100,8 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'middleware' => ['auth:
         Route::get('/{canteen}', 'CanteensController@show')->name('api.canteens.show');
         Route::post('/store', 'CanteensController@store')->name('api.canteens.store');
         Route::post('/{canteen}/update', 'CanteensController@update')->name('api.canteens.update');
+        Route::post('/{canteen}/generate', 'CanteensController@generate')->name('api.canteens.generate');
+        Route::post('/{canteen}/revoke', 'CanteensController@revoke')->name('api.canteens.revoke');
         Route::delete('/{canteen}/destroy', 'CanteensController@destroy')->name('api.canteens.destroy');
     });
 });

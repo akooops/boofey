@@ -62,9 +62,13 @@ class CanteensController extends Controller
         ));
 
         $canteen->save();
+        $canteen->generateApiKey();
 
         return response()->json([
-            'status' => 'success'
+            'status' => 'success',
+            'data' => [
+                'api_key' => $canteen->getDecryptedKey()
+            ]
         ]);
     }
 
@@ -121,6 +125,49 @@ class CanteensController extends Controller
         }
 
         $canteen->update(array_merge($request->validated()));
+
+        return response()->json([
+            'status' => 'success'
+        ]);
+    }
+
+    public function generate($id) 
+    {
+        $canteen = Canteen::find($id);
+        
+        if (!$canteen) {
+            return response()->json([
+                'status' => 'error',
+                'errors' => [
+                    '404' => 'Not found.'
+                ]
+            ], 404);
+        }
+
+        $canteen->generateApiKey();
+
+        return response()->json([
+            'status' => 'success',
+            'data' => [
+                'api_key' => $canteen->getDecryptedKey()
+            ]
+        ]);
+    }
+
+    public function revoke($id) 
+    {
+        $canteen = Canteen::find($id);
+        
+        if (!$canteen) {
+            return response()->json([
+                'status' => 'error',
+                'errors' => [
+                    '404' => 'Not found.'
+                ]
+            ], 404);
+        }
+
+        $canteen->revokeApiKey();
 
         return response()->json([
             'status' => 'success'

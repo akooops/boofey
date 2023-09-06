@@ -22,7 +22,7 @@ class SchoolsController extends Controller
         $search = $request->query('search');
 
         $schools = School::latest()->with([
-            'logo:id,path,current_name', 
+            'logo:id,path,current_name,full_path', 
         ]);
 
         if ($search) {

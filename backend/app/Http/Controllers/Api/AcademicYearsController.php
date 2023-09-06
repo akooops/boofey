@@ -18,7 +18,7 @@ class AcademicYearsController extends Controller
      */
     public function index($id, Request $request) 
     {
-        $school = School::find($id);
+        $school = School::with('logo:id,path,current_name,full_path')->find($id);
 
         if (!$school) {
             return response()->json([
