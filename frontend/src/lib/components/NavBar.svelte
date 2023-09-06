@@ -7,7 +7,8 @@
         { title: "Dashboards", links: ["Analytics", "CRM", "Ecommerce", "Crypto", "Projects", "NFT", "Job"] },
         { title: "Permissions", links: [],route:"/permissions"},
         { title: "Roles", links: [], route:"/roles"},
-        { title: "Users", links: [], route:"/users"}
+        { title: "Users", links: [], route:"/users"},
+        { title: "Schools", links: [], route:"/schools"}
       ],
     },
     { title: "Pages",submenu: [], links: [] },

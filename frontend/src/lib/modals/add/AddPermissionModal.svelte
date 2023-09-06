@@ -1,6 +1,5 @@
 <script>
 import { PathAddPermission } from "$lib/api/paths";
-import {onMount} from "svelte"
 import { toast } from "$lib/components/toast.js";
 import { invalidate } from '$app/navigation';
 

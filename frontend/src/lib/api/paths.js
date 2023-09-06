@@ -1,7 +1,7 @@
 export const DOMAIN = "https://boofey.akoops.com/api"
 
-export function PathGetPermissions(){
-    return `${DOMAIN}/permissions`
+export function PathGetPermissions({page,search}){
+    return `${DOMAIN}/permissions?page=${page}&search=${search}`
 }
 export function PathAddPermission(){
     return `${DOMAIN}/permissions/store`
@@ -16,8 +16,8 @@ export function PathUpdatePermission(id){
 
 
 
-export function PathGetRoles(){
-    return `${DOMAIN}/roles`
+export function PathGetRoles({page,search}){
+    return `${DOMAIN}/roles?page=${page}&search=${search}`
 }
 export function PathAddRole(){
     return `${DOMAIN}/roles/store`
@@ -30,8 +30,8 @@ export function PathUpdateRole(id){
 }
 
 
-export function PathGetUsers(){
-    return `${DOMAIN}/users`
+export function PathGetUsers({page,search}){
+    return `${DOMAIN}/users?page=${page}&search=${search}`
 
 }
 export function PathAddUser(){
@@ -42,4 +42,27 @@ export function PathDelUser(id){
 }
 export function PathUpdateUser(id){
     return `${DOMAIN}/users/${id}/update`
+}
+
+
+export function PathGetSchools({page,search}){
+    return `${DOMAIN}/schools?page=${page}&search=${search}`
+}
+
+export function PathAddSchool(){
+    return `${DOMAIN}/schools/store`
+}
+export function PathDelSchool(id){
+    return `${DOMAIN}/schools/${id}/destroy`
+}
+export function PathUpdateSchool(id){
+    return `${DOMAIN}/schools/${id}/update`
+}
+
+export function DefaultGetQueries(url){
+    let page =  url.searchParams.get("page")
+    page = page ? page : 1
+    let search =  url.searchParams.get("search")
+    search = search ? search : ""
+    return {page,search}
 }

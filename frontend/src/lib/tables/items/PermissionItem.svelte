@@ -5,7 +5,6 @@ import { getContext } from "svelte"
     let {permissionStore} = getContext("permissionStore")
     
     function setPermission(){
-        console.log("gonna set this to " ,permission)
         $permissionStore = JSON.parse(JSON.stringify(permission));
     }
 

@@ -2,22 +2,21 @@
 import Pagination from "$lib/components/Pagination.svelte";
 import SearchTable from "$lib/components/SearchTable.svelte";
 
-import PermissionsTable from "$lib/tables/PermissionsTable.svelte";
-import AddPermissionModal from "$lib/modals/add/AddPermissionModal.svelte";
+import SchoolsTable from "$lib/tables/SchoolsTable.svelte";
+import AddSchoolModal from "$lib/modals/add/AddSchoolModal.svelte";
 export let data
-$: permissionsList = data.permissionsResponse.data  
-$: permissionsPagination = data.permissionsResponse.pagination
-
+$: schoolsList = data.schoolsResponse.data  
+$: schoolsPagination = data.schoolsResponse.pagination
 
 </script>
 <div class="row">
     <div class="col-lg-12">
         <div class="card">
             <div class="card-header align-items-center d-flex">
-                <h4 class="card-title mb-0 flex-grow-1">Permissions Managment</h4>
+                <h4 class="card-title mb-0 flex-grow-1">Schools Managment</h4>
                 <div class="flex-shrink-0">
-                    <button type="button" data-bs-toggle="modal" data-bs-target="#addPermissionModal" class="btn btn-primary waves-effect waves-light"><i class="ri-add-line align-bottom me-1"></i> Add Permission</button>
-                    <AddPermissionModal />
+                    <button type="button" data-bs-toggle="modal" data-bs-target="#addSchoolModal" class="btn btn-primary waves-effect waves-light"><i class="ri-add-line align-bottom me-1"></i>Add School</button>
+                    <AddSchoolModal />
                 </div>
             </div><!-- end card header -->
 
@@ -26,9 +25,9 @@ $: permissionsPagination = data.permissionsResponse.pagination
                 <!-- <div class="live-preview"> -->
                     <div class="row">
                             <!-- Input with Icon -->
-                        <SearchTable type={"Permission"}/>
-                        <PermissionsTable {permissionsList}/>
-                        <Pagination {...permissionsPagination} />
+                        <SearchTable type={"School"}/>
+                        <SchoolsTable {schoolsList}/>
+                        <Pagination {...schoolsPagination} />
                         <!--end col-->
                     </div>
                     <!--end row-->
