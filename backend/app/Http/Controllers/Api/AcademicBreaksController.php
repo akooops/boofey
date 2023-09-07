@@ -18,8 +18,7 @@ class AcademicBreaksController extends Controller
      */
     public function index($id, Request $request) 
     {
-        $academicYear = AcademicYear::find($id);
-
+        $academicYear = AcademicYear::with(['school:id,name,file_id', 'school.logo:id,path,current_name'])->find($id);
         if (!$academicYear) {
             return response()->json([
                 'status' => 'error',
@@ -45,7 +44,7 @@ class AcademicBreaksController extends Controller
             'status' => 'success',
             'data' => [
                 'academicBreaks' => $academicBreaks->items(), 
-                'academicYear' => $academicYear
+                'academicYear' => $academicYear,
             ],
             'pagination' => handlePagination($academicBreaks)
         ];
