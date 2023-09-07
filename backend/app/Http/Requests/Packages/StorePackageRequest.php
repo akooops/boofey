@@ -27,12 +27,16 @@ class StorePackageRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:500',
+            'code' => 'sometimes|string|max:500',
             'description' => 'sometimes|string',
 
             'sale_price' => 'sometimes|numeric',
             'price' => 'required|numeric',
+            'tax' => 'sometimes|numeric',
 
             'yearly' => 'required|boolean',
+            'hidden' => 'required|boolean',
+
             'days' => 'required_if:yearly,false|integer',
 
             'popular' => 'required|boolean',

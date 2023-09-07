@@ -20,6 +20,9 @@ class Package extends Model
         'yearly',
         'popular',
         'school_id',
+        'tax',
+        'hiddent',
+        'code'
     ];
 
     public function school()
