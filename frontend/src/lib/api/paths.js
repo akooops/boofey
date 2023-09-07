@@ -1,4 +1,4 @@
-export const DOMAIN = "https://boofey.akoops.com/api"
+export const DOMAIN = "https://backend.boofey.app/api"
 
 export function PathGetPermissions({page,search}){
     return `${DOMAIN}/permissions?page=${page}&search=${search}`
@@ -58,6 +58,21 @@ export function PathDelSchool(id){
 export function PathUpdateSchool(id){
     return `${DOMAIN}/schools/${id}/update`
 }
+
+export function PathGetAcademicYears(schoolId,{page,search}){
+    return `${DOMAIN}/schools/${schoolId}/academicYears?page=${page}&search=${search}`
+}
+
+export function PathAddAcademicYear(schoolId){
+    return `${DOMAIN}/schools/${schoolId}/academicYears/store`
+}
+export function PathUpdateAcademicYear(id){
+    return `${DOMAIN}/academicYears/${id}/update`
+}
+export function PathDelAcademicYear(id){
+    return `${DOMAIN}/academicYears/${id}/destroy`
+}
+
 
 export function DefaultGetQueries(url){
     let page =  url.searchParams.get("page")
