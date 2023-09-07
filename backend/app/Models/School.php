@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -59,5 +60,17 @@ class School extends Model
         foreach ($yearlyPackages as $package) {
             $package->update(['days' => $academicDays]);
         }
+    }
+
+    public function createDefaulAcademicYear(){
+        $academicYear = AcademicYear::create([
+            'school_id' => $this->id,
+            'name' => 'Default',
+            'from' => Carbon::now()->format('Y-m-d'),
+            'to' => Carbon::now()->format('Y-m-d'),
+            'current' => '1'
+        ]);
+
+        $academicYear->save();
     }
 }

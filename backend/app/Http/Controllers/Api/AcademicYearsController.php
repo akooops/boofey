@@ -182,6 +182,16 @@ class AcademicYearsController extends Controller
             ], 404);
         }
 
+        //Don't allow the user to update the current year to be not current
+        if($academicYear->current == true) {
+            return response()->json([
+                'status' => 'error',
+                'errors' => [
+                    'current' => 'Unable to delete the current year!'
+                ]
+            ]);
+        }
+
         $academicYear->delete();
 
         return response()->json([

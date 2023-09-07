@@ -58,6 +58,7 @@ class SchoolsController extends Controller
         ));
 
         $school->save();
+        $school->createDefaulAcademicYear();
 
         return response()->json([
             'status' => 'success'
