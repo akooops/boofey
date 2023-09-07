@@ -4,8 +4,8 @@ function handlePagination($data) {
         'per_page' => $data->perPage(),
         'current_page' => $data->currentPage(),
         'last_page' => $data->lastPage(),
-        'from' => $data->firstItem(),
-        'to' => $data->lastItem(),
+        'from' => ($data->firstItem() == null) ? 0 : $data->firstItem(),
+        'to' => ($data->lastItem() == null) ? 0 : $data->lastItem(),
         'total' => $data->total(),
         'pages' => pages($data->currentPage(), $data->lastPage()),
     ];
