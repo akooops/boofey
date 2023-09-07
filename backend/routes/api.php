@@ -104,6 +104,14 @@ Route::group(['namespace' => 'App\Http\Controllers\Api'/*, 'middleware' => ['aut
         Route::post('/{canteen}/revoke', 'CanteensController@revoke')->name('api.canteens.revoke');
         Route::delete('/{canteen}/destroy', 'CanteensController@destroy')->name('api.canteens.destroy');
     });
+
+    Route::group(['prefix' => 'coupons'], function() {
+        Route::get('/', 'CouponsController@index')->name('api.coupons.index');
+        Route::get('/{coupon}', 'CouponsController@show')->name('api.coupons.show');
+        Route::post('/store', 'CouponsController@store')->name('api.coupons.store');
+        Route::post('/{coupon}/update', 'CouponsController@update')->name('api.coupons.update');
+        Route::delete('/{coupon}/destroy', 'CouponsController@destroy')->name('api.coupons.destroy');
+    });
 });
 
 Route::group(['namespace' => 'App\Http\Controllers\Api\Auth', 'prefix' => 'auth'], function(){  

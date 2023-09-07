@@ -20,6 +20,8 @@ return new class extends Migration
             $table->float('discount')->default(0);
             $table->integer('used')->default(0);
             $table->integer('max')->default(0);
+            $table->boolean('onhold')->default(0);
+            $table->date('expire_at')->nullable()->default(null);
             $table->timestamps();
         });
     }
