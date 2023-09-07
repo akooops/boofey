@@ -19,6 +19,8 @@
     <td>{user.id}</td>
     <td>{user.username}</td>
     <td>{user.email}</td>
+    <td>{user.profile.firstname}</td>
+    <td>{user.profile.lastname}</td>
     <td>{user.phone}</td>
     <td>
         <div class="hstack gap-3 flex-wrap">

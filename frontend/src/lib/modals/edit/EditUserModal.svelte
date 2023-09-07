@@ -28,7 +28,7 @@
         })).json()
         if(res.status == "success") {
             close.click()
-            let text = `Edited ${userStore.username} ` 
+            let text = `Edited ${$userStore.username} ` 
             toast(text,"success")
             invalidate("users:refresh")
         }
