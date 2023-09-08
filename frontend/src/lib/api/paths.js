@@ -73,6 +73,11 @@ export function PathDelAcademicYear(id){
     return `${DOMAIN}/academicYears/${id}/destroy`
 }
 
+export function PathGetAcademicBreaks(yearId,{page,search}){
+    return `${DOMAIN}/academicYears/${yearId}/academicBreaks?page=${page}&search=${search}`
+}
+
+
 
 export function DefaultGetQueries(url){
     let page =  url.searchParams.get("page")
