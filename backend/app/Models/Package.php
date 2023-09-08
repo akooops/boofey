@@ -55,6 +55,10 @@ class Package extends Model
         $this->update(['days' => $days]);
     }
 
+    public function subcriptions(){
+        return $this->hasMany(Subscription::class, 'package_id', 'id');
+    }
+
     function getCurrentPriceAttribute() {  
         return ($this->sale_price == null || $this->sale_price == 0) ? $this->price : $this->sale_price;
     }

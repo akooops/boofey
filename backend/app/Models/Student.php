@@ -9,6 +9,8 @@ class Student extends Model
 {
     use HasFactory;
 
+    protected $appends = ["subscriped"];
+
     protected $fillable = [
         'name',
         'firstname',
@@ -41,5 +43,17 @@ class Student extends Model
     public function academicYear()
     {
         return $this->belongsTo(AcademicYear::class);
+    }
+
+    public function subcriptions(){
+        return $this->hasMany(Subscription::class, 'student_id', 'id');
+    }
+
+    public function currentSubscription(){
+        return $this->hasOne(Subscription::class, 'student_id', 'id')->where('balance', '>', '0');
+    }
+
+    function getSubscripedAttribute() {  
+        return ($this->currentSubscription == null) ? false : true;
     }
 }

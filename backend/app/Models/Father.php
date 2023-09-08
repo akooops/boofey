@@ -22,4 +22,8 @@ class Father extends Model
     {
         return $this->hasMany(Student::class, 'father_id', 'id');
     }
+
+    public function payments(){
+        return $this->hasMany(Payment::class, 'father_id', 'id');
+    }
 }
