@@ -13,7 +13,7 @@
     
     
         let formData = new FormData(form)
-        if(formData.get("file").size == 0){
+        if(formData.get("file")?.size == 0){
             formData.delete("file")
         }
         let res = await (await fetch(PathUpdateSchool($schoolStore.id),{
@@ -61,12 +61,13 @@
                                         <label for="formFile" class="form-label">School Logo</label>
                                         <input class="form-control" name="file" type="file" id="formFile">
                                     </div>
+                                {:else}
+                                    <figure class="figure">
+                                        <img  alt="school logo " width="200" src={$schoolStore?.logo?.full_path} class="figure-img rounded avatar-xl mb-3 object-fit-cover" >
+                                        <figcaption class="figure-caption">Current School logo</figcaption>
+                                    </figure>
+                                    
                                 {/if}
-                                 <figure class="figure">
-                                    <img  alt="school logo " width="200" src={$schoolStore?.logo?.full_path} class="figure-img rounded avatar-xl mb-3 object-fit-cover" >
-                                    <figcaption class="figure-caption">Current School logo</figcaption>
-                                </figure>
-    
     
                                 <div class="hstack gap-2 justify-content-end">
                                     <button type="button" class="btn btn-light fw-light" data-bs-dismiss="modal" bind:this={close}>Close</button>
