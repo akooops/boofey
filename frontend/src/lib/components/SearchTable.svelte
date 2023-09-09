@@ -23,13 +23,13 @@
 </script>
 
 <div class="row mb-4">
-    <div class="col-xxl-3 col-md-6">
+    <div class="col-xxl-3 col-md-6 col-sm-6 col-9">
         <div class="form-icon">
             <input type="email" use:initSearchQuery class="form-control form-control-icon" id="iconInput" placeholder="Search for {type}..." bind:value={searchQuery}>
             <i class="ri-search-line"></i>
         </div>
     </div>
-    <div class="col-xxl-9 col-md-6 ps-0">
+    <div class="col-xxl-9 col-md-6 col-sm-6 col-3 ps-0">
         <button class="btn btn-primary" type="button" on:click={search}>Search</button>
     </div>
 </div>
