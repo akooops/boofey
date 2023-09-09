@@ -7,6 +7,8 @@
     
     let roleName
     let close
+    let allChecked = false
+
     export let permissions = []
     async function save(){
         
@@ -43,6 +45,20 @@
             }
         })
     })
+    function checkAll(){
+        allChecked = permissions.every((permission) => permission.checked == true); 
+    }
+    function checkAllToggle(e){
+        permissions = permissions.map((permission) => {
+            return {
+                ...permission,
+                checked:e.target.checked
+            }
+        })
+        allChecked = e.target.checked
+    }
+
+
     function reset(){
         roleName = ""
         permissions = permissions.map((permission) => {
@@ -51,7 +67,10 @@
                 checked:false
             }
         })
+        allChecked = false
     }
+
+   
     </script>
     
     
@@ -78,7 +97,7 @@
                                                 <tr>
                                                     <th scope="col" style="width: 25px;">
                                                         <div class="form-check">
-                                                            <input class="form-check-input" type="checkbox" id="checkAll" value="option1">
+                                                            <input class="form-check-input" type="checkbox" id="checkAll" value="option1" checked={allChecked} on:change={checkAllToggle}>
                                                         </div>
                                                     </th>
                                                     <th scope="col">ID</th>
@@ -91,7 +110,7 @@
                                                     <tr scope="row">
                                                         <td>
                                                             <div class="form-check">
-                                                                <input bind:checked={permission.checked} class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option1" >
+                                                                <input bind:checked={permission.checked} on:change={checkAll}  class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option1" >
                                                             </div>
                                                         </td>
                                                         <td>{permission.id}</td>

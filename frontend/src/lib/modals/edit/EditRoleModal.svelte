@@ -50,15 +50,16 @@
                 checked:e.target.checked
             }
         })
+        allChecked = e.target.checked
     }
 
 
 
 
     roleStore.subscribe(() => {
+        allChecked = false
         roleName = $roleStore.name
         if($page?.data?.rolesResponse?.data?.permissions == undefined || $roleStore.permissions == undefined) return;
-        console.log("calcs")
         console.log($roleStore)
         permissions = $page.data.rolesResponse.data.permissions.map((permission) => {
             return {
