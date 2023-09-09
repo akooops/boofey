@@ -7,6 +7,7 @@
     let close
     let username
     let form 
+    let selectRole
     export let roles = []
     
     async function save(){
@@ -24,14 +25,22 @@
             let text = `Added ${username} as a new user` 
             toast(text,"success")
             invalidate("users:refresh")
+            reset()
         }
 
         
     }
+
+    function reset(){
+        form.reset()
+        selectRole.selectedIndex = 0
+    }
+
+
     </script>
     
     
-    <div class="modal  fade" id="addUserModal" tabindex="-1" aria-labelledby="exampleModalgridLabel" aria-modal="true" >
+    <div class="modal  fade" id="addUserModal" tabindex="-1" aria-labelledby="exampleModalgridLabel" aria-modal="true"  on:hidden.bs.modal={reset}>
         <div class="modal-dialog modal-dialog-centered" >
             <div class="modal-content">
                 <div class="modal-header">
@@ -78,7 +87,7 @@
 
                                 <div class="col-lg-12">
                                     <label for="role" class="form-label">Role</label>
-                                    <select class="form-select" name="role_id" id="role" aria-label="Default select example">
+                                    <select class="form-select" name="role_id" id="role" aria-label="Default select example" bind:this={selectRole}>
                                         <option disabled selected value> -- select an role -- </option>
                                         {#each roles as role}
                                         <option value={role.id}>{role.name}</option>

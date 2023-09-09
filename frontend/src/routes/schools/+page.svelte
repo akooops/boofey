@@ -4,12 +4,19 @@ import SearchTable from "$lib/components/SearchTable.svelte";
 
 import SchoolsTable from "$lib/tables/SchoolsTable.svelte";
 import AddSchoolModal from "$lib/modals/add/AddSchoolModal.svelte";
+import { onMount } from "svelte";
+import {initToolTip} from "$lib/init/initToolTip.js"
 export let data
+
 $: schoolsList = data.schoolsResponse.data  
 $: schoolsPagination = data.schoolsResponse.pagination
+let schoolsPage
+onMount(() => {
+    initToolTip(schoolsPage)
+})
 
 </script>
-<div class="row">
+<div class="row" bind:this={schoolsPage}>
     <div class="col-lg-12">
         <div class="card">
             <div class="card-header align-items-center d-flex">

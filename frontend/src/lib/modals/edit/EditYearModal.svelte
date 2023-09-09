@@ -2,14 +2,13 @@
     import { PathUpdateAcademicYear } from "$lib/api/paths";
     import { toast } from "$lib/components/toast.js";
     import { invalidate } from '$app/navigation';
-    import {loadDefaultDate} from "$lib/init.js"
+    import {loadDefaultDate} from "$lib/init/initFlatpickr.js"
     import { getContext } from "svelte";
 
     
     let {yearStore} = getContext("yearStore")
 
     let close
-    let duration
     let form
     let from 
     let to

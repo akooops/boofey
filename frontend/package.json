@@ -25,5 +25,9 @@
 		"vite": "^4.4.2",
 		"vitest": "^0.32.2"
 	},
-	"type": "module"
+	"type": "module",
+	"dependencies": {
+		"@fullcalendar/core": "^6.1.8",
+		"fullcalendar": "^6.1.8"
+	}
 }
