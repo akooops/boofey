@@ -751,6 +751,7 @@ page.subscribe(() => {
 </div><!-- /.modal -->
  <!-- ========== App Menu ========== -->
 <NavBar />
+<div class="vertical-overlay"></div>
 <!-- Left Sidebar End -->
 
 <!-- right content  start -->
