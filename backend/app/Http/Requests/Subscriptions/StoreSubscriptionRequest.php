@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Requests\Coupons;
+namespace App\Http\Requests\Subscriptions;
 
+use App\Rules\UniqueUnexpiredSubscription;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Http\JsonResponse;
 
-class UpdateCouponRequest extends FormRequest
+class StoreSubscriptionRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,16 +26,8 @@ class UpdateCouponRequest extends FormRequest
      */
     public function rules()
     {
-        $coupon = request()->route('coupon');
-
         return [
-            'name' => 'required|string|max:500',
-            'code' => 'sometimes|string|max:500|unique:coupons,code,'.$coupon,
-
-            'discount' => 'required|numeric',
-            'max' => 'required|integer',
-
-            'onhold' => 'required|boolean',
+            
         ];
     }
 

@@ -93,6 +93,15 @@ Route::group(['namespace' => 'App\Http\Controllers\Api'/*, 'middleware' => ['aut
         Route::post('/store', 'StudentsController@store')->name('api.students.store');
         Route::post('/{student}/update', 'StudentsController@update')->name('api.students.update');
         Route::delete('/{student}/destroy', 'StudentsController@destroy')->name('api.students.destroy');
+
+        Route::get('/{student}/subscriptions', 'SubscriptionsController@index')->name('api.subscriptions.index');
+        Route::post('/{student}/subscriptions/store', 'SubscriptionsController@store')->name('api.subscriptions.store');
+    });
+
+    Route::group(['prefix' => 'subscriptions'], function() {
+        Route::get('/{subscription}', 'SubscriptionsController@show')->name('api.subscriptions.show');
+        Route::post('/{subscription}/update', 'SubscriptionsController@update')->name('api.subscriptions.update');
+        Route::delete('/{subscription}/destroy', 'SubscriptionsController@destroy')->name('api.students.destroy');;
     });
 
     Route::group(['prefix' => 'canteens'], function() {

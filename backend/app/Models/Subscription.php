@@ -9,6 +9,8 @@ class Subscription extends Model
 {
     use HasFactory;
 
+    protected $appends = ["expired"];
+
     protected $fillable = [
         'days',
         'balance',
@@ -25,5 +27,10 @@ class Subscription extends Model
     public function student()
     {
         return $this->belongsTo(Student::class);
+    }
+
+    
+    public function getExpiredAttribute(){
+        return ($this->balance <= 0) ? true : false;
     }
 }

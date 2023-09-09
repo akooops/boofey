@@ -19,16 +19,9 @@ class Coupon extends Model
         'used',
         'max',
         'onhold',
-        'expire_at'
     ];
 
     function getExpiredhAttribute() {
-        $today = Carbon::now()->startOfDay();
-        $expire_at = Carbon::parse($this->expire_at)->startOfDay();
-
-        return (   $this->used >= $this->max
-                || $this->onhold == true
-                || $today > $expire_at 
-            ) ? true : false;
+        return ($this->used >= $this->max || $this->onhold == true) ? true : false;
     }
 }

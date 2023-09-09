@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\Coupon;
+use App\Models\Subscription;
 use Illuminate\Http\Request;
-use App\Http\Requests\Coupons\StoreCouponRequest;
-use App\Http\Requests\Coupons\UpdateCouponRequest;
+use App\Http\Requests\Subscriptions\StoreSubscriptionRequest;
+use App\Http\Requests\Subscriptions\UpdateSubscriptionRequest;
 use App\Models\File;
 
-class CouponsController extends Controller
+class SubscriptionsController extends Controller
 {
     /**
-     * Display all coupons
+     * Display all subscriptions
      * 
      * @return \Illuminate\Http\Response
      */
@@ -21,37 +21,37 @@ class CouponsController extends Controller
         $page = checkPageIfNull($request->query('page', 1));
         $search = $request->query('search');
 
-        $coupons = Coupon::latest();
+        $subscriptions = Subscription::latest();
 
         if ($search) {
-            $coupons->where('name', 'like', '%' . $search . '%')
+            $subscriptions->where('name', 'like', '%' . $search . '%')
             ->orWhere('code', 'like', '%' . $search . '%');
         }
 
-        $coupons = $coupons->paginate($perPage, ['*'], 'page', $page);
+        $subscriptions = $subscriptions->paginate($perPage, ['*'], 'page', $page);
 
         $response = [
             'status' => 'success',
-            'data' => $coupons->items(), 
-            'pagination' => handlePagination($coupons)
+            'data' => $subscriptions->items(), 
+            'pagination' => handlePagination($subscriptions)
         ];
 
         return response()->json($response);
     }
 
     /**
-     * Store a newly created coupon
+     * Store a newly created subscription
      * 
-     * @param Coupon $coupon
-     * @param StoreCouponRequest $request
+     * @param Subscription $subscription
+     * @param StoreSubscriptionRequest $request
      * 
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreCouponRequest $request) 
+    public function store(StoreSubscriptionRequest $request) 
     {
-        $coupon = Coupon::create(array_merge($request->all()));
+        $subscription = Subscription::create(array_merge($request->all()));
 
-        $coupon->save();
+        $subscription->save();
 
         return response()->json([
             'status' => 'success'
@@ -59,17 +59,17 @@ class CouponsController extends Controller
     }
 
     /**
-     * Show coupon data
+     * Show subscription data
      * 
-     * @param Coupon $coupon
+     * @param Subscription $subscription
      * 
      * @return \Illuminate\Http\Response
      */
     public function show($id) 
     {
-        $coupon = Coupon::find($id);
+        $subscription = Subscription::find($id);
 
-        if (!$coupon) {
+        if (!$subscription) {
             return response()->json([
                 'status' => 'error',
                 'errors' => [
@@ -81,24 +81,24 @@ class CouponsController extends Controller
         return response()->json([
             'status' => 'success',
             'data' => [
-                'coupon' => $coupon
+                'subscription' => $subscription
             ]
         ]);
     }
 
     /**
-     * Update coupon data
+     * Update subscription data
      * 
-     * @param Coupon $coupon
-     * @param UpdateCouponRequest $request
+     * @param Subscription $subscription
+     * @param UpdateSubscriptionRequest $request
      * 
      * @return \Illuminate\Http\Response
      */
-    public function update($id, UpdateCouponRequest $request) 
+    public function update($id, UpdateSubscriptionRequest $request) 
     {
-        $coupon = Coupon::find($id);
+        $subscription = Subscription::find($id);
         
-        if (!$coupon) {
+        if (!$subscription) {
             return response()->json([
                 'status' => 'error',
                 'errors' => [
@@ -107,7 +107,11 @@ class CouponsController extends Controller
             ], 404);
         }
 
-        $coupon->update(array_merge($request->all()));
+        if ($request->get('expire_at') == null) {
+            $request->merge(['expire_at' => null]);
+        }
+
+        $subscription->update(array_merge($request->all()));
 
         return response()->json([
             'status' => 'success'
@@ -115,17 +119,17 @@ class CouponsController extends Controller
     }
 
     /**
-     * Delete coupon data
+     * Delete subscription data
      * 
-     * @param Coupon $coupon
+     * @param Subscription $subscription
      * 
      * @return \Illuminate\Http\Response
      */
     public function destroy($id) 
     {
-        $coupon = Coupon::find($id);
+        $subscription = Subscription::find($id);
 
-        if (!$coupon) {
+        if (!$subscription) {
             return response()->json([
                 'status' => 'error',
                 'errors' => [
@@ -134,7 +138,7 @@ class CouponsController extends Controller
             ], 404);
         }
 
-        $coupon->delete();
+        $subscription->delete();
 
         return response()->json([
             'status' => 'success'

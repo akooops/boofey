@@ -33,7 +33,6 @@ class StoreCouponRequest extends FormRequest
             'max' => 'required|integer',
 
             'onhold' => 'required|boolean',
-            'expire_at' => 'sometimes|date_format:Y-m-d',
         ];
     }
 
