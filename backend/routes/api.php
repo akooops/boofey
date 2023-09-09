@@ -123,6 +123,10 @@ Route::group(['namespace' => 'App\Http\Controllers\Api'/*, 'middleware' => ['aut
     });
 });
 
+Route::group(['prefix' => 'sync', 'namespace' => 'App\Http\Controllers\Api', 'middleware' => ['verify.apikey']], function() {
+    Route::get('/students', 'SyncController@students')->name('api.students.sync');
+});
+
 Route::group(['namespace' => 'App\Http\Controllers\Api\Auth', 'prefix' => 'auth'], function(){  
     Route::get('authenticate', 'AuthController@authenticate')->name('authenticate');
     Route::post('register', 'AuthController@register');

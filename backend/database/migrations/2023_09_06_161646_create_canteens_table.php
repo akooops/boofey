@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('address');
-            $table->string('api_key')->nullable()->default(null);
+            $table->string('api_key', 1000)->nullable()->default(null);
 
             $table->unsignedBigInteger('school_id')->nullable();
             $table->foreign('school_id')->nullable()->references('id')->on('schools')->onDelete('cascade');

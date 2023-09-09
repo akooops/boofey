@@ -4,15 +4,16 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Hash;
 use App\Models\Canteen;
+use Illuminate\Support\Facades\Crypt;
 
 class VerifyApiKey
 {
     public function handle(Request $request, Closure $next)
     {
         $apiKey = $request->header('X-Api-Key') ?? $request->query('api_key');
-
+        $apiKey = 'test';
         if (!$apiKey) {
             return response()->json(['message' => 'API key not provided'], 401);
 
@@ -23,20 +24,9 @@ class VerifyApiKey
                 ]
             ], 401);
         }
-
-        try {
-            $encryptedKey = Crypt::encrypt($apiKey);
-        } catch (\Illuminate\Contracts\Encryption\DecryptException $e) {
-            return response()->json([
-                'status' => 'error',
-                'errors' => [
-                    '401' => 'Invalid API key.'
-                ]
-            ], 401);
-        }
-
-        $encryptedKey = Crypt::encrypt($apiKey);
-        $canteen = Canteen::where('api_key', $encryptedKey)->first();
+        
+        $encryptedApiKey = Crypt::encryptString($apiKey);
+        $canteen = Canteen::where('api_key', $encryptedApiKey)->first();
 
         if (!$canteen) {
             return response()->json([
