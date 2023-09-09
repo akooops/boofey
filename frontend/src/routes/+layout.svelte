@@ -2,16 +2,18 @@
 import NavBar from "$lib/components/NavBar.svelte";
 import { page } from "$app/stores"; 
 import { browser } from '$app/environment';
-page.subscribe(() => {
-    if(browser){
-        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-        tooltipTriggerList.map(function (tooltipTriggerEl) {
-            return new bootstrap.Tooltip(tooltipTriggerEl)
-        })
-        
-    }
-})
-
+	import { onMount } from "svelte";
+// page.subscribe(() => {
+//     if(browser){
+//         var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+//         tooltipTriggerList.map(function (tooltipTriggerEl) {
+//             return new bootstrap.Tooltip(tooltipTriggerEl)
+//         })
+//     }
+// })
+// onMount(() => {
+//     initToolTip()
+// })
 
 </script>
 

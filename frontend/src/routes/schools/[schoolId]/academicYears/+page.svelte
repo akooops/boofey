@@ -5,18 +5,21 @@
     import AddYearModal from "$lib/modals/add/AddYearModal.svelte";
     import {InitFlatPickr} from "$lib/init/initFlatpickr.js"
 	import { onMount } from "svelte";
+    import {initToolTip} from "$lib/init/initToolTip.js"
     export let data
     $: yearsList = data.academicYearsResponse.data.academicYears
     $: school = data.academicYearsResponse.data.school  
     $: yearsPagination = data.academicYearsResponse.pagination
 
-
+    let yearsPage
     onMount(() => {
+        initToolTip(yearsPage)
         InitFlatPickr()
+
     })
     
 </script>
-<div class="row">
+<div class="row" bind:this={yearsPage}>
     <div class="col-lg-12">
         <div class="card">
             <div class="card-header align-items-center d-flex">

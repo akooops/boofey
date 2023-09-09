@@ -3,14 +3,20 @@
     import SearchTable from "$lib/components/SearchTable.svelte";    
     import UsersTable from "$lib/tables/UsersTable.svelte";
     import AddUserModal from "$lib/modals/add/AddUserModal.svelte";
+    import { onMount } from "svelte";
+import {initToolTip} from "$lib/init/initToolTip.js"
 
     export let data
     $: usersList = data.usersResponse.data.users
     $: usersPagination = data.usersResponse.pagination
     $: roles = data.usersResponse.data.roles
+let usersPage
+onMount(() => {
+    initToolTip(usersPage)
+})
 
 </script>
-    <div class="row">
+    <div class="row" bind:this={usersPage}>
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header align-items-center d-flex">

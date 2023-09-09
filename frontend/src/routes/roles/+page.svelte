@@ -3,15 +3,20 @@
     import RolesTable from "$lib/tables/RolesTable.svelte";
     import AddRoleModal from "$lib/modals/add/AddRoleModal.svelte";
 	import SearchTable from "$lib/components/SearchTable.svelte";
+    import { onMount } from "svelte";
+    import {initToolTip} from "$lib/init/initToolTip.js"
 
     export let data
     $: rolesList = data.rolesResponse.data.roles
     $: rolesPagination = data.rolesResponse.pagination
     $: permissions = data.rolesResponse.data.permissions
-    
+    let rolesPage
+    onMount(() => {
+        initToolTip(rolesPage)
+    })
 
 </script>
-    <div class="row">
+    <div class="row" bind:this={rolesPage}>
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header align-items-center d-flex">

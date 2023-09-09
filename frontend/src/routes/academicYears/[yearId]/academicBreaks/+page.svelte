@@ -29,14 +29,17 @@ setContext('breakStore', breakStore);
     
 let currentBadge = "badge bg-success-subtle text-success"
 let notCurrentBadge = "badge bg-danger-subtle text-danger "
+
+
 onMount(() => {
     InitFlatPickr()
+
 })
 
 </script>
 
 
-<div class="row">
+<div class="row" >
     <div class="col-12">
         <div class="row">
             <div class="col-xl-3">
