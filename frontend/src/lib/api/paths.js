@@ -76,7 +76,15 @@ export function PathDelAcademicYear(id){
 export function PathGetAcademicBreaks(yearId,{page,search}){
     return `${DOMAIN}/academicYears/${yearId}/academicBreaks?page=${page}&search=${search}`
 }
-
+export function PathAddAcademicBreak(yearId){
+    return `${DOMAIN}/academicYears/${yearId}/academicBreaks/store`
+}
+export function PathUpdateAcademicBreak(breakId){
+    return `${DOMAIN}/academicBreaks/${breakId}/update`
+}
+export function PathDelAcademicBreak(breakId){
+    return `${DOMAIN}/academicBreaks/${breakId}/destroy`
+}
 
 
 export function DefaultGetQueries(url){

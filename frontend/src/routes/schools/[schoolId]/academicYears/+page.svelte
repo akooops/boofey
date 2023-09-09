@@ -3,7 +3,7 @@
     import SearchTable from "$lib/components/SearchTable.svelte";
     import YearsTable from "$lib/tables/YearsTable.svelte";
     import AddYearModal from "$lib/modals/add/AddYearModal.svelte";
-    import {InitFlatPickr} from "$lib/init.js"
+    import {InitFlatPickr} from "$lib/init/initFlatpickr.js"
 	import { onMount } from "svelte";
     export let data
     $: yearsList = data.academicYearsResponse.data.academicYears

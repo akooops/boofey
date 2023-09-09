@@ -1,12 +1,38 @@
 <script>
-    export let data
+import Calendar from '$lib/components/Calendar.svelte';
+import { invalidate } from '$app/navigation';
+import { onMount, setContext,getContext } from 'svelte';
+import {InitFlatPickr} from "$lib/init/initFlatpickr.js"
+import { writable } from 'svelte/store';
+
+import AddBreakModal from '$lib/modals/add/AddBreakModal.svelte';
+	import ViewBreakModal from '$lib/modals/view/ViewBreakModal.svelte';
+	import DeleteBreakModal from '$lib/modals/delete/DeleteBreakModal.svelte';
+    import EditBreakModal from '$lib/modals/edit/EditBreakModal.svelte';
+
+// import FullCalendar from 'svelte-fullcalendar';
+
+export let data
 
 $: breaksList = data.breaksResponse.data.academicBreaks
 $: year = data.breaksResponse.data.academicYear
 $: school = year.school
 
+const breaksListStore = writable(breaksList)
+$: breaksListStore.set(breaksList)
+setContext('breaksListStore', breaksListStore);
+
+const breakStore = writable({})
+setContext('breakStore', breakStore);
+
+
+    
 let currentBadge = "badge bg-success-subtle text-success"
 let notCurrentBadge = "badge bg-danger-subtle text-danger "
+onMount(() => {
+    InitFlatPickr()
+})
+
 </script>
 
 
@@ -35,7 +61,13 @@ let notCurrentBadge = "badge bg-danger-subtle text-danger "
 
                             </div>
                         
-                        <button class="btn btn-primary w-100" id="btn-new-event"><i class="mdi mdi-plus"></i> New Academic Break</button>
+                        <button  class="btn btn-primary w-100" id="btn-new-event"  data-bs-toggle="modal" data-bs-target="#addBreakModal"><i class="mdi mdi-plus"></i> New Academic Break</button>
+                        <AddBreakModal {year} />
+                        <ViewBreakModal />
+                        <DeleteBreakModal />
+                        <EditBreakModal {year} />
+
+                            
                     </div>
                 </div>
 
@@ -59,7 +91,10 @@ let notCurrentBadge = "badge bg-danger-subtle text-danger "
             <div class="col-xl-9">
                 <div class="card card-h-100">
                     <div class="card-body">
-                        <div id="calendar"></div>
+                        
+                        <!-- <div id="calendar"></div> -->
+                        <Calendar {year} on:addEvent={() => fromBtn = true}/>
+
                     </div>
                 </div>
             </div><!-- end col -->
