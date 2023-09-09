@@ -67,5 +67,6 @@ class Kernel extends HttpKernel
         'permission' => \App\Http\Middleware\PermissionMiddleware::class,
         'role_or_permission' => \Spatie\Permission\Middlewares\RoleOrPermissionMiddleware::class,
         'verify.apikey' => \App\Http\Middleware\VerifyApiKey::class,
+        'custom.auth' => \App\Http\Middleware\CustomAuthMiddleware::class,
     ];
 }

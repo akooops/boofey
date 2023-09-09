@@ -26,17 +26,24 @@ class AuthController extends Controller
 
         // Attempt to authenticate the user
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
-            // Authentication successful
-            $user = Auth::user();
+            $user = $request->user();
 
-            // Generate a token for the user
-            $token = $user->createToken('authToken')->plainTextToken;
+            // Revoke the user's existing token (if it exists)
+            $existingToken = $user->currentAccessToken();
+
+            if ($existingToken) {
+                $existingToken->delete();
+            }
+
+            $expiration = $request->input('keep_me_signed_in') ? now()->addDays(3) : now()->addMinutes(15);
+
+            $user = $request->user();
+            $token = $user->createToken('auth-token', ['*'], $expiration);
+            $cookie = cookie('sid', $token->plainTextToken);
 
             return response()->json([
                 'message' => 'Authentication successful. You are now logged in',
-                'token' => $token,
-                'user' => $user, // You can include user information if needed
-            ], 200);
+            ], 200)->withCookie($cookie);
         }
 
         return response()->json([
