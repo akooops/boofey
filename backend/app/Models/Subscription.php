@@ -22,7 +22,7 @@ class Subscription extends Model
 
     public function payment()
     {
-        return $this->hasOne(File::class, 'id', 'payment_id');
+        return $this->hasOne(Payment::class, 'id', 'payment_id');
     }
 
     public function student()

@@ -165,11 +165,55 @@ class SubscriptionsController extends Controller
             ], 404);
         }
 
-        if ($request->get('expire_at') == null) {
-            $request->merge(['expire_at' => null]);
-        }
+        $package = Package::find($request->get('package_id'));
 
-        $subscription->update(array_merge($request->all()));
+        if($request->get('use_package_info') == true){
+            $subscription->payment->update([
+                'package_id' => $package->id,
+            ]);
+
+            if($request->get('update_prices') == true){
+                $subscription->payment->update([
+                    'tax' => $package->tax,
+                    'subtotal' => $package->currentPrice,
+                    'coupon_id' => ($request->get('apply_coupon') == true) ? $request->get('coupon_id') : null
+                ]);
+
+                $subscription->payment->discount = $subscription->payment->calculateDiscount();
+                $subscription->payment->total = $subscription->payment->calculateTotal();
+                $subscription->payment->save();
+            }
+
+            $subscription->update([
+                'days' => $package->days,
+                'balance' => $request->get('balance'),
+                'should_start_at' => $request->get('should_start_at'),
+            ]);
+
+            $subscription->save();
+        }else{
+            $subscription->payment->update([
+                'package_id' => $package->id,
+            ]);
+
+            if($request->get('update_prices') == true){
+                $subscription->payment->update([
+                    'tax' => $request->get('tax'),
+                    'subtotal' => $request->get('subtotal'),
+                    'coupon_id' => ($request->get('apply_coupon') == true) ? $request->get('coupon_id') : null
+                ]);
+
+                $subscription->payment->discount = $subscription->payment->calculateDiscount();
+                $subscription->payment->total = $subscription->payment->calculateTotal();
+                $subscription->payment->save();
+            }
+
+            $subscription->update([
+                'days' => $package->days,
+                'balance' => $request->get('balance'),
+                'should_start_at' => $request->get('should_start_at'),
+            ]);
+        }
 
         return response()->json([
             'status' => 'success'
@@ -197,6 +241,7 @@ class SubscriptionsController extends Controller
         }
 
         $subscription->delete();
+        $subscription->payment->delete();
 
         return response()->json([
             'status' => 'success'

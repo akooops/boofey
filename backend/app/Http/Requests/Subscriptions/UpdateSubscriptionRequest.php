@@ -26,9 +26,21 @@ class UpdateSubscriptionRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string|max:500',
-            'address' => 'required|string',
-            'school_id' => 'required|numeric',
+            'package_id' => 'required|numeric',
+            'should_start_at' => 'sometimes|date_format:Y-m-d|after:today',
+            'use_package_info' => 'required|boolean',
+
+            'balance' => 'required|integer',
+
+            'update_prices' => 'required|boolean',
+
+            'days' => 'required_if:use_package_info,false|integer',
+            'tax' => 'required_if:use_package_info,false|required_if:update_prices,true|numeric',
+
+            'apply_coupon' => 'required|required_if:update_prices,true|boolean',
+            'coupon_id' => 'required_if:apply_coupon,true|required_if:update_prices,true|numeric',
+
+            'subtotal' => 'required_if:use_package_info,false|required_if:update_prices,true|numeric',
         ];
     }
 
