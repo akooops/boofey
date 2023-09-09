@@ -21,16 +21,20 @@ async function save(){
         close.click()
         let text = `Added ${permissionName} as a new permission` 
         toast(text,"success")
-        invalidate("permissions:refresh")
-        
+        invalidate("permissions:refresh")  
+        reset()
     }
 
 
 }
+function reset(){
+    permissionName = ""
+}
+
 </script>
 
 
-<div class="modal  fade" id="addPermissionModal" tabindex="-1" aria-labelledby="exampleModalgridLabel" aria-modal="true" >
+<div class="modal  fade" id="addPermissionModal" tabindex="-1" aria-labelledby="exampleModalgridLabel" aria-modal="true"  on:hidden.bs.modal={reset}>
     <div class="modal-dialog modal-dialog-centered" >
         <div class="modal-content">
             <div class="modal-header">

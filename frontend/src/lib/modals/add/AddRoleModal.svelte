@@ -31,6 +31,7 @@
             let text = `Added ${roleName} as a new role` 
             toast(text,"success")
             invalidate("roles:refresh")
+            reset()
         }
 
     }
@@ -42,10 +43,19 @@
             }
         })
     })
+    function reset(){
+        roleName = ""
+        permissions = permissions.map((permission) => {
+            return {
+                ...permission,
+                checked:false
+            }
+        })
+    }
     </script>
     
     
-    <div class="modal  fade" id="addRoleModal"  tabindex="-1" aria-labelledby="exampleModalgridLabel" aria-modal="true" >
+    <div class="modal  fade" id="addRoleModal"  tabindex="-1" aria-labelledby="exampleModalgridLabel" aria-modal="true"  on:hidden.bs.modal={reset}>
         <div class="modal-dialog modal-dialog-centered" >
             <div class="modal-content">
                 <div class="modal-header">

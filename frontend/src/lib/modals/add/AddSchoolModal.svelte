@@ -21,15 +21,21 @@
             let text = `Added ${schoolName} as a new school` 
             toast(text,"success")
             invalidate("schools:refresh")
-            
+            reset()
         }
     
     
     }
+
+    function reset(){
+        form.reset()
+    }
+
+
     </script>
     
     
-    <div class="modal  fade" id="addSchoolModal" tabindex="-1" aria-labelledby="exampleModalgridLabel" aria-modal="true" >
+    <div class="modal  fade" id="addSchoolModal" tabindex="-1" aria-labelledby="exampleModalgridLabel" aria-modal="true"  on:hidden.bs.modal={reset}>
         <div class="modal-dialog modal-dialog-centered" >
             <div class="modal-content">
                 <div class="modal-header">

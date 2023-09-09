@@ -2,13 +2,15 @@
     import { PathAddAcademicYear } from "$lib/api/paths";
     import { toast } from "$lib/components/toast.js";
     import { invalidate } from '$app/navigation';
+    import {loadDefaultDate} from "$lib/init/initFlatpickr.js"
     
     let yearName
     let close
     let form
+    let from 
+    let to 
     export let schoolId
     let current = false;
-    let duration = ""
     async function save(){
     
         let formData = new FormData(form)    
@@ -24,16 +26,23 @@
             let text = `Added ${yearName} as a new year` 
             toast(text,"success")
             invalidate("years:refresh")
-            
+            reset()
             
         }
-    
-    
     }
+
+    function reset(){
+        loadDefaultDate(from,Date.now())
+        loadDefaultDate(to,Date.now())
+        form.reset()
+    }
+
+
+
     </script>
     
     
-    <div class="modal  fade" id="addYearModal" tabindex="-1" aria-labelledby="exampleModalgridLabel" aria-modal="true" >
+    <div class="modal  fade" id="addYearModal" tabindex="-1" aria-labelledby="exampleModalgridLabel" aria-modal="true"  on:hidden.bs.modal={reset}>
         <div class="modal-dialog modal-dialog-centered" >
             <div class="modal-content">
                 <div class="modal-header">
@@ -50,11 +59,11 @@
                                 </div>
                                 <div class="col-xxl-6">
                                     <label for="from" class="form-label">From</label>
-                                    <input type="text" name="from" class="form-control" data-provider="flatpickr" data-date-format="Y-m-d" id="from">
+                                    <input type="text" name="from" class="form-control" data-provider="flatpickr" data-date-format="Y-m-d" id="from" bind:this={from}>
                                 </div>
                                 <div class="col-xxl-6">
                                     <label for="to" class="form-label">To</label>
-                                    <input type="text" name="to" class="form-control" data-provider="flatpickr" data-date-format="Y-m-d" id="to">
+                                    <input type="text" name="to" class="form-control" data-provider="flatpickr" data-date-format="Y-m-d" id="to" bind:this={to}>
                                 </div>
                                 <div>
                                     <div class="form-switch form-switch-success">
