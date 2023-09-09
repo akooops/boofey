@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use App\Http\Requests\Subscriptions\StoreSubscriptionRequest;
 use App\Http\Requests\Subscriptions\UpdateSubscriptionRequest;
 use App\Models\File;
+use App\Models\Package;
+use App\Models\Payment;
+use App\Models\Student;
 
 class SubscriptionsController extends Controller
 {
@@ -47,11 +50,66 @@ class SubscriptionsController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreSubscriptionRequest $request) 
+    public function store($id, StoreSubscriptionRequest $request) 
     {
-        $subscription = Subscription::create(array_merge($request->all()));
+        $student = Student::find($id);
 
-        $subscription->save();
+        if (!$student) {
+            return response()->json([
+                'status' => 'error',
+                'errors' => [
+                    '404' => 'Not found.'
+                ]
+            ], 404);
+        }
+
+        $package = Package::find($request->get('package_id'));
+
+        if($request->get('use_package_info') == true){
+            $payment = Payment::create([
+                'tax' => $package->tax,
+                'subtotal' => $package->currentPrice,
+                'package_id' => $package->id,
+                'father_id' => $student->father->id,
+                'coupon_id' => ($request->get('apply_coupon') == true) ? $request->get('coupon_id') : null
+            ]);
+
+            $payment->discount = $payment->calculateDiscount();
+            $payment->total = $payment->calculateTotal();
+            $payment->save();
+
+            $subscription = Subscription::create([
+                'days' => $package->days,
+                'balance' => $package->days,
+                'should_start_at' => $request->get('should_start_at'),
+                'payment_id' => $payment->id,
+                'student_id' => $student->id,
+            ]);
+
+            $subscription->save();
+        }else{
+            $payment = Payment::create([
+                'tax' => $request->get('tax'),
+                'subtotal' => $request->get('subtotal'),
+                'package_id' => $package->id,
+                'father_id' => $student->father->id,
+                'coupon_id' => ($request->get('apply_coupon') == true) ? $request->get('coupon_id') : null
+            ]);
+
+            $payment->discount = $payment->calculateDiscount();
+            $payment->total = $payment->calculateTotal();
+            $payment->save();
+
+            $subscription = Subscription::create([
+                'days' => $request->get('days'),
+                'balance' => $request->get('days'),
+                'should_start_at' => $request->get('should_start_at'),
+                'payment_id' => $payment->id,
+                'student_id' => $student->id,
+            ]);
+
+            $subscription->save();
+        }
 
         return response()->json([
             'status' => 'success'

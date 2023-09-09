@@ -19,7 +19,8 @@ return new class extends Migration
             $table->integer('days')->nullable(false)->default(0);
             $table->integer('balance')->nullable(false)->default(0);
 
-            $table->date('from');
+            $table->date('should_start_at')->nullable()->default(null);
+            $table->date('started_at')->nullable()->default(null);
 
             $table->unsignedBigInteger('payment_id')->nullable();
             $table->foreign('payment_id')->nullable()->references('id')->on('payments')->nullOnDelete();

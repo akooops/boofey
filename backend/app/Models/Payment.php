@@ -38,4 +38,16 @@ class Payment extends Model
     {
         return $this->belongsTo(father::class);
     }
+
+    public function calculateDiscount(){
+        $coupon = Coupon::find($this->coupon_id);
+        return($coupon == null) ? 0 : $coupon->discount;
+    }
+
+    public function calculateTotal(){
+        $total = $this->subtotal - $this->subtotal * ($this->discount / 100);
+        $total = $total + $total * ($this->tax / 100);
+
+        return $total;
+    }
 }

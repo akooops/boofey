@@ -27,7 +27,17 @@ class StoreSubscriptionRequest extends FormRequest
     public function rules()
     {
         return [
-            
+            'package_id' => 'required|numeric',
+            'should_start_at' => 'sometimes|date_format:Y-m-d|after:today',
+            'use_package_info' => 'required|boolean',
+
+            'days' => 'required_if:use_package_info,false|integer',
+            'tax' => 'required_if:use_package_info,false|numeric',
+
+            'apply_coupon' => 'required|boolean',
+            'coupon_id' => 'required_if:apply_coupon,true|numeric',
+
+            'subtotal' => 'required_if:use_package_info,false|numeric',
         ];
     }
 

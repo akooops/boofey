@@ -14,7 +14,8 @@ class Subscription extends Model
     protected $fillable = [
         'days',
         'balance',
-        'from',
+        'should_start_at',
+        'started_at',
         'payment_id',
         'student_id'
     ];
@@ -28,9 +29,8 @@ class Subscription extends Model
     {
         return $this->belongsTo(Student::class);
     }
-
     
     public function getExpiredAttribute(){
-        return ($this->balance <= 0) ? true : false;
+        return ($this->balance > 0 && $this->started_at != null) ? false : true;
     }
 }

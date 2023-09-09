@@ -46,11 +46,11 @@ class Student extends Model
     }
 
     public function subcriptions(){
-        return $this->hasMany(Subscription::class, 'student_id', 'id');
+        return $this->hasMany(Subscription::class, 'id', 'student_id');
     }
 
     public function currentSubscription(){
-        return $this->hasOne(Subscription::class, 'student_id', 'id')->where('balance', '>', '0');
+        return $this->hasOne(Subscription::class, 'student_id', 'id')->where('balance', '>', 0)->where('started_at', '!=', NULL);
     }
 
     function getSubscripedAttribute() {  
