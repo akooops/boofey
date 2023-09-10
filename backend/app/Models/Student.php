@@ -45,6 +45,11 @@ class Student extends Model
         return $this->belongsTo(AcademicYear::class);
     }
 
+    public function queues()
+    {
+        return $this->belongsToMany(Queue::class, 'queue_students', 'student_id', 'queue_id');
+    }
+
     public function subcriptions(){
         return $this->hasMany(Subscription::class, 'id', 'student_id');
     }

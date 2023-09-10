@@ -23,6 +23,11 @@ class Canteen extends Model
         return $this->belongsTo(School::class);
     }
 
+    public function queues()
+    {
+        return $this->hasMany(Queue::class, 'canteen_id', 'id');
+    }
+
     public function generateApiKey(){
         $apiKey = Str::random(64); 
         $encryptedApiKey = Crypt::encrypt($apiKey);
