@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Http\Requests\Subscriptions;
+namespace App\Http\Requests\Students;
 
-use App\Rules\UniqueUnexpiredSubscription;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Http\JsonResponse;
 
-class StoreSubscriptionRequest extends FormRequest
+class UpdateStudentRequest  extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,17 +26,20 @@ class StoreSubscriptionRequest extends FormRequest
     public function rules()
     {
         return [
-            'package_id' => 'required|numeric',
-            'should_start_at' => 'sometimes|date_format:Y-m-d|after:today',
-            'use_package_info' => 'required|boolean',
+            'firstname' => 'required|string|max:500',
+            'lastname' => 'required|string|max:500',
+            'class' => 'required|integer',
 
-            'days' => 'required_if:use_package_info,false|integer',
-            'tax' => 'required_if:use_package_info,false|numeric|min:0',
+            'nfc_id' => 'sometimes|string|unique:students,nfc_id',
+            'face_id' => 'sometimes|string|unique:students,face_id',
 
-            'apply_coupon' => 'required|boolean',
-            'coupon_id' => 'required_if:apply_coupon,true|numeric',
+            'onhold' => 'required|boolean',
 
-            'subtotal' => 'required_if:use_package_info,false|numeric|min:0',
+            'father_id' => 'required|numeric',
+            'school_id' => 'required|numeric',
+            'academic_year_id' => 'required|numeric',
+
+            'file' => 'required|file|mimes:jpeg,png'    
         ];
     }
 

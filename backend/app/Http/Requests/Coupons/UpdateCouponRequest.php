@@ -31,8 +31,8 @@ class UpdateCouponRequest extends FormRequest
             'name' => 'required|string|max:500',
             'code' => 'sometimes|string|max:500|unique:coupons,code,'.$coupon,
 
-            'discount' => 'required|numeric',
-            'max' => 'required|integer',
+            'discount' => 'required|numeric|min:0',
+            'max' => 'required|integer|min:0',
 
             'onhold' => 'required|boolean',
         ];

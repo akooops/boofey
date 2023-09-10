@@ -32,10 +32,13 @@ class UpdatePackageRequest extends FormRequest
             'code' => 'required|string|max:500|unique:packages,code,'.$package,
             'description' => 'sometimes|string',
 
-            'sale_price' => 'sometimes|numeric',
-            'price' => 'required|numeric',
+            'sale_price' => 'sometimes|numeric|min:0',
+            'price' => 'required|numeric|min:0',
+            'tax' => 'sometimes|numeric|min:0',
 
             'yearly' => 'required|boolean',
+            'hidden' => 'required|boolean',
+
             'days' => 'required_if:yearly,false|integer',
 
             'popular' => 'required|boolean',

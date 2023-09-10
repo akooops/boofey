@@ -134,6 +134,8 @@ Route::group(['namespace' => 'App\Http\Controllers\Api'/*, 'middleware' => ['cus
 
 Route::group(['prefix' => 'sync', 'namespace' => 'App\Http\Controllers\Api', 'middleware' => ['verify.apikey']], function() {
     Route::get('/students', 'SyncController@students')->name('api.students.sync');
+    Route::post('/students/{student}/nfc', 'SyncController@nfc')->name('api.nfc.sync');
+    Route::post('/students/{student}/face', 'SyncController@face')->name('api.face.sync');
 });
 
 Route::group(['namespace' => 'App\Http\Controllers\Api\Auth', 'prefix' => 'auth'], function(){  
