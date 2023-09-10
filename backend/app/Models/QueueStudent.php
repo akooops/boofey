@@ -9,6 +9,14 @@ class QueueStudent extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'started_at',
+        'synced_at',
+        'exited_at',
+        'queue_id',
+        'student_id',
+    ];
+    
     public function queue()
     {
         return $this->belongsTo(Queue::class);

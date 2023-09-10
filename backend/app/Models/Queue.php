@@ -11,6 +11,13 @@ class Queue extends Model
 
     protected $appends = ["closed"];
 
+    protected $fillable = [
+        'type',
+        'started_at',
+        'closed_at',
+        'canteen_id',
+    ];
+
     public function canteen()
     {
         return $this->belongsTo(Canteen::class);

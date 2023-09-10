@@ -28,6 +28,10 @@ class Canteen extends Model
         return $this->hasMany(Queue::class, 'canteen_id', 'id');
     }
 
+    public function currentQueue(){
+        return $this->hasOne(Queue::class, 'canteen_id', 'id')->where('started_at', '!=', NULL)->where('closed_at', NULL);
+    }
+
     public function generateApiKey(){
         $apiKey = Str::random(64); 
         $encryptedApiKey = Crypt::encrypt($apiKey);

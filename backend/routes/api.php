@@ -112,6 +112,15 @@ Route::group(['namespace' => 'App\Http\Controllers\Api'/*, 'middleware' => ['cus
         Route::post('/{canteen}/generate', 'CanteensController@generate')->name('api.canteens.generate');
         Route::post('/{canteen}/revoke', 'CanteensController@revoke')->name('api.canteens.revoke');
         Route::delete('/{canteen}/destroy', 'CanteensController@destroy')->name('api.canteens.destroy');
+
+        Route::get('/{canteen}/queues', 'QueuesController@index')->name('api.queues.index');
+        Route::post('/{canteen}/queues/store', 'QueuesController@store')->name('api.queues.store');
+    });
+
+    Route::group(['prefix' => 'queues'], function() {
+        Route::get('/{queue}', 'QueuesController@show')->name('api.queues.show');
+        Route::post('/{queue}/update', 'QueuesController@update')->name('api.queues.update');
+        Route::delete('/{queue}/destroy', 'QueuesController@destroy')->name('api.queues.destroy');;
     });
 
     Route::group(['prefix' => 'coupons'], function() {
