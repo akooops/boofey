@@ -33,7 +33,7 @@ class Student extends Model
 
     public function father()
     {
-        return $this->belongsTo(father::class);
+        return $this->belongsTo(Father::class);
     }
 
     public function school()
@@ -51,8 +51,8 @@ class Student extends Model
         return $this->belongsToMany(Queue::class, 'queue_students', 'student_id', 'queue_id');
     }
 
-    public function subcriptions(){
-        return $this->hasMany(Subscription::class, 'id', 'student_id');
+    public function subscriptions(){
+        return $this->hasMany(Subscription::class, 'student_id', 'id');
     }
 
     public function currentSubscription(){

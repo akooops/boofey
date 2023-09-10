@@ -40,10 +40,7 @@ class UpdateSubscriptions extends Command
                 if ($subscriptions->isNotEmpty()) {
                     // Set the started_at of the first subscription to yesterday
                     $firstSubscription = $subscriptions->first();
-                    $firstSubscription->update(['started_at' => now()->subDay()]);
-
-                    // Subtract a day from the balance
-                    $firstSubscription->decrement('balance');
+                    $firstSubscription->update(['started_at' => now()]);
                 }
             }
         }
