@@ -41,7 +41,7 @@ class StorePackageRequest extends FormRequest
 
             'popular' => 'required|boolean',
 
-            'features' => 'required|array',
+            'features' => 'required',
             'features.*.name' => 'required|string|max:1000',
             'features.*.checked' => 'required|boolean',
         ];

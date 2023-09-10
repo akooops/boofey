@@ -42,11 +42,19 @@ class Package extends Model
 
     public function storePackagesFeatures(array $features)
     {
+        if(is_string($features) && json_decode($features) !== null) {
+            $features = json_decode($features, true);
+        }
+
         $this->packageFeatures()->createMany($features);
     }
 
     public function updatePackagesFeatures(array $features)
     {
+        if(is_string($features) && json_decode($features) !== null) {
+            $features = json_decode($features, true);
+        }
+        
         $this->packageFeatures()->delete();
         $this->storePackagesFeatures($features);
     }

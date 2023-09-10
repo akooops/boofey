@@ -43,7 +43,7 @@ class UpdatePackageRequest extends FormRequest
 
             'popular' => 'required|boolean',
 
-            'features' => 'required|array',
+            'features' => 'required',
             'features.*.id' => 'sometimes|integer',
             'features.*.name' => 'required|string|max:1000',
             'features.*.checked' => 'required|boolean',
