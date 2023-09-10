@@ -29,7 +29,7 @@ class UpdatePackageRequest extends FormRequest
 
         return [
             'name' => 'required|string|max:500',
-            'code' => 'sometimes|string|max:500|unique:packages,code,'.$package,
+            'code' => 'required|string|max:500|unique:packages,code,'.$package,
             'description' => 'sometimes|string',
 
             'sale_price' => 'sometimes|numeric',
