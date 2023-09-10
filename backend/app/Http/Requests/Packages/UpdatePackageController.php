@@ -25,8 +25,11 @@ class UpdatePackageRequest extends FormRequest
      */
     public function rules()
     {
+        $package = request()->route('package');
+
         return [
             'name' => 'required|string|max:500',
+            'code' => 'sometimes|string|max:500|unique:packages,code,'.$package,
             'description' => 'sometimes|string',
 
             'sale_price' => 'sometimes|numeric',
