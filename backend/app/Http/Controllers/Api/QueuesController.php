@@ -36,7 +36,7 @@ class QueuesController extends Controller
 
         $queues = Queue::latest()->where([
             'canteen_id' => $canteen->id
-        ])->with('academicBreaks:id,academic_year_id,name,from,to');
+        ]);
 
         $queues = $queues->newQuery()->paginate($perPage, ['*'], 'page', $page);
 
@@ -113,7 +113,7 @@ class QueuesController extends Controller
      */
     public function show($id) 
     {
-        $queue = Queue::with(['canteen:id,name', 'academicBreaks'])->find($id);
+        $queue = Queue::with(['canteen:id,name'])->find($id);
 
         if (!$queue) {
             return response()->json([

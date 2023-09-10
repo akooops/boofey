@@ -37,6 +37,10 @@ class AcademicYearsController extends Controller
             'school_id' => $school->id
         ])->with('academicBreaks:id,academic_year_id,name,from,to');
 
+        if ($search) {
+            $academicYears->where('name', 'like', '%' . $search . '%');
+        }
+
         $academicYears = $academicYears->newQuery()->paginate($perPage, ['*'], 'page', $page);
 
         $response = [
