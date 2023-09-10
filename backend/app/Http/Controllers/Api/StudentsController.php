@@ -21,7 +21,6 @@ class StudentsController extends Controller
      */
     public function index(Request $request) 
     {
-        dd(auth()->user());
         $perPage = limitPerPage($request->query('perPage', 10));
         $page = checkPageIfNull($request->query('page', 1));
         $search = $request->query('search');
