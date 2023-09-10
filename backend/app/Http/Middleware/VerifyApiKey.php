@@ -13,7 +13,7 @@ class VerifyApiKey
     public function handle(Request $request, Closure $next)
     {
         $apiKey = $request->header('X-Api-Key') ?? $request->query('api_key');
-        $apiKey = 'test';
+
         if (!$apiKey) {
             return response()->json(['message' => 'API key not provided'], 401);
 
@@ -25,8 +25,7 @@ class VerifyApiKey
             ], 401);
         }
         
-        $encryptedApiKey = Crypt::encryptString($apiKey);
-        $canteen = Canteen::where('api_key', $encryptedApiKey)->first();
+        $canteen = Canteen::where('api_key', $apiKey)->first();
 
         if (!$canteen) {
             return response()->json([

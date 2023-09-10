@@ -25,13 +25,15 @@ class UpdateStudentRequest  extends FormRequest
      */
     public function rules()
     {
+        $student = request()->route('student');
+
         return [
             'firstname' => 'required|string|max:500',
             'lastname' => 'required|string|max:500',
             'class' => 'required|integer',
 
-            'nfc_id' => 'sometimes|string|unique:students,nfc_id',
-            'face_id' => 'sometimes|string|unique:students,face_id',
+            'nfc_id' => 'sometimes|string|unique:students,nfc_id,'.$student,
+            'face_id' => 'sometimes|string|unique:students,face_id,'.$student,
 
             'onhold' => 'required|boolean',
 
@@ -39,7 +41,7 @@ class UpdateStudentRequest  extends FormRequest
             'school_id' => 'required|numeric',
             'academic_year_id' => 'required|numeric',
 
-            'file' => 'required|file|mimes:jpeg,png'    
+            'file' => 'sometimes|file|mimes:jpeg,png'    
         ];
     }
 

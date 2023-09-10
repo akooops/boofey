@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -9,7 +10,7 @@ class Student extends Model
 {
     use HasFactory;
 
-    protected $appends = ["subscriped"];
+    protected $appends = ["subscriped", "tookSnackToday", 'tookMainMealToday'];
 
     protected $fillable = [
         'name',
@@ -56,6 +57,26 @@ class Student extends Model
 
     public function currentSubscription(){
         return $this->hasOne(Subscription::class, 'student_id', 'id')->where('balance', '>', 0)->where('started_at', '!=', NULL);
+    }
+
+    public function getTookSnackTodayAttribute()
+    {
+        $today = Carbon::today();
+
+        return $this->belongsToMany(Queue::class, 'queue_students', 'student_id', 'queue_id')
+        ->where('queues.type', 1)
+        ->whereDate('queues.started_at', $today)
+        ->count() > 0 ? true : false;
+    }
+
+    public function getTookMainMealTodayAttribute()
+    {
+        $today = Carbon::today();
+
+        return $this->belongsToMany(Queue::class, 'queue_students', 'student_id', 'queue_id')
+        ->where('queues.type', 0)
+        ->whereDate('queues.started_at', $today)
+        ->count() > 0 ? true : false;
     }
 
     function getSubscripedAttribute() {  

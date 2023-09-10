@@ -34,13 +34,12 @@ class Canteen extends Model
 
     public function generateApiKey(){
         $apiKey = Str::random(64); 
-        $encryptedApiKey = Crypt::encrypt($apiKey);
 
-        $this->update(['api_key' => $encryptedApiKey]);
+        $this->update(['api_key' => $apiKey]);
     }
 
     public function getDecryptedKey(){
-        return Crypt::decrypt($this->api_key);
+        return $this->api_key;
     }
 
     public function revokeApiKey(){
