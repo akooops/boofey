@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group(['namespace' => 'App\Http\Controllers\Api', 'middleware' => [/*'custom.auth', */'convert.bool.string']], function(){    
+Route::group(['namespace' => 'App\Http\Controllers\Api', 'middleware' => ['custom.auth', 'convert.bool.string']], function(){    
     Route::group(['prefix' => 'permissions'], function() {
         Route::get('/', 'PermissionsController@index')->name('api.permissions.index');
         Route::get('/{permission}', 'PermissionsController@show')->name('api.permissions.show');
@@ -130,7 +130,10 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'middleware' => [/*'cus
         Route::post('/{coupon}/update', 'CouponsController@update')->name('api.coupons.update');
         Route::delete('/{coupon}/destroy', 'CouponsController@destroy')->name('api.coupons.destroy');
     });
+
+    Route::post('logout', 'AuthController@logout');
 });
+
 
 Route::group(['prefix' => 'sync', 'namespace' => 'App\Http\Controllers\Api', 'middleware' => ['verify.apikey']], function() {
     Route::get('/', 'SyncController@sync')->name('api.students.sync');
@@ -138,10 +141,9 @@ Route::group(['prefix' => 'sync', 'namespace' => 'App\Http\Controllers\Api', 'mi
     Route::post('/students/{student}/face', 'SyncController@face')->name('api.face.sync');
 });
 
-Route::group(['namespace' => 'App\Http\Controllers\Api\Auth', 'prefix' => 'auth', 'middleware' => ['custom.auth.redirect']], function(){  
+Route::group(['namespace' => 'App\Http\Controllers\Api', 'middleware' => ['custom.auth.redirect']], function(){  
     Route::post('register', 'AuthController@register');
     Route::post('login', 'AuthController@login');
-    Route::post('logout', 'AuthController@logout');
     Route::post('password/email', 'AuthController@sendResetLinkEmail');
     Route::post('password/reset', 'AuthController@reset');
 });

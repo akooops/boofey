@@ -36,7 +36,7 @@ class SyncController extends Controller
                 'nfc_id' => $student->nfc_id,
                 'face_id' => $student->face_id,
                 'onhold' => $student->onhold,
-                'subscriped' => $student->subscriped,
+                'subscribed' => $student->subscribed,
                 'image' => [
                     'id' => $student->image->id,
                     'full_path' => $student->image->full_path,

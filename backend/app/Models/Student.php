@@ -10,7 +10,7 @@ class Student extends Model
 {
     use HasFactory;
 
-    protected $appends = ["subscriped", "tookSnackToday", 'tookMainMealToday'];
+    protected $appends = ["subscribed", "tookSnackToday", 'tookMainMealToday'];
 
     protected $fillable = [
         'name',
@@ -79,7 +79,7 @@ class Student extends Model
         ->count() > 0 ? true : false;
     }
 
-    function getSubscripedAttribute() {  
+    function getSubscribedAttribute() {  
         return ($this->currentSubscription == null) ? false : true;
     }
 }

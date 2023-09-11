@@ -1,21 +1,16 @@
 <?php
 
-namespace App\Http\Controllers\Api\Auth;
+namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Validation\ValidationException;
+use Laravel\Sanctum\PersonalAccessToken;
 
 class AuthController extends Controller
 {
-    public function authenticate(){
-        return response()->json([
-            'error' => 'error', 
-            'message' => 'You must be logged in to access this resource. Please log in or create an account.'
-        ], 401);
-    }
-
     public function login(Request $request)
     {
         // Validate the user's login credentials
@@ -31,11 +26,7 @@ class AuthController extends Controller
         {
             $user = $request->user();
             // Revoke the user's existing token (if it exists)
-            $existingToken = $user->currentAccessToken();
-
-            if ($existingToken) {
-                $existingToken->delete();
-            }
+            PersonalAccessToken::where('tokenable_id', $user->id)->delete();
 
             $expiration = $request->input('keep_me_signed_in') ? now()->addDays(3) : now()->addMinutes(15);
             $tokenName = $request->input('keep_me_signed_in') ? 'long-lived-token' : 'short-lived-token';
@@ -54,5 +45,17 @@ class AuthController extends Controller
             'status' => 'error',
             'message' => 'Authentication failed. The provided email or password is incorrect.',
         ], 200);
+    }
+
+    public function logout(Request $request)
+    {
+        $user = Auth::user();
+
+        PersonalAccessToken::where('tokenable_id', $user->id)->delete();
+        $cookie = Cookie::forget('sid');
+
+        return response()->json([
+            'message' => 'Logged out',
+        ], 200)->withCookie($cookie);
     }
 }

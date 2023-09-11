@@ -15,6 +15,7 @@ class CustomAuthMiddleware
         $token = Cookie::get('sid');
 
         if (!$token) {
+
             return redirect('/login'); // Redirect to login if the cookie is missing
         }
 
@@ -42,11 +43,11 @@ class CustomAuthMiddleware
 
                 $accessToken = PersonalAccessToken::findToken($newToken);
 
-
                 auth()->login($accessToken->tokenable);
 
                 $response = $next($request);
-                $response->cookie('sid', $newToken);
+                $cookie = Cookie::make('sid', $newToken); // Change the name, value, and expiration time as needed
+                $response->withCookie($cookie);
         
                 return $response;
             } else {
