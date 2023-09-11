@@ -17,13 +17,12 @@ class FathersController extends Controller
      */
     public function index(Request $request) 
     {
-        dd(auth()->user());
         $perPage = limitPerPage($request->query('perPage', 10));
         $page = checkPageIfNull($request->query('page', 1));
         $search = $request->query('search');
 
         $fathers = Father::latest()->with([
-            'user:id,username', 
+            'user:id,username,email,phone', 
             'user.profile:id,user_id,firstname,lastname,file_id',
             'user.profile.image',
             'user.roles:id,name,guard_name', 

@@ -20,12 +20,15 @@ class AuthController extends Controller
     {
         // Validate the user's login credentials
         $request->validate([
-            'email' => 'required|email',
+            'login' => 'required',
             'password' => 'required',
         ]);
 
         // Attempt to authenticate the user
-        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+        if (Auth::attempt(['email' => $request->input('login'), 'password' => $request->password])
+            || Auth::attempt(['username' => $request->input('login'), 'password' => $request->password])
+            || Auth::attempt(['phone' => $request->input('login'), 'password' => $request->password])) 
+        {
             $user = $request->user();
             // Revoke the user's existing token (if it exists)
             $existingToken = $user->currentAccessToken();
@@ -35,9 +38,10 @@ class AuthController extends Controller
             }
 
             $expiration = $request->input('keep_me_signed_in') ? now()->addDays(3) : now()->addMinutes(15);
+            $tokenName = $request->input('keep_me_signed_in') ? 'long-lived-token' : 'short-lived-token';
 
             $user = $request->user();
-            $token = $user->createToken('auth-token', ['*'], $expiration);
+            $token = $user->createToken($tokenName, ['*'], $expiration);
 
             $cookie = cookie('sid', $token->plainTextToken);
 

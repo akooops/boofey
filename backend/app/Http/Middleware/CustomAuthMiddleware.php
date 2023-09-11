@@ -32,9 +32,11 @@ class CustomAuthMiddleware
 
             if ($diffInHours <= 1) {
                 // Within the last 1 hour, refresh the token
-                $expiration = $request->input('keep_me_signed_in') ? now()->addDays(3) : now()->addMinutes(15);
+                // Set the expiration time based on the name of the old token
+                $expiration = ($accessToken->name === 'long-lived-token') ? now()->addDays(3) : now()->addMinutes(15);
+                $tokenName = ($accessToken->name === 'long-lived-token') ? 'long-lived-token' : 'short-lived-token';
 
-                $newToken = $accessToken->tokenable->createToken('auth-token', ['*'], $expiration)->plainTextToken;
+                $newToken = $accessToken->tokenable->createToken($tokenName, ['*'], $expiration)->plainTextToken;
                 // Revoke the last token
                 $accessToken->delete();
 
