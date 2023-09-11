@@ -138,8 +138,7 @@ Route::group(['prefix' => 'sync', 'namespace' => 'App\Http\Controllers\Api', 'mi
     Route::post('/students/{student}/face', 'SyncController@face')->name('api.face.sync');
 });
 
-Route::group(['namespace' => 'App\Http\Controllers\Api\Auth', 'prefix' => 'auth'], function(){  
-    Route::get('authenticate', 'AuthController@authenticate')->name('authenticate');
+Route::group(['namespace' => 'App\Http\Controllers\Api\Auth', 'prefix' => 'auth', 'middleware' => ['custom.auth.redirect']], function(){  
     Route::post('register', 'AuthController@register');
     Route::post('login', 'AuthController@login');
     Route::post('logout', 'AuthController@logout');

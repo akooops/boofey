@@ -69,5 +69,6 @@ class Kernel extends HttpKernel
         'verify.apikey' => \App\Http\Middleware\VerifyApiKey::class,
         'custom.auth' => \App\Http\Middleware\CustomAuthMiddleware::class,
         'convert.bool.string' => \App\Http\Middleware\ConvertBooleanStrings::class,
+        'custom.auth.redirect' => \App\Http\Middleware\RedirectIfAuthenticated::class,
     ];
 }

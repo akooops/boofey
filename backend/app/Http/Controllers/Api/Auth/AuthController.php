@@ -27,7 +27,6 @@ class AuthController extends Controller
         // Attempt to authenticate the user
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             $user = $request->user();
-
             // Revoke the user's existing token (if it exists)
             $existingToken = $user->currentAccessToken();
 
@@ -39,6 +38,7 @@ class AuthController extends Controller
 
             $user = $request->user();
             $token = $user->createToken('auth-token', ['*'], $expiration);
+
             $cookie = cookie('sid', $token->plainTextToken);
 
             return response()->json([
