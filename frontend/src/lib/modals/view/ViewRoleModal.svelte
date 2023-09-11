@@ -77,8 +77,6 @@
                                 </table>
                             </div>
                         </div>
-                        {:else}
-
                         {/if}
                     <!--end row-->
                     <div class="hstack gap-2 justify-content-end">
