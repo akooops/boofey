@@ -16,7 +16,7 @@ import { writable } from 'svelte/store';
 
 
 <div class="row pe-0">
-    <div class="table-responsive pe-0">
+    <div class="table-responsive">
         <table class="table align-end table-nowrap mb-0 border-top">
             <thead class="table-light">
                 <tr>
