@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::create('queue_students', function (Blueprint $table) {
             $table->id();
 
-            $table->timestamp('started_at')->nullable(false);
-            $table->timestamp('synced_at')->nullable(false);
+            $table->timestamp('started_at')->nullable(true);
+            $table->timestamp('synced_at')->nullable(true);
             $table->timestamp('exited_at')->nullable(true);
 
             $table->unsignedBigInteger('queue_id')->nullable();

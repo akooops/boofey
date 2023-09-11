@@ -43,13 +43,11 @@ class FathersController extends Controller
         }
 
         $fathers = $fathers->paginate($perPage, ['*'], 'page', $page);
-        $users = User::get();
 
         $response = [
             'status' => 'success',
             'data' => [
                 'fathers' => $fathers->items(), 
-                'users' => $users
             ],
             'pagination' => handlePagination($fathers)
         ];
