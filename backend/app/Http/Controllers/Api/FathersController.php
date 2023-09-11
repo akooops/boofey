@@ -26,6 +26,8 @@ class FathersController extends Controller
             'user.profile:id,user_id,firstname,lastname,file_id',
             'user.profile.image',
             'user.roles:id,name,guard_name', 
+            'students:id,father_id,firstname,lastname,class,file_id',
+            'students.image:id,current_name,path'
         ]);
 
         if ($search) {
@@ -87,6 +89,7 @@ class FathersController extends Controller
             'user.profile:id,user_id,firstname,lastname,file_id',
             'user.profile.image',
             'user.roles:id,name,guard_name', 
+            'students'
         ])->find($id);
 
         if (!$father) {

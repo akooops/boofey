@@ -9,6 +9,8 @@ class Father extends Model
 {
     use HasFactory;
 
+    protected $appends = ["childrenCount"];
+
     protected $fillable = [
         'user_id',
     ];
@@ -25,5 +27,11 @@ class Father extends Model
 
     public function payments(){
         return $this->hasMany(Payment::class, 'father_id', 'id');
+    }
+
+
+    function getChildrenCountAttribute() {  
+
+        return $this->students()->count();
     }
 }
