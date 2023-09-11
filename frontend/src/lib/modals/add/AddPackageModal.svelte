@@ -8,11 +8,11 @@
     let close
     let form
     let features = []
-    let yearly // switch value for yearly 
-    let sale // switch value for sale_price 
+    let yearly = false// switch value for yearly 
+    let sale  // switch value for sale_price 
     let tax // switch value for tax 
-    let hidden
-    let popular
+    let hidden = false
+    let popular = false
 
 
     async function save(){
