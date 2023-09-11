@@ -20,12 +20,18 @@
         searchQuery = $page.url.searchParams.get("search") ? $page.url.searchParams.get("search") : "" 
     }
 
+    function enter(e){
+        if (e.keyCode === 13) {
+            search()
+        }
+    }
+
 </script>
 
 <div class="row mb-4">
     <div class="col-xxl-3 col-md-6 col-sm-6 col-9">
         <div class="form-icon">
-            <input type="email" use:initSearchQuery class="form-control form-control-icon" id="iconInput" placeholder="Search for {type}..." bind:value={searchQuery}>
+            <input type="email" use:initSearchQuery class="form-control form-control-icon" id="iconInput" on:keyup|preventDefault={enter} placeholder="Search for {type}..." bind:value={searchQuery}>
             <i class="ri-search-line"></i>
         </div>
     </div>

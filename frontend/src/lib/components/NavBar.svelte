@@ -8,7 +8,9 @@
         { title: "Permissions", links: [],route:"/permissions"},
         { title: "Roles", links: [], route:"/roles"},
         { title: "Users", links: [], route:"/users"},
-        { title: "Schools", links: [], route:"/schools"}
+        { title: "Schools", links: [], route:"/schools"},
+        { title: "Parents", links: [], route:"/parents"}
+
       ],
     },
     { title: "Pages",submenu: [], links: [] },

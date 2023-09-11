@@ -11,12 +11,21 @@
         $schoolStore = JSON.parse(JSON.stringify(school));
     }
 
-    let yearToolTip
+    let yearsToolTip
+    let packagesToolTip
     function openAcademicYears(){
-        let toolTipInstance = bootstrap.Tooltip.getOrCreateInstance(yearToolTip)
+        let toolTipInstance = bootstrap.Tooltip.getOrCreateInstance(yearsToolTip)
         goto(`schools/${school.id}/academicYears`)
         toolTipInstance.hide()
     }
+
+    function openPackages(){
+        let toolTipInstance = bootstrap.Tooltip.getOrCreateInstance(packagesToolTip)
+        goto(`schools/${school.id}/packages`)
+        toolTipInstance.hide()
+    }
+
+
 
 </script>
 
@@ -40,7 +49,8 @@
 
     <td>
         <div class="hstack gap-3 flex-wrap">
-            <span on:click={openAcademicYears}><a bind:this={yearToolTip} href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Academic Years" ><i class="ri-calendar-2-fill"></i></a></span>
+            <span on:click={openPackages}><a bind:this={packagesToolTip} href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Packages" ><i class="ri-archive-line"></i></a></span>
+            <span on:click={openAcademicYears}><a bind:this={yearsToolTip} href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Academic Years" ><i class="ri-calendar-2-fill"></i></a></span>
             <span data-bs-toggle="modal" data-bs-target="#viewSchoolModal" on:click={setSchool}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="View" ><i class="ri-eye-fill"></i></a></span>
             <span data-bs-toggle="modal" data-bs-target="#editSchoolModal" on:click={setSchool}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Edit" ><i class="ri-edit-2-line"></i></a></span>
             <span data-bs-toggle="modal" data-bs-target="#deleteSchoolModal" on:click={setSchool}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Delete"><i class="ri-delete-bin-line"></i></a></span>

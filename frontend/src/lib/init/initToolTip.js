@@ -3,7 +3,4 @@ export function initToolTip(container){
     const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => {
         new bootstrap.Tooltip(tooltipTriggerEl)
     })
-
-
-
 }

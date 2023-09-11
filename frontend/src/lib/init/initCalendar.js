@@ -22,7 +22,7 @@ export function staticCalendarOptions(){
         headerToolbar: {
             left: 'prev,next today',
             center: 'title',
-            right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
+            right: 'dayGridMonth,listMonth'
         }
     } 
     return options;
