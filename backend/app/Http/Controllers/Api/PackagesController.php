@@ -161,6 +161,14 @@ class PackagesController extends Controller
             }
         }
 
+        if ($request->has('sale_price') == false) {
+            $request->merge(['sale_price' => null]);
+        }
+
+        if ($request->has('tax') == false) {
+            $request->merge(['tax' => null]);
+        }
+
         $package->update(array_merge($request->all()));
 
         $package->updatePackagesFeatures($request->get('features'));

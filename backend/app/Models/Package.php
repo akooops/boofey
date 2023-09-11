@@ -40,7 +40,7 @@ class Package extends Model
         $this->packageFeatures()->sync($features);
     }
 
-    public function storePackagesFeatures(array $features)
+    public function storePackagesFeatures($features)
     {
         if(is_string($features) && json_decode($features) !== null) {
             $features = json_decode($features, true);
@@ -49,12 +49,12 @@ class Package extends Model
         $this->packageFeatures()->createMany($features);
     }
 
-    public function updatePackagesFeatures(array $features)
+    public function updatePackagesFeatures($features)
     {
         if(is_string($features) && json_decode($features) !== null) {
             $features = json_decode($features, true);
         }
-        
+
         $this->packageFeatures()->delete();
         $this->storePackagesFeatures($features);
     }

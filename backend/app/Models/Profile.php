@@ -4,17 +4,26 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\URL;
 
 class Profile extends Model
 {
-    protected $appends = ["fullname"];
+    protected $appends = ['fullname'];
 
     protected $fillable = [
         'firstname',
         'lastname',
         'description',
-        'image',
+        'file_id',
     ];
+
+    public function image()
+    {
+        return $this->hasOne(File::class, 'id', 'file_id')->withDefault([
+            'path' => 'profiles',
+            'current_name' => 'default.png',
+        ]);
+    }
 
     public function user()
     {
