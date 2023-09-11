@@ -16,17 +16,6 @@ import { browser } from '$app/environment';
 // })
 
 
-function collapse(){
-    const htmlElement = document.querySelector('html');
-    const currentSidebarSize = htmlElement.getAttribute('data-sidebar-size');
-    if (currentSidebarSize === 'lg') {
-    htmlElement.setAttribute('data-sidebar-size', 'sm');
-    } else {
-    htmlElement.setAttribute('data-sidebar-size', 'lg');
-    }
-
-}
-
 </script>
 
 
@@ -57,7 +46,7 @@ function collapse(){
                 </a>
             </div>
 
-            <button type="button" class="btn btn-sm px-3 fs-16 header-item vertical-menu-btn topnav-hamburger" id="topnav-hamburger-icon" on:click={collapse}>
+            <button type="button" class="btn btn-sm px-3 fs-16 header-item vertical-menu-btn topnav-hamburger" id="topnav-hamburger-icon" >
                 <span class="hamburger-icon">
                     <span></span>
                     <span></span>
