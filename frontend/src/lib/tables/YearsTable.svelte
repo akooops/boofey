@@ -15,8 +15,8 @@
 </script>
 
 
-<div class="row">
-    <div class="table-responsive">
+<div class="row pe-0">
+    <div class="table-responsive pe-0">
         <table class="table align-end table-nowrap mb-0 border-top">
             <thead class="table-light">
                 <tr>
