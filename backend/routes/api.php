@@ -131,6 +131,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'middleware' => ['custo
         Route::delete('/{coupon}/destroy', 'CouponsController@destroy')->name('api.coupons.destroy');
     });
 
+    Route::get('authenticated', 'AuthController@authenticated');
     Route::post('logout', 'AuthController@logout');
 });
 

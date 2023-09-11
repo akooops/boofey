@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
@@ -11,6 +12,24 @@ use Laravel\Sanctum\PersonalAccessToken;
 
 class AuthController extends Controller
 {
+    public function authenticated(){
+        $user = Auth::user();
+
+        $user = User::with([
+            'profile:id,user_id,firstname,lastname',
+            'profile.image:id,current_name,path',
+            'roles:id,name,guard_name', 
+            'roles.permissions:id,name,guard_name', 
+        ])->find($user->id);
+
+        return response()->json([
+            'status' => 'success',
+            'data' => [
+                'user' => $user
+            ]
+        ]);
+    }
+
     public function login(Request $request)
     {
         // Validate the user's login credentials

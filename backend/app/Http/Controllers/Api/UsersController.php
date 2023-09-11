@@ -23,6 +23,7 @@ class UsersController extends Controller
 
         $users = User::latest()->with([
             'profile:id,user_id,firstname,lastname',
+            'profile.image',
             'roles:id,name,guard_name', 
         ]);
 
