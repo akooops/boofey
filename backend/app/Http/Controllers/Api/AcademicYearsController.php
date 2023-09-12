@@ -149,7 +149,7 @@ class AcademicYearsController extends Controller
             ], 404);
         }
 
-        if($request->input('current') == true) {
+        if($request->input('current') == true && $academicYear->current != true) {
             AcademicYear::where('school_id', $academicYear->school_id)->update(['current' => false]);
         }
 

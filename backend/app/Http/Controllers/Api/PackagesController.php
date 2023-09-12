@@ -166,7 +166,7 @@ class PackagesController extends Controller
         }
 
         if ($request->has('tax') == false) {
-            $request->merge(['tax' => null]);
+            $request->merge(['tax' => 0]);
         }
 
         $package->update(array_merge($request->all()));

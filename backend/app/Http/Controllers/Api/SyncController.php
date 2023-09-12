@@ -6,9 +6,12 @@ use App\Models\AcademicYear;
 use Illuminate\Http\Request;
 use App\Http\Requests\AcademicYears\StoreAcademicYearRequest;
 use App\Http\Requests\AcademicYears\UpdateAcademicYearRequest;
+use App\Http\Requests\Queues\SyncQueueRequest;
 use App\Http\Requests\Students\SyncStudentFaceRequest;
 use App\Http\Requests\Students\SyncStudentNfcRequest;
 use App\Models\File;
+use App\Models\Queue;
+use App\Models\QueueStudent;
 use App\Models\School;
 use App\Models\Student;
 use Carbon\Carbon;
@@ -117,5 +120,39 @@ class SyncController extends Controller
         ]);
     }
 
+    public function queues($id, SyncQueueRequest $request){
+        $queue = Queue::find($id);
+        
+        if (!$queue) {
+            return response()->json([
+                'status' => 'error',
+                'errors' => [
+                    '404' => 'Not found.'
+                ]
+            ], 404);
+        }
 
+        $students = $request->get('students');
+
+        if(is_string($students) && json_decode($students) !== null) {
+            $students = json_decode($students, true);
+        }
+        
+        $synced_at = Carbon::now();
+
+        foreach($students as $student){
+            $queueStudent = QueueStudent::create([
+                'started_at' => $student['started_at'],
+                'synced_at' => $synced_at,
+                'queue_id' => $queue->id,
+                'student_id' => $student['id']
+            ]);
+
+            $queueStudent->save();
+        }
+
+        return response()->json([
+            'status' => 'success'
+        ]);
+    }
 }

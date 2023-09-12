@@ -15,15 +15,24 @@ class CustomAuthMiddleware
         $token = Cookie::get('sid');
 
         if (!$token) {
-
-            return redirect('/login'); // Redirect to login if the cookie is missing
+            return response()->json([
+                'status' => 'error',
+                'errors' => [
+                    '401' => 'Access Denied: Please Log In to Access This Resource'
+                ]
+            ], 401);
         }
 
         // Verify the token and authenticate the user
         $accessToken = PersonalAccessToken::findToken($token);
 
         if (!$accessToken) {
-            return redirect('/login'); // Redirect to login if the token is invalid
+            return response()->json([
+                'status' => 'error',
+                'errors' => [
+                    '401' => 'Access Denied: Please Log In to Access This Resource'
+                ]
+            ], 401);
         }
 
         // Check if the token has expired by comparing with the current time
@@ -51,8 +60,12 @@ class CustomAuthMiddleware
         
                 return $response;
             } else {
-                // Token has expired beyond the 1-hour refresh window, redirect to login
-                return redirect('/login');
+                return response()->json([
+                    'status' => 'error',
+                    'errors' => [
+                        '401' => 'Access Denied: Please Log In to Access This Resource'
+                    ]
+                ], 401);
             }
         }
 
