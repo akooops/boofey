@@ -69,16 +69,18 @@ class AuthController extends Controller
                     'message' => 'Authentication successful. You are now logged in',
                     'data' => [
                         'user' => $user,
+                        'redirect_to' => '/'
                     ]   
-                ], 200)->withCookie($cookie)->withRedirect('/', [], false);
+                ], 200)->withCookie($cookie);
             } else {
                 // Redirect the user to the admin panel
                 return response()->json([
                     'message' => 'Authentication successful. You are now logged in',
                     'data' => [
                         'user' => $user,
+                        'redirect_to' => '/admin'
                     ]   
-                ], 200)->withCookie($cookie)->withRedirect('/admin', [], false);
+                ], 200)->withCookie($cookie);
             }
         }
 
