@@ -15,24 +15,28 @@ class CustomAuthMiddleware
         $token = Cookie::get('sid');
 
         if (!$token) {
+            $cookie = Cookie::forget('sid');
+
             return response()->json([
                 'status' => 'error',
                 'errors' => [
                     '401' => 'Access Denied: Please Log In to Access This Resource'
                 ]
-            ], 401);
+            ], 401)->withCookie($cookie);
         }
 
         // Verify the token and authenticate the user
         $accessToken = PersonalAccessToken::findToken($token);
 
         if (!$accessToken) {
+            $cookie = Cookie::forget('sid');
+
             return response()->json([
                 'status' => 'error',
                 'errors' => [
                     '401' => 'Access Denied: Please Log In to Access This Resource'
                 ]
-            ], 401);
+            ], 401)->withCookie($cookie);
         }
 
         // Check if the token has expired by comparing with the current time
@@ -60,12 +64,14 @@ class CustomAuthMiddleware
         
                 return $response;
             } else {
+                $cookie = Cookie::forget('sid');
+
                 return response()->json([
                     'status' => 'error',
                     'errors' => [
                         '401' => 'Access Denied: Please Log In to Access This Resource'
                     ]
-                ], 401);
+                ], 401)->withCookie($cookie);
             }
         }
 
