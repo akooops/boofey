@@ -12,7 +12,7 @@ class RedirectIfAuthenticated
 {
     public function handle(Request $request, Closure $next, $guard = null)
     {
-        $token = Cookie::get('SID');
+        $token = Cookie::get('potato');
 
         // Verify the token and authenticate the user
         $accessToken = PersonalAccessToken::findToken($token);
