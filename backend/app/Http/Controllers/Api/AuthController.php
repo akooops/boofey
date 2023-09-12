@@ -53,7 +53,7 @@ class AuthController extends Controller
             $user = $request->user();
             $token = $user->createToken($tokenName, ['*'], $expiration);
 
-            $cookie = cookie('sid', $token->plainTextToken);
+            $cookie = cookie('SID', $token->plainTextToken);
 
             $user = User::with([
                 'profile:id,user_id,firstname,lastname',
@@ -93,7 +93,7 @@ class AuthController extends Controller
         $user = Auth::user();
 
         PersonalAccessToken::where('tokenable_id', $user->id)->delete();
-        $cookie = Cookie::forget('sid');
+        $cookie = Cookie::forget('SID');
 
         return response()->json([
             'message' => 'Logged out',

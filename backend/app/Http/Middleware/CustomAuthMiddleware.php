@@ -12,10 +12,27 @@ class CustomAuthMiddleware
 {
     public function handle(Request $request, Closure $next)
     {
-        $token = Cookie::get('sid');
+        $token = Cookie::get('SID');
+
+        $cookies = $request->cookies->all();
+    
+		// Retrieve other request information
+		$ip = $request->ip();
+		$userAgent = $request->header('User-Agent');
+
+		// You can also retrieve specific cookies by name
+		$specificCookie = $request->cookie('SID');
+
+		// Create an array with the request information
+		$responseContent = [
+			'Cookies' => $cookies,
+			'IP Address' => $ip,
+			'User-Agent' => $userAgent,
+			'sid Cookie' => $specificCookie,
+		];
 
         if (!$token) {
-            $cookie = Cookie::forget('sid');
+            $cookie = Cookie::forget('SID');
 
             return response()->json([
                 'status' => 'error',
@@ -29,7 +46,7 @@ class CustomAuthMiddleware
         $accessToken = PersonalAccessToken::findToken($token);
 
         if (!$accessToken) {
-            $cookie = Cookie::forget('sid');
+            $cookie = Cookie::forget('SID');
 
             return response()->json([
                 'status' => 'error',
@@ -59,12 +76,12 @@ class CustomAuthMiddleware
                 auth()->login($accessToken->tokenable);
 
                 $response = $next($request);
-                $cookie = Cookie::make('sid', $newToken); // Change the name, value, and expiration time as needed
+                $cookie = Cookie::make('SID', $newToken); // Change the name, value, and expiration time as needed
                 $response->withCookie($cookie);
         
                 return $response;
             } else {
-                $cookie = Cookie::forget('sid');
+                $cookie = Cookie::forget('SID');
 
                 return response()->json([
                     'status' => 'error',
