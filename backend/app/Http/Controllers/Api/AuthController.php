@@ -62,12 +62,24 @@ class AuthController extends Controller
                 'roles.permissions:id,name,guard_name', 
             ])->find($user->id);
 
-            return response()->json([
-                'message' => 'Authentication successful. You are now logged in',
-                'data' => [
-                    'user' => $user
-                ]   
-            ], 200)->withCookie($cookie);
+            // Redirect the user to the appropriate page
+            if ($user->hasRole('parent')) {
+                // Tell the frontend to redirect to the root
+                return response()->json([
+                    'message' => 'Authentication successful. You are now logged in',
+                    'data' => [
+                        'user' => $user,
+                    ]   
+                ], 200)->withCookie($cookie)->header('Location', '/');
+            } else {
+                // Redirect the user to the admin panel
+                return response()->json([
+                    'message' => 'Authentication successful. You are now logged in',
+                    'data' => [
+                        'user' => $user,
+                    ]   
+                ], 200)->withCookie($cookie)->header('Location', '/admin');
+            }
         }
 
         return response()->json([
