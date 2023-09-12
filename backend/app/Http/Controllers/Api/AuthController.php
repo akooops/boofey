@@ -66,18 +66,16 @@ class AuthController extends Controller
             if ($user->hasRole('parent')) {
                 // Tell the frontend to redirect to the root
                 return response()->json([
-                    'message' => 'Authentication successful. You are now logged in',
+                    'status' => 'success',
                     'data' => [
-                        'user' => $user,
                         'redirect_to' => '/'
                     ]   
                 ], 200)->withCookie($cookie);
             } else {
                 // Redirect the user to the admin panel
                 return response()->json([
-                    'message' => 'Authentication successful. You are now logged in',
+                    'status' => 'success',
                     'data' => [
-                        'user' => $user,
                         'redirect_to' => '/admin'
                     ]   
                 ], 200)->withCookie($cookie);
