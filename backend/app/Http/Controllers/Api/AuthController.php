@@ -55,8 +55,18 @@ class AuthController extends Controller
 
             $cookie = cookie('sid', $token->plainTextToken);
 
+            $user = User::with([
+                'profile:id,user_id,firstname,lastname',
+                'profile.image:id,current_name,path',
+                'roles:id,name,guard_name', 
+                'roles.permissions:id,name,guard_name', 
+            ])->find($user->id);
+
             return response()->json([
                 'message' => 'Authentication successful. You are now logged in',
+                'data' => [
+                    'user' => $user
+                ]   
             ], 200)->withCookie($cookie);
         }
 
