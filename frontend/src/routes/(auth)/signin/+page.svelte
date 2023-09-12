@@ -15,7 +15,7 @@
         }))
         .json()
         if(res.status == "success") {
-            goto(res.data.redirect_to)
+            // goto(res.data.redirect_to)
             console.log(res)
         }
 
