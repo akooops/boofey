@@ -70,7 +70,7 @@ class AuthController extends Controller
                     'data' => [
                         'user' => $user,
                     ]   
-                ], 200)->withCookie($cookie)->header('Location', '/');
+                ], 200)->withCookie($cookie)->withRedirect('/', [], false);
             } else {
                 // Redirect the user to the admin panel
                 return response()->json([
@@ -78,7 +78,7 @@ class AuthController extends Controller
                     'data' => [
                         'user' => $user,
                     ]   
-                ], 200)->withCookie($cookie)->header('Location', '/admin');
+                ], 200)->withCookie($cookie)->withRedirect('/admin', [], false);
             }
         }
 
