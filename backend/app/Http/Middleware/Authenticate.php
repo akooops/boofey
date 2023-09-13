@@ -18,7 +18,7 @@ class Authenticate extends Middleware
             abort(response()->json([
                 'status' => 'error',
                 'errors' => [
-                    '401' => 'Access Denied: Please Log In to Access This Resource'
+                    '403' => 'Access Denied: Please Log In to Access This Resource'
                 ]
             ], 403));
         }
