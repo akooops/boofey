@@ -17,7 +17,16 @@
         </div>
     </td>
     <td>{user.id}</td>
-    <td>{user.username}</td>
+    <td>
+    <div class="d-flex gap-2 align-items-center">
+        <div class="flex-shrink-0">
+            <img src={user.profile.image.full_path} alt="" class="avatar-xs rounded-circle" />
+        </div>
+        <div class="flex-grow-1">
+            {user.username}
+        </div>
+    </div>
+    </td>
     <td>{user.profile.firstname}</td>
     <td>{user.profile.lastname}</td>
     <td>{user.email}</td>
