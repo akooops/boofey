@@ -47,13 +47,11 @@ class AuthController extends Controller
             // Revoke the user's existing token (if it exists)
             PersonalAccessToken::where('tokenable_id', $user->id)->delete();
 
-            $expiration = $request->input('keep_me_signed_in') ? now()->addDays(3) : now()->addMinutes(15);
+            $expiration = $request->input('keep_me_signed_in') ? now()->addDays(2) : now()->addMinutes(5);
             $tokenName = $request->input('keep_me_signed_in') ? 'long-lived-token' : 'short-lived-token';
 
             $user = $request->user();
             $token = $user->createToken($tokenName, ['*'], $expiration);
-
-            $cookie = cookie('potato', $token->plainTextToken);
 
             $user = User::with([
                 'profile:id,user_id,firstname,lastname',
@@ -68,17 +66,19 @@ class AuthController extends Controller
                 return response()->json([
                     'status' => 'success',
                     'data' => [
-                        'redirect_to' => '/'
+                        'roles' => $user->roles,
+                        'token' => $token->plainTextToken
                     ]   
-                ], 200)->withCookie($cookie);
+                ], 200);
             } else {
                 // Redirect the user to the admin panel
                 return response()->json([
                     'status' => 'success',
                     'data' => [
-                        'redirect_to' => '/admin'
+                        'roles' => $user->roles,
+                        'token' => $token->plainTextToken
                     ]   
-                ], 200)->withCookie($cookie);
+                ], 200);
             }
         }
 
@@ -92,11 +92,16 @@ class AuthController extends Controller
     {
         $user = Auth::user();
 
-        PersonalAccessToken::where('tokenable_id', $user->id)->delete();
-        $cookie = Cookie::forget('potato');
+        // Revoke all of the user's tokens
+        $user->tokens()->delete();
+
+        // Perform any other logout logic you need
+        Auth::logout();
+
 
         return response()->json([
-            'message' => 'Logged out',
-        ], 200)->withCookie($cookie);
+            'status' => 'success',
+            'message' => 'Succesfully logged out!'
+        ], 200);
     }
 }

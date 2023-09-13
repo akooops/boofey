@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group(['namespace' => 'App\Http\Controllers\Api', 'middleware' => [/*'custom.auth',*/ 'convert.bool.string']], function(){    
+Route::group(['namespace' => 'App\Http\Controllers\Api', 'middleware' => ['refresh.tokens', 'auth:sanctum', 'convert.bool.string']], function(){    
     Route::group(['prefix' => 'permissions'], function() {
         Route::get('/', 'PermissionsController@index')->name('api.permissions.index');
         Route::get('/{permission}', 'PermissionsController@show')->name('api.permissions.show');
@@ -144,7 +144,7 @@ Route::group(['prefix' => 'sync', 'namespace' => 'App\Http\Controllers\Api', 'mi
     Route::post('/students/{student}/face', 'SyncController@face')->name('api.face.sync');
 });
 
-Route::group(['namespace' => 'App\Http\Controllers\Api', 'middleware' => ['custom.auth.redirect']], function(){  
+Route::group(['namespace' => 'App\Http\Controllers\Api'], function(){  
     Route::post('register', 'AuthController@register');
     Route::post('login', 'AuthController@login');
     Route::post('password/email', 'AuthController@sendResetLinkEmail');

@@ -36,12 +36,15 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
         ],
 
         'api' => [
+            \App\Http\Middleware\RefreshTokens::class,
             \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
             'throttle:api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            'auth:sanctum',
         ],
     ];
 
@@ -67,8 +70,7 @@ class Kernel extends HttpKernel
         'permission' => \App\Http\Middleware\PermissionMiddleware::class,
         'role_or_permission' => \Spatie\Permission\Middlewares\RoleOrPermissionMiddleware::class,
         'verify.apikey' => \App\Http\Middleware\VerifyApiKey::class,
-        'custom.auth' => \App\Http\Middleware\CustomAuthMiddleware::class,
+        'refresh.tokens' => \App\Http\Middleware\RefreshTokens::class,
         'convert.bool.string' => \App\Http\Middleware\ConvertBooleanStrings::class,
-        'custom.auth.redirect' => \App\Http\Middleware\RedirectIfAuthenticated::class,
     ];
 }
