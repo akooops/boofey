@@ -13,8 +13,10 @@
     let from 
     let to
     export let year
+    let errors
 
     async function save(){
+        errors = {}
     
         let formData = new FormData(form)
 
@@ -28,6 +30,7 @@
             let text = `Edited #${$breakStore.id} to ${$breakStore.name}` 
             toast(text,"success")
             invalidate("breaks:refresh")
+            reset()
         }
     
     }
@@ -39,11 +42,15 @@
         loadDefaultDate(to,$breakStore.to)
     })
 
+    function reset(){
+        errors = {}
+
+    }
 
     </script>
     
     
-    <div class="modal  fade" id="editBreakModal" tabindex="-1" aria-labelledby="exampleModalgridLabel" aria-modal="true" >
+    <div class="modal  fade" id="editBreakModal" tabindex="-1" aria-labelledby="exampleModalgridLabel" aria-modal="true" on:hidden.bs.modal={reset}>
         <div class="modal-dialog modal-dialog-centered" >
             <div class="modal-content">
                 <div class="modal-header">
@@ -57,14 +64,23 @@
                             <div>
                                 <label for="name" class="form-label">Acedemic Beak Name</label>
                                 <input type="text" class="form-control" id="name" name="name" placeholder="Enter break name" bind:value={$breakStore.name}>
+                                {#if errors?.name}
+                                <strong class="text-danger ms-1 my-2">{errors.name[0]}</strong>
+                                {/if}
                             </div>
                             <div class="col-xxl-6">
                                 <label for="from" class="form-label">From</label>
                                 <input type="text" name="from" class="form-control" placeholder="Insert start date" data-provider="flatpickr"  data-minDate="{year.from}" data-maxDate="{year.to}" data-date-format="Y-m-d" id="from" bind:this={from}>
+                                {#if errors?.from}
+                                <strong class="text-danger ms-1 my-2">{errors.from[0]}</strong>
+                                {/if}
                             </div>
                             <div class="col-xxl-6">
                                 <label for="to" class="form-label">To</label>
                                 <input type="text" name="to" class="form-control" placeholder="Insert end date" data-provider="flatpickr" data-minDate="{year.from}" data-maxDate="{year.to}" data-date-format="Y-m-d" id="to" bind:this={to}>
+                                {#if errors?.to}
+                                <strong class="text-danger ms-1 my-2">{errors.to[0]}</strong>
+                                {/if}
                             </div>
 
                                 <div class="hstack gap-2 justify-content-end">
