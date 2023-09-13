@@ -9,13 +9,17 @@
     let close
     let form 
     let schoolName = ""
+    let errors
     async function save(){
     
-    
+        errors = {}
         let formData = new FormData(form)
         if(formData.get("file")?.size == 0){
             formData.delete("file")
         }
+        formData.set("edit_logo",editLogo)
+
+
         let res = await (await fetch(PathUpdateSchool($schoolStore.id),{
             method:"POST",
             body:formData
@@ -26,15 +30,22 @@
             let text = `Edited #${$schoolStore.id} to ${$schoolStore.name}` 
             toast(text,"success")
             invalidate("schools:refresh")
-            
+            reset()
+        }else {
+            errors = res.errors
         }
     
+        
     
     }
+    function reset(){
+        editLogo = false
+    }
+
     </script>
     
     
-    <div class="modal  fade" id="editSchoolModal" tabindex="-1" aria-labelledby="exampleModalgridLabel" aria-modal="true" >
+    <div class="modal  fade" id="editSchoolModal" tabindex="-1" aria-labelledby="exampleModalgridLabel" aria-modal="true"  on:hidden.bs.modal={reset}>
         <div class="modal-dialog modal-dialog-centered" >
             <div class="modal-content">
                 <div class="modal-header">
@@ -47,6 +58,9 @@
                                 <div>
                                     <label for="name" class="form-label">School Name</label>
                                     <input type="text" name="name" class="form-control" id="name" placeholder="Enter Permission name" bind:value={$schoolStore.name}>
+                                    {#if errors?.name}
+                                        <strong class="text-danger ms-1 my-2">{errors.name[0]}</strong>
+                                    {/if}
                                 </div>
 
 
@@ -60,6 +74,9 @@
                                     <div>
                                         <label for="formFile" class="form-label">School Logo</label>
                                         <input class="form-control" name="file" type="file" id="formFile">
+                                        {#if errors?.file}
+                                        <strong class="text-danger ms-1 my-2">{errors.file[0]}</strong>
+                                        {/if}
                                     </div>
                                 {:else}
                                     <figure class="figure">

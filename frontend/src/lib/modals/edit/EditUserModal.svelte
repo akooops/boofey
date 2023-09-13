@@ -15,9 +15,9 @@
     let roles = []
     let role
     let editPassword = false;
-    
+    let errors
     async function save(){
-
+        errors = {}
         let formData = new FormData(form)
         if(password == "" || editPassword == false){
             formData.delete("password")
@@ -31,7 +31,10 @@
             let text = `Edited ${$userStore.username} ` 
             toast(text,"success")
             invalidate("users:refresh")
+        }else {
+            errors = res.errors
         }
+
 
         
     }
@@ -66,12 +69,16 @@
                                 <div class="col-lg-12">
                                     <label for="username" class="form-label" >Username</label>
                                     <input type="text" name="username" class="form-control" id="username" placeholder="Enter Username name" bind:value={$userStore.username} >
+                                    {#if errors?.username}
+                                    <strong class="text-danger ms-1 my-2">{errors.username[0]}</strong>
+                                    {/if}
                                 </div>
                                 <div class="col-xxl-6">
                                     <div>
                                         <label for="firstName" class="form-label">First Name</label>
-                                        {#if $userStore?.profile?.firstname}
                                         <input type="text" name="firstname" class="form-control" id="firstName" placeholder="Enter Firstname" bind:value={firstName}>
+                                        {#if errors?.firstname}
+                                        <strong class="text-danger ms-1 my-2">{errors.firstname[0]}</strong>
                                         {/if}
                                     </div>
                                 </div>
@@ -80,33 +87,47 @@
                                     <div>
                                         <label for="lastName" class="form-label">Last Name</label>
                                         <input type="text" name="lastname" class="form-control" id="lastName" placeholder="Enter Lastname" bind:value={lastName}>
+                                        {#if errors?.lastname}
+                                        <strong class="text-danger ms-1 my-2">{errors.lastname[0]}</strong>
+                                        {/if}
                                     </div>
                                 </div>
                                 <div class="col-xxl-6">
                                     <label for="email" class="form-label">Email</label>
                                     <input type="email" name="email" class="form-control" id="email" placeholder="Enter your Email" bind:value={$userStore.email}>
+                                    {#if errors?.email}
+                                    <strong class="text-danger ms-1 my-2">{errors.email[0]}</strong>
+                                    {/if}
                                 </div>
                                 <div class="col-xxl-6">
                                     <label for="phone" class="form-label">Phone</label>
                                     <input type="tel" name="phone" class="form-control" id="phone" placeholder="Enter your Phone no." bind:value={$userStore.phone}>
+                                    {#if errors?.phone}
+                                    <strong class="text-danger ms-1 my-2">{errors.phone[0]}</strong>
+                                    {/if}
                                 </div>
                                
                                 <div class="mb-2 col-lg-12">
                                     <input class="form-check-input" type="checkbox" id="formCheck1" bind:checked={editPassword}>
-                                    <label class="form-check-label" for="formCheck1">
-                                        Edit Password 
-                                    </label>
+                                    <label class="form-check-label" for="formCheck1">Edit Password </label>
+
                                 </div>
                                 {#if editPassword}
                                 <div class="col-xxl-6">
                                     <label for="password" class="form-label">Password</label>
                                     <input type="password" name="password" class="form-control" id="password"  placeholder="Enter Password" bind:value={password}/>
+                                    {#if errors?.password}
+                                    <strong class="text-danger ms-1 my-2">{errors.password[0]}</strong>
+                                    {/if}
                                 </div>
                                 {/if}
                                 {#if editPassword}
                                 <div class="col-xxl-6">
                                     <label for="passwordconfirm" class="form-label">Confirm Password</label>
                                     <input type="password" name="password_confirmation" class="form-control" id="passwordconfirm"  placeholder="Confirm Password" />
+                                    {#if errors?.password_confirmation}
+                                    <strong class="text-danger ms-1 my-2">{errors.password_confirmation[0]}</strong>
+                                    {/if}
                                 </div>
                                 {/if}
 
@@ -119,6 +140,9 @@
                                             <option value={role.id}>{role.name}</option>
                                         {/each}
                                     </select>
+                                    {#if errors?.role_id}
+                                    <strong class="text-danger ms-1 my-2">{errors.role_id[0]}</strong>
+                                    {/if}
                                     {/if}
                                 </div>    
                                 <div class="hstack gap-2 justify-content-end">

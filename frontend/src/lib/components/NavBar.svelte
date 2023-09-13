@@ -5,11 +5,11 @@
       title: "Admin",
       submenu: [
         { title: "Dashboards", links: ["Analytics", "CRM", "Ecommerce", "Crypto", "Projects", "NFT", "Job"] },
-        { title: "Permissions", links: [],route:"/permissions"},
-        { title: "Roles", links: [], route:"/roles"},
-        { title: "Users", links: [], route:"/users"},
-        { title: "Schools", links: [], route:"/schools"},
-        { title: "Parents", links: [], route:"/parents"}
+        { title: "Permissions", links: [],route:"/admin/permissions"},
+        { title: "Roles", links: [], route:"/admin/roles"},
+        { title: "Users", links: [], route:"/admin/users"},
+        { title: "Schools", links: [], route:"/admin/schools"},
+        { title: "Parents", links: [], route:"/admin/parents"}
 
       ],
     },

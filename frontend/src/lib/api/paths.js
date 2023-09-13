@@ -110,6 +110,10 @@ export function PathDelParent(parentId){
 
 }
 
+///
+export function PathLogin(){
+    return `${DOMAIN}/login`
+}
 
 
 export function DefaultGetQueries(url){

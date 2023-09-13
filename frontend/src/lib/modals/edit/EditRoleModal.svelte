@@ -13,8 +13,9 @@
     let permissions = []
     let roleName = ""
     let allChecked = false
+    let errors
     async function save(){
-        
+        errors = {}
         let selectedPermissions = []
         for(let permission of permissions){
             if(permission.checked){
@@ -36,7 +37,10 @@
             let text = `Edited ${roleName} ` 
             toast(text,"success")
             invalidate("roles:refresh")
+        }else {
+            errors = res.errors
         }
+
 
     }
 
@@ -88,6 +92,9 @@
                                     <label for="firstName" class="form-label">Role Name</label>
                                     <input type="text" class="form-control" id="firstName" placeholder="Enter Role name" bind:value={roleName}>
                                 </div>
+                                {#if errors?.name}
+                                <strong class="text-danger ms-1 my-2">{errors.name[0]}</strong>
+                                {/if}
                                 <label for="firstName" class="form-label">Assign Permissions</label>
                                 <div class="row">
                                     <div class="table-responsive">

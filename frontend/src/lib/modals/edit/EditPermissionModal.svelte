@@ -8,8 +8,10 @@
     let {permissionStore} = getContext("permissionStore")
 
     let close
-    
+    let errors
+
     async function save(){
+        errors = {}
     
     
         let formData = new FormData()
@@ -25,7 +27,10 @@
             let text = `Edited #${$permissionStore.id} to ${$permissionStore.name}` 
             toast(text,"success")
             invalidate("permissions:refresh")
+        }else {
+            errors = res.errors
         }
+
     
     
     }
@@ -47,7 +52,9 @@
                                     <label for="firstName" class="form-label">Permission Name</label>
                                     <input type="text" class="form-control" id="firstName" placeholder="Enter Permission name" bind:value={$permissionStore.name}>
                                 </div>
-    
+                                {#if errors?.name}
+                                <strong class="text-danger ms-1 my-2">{errors.name[0]}</strong>
+                                {/if}
     
                                 <div class="hstack gap-2 justify-content-end">
                                     <button type="button" class="btn btn-light fw-light" data-bs-dismiss="modal" bind:this={close}>Close</button>

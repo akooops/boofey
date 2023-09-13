@@ -5,9 +5,10 @@ import { invalidate } from '$app/navigation';
 
 let permissionName
 let close
+let errors
 
 async function save(){
-
+    errors = {}
 
     let formData = new FormData()
     formData.append("name",permissionName)
@@ -23,6 +24,8 @@ async function save(){
         toast(text,"success")
         invalidate("permissions:refresh")  
         reset()
+    }else {
+        errors = res.errors
     }
 
 
@@ -49,8 +52,9 @@ function reset(){
                                 <label for="firstName" class="form-label">Permission Name</label>
                                 <input type="text" class="form-control" id="firstName" placeholder="Enter Permission name" bind:value={permissionName}>
                             </div>
-
-
+                            {#if errors?.name}
+                            <strong class="text-danger ms-1 my-2">{errors.name[0]}</strong>
+                            {/if}
                             <div class="hstack gap-2 justify-content-end">
                                 <button type="button" class="btn btn-light fw-light" data-bs-dismiss="modal" bind:this={close}>Close</button>
                                 <input type="submit" class="btn btn-primary waves-effect waves-light" value="Save">

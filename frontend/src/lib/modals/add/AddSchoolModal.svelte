@@ -6,8 +6,10 @@
     let close
     let form 
     let schoolName = ""
+    let errors
     async function save(){
     
+        errors = {}
     
         let formData = new FormData(form)
     
@@ -22,6 +24,8 @@
             toast(text,"success")
             invalidate("schools:refresh")
             reset()
+        }else {
+            errors = res.errors
         }
     
     
@@ -48,10 +52,16 @@
                                 <div>
                                     <label for="name" class="form-label">School Name</label>
                                     <input type="text" name="name" class="form-control" id="name" placeholder="Enter Permission name" bind:value={schoolName}>
+                                    {#if errors?.name}
+                                    <strong class="text-danger ms-1 my-2">{errors.name[0]}</strong>
+                                    {/if}
                                 </div>
                                 <div>
                                     <label for="formFile" class="form-label">School Logo</label>
                                     <input class="form-control" name="file" type="file" id="formFile">
+                                    {#if errors?.file}
+                                    <strong class="text-danger ms-1 my-2">{errors.file[0]}</strong>
+                                    {/if}
                                 </div>
     
     
