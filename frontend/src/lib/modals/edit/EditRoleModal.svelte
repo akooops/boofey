@@ -37,6 +37,7 @@
             let text = `Edited ${roleName} ` 
             toast(text,"success")
             invalidate("roles:refresh")
+            reset()
         }else {
             errors = res.errors
         }
@@ -74,10 +75,14 @@
     
     })
 
+    function reset(){
+        errors = {}
+    }
+
     </script>
     
     
-    <div class="modal  fade" id="editRoleModal" tabindex="-1" aria-labelledby="exampleModalgridLabel" aria-modal="true" >
+    <div class="modal  fade" id="editRoleModal" tabindex="-1" aria-labelledby="exampleModalgridLabel" aria-modal="true" on:hidden.bs.modal={reset}>
         <div class="modal-dialog modal-dialog-centered" >
             <div class="modal-content">
                 <div class="modal-header">

@@ -1,67 +1,66 @@
 <script>
-    import { PathUpdatePermission } from "$lib/api/paths";
+    import { PathUpdateCanteen } from "$lib/api/paths";
     import { toast } from "$lib/components/toast.js";
     import { invalidate } from '$app/navigation';
     import { getContext } from "svelte";
 
     
-    let {permissionStore} = getContext("permissionStore")
+    let {canteenStore} = getContext("canteenStore")
 
     let close
+    let form
     let errors
 
     async function save(){
         errors = {}
-    
-    
-        let formData = new FormData()
-        formData.append("name",$permissionStore.name)
-        
-        let res = await (await fetch(PathUpdatePermission($permissionStore.id),{
+        let formData = new FormData(form)
+        let res = await (await fetch(PathUpdateCanteen($canteenStore.id),{
             method:"POST",
             body:formData
         })).json()
     
         if(res.status == "success") {
             close.click()
-            let text = `Edited #${$permissionStore.id} to ${$permissionStore.name}` 
+            let text = `Edited #${$canteenStore.id} to ${$canteenStore.name}` 
             toast(text,"success")
-            invalidate("permissions:refresh")
+            invalidate("canteens:refresh")
             reset()
-
-        }else {
-            errors = res.errors
         }
-
-    
     
     }
 
     function reset(){
         errors = {}
     }
-    
+
     </script>
     
     
-    <div class="modal  fade" id="editPermissionModal" tabindex="-1" aria-labelledby="exampleModalgridLabel" aria-modal="true" on:hidden.bs.modal={reset}>
+    <div class="modal  fade" id="editCanteenModal" tabindex="-1" aria-labelledby="exampleModalgridLabel" aria-modal="true" >
         <div class="modal-dialog modal-dialog-centered" >
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalgridLabel">Edit Permission</h5>
+                    <h5 class="modal-title" id="exampleModalgridLabel">Edit Canteen</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form  on:submit={save}>
+                    <form  on:submit|preventDefault={save} bind:this={form}>
                         <div class="row g-3">
     
-                                <div>
-                                    <label for="firstName" class="form-label">Permission Name</label>
-                                    <input type="text" class="form-control" id="firstName" placeholder="Enter Permission name" bind:value={$permissionStore.name}>
-                                </div>
+                            <div>
+                                <label for="canteenName" class="form-label">Canteen Name</label>
+                                <input type="text" class="form-control" id="canteenName" name="name" placeholder="Enter canteen name" bind:value={$canteenStore.name}>
                                 {#if errors?.name}
                                 <strong class="text-danger ms-1 my-2">{errors.name[0]}</strong>
                                 {/if}
+                            </div>
+                            <div>
+                            <label for="exampleFormControlTextarea5" class="form-label">Canteen Address</label>
+                                <textarea class="form-control" name="address" id="exampleFormControlTextarea5" placeholder="Enter canteen address"  rows="3" bind:value={$canteenStore.address}></textarea>
+                                {#if errors?.address}
+                                <strong class="text-danger ms-1 my-2">{errors.address[0]}</strong>
+                                {/if}
+                            </div>
     
                                 <div class="hstack gap-2 justify-content-end">
                                     <button type="button" class="btn btn-light fw-light" data-bs-dismiss="modal" bind:this={close}>Close</button>

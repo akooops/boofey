@@ -40,6 +40,8 @@
     function reset(){
         form.reset()
         selectRole.selectedIndex = 0
+        errors = {}
+
     }
 
 

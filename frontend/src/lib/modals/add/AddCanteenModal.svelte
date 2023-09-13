@@ -1,34 +1,34 @@
 <script>
-    import { PathAddSchool } from "$lib/api/paths";
+    import { PathAddCanteen } from "$lib/api/paths";
     import { toast } from "$lib/components/toast.js";
     import { invalidate } from '$app/navigation';
     
+    let canteenName
     let close
-    let form 
-    let schoolName = ""
+    let form
+    export let schoolId
     let errors
+
     async function save(){
-    
         errors = {}
-    
-        let formData = new FormData(form)
-    
-        let res = await (await fetch(PathAddSchool(),{
+        let formData = new FormData(form)    
+        
+        let res = await (await fetch(PathAddCanteen(schoolId),{
             method:"POST",
             body:formData
         })).json()
     
         if(res.status == "success") {
             close.click()
-            let text = `Added ${schoolName} as a new school` 
+            let text = `Added ${canteenName} as a new canteen` 
             toast(text,"success")
-            invalidate("schools:refresh")
+            invalidate("canteens:refresh")
             reset()
+            
         }else {
             errors = res.errors
         }
-    
-    
+
     }
 
     function reset(){
@@ -37,34 +37,35 @@
     }
 
 
+
     </script>
     
     
-    <div class="modal  fade" id="addSchoolModal" tabindex="-1" aria-labelledby="exampleModalgridLabel" aria-modal="true"  on:hidden.bs.modal={reset}>
+    <div class="modal  fade" id="addCanteenModal" tabindex="-1" aria-labelledby="exampleModalgridLabel" aria-modal="true"  on:hidden.bs.modal={reset}>
         <div class="modal-dialog modal-dialog-centered" >
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalgridLabel">Add School</h5>
+                    <h5 class="modal-title" id="exampleModalgridLabel">Add Year</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form  on:submit|preventDefault={save} bind:this={form}>
+                    <form   on:submit|preventDefault={save} bind:this={form}>
                         <div class="row g-3">
+    
                                 <div>
-                                    <label for="name" class="form-label">School Name</label>
-                                    <input type="text" name="name" class="form-control" id="name" placeholder="Enter Permission name" bind:value={schoolName}>
+                                    <label for="canteenName" class="form-label">Canteen Name</label>
+                                    <input type="text" class="form-control" id="canteenName" name="name" placeholder="Enter canteen name" bind:value={canteenName}>
                                     {#if errors?.name}
                                     <strong class="text-danger ms-1 my-2">{errors.name[0]}</strong>
                                     {/if}
                                 </div>
                                 <div>
-                                    <label for="formFile" class="form-label">School Logo</label>
-                                    <input class="form-control" name="file" type="file" id="formFile">
-                                    {#if errors?.file}
-                                    <strong class="text-danger ms-1 my-2">{errors.file[0]}</strong>
+                                <label for="exampleFormControlTextarea5" class="form-label">Canteen Address</label>
+                                    <textarea class="form-control" name="address" id="exampleFormControlTextarea5" placeholder="Enter canteen address"  rows="3"></textarea>
+                                    {#if errors?.address}
+                                    <strong class="text-danger ms-1 my-2">{errors.address[0]}</strong>
                                     {/if}
                                 </div>
-    
     
                                 <div class="hstack gap-2 justify-content-end">
                                     <button type="button" class="btn btn-light fw-light" data-bs-dismiss="modal" bind:this={close}>Close</button>

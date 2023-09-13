@@ -71,6 +71,7 @@
             }
         })
         allChecked = false
+        errors = {}
     }
 
    

@@ -1,25 +1,23 @@
 <script>
     import Pagination from "$lib/components/Pagination.svelte";
     import SearchTable from "$lib/components/SearchTable.svelte";
-    import YearsTable from "$lib/tables/YearsTable.svelte";
-    import AddYearModal from "$lib/modals/add/AddYearModal.svelte";
-    import {InitFlatPickr} from "$lib/init/initFlatpickr.js"
+    import CanteensTable from "$lib/tables/CanteensTable.svelte";
+    import AddCanteenModal from "$lib/modals/add/AddCanteenModal.svelte";
 	import { onMount } from "svelte";
     import {initToolTip} from "$lib/init/initToolTip.js"
     export let data
-    $: yearsList = data.academicYearsResponse.data.academicYears
-    $: school = data.academicYearsResponse.data.school  
-    $: yearsPagination = data.academicYearsResponse.pagination
+    $: canteensList = data.canteensResponse.data.canteens
+    $: school = data.canteensResponse.data.school  
+    $: canteensPagination = data.canteensResponse.pagination
 
-    let yearsPage
+    let canteensPage
     onMount(() => {
-        initToolTip(yearsPage)
-        InitFlatPickr()
-
+        initToolTip(canteensPage)
+        // InitFlatPickr()
     })
     
 </script>
-<div class="row" bind:this={yearsPage}>
+<div class="row" bind:this={canteensPage}>
     <div class="col-lg-12">
         <div class="card">
             <div class="card-header align-items-center d-flex">
@@ -28,13 +26,13 @@
                 <div class="flex-shrink-0">
                     <img src={school.logo.full_path} alt="" class="avatar-xs rounded-circle" />
                 </div>
-                <h4 class="card-title mb-0 flex-grow-1"><span class="text-primary">{school.name}'s</span> Academic Years Management</h4>
+                <h4 class="card-title mb-0 flex-grow-1"><span class="text-primary">{school.name}'s</span> Canteens Management</h4>
             </div> 
 
                
                 <div class="flex-shrink-0">
-                    <button type="button" data-bs-toggle="modal" data-bs-target="#addYearModal" class="btn btn-primary waves-effect waves-light"><i class="ri-add-line align-bottom me-1"></i>Add Academic Year</button>
-                    <AddYearModal schoolId={school.id}/>
+                    <button type="button" data-bs-toggle="modal" data-bs-target="#addCanteenModal" class="btn btn-primary waves-effect waves-light"><i class="ri-add-line align-bottom me-1"></i>Add Canteen</button>
+                    <AddCanteenModal schoolId={school.id}/>
                 </div>
             </div><!-- end card header -->
 
@@ -43,9 +41,9 @@
                 <!-- <div class="live-preview"> -->
                     <div class="row">
                             <!-- Input with Icon -->
-                        <SearchTable type={"Year"}/>
-                        <YearsTable {yearsList}/>
-                        <Pagination {...yearsPagination} />
+                        <SearchTable type={"Canteen"}/>
+                        <CanteensTable {canteensList}/>
+                        <Pagination {...canteensPagination} />
                         <!--end col-->
                     </div>
                     <!--end row-->

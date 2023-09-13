@@ -31,6 +31,7 @@
             let text = `Edited ${$userStore.username} ` 
             toast(text,"success")
             invalidate("users:refresh")
+            reset()
         }else {
             errors = res.errors
         }
@@ -50,12 +51,15 @@
         console.log(role)
     }) 
 
+    function reset(){
+        errors = {}
+    }
 
 
     </script>
     
     
-    <div class="modal  fade" id="editUserModal" tabindex="-1" aria-labelledby="exampleModalgridLabel" aria-modal="true" >
+    <div class="modal  fade" id="editUserModal" tabindex="-1" aria-labelledby="exampleModalgridLabel" aria-modal="true" on:hidden.bs.modal={reset}>
         <div class="modal-dialog modal-dialog-centered" >
             <div class="modal-content">
                 <div class="modal-header">

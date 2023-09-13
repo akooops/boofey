@@ -14,9 +14,12 @@
     let form
     export let year
     let breakStore  = getContext("breakStore")
+    let errors 
 
     async function save(){
         // console.log(role)
+        errors = {}
+
         
         let formData = new FormData(form)
         let res = await (await fetch(PathAddAcademicBreak(year.id),{
@@ -27,9 +30,12 @@
             close.click()
             let text = `Added ${breakName} as a new break` 
             toast(text,"success")
-            reset()
             invalidate("breaks:refresh")
+            reset()
+        }else {
+            errors = res.errors
         }
+
 
         
     }
@@ -47,6 +53,8 @@
         loadDefaultDate(from,Date.now())
         loadDefaultDate(to,Date.now())
         delete $breakStore?.fromBtn
+        errors = {}
+
     }
 
  
@@ -67,14 +75,23 @@
                             <div>
                                 <label for="name" class="form-label">Acedemic Beak Name</label>
                                 <input type="text" class="form-control" id="name" name="name" placeholder="Enter break name" bind:value={breakName}>
+                                {#if errors?.name}
+                                <strong class="text-danger ms-1 my-2">{errors.name[0]}</strong>
+                                {/if}
                             </div>
                             <div class="col-xxl-6">
                                 <label for="from" class="form-label">From</label>
                                 <input type="text" name="from" class="form-control" placeholder="Insert start date" data-provider="flatpickr"  data-minDate="{year.from}" data-maxDate="{year.to}" data-date-format="Y-m-d" id="from" bind:this={from}>
+                                {#if errors?.from}
+                                <strong class="text-danger ms-1 my-2">{errors.from[0]}</strong>
+                                {/if}
                             </div>
                             <div class="col-xxl-6">
                                 <label for="to" class="form-label">To</label>
                                 <input type="text" name="to" class="form-control" placeholder="Insert end date" data-provider="flatpickr" data-minDate="{year.from}" data-maxDate="{year.to}" data-date-format="Y-m-d" id="to" bind:this={to}>
+                                {#if errors?.to}
+                                <strong class="text-danger ms-1 my-2">{errors.to[0]}</strong>
+                                {/if}
                             </div>
 
                             <div class="hstack gap-2 justify-content-end">
