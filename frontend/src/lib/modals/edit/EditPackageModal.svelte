@@ -59,9 +59,8 @@
     }
 
     function reset(){
-        // form.reset()
-        // features = []
-        // yearly = sale = tax = hidden = popular = false
+        errors = {}
+
     }
 
     packageStore.subscribe(() => {

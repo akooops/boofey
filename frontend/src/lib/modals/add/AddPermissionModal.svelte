@@ -30,8 +30,9 @@ async function save(){
 
 
 }
-function reset(){
+function reset(){    
     permissionName = ""
+    errors = {}
 }
 
 </script>

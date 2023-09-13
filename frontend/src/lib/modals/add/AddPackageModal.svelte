@@ -58,6 +58,7 @@
         form.reset()
         features = []
         yearly = sale = tax = hidden = popular = false
+        errors = {}
     }
     
     </script>

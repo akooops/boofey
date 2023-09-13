@@ -13,6 +13,8 @@
 
     let yearsToolTip
     let packagesToolTip
+    let canteensToolTip
+
     function openAcademicYears(){
         let toolTipInstance = bootstrap.Tooltip.getOrCreateInstance(yearsToolTip)
         goto(`schools/${school.id}/academicYears`)
@@ -24,6 +26,12 @@
         goto(`schools/${school.id}/packages`)
         toolTipInstance.hide()
     }
+    function openCanteens(){
+        let toolTipInstance = bootstrap.Tooltip.getOrCreateInstance(canteensToolTip)
+        goto(`schools/${school.id}/canteens`)
+        toolTipInstance.hide()
+    }
+
 
 
 
@@ -49,6 +57,7 @@
 
     <td>
         <div class="hstack gap-3 flex-wrap">
+            <span on:click={openCanteens}><a bind:this={canteensToolTip} href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Canteens" ><i class="ri-restaurant-2-fill"></i></a></span>
             <span on:click={openPackages}><a bind:this={packagesToolTip} href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Packages" ><i class="ri-archive-line"></i></a></span>
             <span on:click={openAcademicYears}><a bind:this={yearsToolTip} href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Academic Years" ><i class="ri-calendar-2-fill"></i></a></span>
             <span data-bs-toggle="modal" data-bs-target="#viewSchoolModal" on:click={setSchool}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="View" ><i class="ri-eye-fill"></i></a></span>

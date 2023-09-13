@@ -110,6 +110,21 @@ export function PathDelParent(parentId){
 
 }
 
+/////
+export function PathGetCanteens(schoolId,{page,search}){
+    return `${DOMAIN}/schools/${schoolId}/canteens?page=${page}&search=${search}`
+}
+
+export function PathAddCanteen(schoolId){
+    return `${DOMAIN}/schools/${schoolId}/canteens/store`
+}
+export function PathUpdateCanteen(canteenId){
+    return `${DOMAIN}/canteens/${canteenId}/update`
+}
+export function PathDelCanteen(canteenId){
+    return `${DOMAIN}/canteens/${canteenId}/destroy`
+}
+
 ///
 export function PathLogin(){
     return `${DOMAIN}/login`

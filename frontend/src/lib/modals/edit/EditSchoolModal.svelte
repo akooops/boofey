@@ -40,6 +40,8 @@
     }
     function reset(){
         editLogo = false
+        errors = {}
+
     }
 
     </script>
