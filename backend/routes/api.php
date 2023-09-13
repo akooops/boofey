@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group(['namespace' => 'App\Http\Controllers\Api', 'middleware' => ['custom.auth', 'convert.bool.string']], function(){    
+Route::group(['namespace' => 'App\Http\Controllers\Api', 'middleware' => [/*'custom.auth',*/ 'convert.bool.string']], function(){    
     Route::group(['prefix' => 'permissions'], function() {
         Route::get('/', 'PermissionsController@index')->name('api.permissions.index');
         Route::get('/{permission}', 'PermissionsController@show')->name('api.permissions.show');
@@ -56,6 +56,9 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'middleware' => ['custo
 
         Route::get('/{school}/packages', 'PackagesController@index')->name('api.packages.index');
         Route::post('/{school}/packages/store', 'PackagesController@store')->name('api.packages.store');
+
+        Route::get('/{school}/canteens', 'CanteensController@index')->name('api.canteens.index');
+        Route::post('/{school}/canteens/store', 'CanteensController@store')->name('api.canteens.store');
     });
 
     Route::group(['prefix' => 'academicYears'], function() {
@@ -105,9 +108,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'middleware' => ['custo
     });
 
     Route::group(['prefix' => 'canteens'], function() {
-        Route::get('/', 'CanteensController@index')->name('api.canteens.index');
         Route::get('/{canteen}', 'CanteensController@show')->name('api.canteens.show');
-        Route::post('/store', 'CanteensController@store')->name('api.canteens.store');
         Route::post('/{canteen}/update', 'CanteensController@update')->name('api.canteens.update');
         Route::post('/{canteen}/generate', 'CanteensController@generate')->name('api.canteens.generate');
         Route::post('/{canteen}/revoke', 'CanteensController@revoke')->name('api.canteens.revoke');

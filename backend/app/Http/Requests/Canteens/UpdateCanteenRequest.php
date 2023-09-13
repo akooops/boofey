@@ -28,7 +28,6 @@ class UpdateCanteenRequest extends FormRequest
         return [
             'name' => 'required|string|max:500',
             'address' => 'required|string',
-            'school_id' => 'required|numeric',
         ];
     }
 

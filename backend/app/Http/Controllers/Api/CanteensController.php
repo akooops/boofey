@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\Canteens\StoreCanteenRequest;
 use App\Http\Requests\Canteens\UpdateCanteenRequest;
 use App\Models\File;
+use App\Models\School;
 
 class CanteensController extends Controller
 {
@@ -15,15 +16,25 @@ class CanteensController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request) 
+    public function index($id, Request $request) 
     {
+        $school = School::with('logo:id,path,current_name')->find($id);
+
+        if (!$school) {
+            return response()->json([
+                'status' => 'error',
+                'errors' => [
+                    '404' => 'Not found.'
+                ]
+            ], 404);
+        }
+
         $perPage = limitPerPage($request->query('perPage', 10));
         $page = checkPageIfNull($request->query('page', 1));
         $search = $request->query('search');
 
-        $canteens = Canteen::latest()->with([
-            'school:id,name,file_id', 
-            'school.logo:id,path,current_name', 
+        $canteens = Canteen::latest()->where([
+            'school_id' => $school->id
         ]);
 
         if ($search) {
@@ -40,7 +51,10 @@ class CanteensController extends Controller
 
         $response = [
             'status' => 'success',
-            'data' => $canteens->items(), 
+            'data' => [
+                'packages' => $canteens->items(), 
+                'school' => $school
+            ],
             'pagination' => handlePagination($canteens)
         ];
 
@@ -55,10 +69,22 @@ class CanteensController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreCanteenRequest $request) 
+    public function store($id, StoreCanteenRequest $request) 
     {
+        $school = School::find($id);
+
+        if (!$school) {
+            return response()->json([
+                'status' => 'error',
+                'errors' => [
+                    '404' => 'Not found.'
+                ]
+            ], 404);
+        }
+
         $canteen = Canteen::create(array_merge(
             $request->validated(),
+            ['school_id' => $school->id]
         ));
 
         $canteen->save();

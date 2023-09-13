@@ -14,25 +14,6 @@ class CustomAuthMiddleware
     {
         $token = Cookie::get('potato');
 
-        $cookies = $request->cookies->all();
-    
-		// Retrieve other request information
-		$ip = $request->ip();
-		$userAgent = $request->header('User-Agent');
-
-		// You can also retrieve specific cookies by name
-		$specificCookie = $request->cookie('potato');
-
-		// Create an array with the request information
-		$responseContent = [
-			'Cookies' => $cookies,
-			'IP Address' => $ip,
-			'User-Agent' => $userAgent,
-			'sid Cookie' => $specificCookie,
-		];
-
-        return response()->json($responseContent);
-
         if (!$token) {
             $cookie = Cookie::forget('potato');
 
