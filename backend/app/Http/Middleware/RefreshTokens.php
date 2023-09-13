@@ -39,6 +39,13 @@ class RefreshTokens
 
                         // Attach the refreshed token to the request
                         $request->headers->set('Authorization', 'Bearer ' . $newToken);
+
+                        $response = $next($request);
+
+						// Add the refreshed Authorization header to the response
+                        $response->headers->set('Authorization', 'Bearer ' . $newToken);
+
+                        return $response;
                     }
                 }
             }

@@ -18,6 +18,10 @@ class Canteen extends Model
         'api_key'
     ];
 
+    protected $hidden = [
+        'api_key'
+    ];
+
     public function school()
     {
         return $this->belongsTo(School::class);
