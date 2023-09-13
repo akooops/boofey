@@ -12,11 +12,10 @@ class RefreshTokens
     public function handle(Request $request, Closure $next)
     {
         $authorizationHeader = $request->header('Authorization');
-        
+
         if ($authorizationHeader) {
             // Extract the token from the Authorization header
             $token = str_replace('Bearer ', '', $authorizationHeader);
-            
             // Find the token in the database
             $accessToken = PersonalAccessToken::findToken($token);
 

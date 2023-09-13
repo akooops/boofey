@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group(['namespace' => 'App\Http\Controllers\Api', 'middleware' => ['refresh.tokens', 'auth:sanctum', 'convert.bool.string']], function(){    
+Route::group(['namespace' => 'App\Http\Controllers\Api', 'middleware' => ['custom_auth_group', 'convert.bool.string']], function(){    
     Route::group(['prefix' => 'permissions'], function() {
         Route::get('/', 'PermissionsController@index')->name('api.permissions.index');
         Route::get('/{permission}', 'PermissionsController@show')->name('api.permissions.show');
