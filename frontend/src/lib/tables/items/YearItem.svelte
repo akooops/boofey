@@ -33,7 +33,7 @@
         <td>{year.academicDays}</td>
         <td>
             <div class="hstack gap-3 flex-wrap">
-                <span on:click={openAcademicBreaks}><a href="/academicYears/{year.id}/academicBreaks"  target="_blank"  class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Academic Breaks" ><i class="ri-calendar-2-fill"></i></a></span>
+                <span on:click={openAcademicBreaks}><a href="/admin/academicYears/{year.id}/academicBreaks"  target="_blank"  class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Academic Breaks" ><i class="ri-calendar-2-fill"></i></a></span>
                 <span data-bs-toggle="modal" data-bs-target="#viewYearModal" on:click={setYear}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="View" ><i class="ri-eye-fill"></i></a></span>
                 <span data-bs-toggle="modal" data-bs-target="#editYearModal" on:click={setYear}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Edit" ><i class="ri-edit-2-line"></i></a></span>
                 {#if !year.current}

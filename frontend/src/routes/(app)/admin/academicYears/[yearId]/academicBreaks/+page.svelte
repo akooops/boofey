@@ -15,6 +15,7 @@ import AddBreakModal from '$lib/modals/add/AddBreakModal.svelte';
 export let data
 
 $: breaksList = data.breaksResponse.data.academicBreaks
+console.log(breaksList)
 $: year = data.breaksResponse.data.academicYear
 $: school = year.school
 
@@ -96,7 +97,7 @@ onMount(() => {
                     <div class="card-body">
                         
                         <!-- <div id="calendar"></div> -->
-                        <Calendar {year} on:addEvent={() => fromBtn = true}/>
+                        <Calendar {year}/>
 
                     </div>
                 </div>
