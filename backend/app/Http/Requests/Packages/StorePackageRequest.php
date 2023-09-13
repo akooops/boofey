@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Packages;
 
+use App\Rules\UniquePackageCodeWithinSchool;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Http\JsonResponse;
@@ -25,9 +26,17 @@ class StorePackageRequest extends FormRequest
      */
     public function rules()
     {
+        $school = $this->route('school');
+
         return [
             'name' => 'required|string|max:500',
-            'code' => 'required|string|max:500|unique:packages,code',
+            'code' => [
+                'required',
+                'string',
+                'max:500',
+                new UniquePackageCodeWithinSchool($school),
+            ],            
+            
             'description' => 'sometimes|string',
 
             'sale_price' => 'sometimes|numeric|min:0',

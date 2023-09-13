@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('packages', function (Blueprint $table) {
-            $table->string('code')->unique()->nullable(false);
+            $table->string('code')->nullable(false);
             $table->boolean('hidden')->default(0);
             $table->float('tax')->default(0);
         });
