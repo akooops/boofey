@@ -52,7 +52,7 @@ class CanteensController extends Controller
         $response = [
             'status' => 'success',
             'data' => [
-                'packages' => $canteens->items(), 
+                'canteens' => $canteens->items(), 
                 'school' => $school
             ],
             'pagination' => handlePagination($canteens)
