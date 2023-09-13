@@ -17,6 +17,7 @@ export function staticCalendarOptions(){
         droppable: true,
         selectable: true,
         navLinks: true,
+        defaultAllDay:true,
         initialView: getInitialView(),
         themeSystem: 'bootstrap',
         headerToolbar: {
@@ -33,6 +34,42 @@ export function ResponsiveView(calendar,view){
     calendar.changeView(newView);
 }
 
+export function addDay(from,to){
+    if(from == to){
+        return from
+    }
+
+    const date = new Date(to);
+
+    // Add a day to the date
+    date.setDate(date.getDate() + 1);
+
+    // Get the new year, month, and day
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // Add leading zero if needed
+    const day = String(date.getDate()).padStart(2, "0");
+
+    return `${year}-${month}-${day}`;
+}
+
+export function subDay(from,to){
+    if(from == to || to == ""){
+        return from
+    }
+
+    const date = new Date(to);
+
+    // Add a day to the date
+    date.setDate(date.getDate() - 1);
+
+    // Get the new year, month, and day
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // Add leading zero if needed
+    const day = String(date.getDate()).padStart(2, "0");
+
+    return `${year}-${month}-${day}`;
+
+}
 
 
 // export function InitCalendar(node){

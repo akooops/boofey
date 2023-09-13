@@ -1,7 +1,7 @@
 <script>
 
 import { Calendar, formatDate } from 'fullcalendar'
-import {staticCalendarOptions,ResponsiveView} from "$lib/init/initCalendar.js"
+import {staticCalendarOptions,ResponsiveView,addDay,subDay} from "$lib/init/initCalendar.js"
 import { PathUpdateAcademicBreak } from "$lib/api/paths";
 import { toast } from "$lib/components/toast.js";
 import { invalidate } from '$app/navigation';
@@ -38,7 +38,7 @@ function Init(node){
         eventClick: (info) => {
             $breakStore = JSON.parse(JSON.stringify(info.event.extendedProps))
             $breakStore.id = info.event.id
-            
+            // console.log(info.event.startStr , info.event.endStr)
             viewBtn.click()
         },
         eventResize:editEvent,
@@ -51,13 +51,13 @@ function Init(node){
 
 }
 breaksListStore.subscribe(() => {
-
     calendarBreaks = $breaksListStore.map(breakObj => ({
         ...breakObj,
         start: breakObj.from,
-        end: breakObj.to,
+        end: addDay(breakObj.from,breakObj.to),
         title:breakObj.name,
         className: "bg-danger-subtle",
+        // allDay:true
     }));
     
     calendarInstance?.removeAllEvents()
@@ -69,7 +69,9 @@ async function editEvent(info){
     let formData = new FormData()
     formData.append("name",info.event.title)
     formData.append("from",info.event.startStr)
-    formData.append("to",info.event.endStr)
+    let to = subDay(info.event.startStr,info.event.endStr)
+    
+    formData.append("to",to)
 
     let res = await (await fetch(PathUpdateAcademicBreak(info.event.id),{
         method:"POST",
