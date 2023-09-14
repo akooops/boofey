@@ -41,7 +41,8 @@ class UpdateStudentRequest  extends FormRequest
             'school_id' => 'required|numeric',
             'academic_year_id' => 'required|numeric',
 
-            'file' => 'sometimes|file|mimes:jpeg,png'    
+            'edit_image' => 'required|boolean',
+            'file' => 'required_if:edit_image,true|file|mimes:jpeg,png'    
         ];
     }
 
