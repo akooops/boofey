@@ -102,8 +102,9 @@ class AuthController extends Controller
     }
 
     public function refreshTokens(RefreshTokensRequest $request){
+        $token = str_replace('Bearer ', '', $request->get('token'));
         // Find the token in the database
-        $accessToken = PersonalAccessToken::findToken($request->get('token'));
+        $accessToken = PersonalAccessToken::findToken($token);
 
         if ($accessToken) {
             if (now()->gt($accessToken->expires_at)) {

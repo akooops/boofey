@@ -1,12 +1,15 @@
 <?php
 
-namespace App\Http\Requests\Queues;
+namespace App\Http\Requests\QueueStudents;
 
+use App\Rules\CheckCurrentQueue;
+use App\Rules\UniqueStudentInQueue;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Validation\Rule;
 
-class SyncQueueRequest extends FormRequest
+class StoreQueueStudentRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,10 +28,12 @@ class SyncQueueRequest extends FormRequest
      */
     public function rules()
     {
+        $queue = $this->route('queue');
+
         return [
-            'students' => 'required|array',
-            'students.*.id' => 'required|integer',
-            'students.*.started_at' => 'required|date_format:Y-m-d H:i:s',
+            'started_at' => 'required|date_format:Y-m-d H:i:s',
+            'exited_at' => 'sometimes|date_format:Y-m-d H:i:s|after_or_equal:started_at',
+            'student_id' => ['required', new UniqueStudentInQueue($queue)],
         ];
     }
 

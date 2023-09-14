@@ -127,7 +127,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'middleware' => ['auth:
         Route::post('/{queue}/queueStudents/store', 'QueueStudentsController@store')->name('api.queueStudents.store');
     });
 
-    Route::group(['prefix' => 'queues'], function() {
+    Route::group(['prefix' => 'queueStudents'], function() {
         Route::get('/{queueStudent}', 'QueueStudentsController@show')->name('api.queueStudents.show');
         Route::post('/{queueStudent}/update', 'QueueStudentsController@update')->name('api.queueStudents.update');
         Route::delete('/{queueStudent}/destroy', 'QueueStudentsController@destroy')->name('api.queueStudents.destroy');
