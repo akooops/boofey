@@ -6,10 +6,12 @@ use App\Models\Queue;
 use Illuminate\Http\Request;
 use App\Http\Requests\Queues\StoreQueueRequest;
 use App\Http\Requests\Queues\UpdateQueueRequest;
+use App\Http\Requests\QueueStudents\ExitQueueStudentRequest;
 use App\Http\Requests\QueueStudents\StoreQueueStudentRequest;
 use App\Http\Requests\QueueStudents\UpdateQueueStudentRequest;
 use App\Models\File;
 use App\Models\QueueStudent;
+use App\Models\Student;
 use Carbon\Carbon;
 
 class QueueStudentsController extends Controller
@@ -173,6 +175,41 @@ class QueueStudentsController extends Controller
         }
 
         $queueStudent->delete();
+
+        return response()->json([
+            'status' => 'success'
+        ]);
+    }
+
+    public function exit(ExitQueueStudentRequest $request){
+        $student = Student::find($request->get('student_id'));
+        
+        if (!$student) {
+            return response()->json([
+                'status' => 'error',
+                'errors' => [
+                    '404' => 'Not found.'
+                ]
+            ], 404);
+        }
+
+        $queue = Queue::find($request->get('queue_id'));
+        
+        if (!$queue) {
+            return response()->json([
+                'status' => 'error',
+                'errors' => [
+                    '404' => 'Not found.'
+                ]
+            ], 404);
+        }
+
+        $queueStudent = QueueStudent::where([
+            'student_id' => $request->get('student_id'),
+            'queue_id' => $request->get('queue_id')
+        ])->first();
+
+        $queueStudent->update(['exited_at' => Carbon::now()]);
 
         return response()->json([
             'status' => 'success'

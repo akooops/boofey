@@ -141,6 +141,14 @@ class SyncController extends Controller
         $synced_at = Carbon::now();
 
         foreach($students as $student){
+            $queueStudent = QueueStudent::where([
+                'student_id' => $student['id'],
+                'queue_id' => $queue->id
+            ])->first();
+
+            if($queueStudent != null)
+                continue;
+
             $queueStudent = QueueStudent::create([
                 'started_at' => $student['started_at'],
                 'synced_at' => $synced_at,

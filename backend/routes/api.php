@@ -131,6 +131,8 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'middleware' => ['auth:
         Route::get('/{queueStudent}', 'QueueStudentsController@show')->name('api.queueStudents.show');
         Route::post('/{queueStudent}/update', 'QueueStudentsController@update')->name('api.queueStudents.update');
         Route::delete('/{queueStudent}/destroy', 'QueueStudentsController@destroy')->name('api.queueStudents.destroy');
+
+        Route::post('/exit', 'QueueStudentsController@exit')->name('api.queueStudents.exit');
     });
 
     Route::group(['prefix' => 'coupons'], function() {
