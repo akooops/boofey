@@ -43,8 +43,8 @@ class AuthController extends Controller
             // Revoke the user's existing token (if it exists)
             PersonalAccessToken::where('tokenable_id', $user->id)->delete();
 
-            $expiration = ($request->get('keep_me_signed_in') == true || $request->get('keep_me_signed_in') == 'true') ? now()->addDays(2) : now()->addMinutes(1);
-            $tokenName = ($request->get('keep_me_signed_in') == true || $request->get('keep_me_signed_in') == 'true')  ? 'long-lived-token' : 'short-lived-token';
+            $expiration = $request->get('keep_me_signed_in') == true ? now()->addDays(2) : now()->addMinutes(1);
+            $tokenName = $request->get('keep_me_signed_in') == true  ? 'long-lived-token' : 'short-lived-token';
 
             $user = $request->user();
             $token = $user->createToken($tokenName, ['*'], $expiration);

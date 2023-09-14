@@ -28,6 +28,7 @@ class LoginRequest extends FormRequest
         return [
             'login' => 'required',
             'password' => 'required',
+            'keep_me_signed_in' => 'required|boolean',
         ];
     }
 

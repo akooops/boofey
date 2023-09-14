@@ -121,7 +121,16 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'middleware' => ['auth:
     Route::group(['prefix' => 'queues'], function() {
         Route::get('/{queue}', 'QueuesController@show')->name('api.queues.show');
         Route::post('/{queue}/update', 'QueuesController@update')->name('api.queues.update');
-        Route::delete('/{queue}/destroy', 'QueuesController@destroy')->name('api.queues.destroy');;
+        Route::delete('/{queue}/destroy', 'QueuesController@destroy')->name('api.queues.destroy');
+
+        Route::get('/{queue}/queueStudents', 'QueueStudentsController@index')->name('api.queueStudents.index');
+        Route::post('/{queue}/queueStudents/store', 'QueueStudentsController@store')->name('api.queueStudents.store');
+    });
+
+    Route::group(['prefix' => 'queues'], function() {
+        Route::get('/{queueStudent}', 'QueueStudentsController@show')->name('api.queueStudents.show');
+        Route::post('/{queueStudent}/update', 'QueueStudentsController@update')->name('api.queueStudents.update');
+        Route::delete('/{queueStudent}/destroy', 'QueueStudentsController@destroy')->name('api.queueStudents.destroy');
     });
 
     Route::group(['prefix' => 'coupons'], function() {
@@ -144,7 +153,7 @@ Route::group(['prefix' => 'sync', 'namespace' => 'App\Http\Controllers\Api', 'mi
     Route::post('/students/{student}/face', 'SyncController@face')->name('api.face.sync');
 });
 
-Route::group(['namespace' => 'App\Http\Controllers\Api'], function(){  
+Route::group(['namespace' => 'App\Http\Controllers\Api', 'middleware' => ['convert.bool.string']], function(){  
     Route::post('register', 'AuthController@register');
     Route::post('login', 'AuthController@login');
     Route::post('password/email', 'AuthController@sendResetLinkEmail');
