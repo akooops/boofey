@@ -3,9 +3,15 @@
     import { toast } from "$lib/components/toast.js";
     import { invalidate } from '$app/navigation';
     import {redirector} from "$lib/api/auth"
+    import { getContext } from "svelte"
+
+    let {apiStore} = getContext("apiStore")
+
     let canteenName
     let close
     let form
+    let apiBtn
+    let apiKey
     export let schoolId
     let errors
 
@@ -26,11 +32,17 @@
     
         if(res.status == "success") {
             close.click()
+            $apiStore = res.data.api_key
+            apiBtn.click()
+            
             let text = `Added ${canteenName} as a new canteen` 
             toast(text,"success")
             invalidate("canteens:refresh")
             reset()
+
+
             
+
         }else {
             errors = res.errors
         }
@@ -47,7 +59,7 @@
     </script>
     
     
-    <div class="modal  fade" id="addCanteenModal" tabindex="-1" aria-labelledby="exampleModalgridLabel" aria-modal="true"  on:hidden.bs.modal={reset}>
+    <div class="modal  fade" id="addCanteenModal" tabindex="-1" aria-labelledby="exampleModalgridLabel" aria-modal="true" >
         <div class="modal-dialog modal-dialog-centered" >
             <div class="modal-content">
                 <div class="modal-header">
@@ -83,3 +95,9 @@
             </div>
         </div>
     </div>
+
+    <!--  -->
+
+    <span class="d-none" data-bs-toggle="modal" data-bs-target="#ApiModal" bind:this={apiBtn}></span>
+    
+

@@ -124,8 +124,23 @@ export function PathUpdateCanteen(canteenId){
 export function PathDelCanteen(canteenId){
     return `${DOMAIN}/canteens/${canteenId}/destroy`
 }
+export function PathGenCanteenAPi(canteenId){
+    return `${DOMAIN}/canteens/${canteenId}/generate`
 
+}
+export function PathRevokeAPi(canteenId){
+    return `${DOMAIN}/canteens/${canteenId}/revoke`
+
+}
 ///
+export function PathGetStudents({page,search}){
+    return `${DOMAIN}/students?page=${page}&search=${search}`
+}
+
+
+
+
+/////
 export function PathLogin(){
     return `${DOMAIN}/login`
 }
@@ -139,6 +154,7 @@ export function PathAuth(){
 export function PathLogOut(){
     return `${DOMAIN}/logout`
 }
+
 
 
 export function DefaultGetQueries(url){

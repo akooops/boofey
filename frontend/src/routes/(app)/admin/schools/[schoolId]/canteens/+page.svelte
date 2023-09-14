@@ -5,6 +5,9 @@
     import AddCanteenModal from "$lib/modals/add/AddCanteenModal.svelte";
 	import { onMount } from "svelte";
     import {initToolTip} from "$lib/init/initToolTip.js"
+    import { setContext } from 'svelte';
+    import { writable } from 'svelte/store';
+
     export let data
     $: canteensList = data.canteensResponse.data.canteens
     $: school = data.canteensResponse.data.school  
@@ -15,6 +18,12 @@
         initToolTip(canteensPage)
         // InitFlatPickr()
     })
+
+    setContext('apiStore', {
+	    apiStore: writable("")
+    });
+
+
     
 </script>
 <div class="row" bind:this={canteensPage}>

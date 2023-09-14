@@ -24,11 +24,13 @@ let viewBtn
 let calendarBreaks
 function Init(node){
     let staticOptions = staticCalendarOptions()
+
+
     calendarInstance = new Calendar(node,{
         ...staticOptions,
         validRange: {
             start: year.from,
-            end: year.to
+            end: addDay(undefined,year.to)
         },
         windowResize:(view) => ResponsiveView(calendarInstance,view),
         dateClick:(info) => {
