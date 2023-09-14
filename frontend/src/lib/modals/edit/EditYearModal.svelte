@@ -4,6 +4,7 @@
     import { invalidate } from '$app/navigation';
     import {loadDefaultDate} from "$lib/init/initFlatpickr.js"
     import { getContext } from "svelte";
+    import { redirector } from "$lib/api/auth";
 
     
     let {yearStore} = getContext("yearStore")
@@ -20,10 +21,16 @@
         let formData = new FormData(form)
         formData.set("current",+$yearStore.current)
 
-        let res = await (await fetch(PathUpdateAcademicYear($yearStore.id),{
+        let res = await fetch(PathUpdateAcademicYear($yearStore.id),{
+            headers:{
+                Authorization: `${localStorage.getItem("SID")}`
+            },
             method:"POST",
             body:formData
-        })).json()
+        })
+        redirector(res)
+
+        res = await res.json()
     
         if(res.status == "success") {
             close.click()

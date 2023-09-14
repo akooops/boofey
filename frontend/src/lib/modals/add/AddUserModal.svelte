@@ -3,6 +3,7 @@
     import {onMount} from "svelte"
     import { toast } from "$lib/components/toast.js";
     import { invalidate } from '$app/navigation';
+    import { redirector } from "$lib/api/auth";
 
     let close
     let username
@@ -17,10 +18,16 @@
         let formData = new FormData(form)
         console.log(formData)
     
-        let res = await (await fetch(PathAddUser(),{
+        let res = await fetch(PathAddUser(),{
+            headers:{
+                Authorization: `${localStorage.getItem("SID")}`
+            },
             method:"POST",
             body:formData
-        })).json()
+        })
+        redirector(res)
+
+        res = await res.json()
         if(res.status == "success") {
             close.click()
             let text = `Added ${username} as a new user` 

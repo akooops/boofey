@@ -3,6 +3,7 @@
     import { toast } from "$lib/components/toast.js";
     import { invalidate } from '$app/navigation';
     import {loadDefaultDate} from "$lib/init/initFlatpickr.js"
+    import { redirector } from "$lib/api/auth";
     
     let yearName
     let close
@@ -19,10 +20,16 @@
         let formData = new FormData(form)    
         formData.set("current",+current)
         
-        let res = await (await fetch(PathAddAcademicYear(schoolId),{
+        let res = await fetch(PathAddAcademicYear(schoolId),{
+            headers:{
+                Authorization: `${localStorage.getItem("SID")}`
+            },
             method:"POST",
             body:formData
-        })).json()
+        })
+        redirector(res)
+
+        res = await res.json()
     
         if(res.status == "success") {
             close.click()

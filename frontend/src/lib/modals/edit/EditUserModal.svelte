@@ -4,6 +4,7 @@
     import { toast } from "$lib/components/toast.js";
     import { invalidate } from '$app/navigation';
     import { page } from '$app/stores';
+    import { redirector } from "$lib/api/auth";
 
     let {userStore} = getContext("userStore")
     
@@ -22,10 +23,16 @@
         if(password == "" || editPassword == false){
             formData.delete("password")
         }
-        let res = await (await fetch(PathUpdateUser($userStore.id),{
+        let res = await fetch(PathUpdateUser($userStore.id),{
+            headers:{
+                Authorization: `${localStorage.getItem("SID")}`
+            },
             method:"POST",
             body:formData
-        })).json()
+        })
+        redirector(res)
+
+        res = await res.json()
         if(res.status == "success") {
             close.click()
             let text = `Edited ${$userStore.username} ` 

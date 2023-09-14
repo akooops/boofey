@@ -3,6 +3,7 @@
     import {onMount} from "svelte"
     import { toast } from "$lib/components/toast.js";
     import { invalidate } from '$app/navigation';
+    import { redirector } from "$lib/api/auth";
 
     
     let roleName
@@ -24,10 +25,16 @@
         formData.append("name",roleName)
         formData.append("permissions",JSON.stringify(selectedPermissions))
 
-        let res = await (await fetch(PathAddRole(),{
-        method:"POST",
-        body:formData
-        })).json()
+        let res = await fetch(PathAddRole(),{
+            headers:{
+                Authorization: `${localStorage.getItem("SID")}`
+            },
+            method:"POST",
+            body:formData
+        })
+        redirector(res)
+
+        res = await res.json()
 
         if(res.status == "success"){
             close.click()

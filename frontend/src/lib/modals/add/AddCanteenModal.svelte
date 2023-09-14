@@ -2,7 +2,7 @@
     import { PathAddCanteen } from "$lib/api/paths";
     import { toast } from "$lib/components/toast.js";
     import { invalidate } from '$app/navigation';
-    
+    import {redirector} from "$lib/api/auth"
     let canteenName
     let close
     let form
@@ -13,10 +13,16 @@
         errors = {}
         let formData = new FormData(form)    
         
-        let res = await (await fetch(PathAddCanteen(schoolId),{
+        let res = await fetch(PathAddCanteen(schoolId),{
+            headers:{
+                Authorization: `${localStorage.getItem("SID")}`
+            },
             method:"POST",
             body:formData
-        })).json()
+        })
+        redirector(res)
+
+        res = await res.json()
     
         if(res.status == "success") {
             close.click()

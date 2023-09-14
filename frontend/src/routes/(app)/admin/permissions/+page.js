@@ -1,29 +1,17 @@
 import { PathGetPermissions,DefaultGetQueries } from "$lib/api/paths"
+import { redirector } from "$lib/api/auth";
+
+export const ssr = false;
 export async function load({fetch,cookies,url,depends}) {
     depends('permissions:refresh');
-      
-    // const cookieStr = cookies.getAll()
-    // .map(cookie => `${cookie.name}=${encodeURIComponent(cookie.value)}`).join('; ');
+    let res = await fetch(PathGetPermissions(DefaultGetQueries(url)),{
+        headers:{
+            Authorization: `${localStorage.getItem("SID")}`
+        }
+    })
+    redirector(res)
 
-    // console.log(cookieStr)
-    let permissionsResponse = (await (await fetch(PathGetPermissions(DefaultGetQueries(url)))).json())
+    let permissionsResponse = await res.json()
 
-    // let permissionsResponse = {a:5}
-
-    
-    // let cookieData = await fetch("https://backend.boofey.app/api/cookies-and-data",{
-    //     headers: {
-    //         // Cookie: cookieStr,
-    //     }
-    // })
-
-    // console.log(cookieData)
-
-
-    // console.log(cookieData)
-    
-    // cookies.set('CookieExample', 'Exampel', {httpOnly:true});
-
-    // console.log(permissionsResponse)
     return {permissionsResponse}
 };

@@ -3,6 +3,7 @@
     import { toast } from "$lib/components/toast.js";
     import { invalidate } from '$app/navigation';
     import { getContext } from "svelte";
+    import { redirector } from "$lib/api/auth";
 
     
     let {permissionStore} = getContext("permissionStore")
@@ -17,10 +18,16 @@
         let formData = new FormData()
         formData.append("name",$permissionStore.name)
         
-        let res = await (await fetch(PathUpdatePermission($permissionStore.id),{
+        let res = await fetch(PathUpdatePermission($permissionStore.id),{
+            headers:{
+                Authorization: `${localStorage.getItem("SID")}`
+            },
             method:"POST",
             body:formData
-        })).json()
+        })
+        redirector(res)
+
+        res = await res.json()
     
         if(res.status == "success") {
             close.click()

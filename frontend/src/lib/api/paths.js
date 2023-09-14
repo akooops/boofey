@@ -130,6 +130,16 @@ export function PathLogin(){
     return `${DOMAIN}/login`
 }
 
+export function PathRefresh(){
+    return `${DOMAIN}/tokens/refresh`
+}
+export function PathAuth(){
+    return `${DOMAIN}/authenticated`
+}
+export function PathLogOut(){
+    return `${DOMAIN}/logout`
+}
+
 
 export function DefaultGetQueries(url){
     let page =  url.searchParams.get("page")
@@ -138,3 +148,4 @@ export function DefaultGetQueries(url){
     search = search ? search : ""
     return {page,search}
 }
+

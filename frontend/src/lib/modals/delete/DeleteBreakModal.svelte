@@ -3,6 +3,7 @@
     import { toast } from "$lib/components/toast.js";
     import { invalidate } from '$app/navigation';
     import { getContext } from "svelte";
+    import { redirector } from "$lib/api/auth";
 
 
     let close
@@ -10,7 +11,15 @@
     let breakStore = getContext("breakStore")
 
     async function deleteTarget(){
-        let res = await (await fetch(PathDelAcademicBreak($breakStore.id),{method:"DELETE"})).json()
+        let res = await fetch(PathDelAcademicBreak($breakStore.id),{
+            headers:{
+                Authorization: `${localStorage.getItem("SID")}`
+            },
+            method:"DELETE"
+        })
+        redirector(res)
+
+        res = await res.json()
 
         if(res.status == "success"){
             close.click()

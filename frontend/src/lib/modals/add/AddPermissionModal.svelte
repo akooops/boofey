@@ -2,6 +2,8 @@
 import { PathAddPermission } from "$lib/api/paths";
 import { toast } from "$lib/components/toast.js";
 import { invalidate } from '$app/navigation';
+import { redirector } from "$lib/api/auth";
+
 
 let permissionName
 let close
@@ -13,10 +15,16 @@ async function save(){
     let formData = new FormData()
     formData.append("name",permissionName)
 
-    let res = await (await fetch(PathAddPermission(),{
+    let res = await fetch(PathAddPermission(),{
+        headers:{
+            Authorization: `${localStorage.getItem("SID")}`
+        },
         method:"POST",
         body:formData
-    })).json()
+    })
+    redirector(res)
+
+    res = await res.json()
 
     if(res.status == "success") {
         close.click()

@@ -3,6 +3,7 @@
     import { toast } from "$lib/components/toast.js";
     import { invalidate } from '$app/navigation';
     import { getContext } from "svelte";
+    import { redirector } from "$lib/api/auth";
 
     let {schoolStore} = getContext("schoolStore")
     let editLogo = false
@@ -20,10 +21,16 @@
         formData.set("edit_logo",editLogo)
 
 
-        let res = await (await fetch(PathUpdateSchool($schoolStore.id),{
+        let res = await fetch(PathUpdateSchool($schoolStore.id),{
+            headers:{
+                Authorization: `${localStorage.getItem("SID")}`
+            },
             method:"POST",
             body:formData
-        })).json()
+        })
+        redirector(res)
+
+        res = await res.json()
     
         if(res.status == "success") {
             close.click()

@@ -2,6 +2,8 @@
     import { PathAddPackage } from "$lib/api/paths";
     import { toast } from "$lib/components/toast.js";
     import { invalidate } from '$app/navigation';
+    import { redirector } from "$lib/api/auth";
+
     
     export let schoolId
     let packageName
@@ -26,10 +28,16 @@
 
         // formData.append("name",packageName)
     
-        let res = await (await fetch(PathAddPackage(schoolId),{
+        let res = await fetch(PathAddPackage(schoolId),{
+            headers:{
+                Authorization: `${localStorage.getItem("SID")}`
+            },
             method:"POST",
             body:formData
-        })).json()
+        })
+        redirector(res)
+
+        res = await res.json()
     
         if(res.status == "success") {
             close.click()

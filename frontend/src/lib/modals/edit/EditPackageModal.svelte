@@ -3,6 +3,7 @@
     import { toast } from "$lib/components/toast.js";
     import { invalidate } from '$app/navigation';
     import { getContext, onMount } from "svelte";
+    import { redirector } from "$lib/api/auth";
     
     export let schoolId
     let packageName
@@ -31,10 +32,16 @@
 
         // formData.append("name",packageName)
     
-        let res = await (await fetch(PathUpdatePackage(packageStoreInstance.id),{
+        let res = await fetch(PathUpdatePackage(packageStoreInstance.id),{
+            headers:{
+                Authorization: `${localStorage.getItem("SID")}`
+            },
             method:"POST",
             body:formData
-        })).json()
+        })
+        redirector(res)
+
+        res = await res.json()
     
         if(res.status == "success") {
             close.click()

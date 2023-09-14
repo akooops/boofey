@@ -4,8 +4,10 @@
     export let data;
     let form 
     let keep_me_signed_in = false
+    let message = ""
 
     async function signin(){
+        message = ""
         let formData = new FormData(form)
         formData.set("keep_me_signed_in",keep_me_signed_in)
 
@@ -15,10 +17,13 @@
         }))
         .json()
         if(res.status == "success") {
-            // goto(res.data.redirect_to)
-            console.log(res)
+            localStorage.setItem("SID", `Bearer ${res.data.token}`);
+            if(res?.data?.user?.roles[0]?.name != "parent"){
+                goto("/admin")
+            }            
+        }else {
+            message = res.message
         }
-
     }
 
 
@@ -86,7 +91,9 @@
                                         <input class="form-check-input" type="checkbox" bind:checked={keep_me_signed_in} id="auth-remember-check">
                                         <label class="form-check-label" for="auth-remember-check">Keep me signed in</label>
                                     </div>
-
+                                    {#if message != ""}
+                                    <strong class="text-danger ms-1 my-2">{message}</strong>
+                                    {/if}
                                     <div class="mt-4">
                                         <button class="btn btn-info w-100" type="submit">Sign In</button>
                                     </div>

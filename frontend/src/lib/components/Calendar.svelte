@@ -7,6 +7,8 @@ import { toast } from "$lib/components/toast.js";
 import { invalidate } from '$app/navigation';
 import { getContext } from 'svelte';
 import { createEventDispatcher } from 'svelte';
+import { redirector } from "$lib/api/auth";
+
 
 const dispatch = createEventDispatcher();
 
@@ -73,10 +75,17 @@ async function editEvent(info){
     
     formData.append("to",to)
 
-    let res = await (await fetch(PathUpdateAcademicBreak(info.event.id),{
+    let res = await fetch(PathUpdateAcademicBreak(info.event.id),{
+        headers:{
+            Authorization: `${localStorage.getItem("SID")}`
+        },
         method:"POST",
         body:formData
-    })).json()
+    })
+    redirector(res)
+
+    res = await res.json()
+    
 
     if(res.status == "success") {
         let text = `Edited #${info.event.id}  ${info.event.title}` 

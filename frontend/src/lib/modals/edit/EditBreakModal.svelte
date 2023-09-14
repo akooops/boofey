@@ -4,6 +4,7 @@
     import { invalidate } from '$app/navigation';
     import {loadDefaultDate} from "$lib/init/initFlatpickr.js"
     import { getContext } from "svelte";
+    import { redirector } from "$lib/api/auth";
 
     
     let breakStore = getContext("breakStore")
@@ -20,10 +21,16 @@
     
         let formData = new FormData(form)
 
-        let res = await (await fetch(PathUpdateAcademicBreak($breakStore.id),{
+        let res = await fetch(PathUpdateAcademicBreak($breakStore.id),{
+            headers:{
+                Authorization: `${localStorage.getItem("SID")}`
+            },
             method:"POST",
             body:formData
-        })).json()
+        })
+        redirector(res)
+
+        res = await res.json()
     
         if(res.status == "success") {
             close.click()
