@@ -28,13 +28,13 @@ class UpdateSubscriptionRequest extends FormRequest
         return [
             'package_id' => 'required|numeric',
             'should_start_at' => 'sometimes|date_format:Y-m-d|after:today',
-            'use_package_info' => 'required|boolean',
 
-            'balance' => 'required|integer|min:0',
+            'days' => 'required|integer|min:0',
+            'balance' => 'required|integer|min:0|lte:days',
 
             'update_prices' => 'required|boolean',
+            'use_package_info' => 'required_if:update_prices,true|boolean',
 
-            'days' => 'required_if:use_package_info,false|integer|min:0',
             'tax' => 'required_if:use_package_info,false|required_if:update_prices,true|numeric|min:0',
 
             'apply_coupon' => 'required|required_if:update_prices,true|boolean',

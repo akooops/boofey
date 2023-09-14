@@ -6,6 +6,7 @@ use App\Models\Subscription;
 use Illuminate\Http\Request;
 use App\Http\Requests\Subscriptions\StoreSubscriptionRequest;
 use App\Http\Requests\Subscriptions\UpdateSubscriptionRequest;
+use App\Models\Coupon;
 use App\Models\File;
 use App\Models\Package;
 use App\Models\Payment;
@@ -18,13 +19,33 @@ class SubscriptionsController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request) 
+    public function index($id, Request $request) 
     {
+        $student = Student::with('image:id,current_name,path')->find($id);
+
+        if (!$student) {
+            return response()->json([
+                'status' => 'error',
+                'errors' => [
+                    '404' => 'Not found.'
+                ]
+            ], 404);
+        }
+
         $perPage = limitPerPage($request->query('perPage', 10));
         $page = checkPageIfNull($request->query('page', 1));
         $search = $request->query('search');
 
-        $subscriptions = Subscription::latest();
+        $subscriptions = Subscription::with('payment')->where('student_id', $student->id)->latest();
+
+        $activeSubscription = $student->subscriptions()
+            ->where('balance', '>', 0)
+            ->where('started_at', '!=', NULL)
+            ->with('payment')
+            ->first();
+                
+        if($activeSubscription)
+            $subscriptions->whereNot('id', $activeSubscription->id);
 
         if ($search) {
             $subscriptions->where('name', 'like', '%' . $search . '%')
@@ -32,10 +53,16 @@ class SubscriptionsController extends Controller
         }
 
         $subscriptions = $subscriptions->paginate($perPage, ['*'], 'page', $page);
+        $coupons = Coupon::get();
 
         $response = [
             'status' => 'success',
-            'data' => $subscriptions->items(), 
+            'data' => [
+                'subscriptions' => $subscriptions->items(), 
+                'activeSubscription' => $activeSubscription,
+                'student' => $student,
+                'coupons' => $coupons
+            ],
             'pagination' => handlePagination($subscriptions)
         ];
 
@@ -185,12 +212,10 @@ class SubscriptionsController extends Controller
             }
 
             $subscription->update([
-                'days' => $package->days,
+                'days' => $request->get('days'),
                 'balance' => $request->get('balance'),
                 'should_start_at' => $request->get('should_start_at'),
             ]);
-
-            $subscription->save();
         }else{
             $subscription->payment->update([
                 'package_id' => $package->id,
@@ -209,7 +234,7 @@ class SubscriptionsController extends Controller
             }
 
             $subscription->update([
-                'days' => $package->days,
+                'days' => $request->get('days'),
                 'balance' => $request->get('balance'),
                 'should_start_at' => $request->get('should_start_at'),
             ]);

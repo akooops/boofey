@@ -21,7 +21,7 @@ class Coupon extends Model
         'onhold',
     ];
 
-    function getExpiredhAttribute() {
+    function getExpiredAttribute() {
         return ($this->used >= $this->max || $this->onhold == true) ? true : false;
     }
 }
