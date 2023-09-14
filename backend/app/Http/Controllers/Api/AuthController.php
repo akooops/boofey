@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\LoginRequest;
+use App\Http\Requests\Auth\RefreshTokensRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -30,14 +32,8 @@ class AuthController extends Controller
         ]);
     }
 
-    public function login(Request $request)
+    public function login(LoginRequest $request)
     {
-        // Validate the user's login credentials
-        $request->validate([
-            'login' => 'required',
-            'password' => 'required',
-        ]);
-
         // Attempt to authenticate the user
         if (Auth::attempt(['email' => $request->input('login'), 'password' => $request->password])
             || Auth::attempt(['username' => $request->input('login'), 'password' => $request->password])
@@ -47,8 +43,8 @@ class AuthController extends Controller
             // Revoke the user's existing token (if it exists)
             PersonalAccessToken::where('tokenable_id', $user->id)->delete();
 
-            $expiration = $request->input('keep_me_signed_in') ? now()->addDays(2) : now()->addMinutes(5);
-            $tokenName = $request->input('keep_me_signed_in') ? 'long-lived-token' : 'short-lived-token';
+            $expiration = ($request->get('keep_me_signed_in') == true || $request->get('keep_me_signed_in') == 'true') ? now()->addDays(2) : now()->addMinutes(1);
+            $tokenName = ($request->get('keep_me_signed_in') == true || $request->get('keep_me_signed_in') == 'true')  ? 'long-lived-token' : 'short-lived-token';
 
             $user = $request->user();
             $token = $user->createToken($tokenName, ['*'], $expiration);
@@ -103,5 +99,40 @@ class AuthController extends Controller
             'status' => 'success',
             'message' => 'Succesfully logged out!'
         ], 200);
+    }
+
+    public function refreshTokens(RefreshTokensRequest $request){
+        // Find the token in the database
+        $accessToken = PersonalAccessToken::findToken($request->get('token'));
+
+        if ($accessToken) {
+            if (now()->gt($accessToken->expires_at)) {
+                // Check if the token has expired within the last 4 hours
+                if ($accessToken->expires_at && now()->diffInHours($accessToken->expires_at) <= 4) {
+                    $expiration = ($accessToken->name === 'long-lived-token') ? now()->addDays(2) : now()->addMinutes(1);
+                    $tokenName = ($accessToken->name === 'long-lived-token') ? 'long-lived-token' : 'short-lived-token';
+
+                    // Refresh the token
+                    $newToken = $accessToken->tokenable->createToken(
+                        $tokenName,
+                        $accessToken->abilities,
+                        $expiration // Refresh with a new expiration time
+                    )->plainTextToken;
+
+                    // Revoke the old token
+                    $accessToken->delete();
+
+                    return response()->json([
+                        'status' => 'success',
+                        'token' => $newToken
+                    ], 200);
+                }
+            }
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'token' => $request->get('token')
+        ], 200);    
     }
 }

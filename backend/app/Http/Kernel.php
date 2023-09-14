@@ -40,16 +40,9 @@ class Kernel extends HttpKernel
         ],
 
         'api' => [
-            \App\Http\Middleware\RefreshTokens::class,
             \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
             'throttle:api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
-        ],
-
-        'custom_auth_group' => [
-            'throttle:api',
-            \App\Http\Middleware\RefreshTokens::class,
-            'auth:sanctum',
         ],
     ];
 

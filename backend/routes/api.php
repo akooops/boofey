@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group(['namespace' => 'App\Http\Controllers\Api', 'middleware' => ['custom_auth_group', 'convert.bool.string']], function(){    
+Route::group(['namespace' => 'App\Http\Controllers\Api', 'middleware' => ['auth:sanctum', 'convert.bool.string']], function(){    
     Route::group(['prefix' => 'permissions'], function() {
         Route::get('/', 'PermissionsController@index')->name('api.permissions.index');
         Route::get('/{permission}', 'PermissionsController@show')->name('api.permissions.show');
@@ -149,4 +149,6 @@ Route::group(['namespace' => 'App\Http\Controllers\Api'], function(){
     Route::post('login', 'AuthController@login');
     Route::post('password/email', 'AuthController@sendResetLinkEmail');
     Route::post('password/reset', 'AuthController@reset');
+
+    Route::post('tokens/refresh', 'AuthController@refreshTokens');
 });
