@@ -41,6 +41,7 @@ class PackagesController extends Controller
 
         if ($search) {
             $packages->where('name', 'like', '%' . $search . '%')
+                ->where('code', 'like', '%' . $search . '%')
                 ->orWhere('description', 'like', '%' . $search . '%');
         }
 

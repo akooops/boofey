@@ -60,8 +60,15 @@ class SubscriptionsController extends Controller
             $subscriptions->whereNot('id', $activeSubscription->id);
 
         if ($search) {
-            $subscriptions->where('name', 'like', '%' . $search . '%')
-            ->orWhere('code', 'like', '%' . $search . '%');
+            $subscriptions->where(function ($query) use ($search) {
+                $query->whereHas('payment', function ($paymentQuery) use ($search) {
+                        $paymentQuery->WhereHas('package', function ($packageQuery) use ($search) {
+                                $packageQuery->where('name', 'like', '%' . $search . '%')
+                                    ->where('code', 'like', '%' . $search . '%')
+                                    ->orWhere('description', 'like', '%' . $search . '%');
+                            });
+                    });
+            });
         }
 
         $subscriptions = $subscriptions->paginate($perPage, ['*'], 'page', $page);
