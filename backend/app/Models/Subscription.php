@@ -9,7 +9,7 @@ class Subscription extends Model
 {
     use HasFactory;
 
-    protected $appends = ["expired"];
+    protected $appends = ["expired", 'status'];
 
     protected $fillable = [
         'days',
@@ -31,6 +31,19 @@ class Subscription extends Model
     }
     
     public function getExpiredAttribute(){
-        return ($this->balance > 0 && $this->started_at != null) ? false : true;
+        if(
+            ($this->balance > 0 && $this->started_at != null) || 
+            ($this->balance > 0 && $this->started_at == null)
+        ) return false;
+        
+        return true;
+    }
+
+    public function getStatusAttribute(){
+        if($this->balance > 0 && $this->started_at != null) return 0;
+        elseif($this->balance > 0 && $this->started_at == null) return 1;
+        elseif($this->balance <= 0 && $this->started_at == null) return 2;
+        
+        return 2;
     }
 }
