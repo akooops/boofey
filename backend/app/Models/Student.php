@@ -10,7 +10,7 @@ class Student extends Model
 {
     use HasFactory;
 
-    protected $appends = ["subscribed", "tookSnackToday", 'tookMainMealToday'];
+    protected $appends = ['fullname', "subscribed", "tookSnackToday", 'tookMainMealToday'];
 
     protected $fillable = [
         'name',
@@ -81,5 +81,10 @@ class Student extends Model
 
     function getSubscribedAttribute() {  
         return ($this->currentSubscription == null) ? false : true;
+    }
+
+    public function getFullnameAttribute()
+    {
+        return $this->firstname . ' ' . $this->lastname;
     }
 }
