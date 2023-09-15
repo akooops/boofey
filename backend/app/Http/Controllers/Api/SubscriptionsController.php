@@ -39,7 +39,9 @@ class SubscriptionsController extends Controller
         $subscriptions = Subscription::with([
             'payment',
             'payment.coupon',
-            'payment.package'
+            'payment.package',
+            'payment.package.school',
+            'payment.package.school.logo',
         ])->where('student_id', $student->id)->latest();
 
         $activeSubscription = $student->subscriptions()
@@ -48,7 +50,9 @@ class SubscriptionsController extends Controller
             ->with([
                 'payment',
                 'payment.coupon',
-                'payment.package'
+                'payment.package',
+                'payment.package.school',
+                'payment.package.school.logo',
             ])
             ->first();
                 
