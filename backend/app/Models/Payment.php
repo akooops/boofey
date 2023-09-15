@@ -9,6 +9,8 @@ class Payment extends Model
 {
     use HasFactory;
 
+    protected $appends = ["discountCalculated", 'taxCalculated'];
+
     protected $fillable = [
         'tax',
         'discount',
@@ -88,5 +90,15 @@ class Payment extends Model
             'balance' => $balance,
             'should_start_at' => $shouldStartAt,
         ]);
+    }
+
+    public function getDiscountCalculatedAttribute(){
+        return $this->subtotal * ($this->discount / 100);
+    }
+
+    public function getTaxCalculatedAttribute(){
+        $total = $this->subtotal - $this->subtotal * ($this->discount / 100);
+
+        return $total * ($this->tax / 100);
     }
 }
