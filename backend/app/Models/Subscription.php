@@ -40,10 +40,10 @@ class Subscription extends Model
     }
 
     public function getStatusAttribute(){
-        if($this->balance > 0 && $this->started_at != null) return 0;
-        elseif($this->balance > 0 && $this->started_at == null) return 1;
-        elseif($this->balance <= 0 && $this->started_at == null) return 2;
+        if($this->balance > 0 && $this->started_at != null) return 'active';
+        elseif($this->balance > 0 && $this->started_at == null) return 'scheduled';
+        elseif($this->balance <= 0 && $this->started_at == null) return 'expired';
         
-        return 2;
+        return 'expired';
     }
 }
