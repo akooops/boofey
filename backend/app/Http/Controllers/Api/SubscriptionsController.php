@@ -36,12 +36,18 @@ class SubscriptionsController extends Controller
         $page = checkPageIfNull($request->query('page', 1));
         $search = $request->query('search');
 
-        $subscriptions = Subscription::with('payment')->where('student_id', $student->id)->latest();
+        $subscriptions = Subscription::with([
+            'payment',
+            'payment.coupon'
+        ])->where('student_id', $student->id)->latest();
 
         $activeSubscription = $student->subscriptions()
             ->where('balance', '>', 0)
             ->where('started_at', '!=', NULL)
-            ->with('payment')
+            ->with([
+                'payment',
+                'payment.coupon'
+            ])
             ->first();
                 
         if($activeSubscription)
@@ -53,7 +59,7 @@ class SubscriptionsController extends Controller
         }
 
         $subscriptions = $subscriptions->paginate($perPage, ['*'], 'page', $page);
-        $coupons = Coupon::get();
+        $coupons = Coupon::where('onhold', 0)->whereColumn('used', '<=', 'max')->get();
 
         $response = [
             'status' => 'success',
