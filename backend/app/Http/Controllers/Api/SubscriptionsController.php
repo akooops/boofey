@@ -64,7 +64,7 @@ class SubscriptionsController extends Controller
                 $query->whereHas('payment', function ($paymentQuery) use ($search) {
                         $paymentQuery->WhereHas('package', function ($packageQuery) use ($search) {
                                 $packageQuery->where('name', 'like', '%' . $search . '%')
-                                    ->where('code', 'like', '%' . $search . '%')
+                                    ->orWhere('code', 'like', '%' . $search . '%')
                                     ->orWhere('description', 'like', '%' . $search . '%');
                             });
                     });
