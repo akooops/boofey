@@ -41,13 +41,47 @@ class Payment extends Model
 
     public function calculateDiscount(){
         $coupon = Coupon::find($this->coupon_id);
-        return($coupon == null) ? 0 : $coupon->discount;
+        $this->discount = ($coupon == null) ? 0 : $coupon->discount;
     }
 
     public function calculateTotal(){
+        $this->calculateDiscount();
+
         $total = $this->subtotal - $this->subtotal * ($this->discount / 100);
         $total = $total + $total * ($this->tax / 100);
 
-        return $total;
+        $this->total = $total;
+    }
+
+    public function saveFromPackageInfo($package, $saveFromPackageInfo = true, $tax = null, $subtotal = null){
+        $this->package_id = $package->id;
+
+        $this->tax = ($saveFromPackageInfo == true) ? $package->tax : $tax;
+        $this->subtotal = ($saveFromPackageInfo == true) ? $package->currentPrice : $subtotal; 
+    }
+
+    public function applyCoupon($coupon){
+        $this->coupon_id = $coupon->id;
+    }
+
+    public function saveSubscriptionInfo($student, $days, $balence, $shouldStartAt){
+        $subscription = new Subscription([
+            'days' => $days,
+            'balance' => $balence,
+            'should_start_at' => $shouldStartAt,
+            'student_id' => $student->id,
+            'payment_id' => $this->id, 
+        ]);
+    
+        $subscription->save();
+    }
+
+    public function updateSubscriptionInfo($days, $balance, $shouldStartAt)
+    {
+        $this->subscription->update([
+            'days' => $days,
+            'balance' => $balance,
+            'should_start_at' => $shouldStartAt,
+        ]);
     }
 }

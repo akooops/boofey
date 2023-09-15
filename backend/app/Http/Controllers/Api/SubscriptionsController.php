@@ -92,51 +92,32 @@ class SubscriptionsController extends Controller
 
         $package = Package::find($request->get('package_id'));
 
+        $payment = Payment::create([
+            'father_id' => $student->father->id,
+        ]);
+
+        $days = 0;
+        $balance = 0;
+
         if($request->get('use_package_info') == true){
-            $payment = Payment::create([
-                'tax' => $package->tax,
-                'subtotal' => $package->currentPrice,
-                'package_id' => $package->id,
-                'father_id' => $student->father->id,
-                'coupon_id' => ($request->get('apply_coupon') == true) ? $request->get('coupon_id') : null
-            ]);
+            $payment->saveFromPackageInfo($package);
+            $days = $package->days;
+            $balance = $package->days;
 
-            $payment->discount = $payment->calculateDiscount();
-            $payment->total = $payment->calculateTotal();
-            $payment->save();
-
-            $subscription = Subscription::create([
-                'days' => $package->days,
-                'balance' => $package->days,
-                'should_start_at' => $request->get('should_start_at'),
-                'payment_id' => $payment->id,
-                'student_id' => $student->id,
-            ]);
-
-            $subscription->save();
         }else{
-            $payment = Payment::create([
-                'tax' => $request->get('tax'),
-                'subtotal' => $request->get('subtotal'),
-                'package_id' => $package->id,
-                'father_id' => $student->father->id,
-                'coupon_id' => ($request->get('apply_coupon') == true) ? $request->get('coupon_id') : null
-            ]);
-
-            $payment->discount = $payment->calculateDiscount();
-            $payment->total = $payment->calculateTotal();
-            $payment->save();
-
-            $subscription = Subscription::create([
-                'days' => $request->get('days'),
-                'balance' => $request->get('days'),
-                'should_start_at' => $request->get('should_start_at'),
-                'payment_id' => $payment->id,
-                'student_id' => $student->id,
-            ]);
-
-            $subscription->save();
+            $payment->saveFromPackageInfo($package, false, $request->get('tax'), $request->get('subtotal'));
+            $days = $request->get('days');
+            $balance = $request->get('days');
         }
+
+        if($request->get('apply_coupon') == true){
+            $coupon = Coupon::find($request->get('coupon_id'));
+            $payment->applyCoupon($coupon);
+        }
+
+        $payment->calculateTotal();
+        $payment->save();
+        $payment->saveSubscriptionInfo($student, $days, $balance, $request->get('should_start_at'));
 
         return response()->json([
             'status' => 'success'
@@ -194,51 +175,29 @@ class SubscriptionsController extends Controller
 
         $package = Package::find($request->get('package_id'));
 
-        if($request->get('use_package_info') == true){
-            $subscription->payment->update([
-                'package_id' => $package->id,
-            ]);
-
-            if($request->get('update_prices') == true){
-                $subscription->payment->update([
-                    'tax' => $package->tax,
-                    'subtotal' => $package->currentPrice,
-                    'coupon_id' => ($request->get('apply_coupon') == true) ? $request->get('coupon_id') : null
-                ]);
-
-                $subscription->payment->discount = $subscription->payment->calculateDiscount();
-                $subscription->payment->total = $subscription->payment->calculateTotal();
-                $subscription->payment->save();
+        if($request->get('update_prices') == true){
+            
+            if($request->get('use_package_info')){
+                $subscription->payment->saveFromPackageInfo($package);
+            }else{
+                $subscription->payment->saveFromPackageInfo($package, false, $request->get('tax'), $request->get('subtotal'));
             }
 
-            $subscription->update([
-                'days' => $request->get('days'),
-                'balance' => $request->get('balance'),
-                'should_start_at' => $request->get('should_start_at'),
-            ]);
+            if($request->get('apply_coupon') == true){
+                $coupon = Coupon::find($request->get('coupon_id'));
+                $subscription->payment->applyCoupon($coupon);
+            }
+
+            $subscription->payment->calculateTotal();
         }else{
-            $subscription->payment->update([
-                'package_id' => $package->id,
-            ]);
-
-            if($request->get('update_prices') == true){
-                $subscription->payment->update([
-                    'tax' => $request->get('tax'),
-                    'subtotal' => $request->get('subtotal'),
-                    'coupon_id' => ($request->get('apply_coupon') == true) ? $request->get('coupon_id') : null
-                ]);
-
-                $subscription->payment->discount = $subscription->payment->calculateDiscount();
-                $subscription->payment->total = $subscription->payment->calculateTotal();
-                $subscription->payment->save();
-            }
-
-            $subscription->update([
-                'days' => $request->get('days'),
-                'balance' => $request->get('balance'),
-                'should_start_at' => $request->get('should_start_at'),
-            ]);
+            $subscription->payment->package_id = $package->id;
         }
+
+        $days = $request->get('days');
+        $balance = $request->get('balance');
+
+        $subscription->payment->save();
+        $subscription->payment->updateSubscriptionInfo($days, $balance, $request->get('should_start_at'));
 
         return response()->json([
             'status' => 'success'
