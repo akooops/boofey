@@ -41,7 +41,7 @@ class UpdateSubscriptions extends Command
                 // Find subscriptions with balance > 0, started_at is null, and order by should_start_at
                 $subscriptions = $student->subscriptions()->where('balance', '>', 0)
                     ->whereNull('started_at')
-                    ->orderBy('should_start_at', 'asc')
+                    ->orderByRaw('ISNULL(should_start_at) DESC, should_start_at ASC')
                     ->get();
 
                 if ($subscriptions->isNotEmpty()) {
