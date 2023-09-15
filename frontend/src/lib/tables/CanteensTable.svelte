@@ -1,16 +1,20 @@
 <script>
     import DeleteCanteenModal from "$lib/modals/delete/DeleteCanteenModal.svelte"
 	import ViewCanteenModal from "$lib/modals/view/ViewCanteenModal.svelte";
+	import ViewApiModal from "$lib/modals/view/ViewApiModal.svelte";
+
 	import EditCanteenModal from "$lib/modals/edit/EditCanteenModal.svelte";
     import CanteenItem from "$lib/tables/items/CanteenItem.svelte";
 
     import { setContext } from 'svelte';
     import { writable } from 'svelte/store';
+	import RevokeApiModal from "../modals/delete/RevokeApiModal.svelte";
     
     export let canteensList
     setContext('canteenStore', {
 	    canteenStore: writable({})
     });
+
 
 </script>
 
@@ -40,5 +44,7 @@
         <EditCanteenModal /> 
         <DeleteCanteenModal />
         <ViewCanteenModal /> 
+        <ViewApiModal /> 
+        <RevokeApiModal />
     </div>
 </div>

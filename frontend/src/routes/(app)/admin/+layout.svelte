@@ -14,8 +14,9 @@ $: console.log(user)
 
 
 <TopBar {user}/>
- <!-- ========== App Menu ========== -->
 <NavBar />
+
+    <!-- ========== App Menu ========== -->
 <div class="vertical-overlay"></div>
 <!-- Left Sidebar End -->
 
@@ -47,5 +48,5 @@ $: console.log(user)
     </div>
 </div>
 
-{@html '<script src="/assets/js/app.js"></script>'}
+{@html ''}
 

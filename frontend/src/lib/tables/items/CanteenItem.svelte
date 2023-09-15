@@ -1,16 +1,30 @@
 <script>
     import { getContext } from "svelte"
-    
-        export let canteen
-        let {canteenStore} = getContext("canteenStore")
+    import {PathGenCanteenAPi} from "$lib/api/paths.js"
+    import { redirector } from "$lib/api/auth";
 
-        function openAcademicBreaks(){
-            
-        }
-        
-        function setCanteen(){
-            $canteenStore = JSON.parse(JSON.stringify(canteen));
-        }
+    export let canteen
+    let {canteenStore} = getContext("canteenStore")
+    let {apiStore} = getContext("apiStore")
+
+
+    
+    function setCanteen(){
+        $canteenStore = JSON.parse(JSON.stringify(canteen));
+    }
+
+    async function setApi(){
+        let res = await fetch(PathGenCanteenAPi(canteen.id),{
+            headers:{
+                Authorization: `${localStorage.getItem("SID")}`
+            },
+            method:"POST",
+        })
+        redirector(res)
+
+        res = await res.json()
+        $apiStore = res.data.api_key    
+    }
     
     </script>
     
@@ -25,9 +39,12 @@
         <td>{canteen.address}</td>
         <td>
             <div class="hstack gap-3 flex-wrap">
+                <span data-bs-toggle="modal" data-bs-target="#RevokeApiModal" on:click={setCanteen}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Revoke API Key" ><i class="ri-eraser-line"></i></a></span>
+                <span data-bs-toggle="modal" data-bs-target="#ApiModal" on:click={setApi}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Generate API Key" ><i class="ri-refresh-line"></i></a></span>
                 <span data-bs-toggle="modal" data-bs-target="#viewCanteenModal" on:click={setCanteen}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="View" ><i class="ri-eye-fill"></i></a></span>
                 <span data-bs-toggle="modal" data-bs-target="#editCanteenModal" on:click={setCanteen}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Edit" ><i class="ri-edit-2-line"></i></a></span>
                 <span data-bs-toggle="modal" data-bs-target="#deleteCanteenModal" on:click={setCanteen}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Delete"><i class="ri-delete-bin-line"></i></a></span>
             </div>
         </td>
     </tr>
+

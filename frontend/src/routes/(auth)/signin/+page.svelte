@@ -5,24 +5,30 @@
     let form 
     let keep_me_signed_in = false
     let message = ""
-
+    let errors 
     async function signin(){
+        errors = {}
         message = ""
         let formData = new FormData(form)
         formData.set("keep_me_signed_in",keep_me_signed_in)
 
-        let res = await (await fetch(PathLogin(),{
+        let res = await fetch(PathLogin(),{
             method:"POST",
             body:formData
-        }))
-        .json()
-        if(res.status == "success") {
-            localStorage.setItem("SID", `Bearer ${res.data.token}`);
-            if(res?.data?.user?.roles[0]?.name != "parent"){
+        })
+
+        let resJson = await res.json()
+        if(resJson.status == "success") {
+            localStorage.setItem("SID", `Bearer ${resJson.data.token}`);
+            if(resJson?.data?.user?.roles[0]?.name != "parent"){
                 goto("/admin")
             }            
         }else {
-            message = res.message
+            if(res.status == 422){
+                errors = resJson.errors
+            }else {
+                message = resJson.message
+            }
         }
     }
 
@@ -74,6 +80,9 @@
                                     <div class="mb-3">
                                         <label for="username" class="form-label">Username</label>
                                         <input type="text" class="form-control" id="username" name="login" placeholder="Enter username, email or phone">
+                                        {#if errors?.login}
+                                            <strong class="text-danger ms-1 my-2">{errors.login[0]}</strong>
+                                        {/if}
                                     </div>
 
                                     <div class="mb-3">
@@ -85,6 +94,9 @@
                                             <input type="password" class="form-control pe-5 password-input" placeholder="Enter password" name="password" id="password-input">
                                             <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon" type="button" id="password-addon"><i class="ri-eye-fill align-middle"></i></button>
                                         </div>
+                                        {#if errors?.password}
+                                        <strong class="text-danger ms-1 my-2">{errors.password[0]}</strong>
+                                        {/if}
                                     </div>
 
                                     <div class="form-check">

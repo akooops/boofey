@@ -9,7 +9,8 @@
         { title: "Roles", links: [], route:"/admin/roles"},
         { title: "Users", links: [], route:"/admin/users"},
         { title: "Schools", links: [], route:"/admin/schools"},
-        { title: "Parents", links: [], route:"/admin/parents"}
+        { title: "Parents", links: [], route:"/admin/parents"},
+        { title: "Students", links: [], route:"/admin/students"},
 
       ],
     },
