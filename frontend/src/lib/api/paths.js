@@ -139,6 +139,15 @@ export function PathGetStudents({page,search}){
 
 
 
+export function PathDelStudent(studentId){
+    return `${DOMAIN}/students/${studentId}/destroy`
+}
+
+//// 
+export function PathGetSubscriptions(studentId,{page,search}){
+    return `${DOMAIN}/students/${studentId}/subscriptions?page=${page}&search=${search}`
+
+}
 
 /////
 export function PathLogin(){
