@@ -61,7 +61,12 @@ class Payment extends Model
     }
 
     public function applyCoupon($coupon){
+        if($coupon->onhold == true) return;
+        if($coupon->used >= $coupon->max) return;
+
         $this->coupon_id = $coupon->id;
+
+        $coupon->increment('used');
     }
 
     public function saveSubscriptionInfo($student, $days, $balence, $shouldStartAt){
