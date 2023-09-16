@@ -19,6 +19,7 @@ class Payment extends Model
         'father_id',
         'package_id',
         'coupon_id',
+        'billing_id'
     ];
 
     public function coupon()
@@ -39,6 +40,11 @@ class Payment extends Model
     public function father()
     {
         return $this->belongsTo(father::class);
+    }
+
+    public function billing()
+    {
+        return $this->belongsTo(Billing::class);
     }
 
     public function calculateDiscount(){
