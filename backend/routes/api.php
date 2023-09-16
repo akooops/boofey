@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group(['namespace' => 'App\Http\Controllers\Api', 'middleware' => ['auth:sanctum', 'convert.bool.string']], function(){    
+Route::group(['namespace' => 'App\Http\Controllers\Api', 'middleware' => [/*'auth:sanctum',*/ 'convert.bool.string']], function(){    
     Route::group(['prefix' => 'permissions'], function() {
         Route::get('/', 'PermissionsController@index')->name('api.permissions.index');
         Route::get('/{permission}', 'PermissionsController@show')->name('api.permissions.show');
@@ -97,6 +97,8 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'middleware' => ['auth:
         Route::post('/{student}/update', 'StudentsController@update')->name('api.students.update');
         Route::delete('/{student}/destroy', 'StudentsController@destroy')->name('api.students.destroy');
 
+        Route::post('/{student}/otp', 'StudentsController@otp')->name('api.subscriptions.otp');
+
         Route::get('/{student}/subscriptions', 'SubscriptionsController@index')->name('api.subscriptions.index');
         Route::post('/{student}/subscriptions/store', 'SubscriptionsController@store')->name('api.subscriptions.store');
     });
@@ -145,7 +147,11 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'middleware' => ['auth:
 
     Route::get('authenticated', 'AuthController@authenticated');
     Route::post('logout', 'AuthController@logout');
+
+    Route::get('amazon', 'AmazonController@s');
+
 });
+
 
 
 Route::group(['prefix' => 'sync', 'namespace' => 'App\Http\Controllers\Api', 'middleware' => ['verify.apikey']], function() {

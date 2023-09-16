@@ -40,6 +40,10 @@ class SyncController extends Controller
                 'face_id' => $student->face_id,
                 'onhold' => $student->onhold,
                 'subscribed' => $student->subscribed,
+                'otp' => [
+                    'opt' => $student->otp,
+                    'expired_at' => $student->otp_expires_at,
+                ],
                 'image' => [
                     'id' => $student->image->id,
                     'full_path' => $student->image->full_path,

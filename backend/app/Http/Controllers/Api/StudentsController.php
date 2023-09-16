@@ -11,6 +11,7 @@ use App\Models\Father;
 use App\Models\File;
 use App\Models\School;
 use Illuminate\Database\Eloquent\Scope;
+use Illuminate\Support\Str;
 
 class StudentsController extends Controller
 {
@@ -202,6 +203,39 @@ class StudentsController extends Controller
 
         return response()->json([
             'status' => 'success'
+        ]);
+    }
+
+    public function otp($id) 
+    {
+        $student = Student::find($id);
+
+        if (!$student) {
+            return response()->json([
+                'status' => 'error',
+                'errors' => [
+                    '404' => 'Not found.'
+                ]
+            ], 404);
+        }
+
+        $otp = null;
+
+        do {
+            $otp = Str::random(16);
+        
+            $studentWithOtpCode = Student::where('otp', $otp)->first();
+        } while ($studentWithOtpCode);
+
+        $otpExpiresAt = now()->addMinutes(10);
+
+        $student->update(['otp' => $otp, 'otp_expires_at' => $otpExpiresAt]);
+
+        return response()->json([
+            'status' => 'success',
+            'data' => [
+                'otp' => $otp
+            ]
         ]);
     }
 }
