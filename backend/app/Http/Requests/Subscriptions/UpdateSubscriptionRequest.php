@@ -27,7 +27,7 @@ class UpdateSubscriptionRequest extends FormRequest
     {
         return [
             'package_id' => 'required|numeric',
-            'should_start_at' => 'sometimes|date_format:Y-m-d|after:today',
+            'should_start_at' => 'required|date_format:Y-m-d|after:today',
 
             'days' => 'required|integer|min:0',
             'balance' => 'required|integer|min:0|lte:days',

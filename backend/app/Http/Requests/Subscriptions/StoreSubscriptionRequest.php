@@ -28,7 +28,7 @@ class StoreSubscriptionRequest extends FormRequest
     {
         return [
             'package_id' => 'required|numeric',
-            'should_start_at' => 'sometimes|date_format:Y-m-d|after:today',
+            'should_start_at' => 'required|date_format:Y-m-d|after:today',
             'use_package_info' => 'required|boolean',
 
             'days' => 'required_if:use_package_info,false|integer',
