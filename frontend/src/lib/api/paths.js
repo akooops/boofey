@@ -136,6 +136,9 @@ export function PathRevokeAPi(canteenId){
 export function PathGetStudents({page,search}){
     return `${DOMAIN}/students?page=${page}&search=${search}`
 }
+export function PathAddStudent(){
+    return `${DOMAIN}/students/store`
+}
 
 
 

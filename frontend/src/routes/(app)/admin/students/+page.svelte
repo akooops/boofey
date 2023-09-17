@@ -2,7 +2,7 @@
     import Pagination from "$lib/components/Pagination.svelte";
     import SearchTable from "$lib/components/SearchTable.svelte";
     import StudentsTable from "$lib/tables/StudentsTable.svelte";
-    // import AddStudentModal from "$lib/modals/add/AddStudentModal.svelte";
+    import AddStudentModal from "$lib/modals/add/AddStudentModal.svelte";
 	import { onMount } from "svelte";
     import {initToolTip} from "$lib/init/initToolTip.js"
     import { setContext } from 'svelte';
@@ -28,7 +28,7 @@
                 <h4 class="card-title mb-0 flex-grow-1">Students Managment</h4>
                 <div class="flex-shrink-0">
                     <button type="button" data-bs-toggle="modal" data-bs-target="#addStudentModal" class="btn btn-primary waves-effect waves-light"><i class="ri-add-line align-bottom me-1"></i> Add Student</button>
-                    <!-- <AddStudentModal /> -->
+                    <AddStudentModal />
                 </div>
             </div>
 
