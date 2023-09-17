@@ -30,8 +30,9 @@ class StudentsController extends Controller
             'image:id,path,current_name', 
             'school:id,name,file_id',
             'school.logo:id,path,current_name',
+            'academicYear:id,name,from,to,current',
             'father:id,user_id',
-            'father.user:id',
+            'father.user:id,username,email,phone',
             'father.user.profile:id,user_id,firstname,lastname',
             'father.user.profile.image:id,current_name,path',
         ]);
