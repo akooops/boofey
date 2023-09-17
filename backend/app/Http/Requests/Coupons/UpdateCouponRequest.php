@@ -29,7 +29,7 @@ class UpdateCouponRequest extends FormRequest
 
         return [
             'name' => 'required|string|max:500',
-            'code' => 'sometimes|string|max:500|unique:coupons,code,'.$coupon,
+            'code' => 'required|string|max:500|unique:coupons,code,'.$coupon,
 
             'discount' => 'required|numeric|min:0',
             'max' => 'required|integer|min:0',
