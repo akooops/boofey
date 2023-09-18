@@ -48,7 +48,7 @@ class PermissionsController extends Controller
      */
     public function store(Permission $permission, StorePermissionRequest $request) 
     {
-        $permission->create(array_merge($request->validated()));
+        $permission->create($request->validated());
 
         return response()->json([
             'status' => 'success'
@@ -62,19 +62,8 @@ class PermissionsController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function show($id) 
+    public function show(Permission $permission) 
     {
-        $permission = Permission::find($id);
-
-        if (!$permission) {
-            return response()->json([
-                'status' => 'error',
-                'errors' => [
-                    '404' => 'Not found.'
-                ]
-            ], 404);
-        }
-        
         return response()->json([
             'status' => 'success',
             'data' => [
@@ -91,19 +80,8 @@ class PermissionsController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function update($id, UpdatePermissionRequest $request) 
+    public function update(Permission $permission, UpdatePermissionRequest $request) 
     {
-        $permission = Permission::find($id);
-
-        if (!$permission) {
-            return response()->json([
-                'status' => 'error',
-                'errors' => [
-                    '404' => 'Not found.'
-                ]
-            ], 404);
-        }
-
         $permission->update($request->validated());
 
         return response()->json([
@@ -118,19 +96,8 @@ class PermissionsController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id) 
+    public function destroy(Permission $permission) 
     {
-        $permission = Permission::find($id);
-
-        if (!$permission) {
-            return response()->json([
-                'status' => 'error',
-                'errors' => [
-                    '404' => 'Not found.'
-                ]
-            ], 404);
-        }
-
         $permission->delete();
 
         return response()->json([

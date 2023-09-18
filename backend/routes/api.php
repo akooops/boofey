@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,13 +16,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::group(['namespace' => 'App\Http\Controllers\Api', 'middleware' => [/*'auth:sanctum',*/ 'convert.bool.string']], function(){    
-    Route::group(['prefix' => 'permissions'], function() {
-        Route::get('/', 'PermissionsController@index')->name('api.permissions.index');
-        Route::get('/{permission}', 'PermissionsController@show')->name('api.permissions.show');
-        Route::post('/store', 'PermissionsController@store')->name('api.permissions.store');
-        Route::post('/{permission}/update', 'PermissionsController@update')->name('api.permissions.update');
-        Route::delete('/{permission}/destroy', 'PermissionsController@destroy')->name('api.permissions.destroy');
-    });
+    Route::resource('permissions', PermissionsController::class)->except(['create', 'edit']);
 
     Route::group(['prefix' => 'roles'], function() {
         Route::get('/', 'RolesController@index')->name('api.roles.index');
@@ -77,8 +72,6 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'middleware' => [/*'aut
     });
 
     Route::group(['prefix' => 'packages'], function() {
-        Route::get('/', 'PackagesController@index')->name('api.packages.index');
-
         Route::get('/{package}', 'PackagesController@show')->name('api.packages.show');
         Route::post('/{package}/update', 'PackagesController@update')->name('api.packages.update');
         Route::delete('/{package}/destroy', 'PackagesController@destroy')->name('api.packages.destroy');
@@ -167,4 +160,11 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'middleware' => ['conve
     Route::post('password/reset', 'AuthController@reset');
 
     Route::post('tokens/refresh', 'AuthController@refreshTokens');
+});
+
+Route::fallback(function () {
+    return response()->json([
+        'status' => 'error',
+        'message' => 'Resource not found.'
+    ], 404);
 });

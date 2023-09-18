@@ -22,7 +22,7 @@ class Handler extends ExceptionHandler
      * @var array<int, class-string<\Throwable>>
      */
     protected $dontReport = [
-        //
+        ModelNotFoundException::class,
     ];
 
     /**
@@ -46,5 +46,10 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
+    }
+
+    public function render($request, Throwable $exception)
+    {
+        return (new CustomModelNotFoundExceptionHandler())->render($request, $exception);
     }
 }
