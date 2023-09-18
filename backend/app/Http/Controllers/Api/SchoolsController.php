@@ -72,19 +72,8 @@ class SchoolsController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function show($id) 
+    public function show(School $school) 
     {
-        $school = School::with('logo:id,path,current_name')->find($id);
-
-        if (!$school) {
-            return response()->json([
-                'status' => 'error',
-                'errors' => [
-                    '404' => 'Not found.'
-                ]
-            ], 404);
-        }
-        
         return response()->json([
             'status' => 'success',
             'data' => [
@@ -101,19 +90,8 @@ class SchoolsController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function update($id, UpdateSchoolRequest $request) 
+    public function update(School $school, UpdateSchoolRequest $request) 
     {
-        $school = School::find($id);
-        
-        if (!$school) {
-            return response()->json([
-                'status' => 'error',
-                'errors' => [
-                    '404' => 'Not found.'
-                ]
-            ], 404);
-        }
-
         $file = File::find($school->file_id);
 
         if($request->file('file')) {
@@ -139,19 +117,8 @@ class SchoolsController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id) 
+    public function destroy(School $school) 
     {
-        $school = School::find($id);
-
-        if (!$school) {
-            return response()->json([
-                'status' => 'error',
-                'errors' => [
-                    '404' => 'Not found.'
-                ]
-            ], 404);
-        }
-
         $file = File::find($school->file_id);
 
         $school->delete();

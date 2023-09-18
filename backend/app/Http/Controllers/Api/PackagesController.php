@@ -16,47 +16,60 @@ class PackagesController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function index($id, Request $request) 
+    public function index(Request $request)
     {
-        $school = School::with('logo:id,path,current_name')->find($id);
-
-        if (!$school) {
-            return response()->json([
-                'status' => 'error',
-                'errors' => [
-                    '404' => 'Not found.'
-                ]
-            ], 404);
-        }
-
-        $perPage = limitPerPage($request->query('perPage', 10));
-        $page = checkPageIfNull($request->query('page', 1));
-        $search = $request->query('search');
-
-        $packages = Package::latest()->where([
-            'school_id' => $school->id
-        ])->with([
-            'packageFeatures:id,name,checked,package_id'
-        ]);
-
-        if ($search) {
-            $packages->where('name', 'like', '%' . $search . '%')
-                ->orWhere('code', 'like', '%' . $search . '%')
-                ->orWhere('description', 'like', '%' . $search . '%');
-        }
-
-        $packages = $packages->paginate($perPage, ['*'], 'page', $page);
+        $packages = $this->getPackagesQuery($request);
 
         $response = [
             'status' => 'success',
             'data' => [
-                'packages' => $packages->items(), 
-                'school' => $school
+                'packages' => $packages->items(),
             ],
-            'pagination' => handlePagination($packages)
+            'pagination' => handlePagination($packages),
         ];
 
         return response()->json($response);
+    }
+
+    public function indexBySchool(Request $request, School $school)
+    {
+        $packages = $this->getPackagesQuery($request, $school);
+
+        $response = [
+            'status' => 'success',
+            'data' => [
+                'packages' => $packages->items(),
+                'school' => $school,
+            ],
+            'pagination' => handlePagination($packages),
+        ];
+
+        return response()->json($response);
+    }
+
+    private function getPackagesQuery(Request $request, School $school = null)
+    {
+        $perPage = limitPerPage($request->query('perPage', 10));
+        $page = checkPageIfNull($request->query('page', 1));
+        $search = $request->query('search');
+
+        $packagesQuery = Package::latest()->with([
+            'packageFeatures:id,name,checked,package_id',
+        ]);
+
+        if ($school) {
+            $packagesQuery->where('school_id', $school->id);
+        }
+
+        if ($search) {
+            $packagesQuery->where(function ($query) use ($search) {
+                $query->where('name', 'like', '%' . $search . '%')
+                    ->orWhere('code', 'like', '%' . $search . '%')
+                    ->orWhere('description', 'like', '%' . $search . '%');
+            });
+        }
+
+        return $packagesQuery->paginate($perPage, ['*'], 'page', $page);
     }
 
     /**

@@ -28,7 +28,7 @@ class UpdateSchoolRequest extends FormRequest
         $school = request()->route('school');
 
         return [
-            'name' => 'required|string|max:500|unique:schools,name,'.$school,
+            'name' => 'required|string|max:500|unique:schools,name,'.$school->id,
             'edit_logo' => 'required|boolean',
             'file' => 'required_if:edit_logo,true|file|mimes:jpeg,png'       
         ];

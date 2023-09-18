@@ -21,7 +21,7 @@ class CouponsController extends Controller
         $page = checkPageIfNull($request->query('page', 1));
         $search = $request->query('search');
 
-        $expired = $request->query('expired', false);
+        $expired = $request->query('expired', true);
 
         $coupons = Coupon::latest();
 

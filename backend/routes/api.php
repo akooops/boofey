@@ -22,26 +22,18 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'middleware' => [/*'aut
     Route::resource('roles', RolesController::class)->except(['create', 'edit', 'update']);
     Route::post('roles/{role}/update', 'RolesController@update')->name('roles.update');
 
-    Route::group(['prefix' => 'users'], function() {
-        Route::get('/', 'UsersController@index')->name('api.users.index');
-        Route::get('/{user}', 'UsersController@show')->name('api.users.show');
-        Route::post('/store', 'UsersController@store')->name('api.users.store');
-        Route::post('/{user}/update', 'UsersController@update')->name('api.users.update');
-        Route::delete('/{user}/destroy', 'UsersController@destroy')->name('api.users.destroy');
-    });
+    Route::resource('users', UsersController::class)->except(['create', 'edit', 'update']);
+    Route::post('users/{user}/update', 'UsersController@update')->name('users.update');
 
-    Route::group(['prefix' => 'profiles'], function() {
-        Route::get('/', 'ProfilesController@show')->name('api.profiles.show');
-        Route::post('/update', 'ProfilesController@update')->name('api.profiles.update');
-    });
+    Route::resource('users', UsersController::class)->except(['create', 'edit', 'update']);
+
+    Route::get('profiles', 'ProfilesController@update')->name('profiles.update');
+    Route::post('profiles/{profile}/update', 'ProfilesController@update')->name('profiles.update');
+
+    Route::resource('schools', SchoolsController::class)->except(['create', 'edit', 'update']);
+    Route::post('schools/{school}/update', 'SchoolsController@update')->name('schools.update');
 
     Route::group(['prefix' => 'schools'], function() {
-        Route::get('/', 'SchoolsController@index')->name('api.schools.index');
-        Route::get('/{school}', 'SchoolsController@show')->name('api.schools.show');
-        Route::post('/store', 'SchoolsController@store')->name('api.schools.store');
-        Route::post('/{school}/update', 'SchoolsController@update')->name('api.schools.update');
-        Route::delete('/{school}/destroy', 'SchoolsController@destroy')->name('api.schools.destroy');
-
         Route::get('/{school}/academicYears', 'AcademicYearsController@index')->name('api.academicYears.index');
         Route::post('/{school}/academicYears/store', 'AcademicYearsController@store')->name('api.academicYears.store');
 
@@ -156,11 +148,4 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'middleware' => ['conve
     Route::post('password/reset', 'AuthController@reset');
 
     Route::post('tokens/refresh', 'AuthController@refreshTokens');
-});
-
-Route::fallback(function () {
-    return response()->json([
-        'status' => 'error',
-        'message' => 'Resource not found.'
-    ], 404);
 });
