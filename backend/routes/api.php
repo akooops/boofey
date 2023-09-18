@@ -77,6 +77,8 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'middleware' => [/*'aut
     });
 
     Route::group(['prefix' => 'packages'], function() {
+        Route::get('/', 'PackagesController@index')->name('api.packages.index');
+
         Route::get('/{package}', 'PackagesController@show')->name('api.packages.show');
         Route::post('/{package}/update', 'PackagesController@update')->name('api.packages.update');
         Route::delete('/{package}/destroy', 'PackagesController@destroy')->name('api.packages.destroy');
@@ -147,9 +149,6 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'middleware' => [/*'aut
 
     Route::get('authenticated', 'AuthController@authenticated');
     Route::post('logout', 'AuthController@logout');
-
-    Route::get('amazon', 'AmazonController@s');
-
 });
 
 

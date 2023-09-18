@@ -74,7 +74,7 @@ class SubscriptionsController extends Controller
         }
 
         $subscriptions = $subscriptions->paginate($perPage, ['*'], 'page', $page);
-        $coupons = Coupon::where('onhold', 0)->whereColumn('used', '<=', 'max')->get();
+        $packages = Package::where('school_id', $student->school_id)->get();
 
         $response = [
             'status' => 'success',
@@ -82,7 +82,7 @@ class SubscriptionsController extends Controller
                 'subscriptions' => $subscriptions->items(), 
                 'activeSubscription' => $activeSubscription,
                 'student' => $student,
-                'coupons' => $coupons
+                'packages' => $packages
             ],
             'pagination' => handlePagination($subscriptions)
         ];
