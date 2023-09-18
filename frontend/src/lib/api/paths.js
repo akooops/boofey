@@ -139,12 +139,30 @@ export function PathGetStudents({page,search}){
 export function PathAddStudent(){
     return `${DOMAIN}/students/store`
 }
-
-
+export function PathUpdateStudent(studentId){
+    return `${DOMAIN}/students/${studentId}/update`
+}
 
 export function PathDelStudent(studentId){
     return `${DOMAIN}/students/${studentId}/destroy`
 }
+
+////
+
+export function PathGetCoupons({page,search}){
+    return `${DOMAIN}/coupons?page=${page}&search=${search}`
+}
+export function PathAddCoupon(){
+    return `${DOMAIN}/coupons/store`
+}
+export function PathUpdateCoupon(couponId){
+    return `${DOMAIN}/coupons/${couponId}/update`
+}
+export function PathDelCoupon(couponId){
+    return `${DOMAIN}/coupons/${couponId}/destroy`
+}
+
+
 
 //// 
 export function PathGetSubscriptions(studentId,{page,search}){

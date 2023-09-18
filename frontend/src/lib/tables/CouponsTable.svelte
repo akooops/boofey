@@ -1,15 +1,15 @@
 <script>
-    import DeleteStudentModal from "$lib/modals/delete/DeleteStudentModal.svelte"
-	import ViewStudentModal from "$lib/modals/view/ViewStudentModal.svelte";
-	import EditStudentModal from "$lib/modals/edit/EditStudentModal.svelte";
-    import StudentItem from "./items/StudentItem.svelte";
+    import DeleteCouponModal from "$lib/modals/delete/DeleteCouponModal.svelte"
+	import ViewCouponModal from "$lib/modals/view/ViewCouponModal.svelte";
+	import EditCouponModal from "$lib/modals/edit/EditCouponModal.svelte";
+    import CouponItem from "./items/CouponItem.svelte";
     
     import { setContext } from 'svelte';
     import { writable } from 'svelte/store';
     
-    export let studentsList
-    setContext('studentStore', {
-	    studentStore: writable({})
+    export let couponsList
+    setContext('couponStore', {
+	    couponStore: writable({})
     });
 
 </script>
@@ -26,22 +26,27 @@
                         </div>
                     </th>
                     <th scope="col">ID</th>
-                    <th scope="col">Student</th>
-                    <th scope="col">Father</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Code</th>
+                    <th scope="col">Discount</th>
+                    <th scope="col">Used</th>
+                    <th scope="col">Max</th>
                     <th scope="col">Status</th>
-                    <th scope="col">School</th>
-                    <th scope="col">Class</th>
+                    <th scope="col">On Hold</th>
                     <th scope="col">Action</th>
+
                 </tr>
             </thead>
             <tbody class="list">
-                {#each studentsList as student}
-                    <StudentItem {student} />
+                {#each couponsList as coupon}
+                    <CouponItem {coupon} />
                 {/each}
             </tbody>
         </table>
-             <ViewStudentModal /> 
-             <DeleteStudentModal />
-             <EditStudentModal />
+        <ViewCouponModal />
+        <EditCouponModal /> 
+         <DeleteCouponModal /> 
+             
+
     </div>
 </div>

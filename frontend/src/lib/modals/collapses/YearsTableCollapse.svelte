@@ -18,7 +18,7 @@
     let page = 1 
     
     let searchQuery = ""
-    let selected = {}
+    export let selected = {}
 
     async function fetchYears(){
         console.log(page,searchQuery)

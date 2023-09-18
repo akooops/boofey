@@ -16,7 +16,7 @@
     let parentsPagination
     let page = 1 
     let searchQuery = ""
-    let selected = {}
+    export let selected = {}
 
     async function fetchParents(){
         console.log(page,searchQuery)
@@ -70,7 +70,6 @@
 </script>
 
 {#if selected?.id}
-
 <div class="row pe-0 mb-3">
     <div class="table-responsive">
         <table class="table align-middle table-nowrap mb-0 border-top">
@@ -83,7 +82,7 @@
                                 <img src={selected.user.profile.image.full_path} alt="" class="avatar-xs rounded-circle" />
                             </div>
                             <div class="flex-grow-1">
-                                {selected.user.username}
+                                {selected.user.profile.fullname}
                             </div>
                         </div>
                     </th>
