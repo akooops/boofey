@@ -23,7 +23,11 @@ class QueueStudentsController extends Controller
      */
     public function index($id, Request $request) 
     {
-        $queue = Queue::find($id);
+        $queue = Queue::with([
+            'canteen',
+            'canteen.school',
+            'canteen.school.logo',
+        ])->find($id);
 
         if (!$queue) {
             return response()->json([
@@ -38,7 +42,10 @@ class QueueStudentsController extends Controller
         $page = checkPageIfNull($request->query('page', 1));
         $search = $request->query('search');
 
-        $queueStudents = QueueStudent::latest()->where([
+        $queueStudents = QueueStudent::with([
+            'student',
+            'student.image'
+        ])->latest()->where([
             'queue_id' => $queue->id
         ]);
 
