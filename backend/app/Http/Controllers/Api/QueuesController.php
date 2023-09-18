@@ -37,6 +37,13 @@ class QueuesController extends Controller
         $page = checkPageIfNull($request->query('page', 1));
         $search = $request->query('search');
 
+        $today = Carbon::today();
+
+        $activeQueue = Queue::where('canteen_id', $canteen->id)
+            ->whereDate('started_at', $today)
+            ->where('closed_at', null)
+            ->first();
+
         $queues = Queue::with([
             'students:id,firstname,lastname,class,file_id',
             'students.image:id,current_name,path'
@@ -44,12 +51,16 @@ class QueuesController extends Controller
             'canteen_id' => $canteen->id
         ]);
 
+        if($activeQueue != null)
+            $queues->whereNotIn('id', [$activeQueue->id]);
+
         $queues = $queues->newQuery()->paginate($perPage, ['*'], 'page', $page);
 
         $response = [
             'status' => 'success',
             'data' => [
                 'queues' => $queues->items(), 
+                'activeQueue' => $activeQueue,
                 'canteen' => $canteen, 
             ],
             'pagination' => handlePagination($queues)
@@ -82,7 +93,7 @@ class QueuesController extends Controller
         $today = Carbon::today();
 
         $activeQueues = Queue::where('canteen_id', $canteen->id)
-            ->whereDate('created_at', $today)
+            ->whereDate('started_at', $today)
             ->where('closed_at', null)
             ->count() > 0;
 
@@ -163,7 +174,7 @@ class QueuesController extends Controller
 
         $activeQueues = Queue::where('canteen_id', $queue->canteen->id)
             ->whereNotIn('id', [$queue->id])
-            ->whereDate('created_at', $today)
+            ->whereDate('started_at', $today)
             ->where('closed_at', null)
             ->count() > 0;
 
