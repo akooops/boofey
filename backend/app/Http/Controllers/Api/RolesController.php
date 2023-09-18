@@ -59,7 +59,7 @@ class RolesController extends Controller
      */
     public function store(Role $role, StoreRoleRequest $request) 
     {
-        $role = Role::create(['name' => $request->get('name')]);
+        $role->create(['name' => $request->get('name')]);
 
         $permissions = $request->get('permissions');
 
@@ -81,18 +81,9 @@ class RolesController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function show($id) 
+    public function show(Role $role) 
     {
-        $role = Role::with('permissions:id,name,guard_name')->find($id);
-
-        if (!$role) {
-            return response()->json([
-                'status' => 'error',
-                'errors' => [
-                    '404' => 'Not found.'
-                ]
-            ], 404);
-        }
+        $role->with('permissions:id,name,guard_name');
         
         return response()->json([
             'status' => 'success',
@@ -110,19 +101,8 @@ class RolesController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function update($id, UpdateRoleRequest $request) 
+    public function update(Role $role, UpdateRoleRequest $request) 
     {
-        $role = Role::find($id);
-
-        if (!$role) {
-            return response()->json([
-                'status' => 'error',
-                'errors' => [
-                    '404' => 'Not found.'
-                ]
-            ], 404);
-        }
-
         $role->update($request->only('name'));
         
         $permissions = $request->get('permissions');
@@ -132,7 +112,7 @@ class RolesController extends Controller
         }
 
         $role->syncPermissions($permissions, true);
-
+        
         return response()->json([
             'status' => 'success'
         ]);
@@ -145,19 +125,8 @@ class RolesController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id) 
+    public function destroy(Role $role) 
     {
-        $role = Role::find($id);
-
-        if (!$role) {
-            return response()->json([
-                'status' => 'error',
-                'errors' => [
-                    '404' => 'Not found.'
-                ]
-            ], 404);
-        }
-
         $role->delete();
 
         return response()->json([

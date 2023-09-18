@@ -2,7 +2,9 @@
 
 namespace App\Exceptions;
 
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\Response;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -50,6 +52,13 @@ class Handler extends ExceptionHandler
 
     public function render($request, Throwable $exception)
     {
-        return (new CustomModelNotFoundExceptionHandler())->render($request, $exception);
+        if ($exception instanceof ModelNotFoundException) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Oops! Resource Not Found. The Resource you are looking for is not available or has been moved.'
+            ], Response::HTTP_NOT_FOUND);
+        }
+
+        return parent::render($request, $exception);
     }
 }

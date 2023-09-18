@@ -16,15 +16,11 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 */
 
 Route::group(['namespace' => 'App\Http\Controllers\Api', 'middleware' => [/*'auth:sanctum',*/ 'convert.bool.string']], function(){    
-    Route::resource('permissions', PermissionsController::class)->except(['create', 'edit']);
+    Route::post('permissions/{permission}/update', [PermissionsController::class, 'update'])->name('roles.update');
+    Route::resource('permissions', 'PermissionsController@update')->except(['create', 'edit', 'update']);
 
-    Route::group(['prefix' => 'roles'], function() {
-        Route::get('/', 'RolesController@index')->name('api.roles.index');
-        Route::get('/{role}', 'RolesController@show')->name('api.roles.show');
-        Route::post('/store', 'RolesController@store')->name('api.roles.store');
-        Route::post('/{role}/update', 'RolesController@update')->name('api.roles.update');
-        Route::delete('/{role}/destroy', 'RolesController@destroy')->name('api.roles.destroy');
-    });
+    Route::resource('roles', RolesController::class)->except(['create', 'edit', 'update']);
+    Route::post('roles/{role}/update', 'RolesController@update')->name('roles.update');
 
     Route::group(['prefix' => 'users'], function() {
         Route::get('/', 'UsersController@index')->name('api.users.index');
