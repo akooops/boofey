@@ -21,12 +21,17 @@ class CouponsController extends Controller
         $page = checkPageIfNull($request->query('page', 1));
         $search = $request->query('search');
 
+        $expired = $request->query('expired', false);
+
         $coupons = Coupon::latest();
 
         if ($search) {
             $coupons->where('name', 'like', '%' . $search . '%')
             ->orWhere('code', 'like', '%' . $search . '%');
         }
+
+        if($expired == false)
+            $coupons->whereRaw('(used < max AND onhold = false)');
 
         $coupons = $coupons->paginate($perPage, ['*'], 'page', $page);
 
