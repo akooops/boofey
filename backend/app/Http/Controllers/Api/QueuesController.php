@@ -19,7 +19,10 @@ class QueuesController extends Controller
      */
     public function index($id, Request $request) 
     {
-        $canteen = Canteen::find($id);
+        $canteen = Canteen::with([
+            'school',
+            'school.logo:id,current_name,path'
+        ])->find($id);
 
         if (!$canteen) {
             return response()->json([
@@ -34,7 +37,10 @@ class QueuesController extends Controller
         $page = checkPageIfNull($request->query('page', 1));
         $search = $request->query('search');
 
-        $queues = Queue::latest()->where([
+        $queues = Queue::with([
+            'students:id,firstname,lastname,class,file_id',
+            'students.image:id,current_name,path'
+        ])->latest()->where([
             'canteen_id' => $canteen->id
         ]);
 
