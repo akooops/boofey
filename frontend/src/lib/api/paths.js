@@ -167,7 +167,9 @@ export function PathDelCoupon(couponId){
 //// 
 export function PathGetSubscriptions(studentId,{page,search}){
     return `${DOMAIN}/students/${studentId}/subscriptions?page=${page}&search=${search}`
-
+}
+export function PathAddSub(studentId){
+    return `${DOMAIN}/students/${studentId}/subscriptions/store`
 }
 
 /////

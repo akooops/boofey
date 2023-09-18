@@ -1,30 +1,41 @@
 <script>
 
     // import SubsTable from "$lib/tables/SubsTable.svelte";
-    // import AddSubModal from "$lib/modals/add/AddSubModal.svelte";
+    import AddSubModal from "$lib/modals/add/AddSubModal.svelte";
     import {InitFlatPickr} from "$lib/init/initFlatpickr.js"
     import Pagination from "$lib/components/Pagination.svelte";
     import SearchTable from "$lib/components/SearchTable.svelte";
+	import ViewSubModal from "$lib/modals/view/ViewSubModal.svelte";
+
 
 	import { onMount } from "svelte";
     import {initToolTip} from "$lib/init/initToolTip.js"
 	import ActiveSub from "$lib/components/cards/ActiveSub.svelte";
 	import SubsTable from "$lib/tables/SubsTable.svelte";
+    import { setContext } from 'svelte';
+    import { writable } from 'svelte/store';
 
 
 
-    
-    export let data
 
+export let data
+
+    setContext('subStore', {
+        subStore: writable({})
+    });
 
     $: subsList = data.subsResponse.data.subscriptions
     $: activeSub = data.subsResponse.data.activeSubscription
     $: student = data.subsResponse.data.student
+    $: packages = data.subsResponse.data.packages
+
     $: subsPagination = data.subsResponse.pagination
 
     let subsPage
     onMount(() => {
         initToolTip(subsPage)
+        InitFlatPickr()
+
     })
     
 </script>
@@ -43,7 +54,10 @@
                
                 <div class="flex-shrink-0">
                     <button type="button" data-bs-toggle="modal" data-bs-target="#addSubModal" class="btn btn-primary waves-effect waves-light"><i class="ri-add-line align-bottom me-1"></i>Add Academic Sub</button>
-                    <!-- <AddSubModal schoolId={school.id}/> -->
+                    <AddSubModal {student} {packages}/>
+
+                <ViewSubModal />
+
                 </div>
             </div><!-- end card header -->
         </div><!-- end card -->
@@ -73,7 +87,11 @@
        
     
     </div>
-    <!-- end col -->
+                 <!--  
+             <DeleteSubModal /> -->
+            <!--  
+            <EditSubModal /> 
+     end col -->
 </div>
 
 <!-- src="https://boofey.akoops.com/uploads/schools/_5607de8d-e2d4-47e3-a808-d54851903b65.jpeg"

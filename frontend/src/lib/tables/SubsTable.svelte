@@ -1,16 +1,12 @@
 <script>
     // import DeleteSubModal from "$lib/modals/delete/DeleteSubModal.svelte"
-	// import ViewSubModal from "$lib/modals/view/ViewSubModal.svelte";
 	// import EditSubModal from "$lib/modals/edit/EditSubModal.svelte";
     import SubItem from "./items/SubItem.svelte";
     
-    import { setContext } from 'svelte';
     import { writable } from 'svelte/store';
     
     export let subsList
-    setContext('subStore', {
-	    subStore: writable({})
-    });
+  
 
 </script>
 
@@ -41,11 +37,6 @@
                 {/each}
             </tbody>
         </table>
-             <!-- <ViewSubModal /> 
-             <DeleteSubModal /> -->
-            <!--  
-            <EditSubModal /> 
-            -->
 
     </div>
 </div>
