@@ -16,49 +16,67 @@ class CanteensController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function index($id, Request $request) 
+    public function index(Request $request)
     {
-        $school = School::with('logo:id,path,current_name')->find($id);
-
-        if (!$school) {
-            return response()->json([
-                'status' => 'error',
-                'errors' => [
-                    '404' => 'Not found.'
-                ]
-            ], 404);
+        if ($request->has('school')) {
+            $schoolId = $request->query('school');
+            $school = School::findOrFail($schoolId);
+    
+            return $this->indexBySchool($school, $request);
         }
 
+        $canteens = $this->getCanteensQuery($request);
+
+        $response = [
+            'status' => 'success',
+            'data' => [
+                'canteens' => $canteens->items(),
+            ],
+            'pagination' => handlePagination($canteens),
+        ];
+
+        return response()->json($response);
+    }
+
+    public function indexBySchool(School $school, Request $request)
+    {
+        $canteens = $this->getCanteensQuery($request, $school);
+
+        $response = [
+            'status' => 'success',
+            'data' => [
+                'canteens' => $canteens->items(),
+                'school' => $school,
+            ],
+            'pagination' => handlePagination($canteens),
+        ];
+
+        return response()->json($response);
+    }
+
+    private function getCanteensQuery(Request $request, School $school = null)
+    {
         $perPage = limitPerPage($request->query('perPage', 10));
         $page = checkPageIfNull($request->query('page', 1));
         $search = $request->query('search');
 
-        $canteens = Canteen::latest()->where([
-            'school_id' => $school->id
-        ]);
+        $canteensQuery = Canteen::latest();
+
+        if ($school) {
+            $canteensQuery->where('school_id', $school->id);
+        }
 
         if ($search) {
-            $canteens->where(function ($query) use ($search) {
+            $canteensQuery->where(function ($query) use ($search) {
                 $query->where('name', 'like', '%' . $search . '%')
                     ->orWhere('address', 'like', '%' . $search . '%');
             })
             ->orWhereHas('school', function ($schoolQuery) use ($search) {
                 $schoolQuery->where('name', 'like', '%' . $search . '%');
-            });
+            });        
         }
 
-        $canteens = $canteens->paginate($perPage, ['*'], 'page', $page);
-
-        $response = [
-            'status' => 'success',
-            'data' => [
-                'canteens' => $canteens->items(), 
-                'school' => $school
-            ],
-            'pagination' => handlePagination($canteens)
-        ];
-
-        return response()->json($response);
+        return $canteensQuery->paginate($perPage, ['*'], 'page', $page);
     }
 
     /**
@@ -69,33 +87,54 @@ class CanteensController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function store($id, StoreCanteenRequest $request) 
+    public function store(StoreCanteenRequest $request) 
     {
-        $school = School::find($id);
+        $schoolId = $request->get('school_id');
+        $school = School::findOrFail($schoolId);
 
-        if (!$school) {
-            return response()->json([
-                'status' => 'error',
-                'errors' => [
-                    '404' => 'Not found.'
-                ]
-            ], 404);
-        }
+        $apiKey = $this->createCanteen($request, $school);
+    
+        return response()->json([
+            'status' => 'success',
+            'data' => [
+                'api_key' => $apiKey
+            ]
+        ]);
+    }
 
+    /**
+     * Store a newly created academicYear
+     * 
+     * @param AcademicYear $academicYear
+     * @param StoreAcademicYearRequest $request
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function storeBySchool(School $school, StoreCanteenRequest $request) 
+    {
+        $apiKey = $this->createCanteen($request, $school);
+
+        return response()->json([
+            'status' => 'success',
+            'data' => [
+                'api_key' => $apiKey
+            ]
+        ]);
+    }
+
+    public function createCanteen($request, School $school = null) 
+    {
         $canteen = Canteen::create(array_merge(
             $request->validated(),
-            ['school_id' => $school->id]
+            [
+                'school_id' => $school->id
+            ]
         ));
 
         $canteen->save();
         $canteen->generateApiKey();
 
-        return response()->json([
-            'status' => 'success',
-            'data' => [
-                'api_key' => $canteen->getDecryptedKey()
-            ]
-        ]);
+        return $canteen->getDecryptedKey();
     }
 
     /**
@@ -105,22 +144,8 @@ class CanteensController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function show($id) 
-    {
-        $canteen = Canteen::with([
-            'school:id,name,file_id', 
-            'school.logo:id,path,current_name', 
-        ])->find($id);
-
-        if (!$canteen) {
-            return response()->json([
-                'status' => 'error',
-                'errors' => [
-                    '404' => 'Not found.'
-                ]
-            ], 404);
-        }
-        
+    public function show(Canteen $canteen) 
+    {        
         return response()->json([
             'status' => 'success',
             'data' => [
@@ -137,39 +162,17 @@ class CanteensController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function update($id, UpdateCanteenRequest $request) 
+    public function update(Canteen $canteen, UpdateCanteenRequest $request) 
     {
-        $canteen = Canteen::find($id);
-        
-        if (!$canteen) {
-            return response()->json([
-                'status' => 'error',
-                'errors' => [
-                    '404' => 'Not found.'
-                ]
-            ], 404);
-        }
-
-        $canteen->update(array_merge($request->validated()));
+        $canteen->update($request->validated());
 
         return response()->json([
             'status' => 'success'
         ]);
     }
 
-    public function generate($id) 
+    public function generate(Canteen $canteen) 
     {
-        $canteen = Canteen::find($id);
-        
-        if (!$canteen) {
-            return response()->json([
-                'status' => 'error',
-                'errors' => [
-                    '404' => 'Not found.'
-                ]
-            ], 404);
-        }
-
         $canteen->generateApiKey();
 
         return response()->json([
@@ -180,19 +183,8 @@ class CanteensController extends Controller
         ]);
     }
 
-    public function revoke($id) 
+    public function revoke(Canteen $canteen) 
     {
-        $canteen = Canteen::find($id);
-        
-        if (!$canteen) {
-            return response()->json([
-                'status' => 'error',
-                'errors' => [
-                    '404' => 'Not found.'
-                ]
-            ], 404);
-        }
-
         $canteen->revokeApiKey();
 
         return response()->json([
@@ -207,19 +199,8 @@ class CanteensController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id) 
+    public function destroy(Canteen $canteen) 
     {
-        $canteen = Canteen::find($id);
-
-        if (!$canteen) {
-            return response()->json([
-                'status' => 'error',
-                'errors' => [
-                    '404' => 'Not found.'
-                ]
-            ], 404);
-        }
-
         $canteen->delete();
 
         return response()->json([

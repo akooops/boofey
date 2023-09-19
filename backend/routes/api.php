@@ -66,12 +66,17 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'middleware' => [/*'aut
     Route::resource('packages', PackagesController::class)->except(['create', 'edit', 'update']);
     Route::post('packages/{package}/update', 'PackagesController@update')->name('packages.update');
 
-    /* ------------------------------------ */
+    /* -------------------------------------------------------------------------------- */
+    /* Canteens Routes */
+    Route::get('schools/{school}/canteens', 'CanteensController@indexBySchool')->name('canteens.indexBySchool');
+    Route::post('schools/{school}/canteens', 'CanteensController@storeBySchool')->name('canteens.storeBySchool');
 
-    Route::group(['prefix' => 'schools'], function() {
-        Route::get('/{school}/canteens', 'CanteensController@index')->name('api.canteens.index');
-        Route::post('/{school}/canteens/store', 'CanteensController@store')->name('api.canteens.store');
-    });
+    Route::resource('canteens', CanteensController::class)->except(['create', 'edit', 'update']);
+    Route::post('canteens/{canteen}/update', 'CanteensController@update')->name('canteens.update');
+    Route::post('canteens/{canteen}/generate', 'CanteensController@generate')->name('canteens.generate');
+    Route::post('canteens/{canteen}/revoke', 'CanteensController@revoke')->name('canteens.revoke');
+
+    /* ------------------------------------ */
 
     Route::group(['prefix' => 'fathers'], function() {
         Route::get('/', 'FathersController@index')->name('api.fathers.index');
@@ -101,12 +106,6 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'middleware' => [/*'aut
     });
 
     Route::group(['prefix' => 'canteens'], function() {
-        Route::get('/{canteen}', 'CanteensController@show')->name('api.canteens.show');
-        Route::post('/{canteen}/update', 'CanteensController@update')->name('api.canteens.update');
-        Route::post('/{canteen}/generate', 'CanteensController@generate')->name('api.canteens.generate');
-        Route::post('/{canteen}/revoke', 'CanteensController@revoke')->name('api.canteens.revoke');
-        Route::delete('/{canteen}/destroy', 'CanteensController@destroy')->name('api.canteens.destroy');
-
         Route::get('/{canteen}/queues', 'QueuesController@index')->name('api.queues.index');
         Route::post('/{canteen}/queues/store', 'QueuesController@store')->name('api.queues.store');
     });

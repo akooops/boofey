@@ -5,6 +5,7 @@ namespace App\Http\Requests\Canteens;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Route;
 
 class StoreCanteenRequest extends FormRequest
 {
@@ -25,10 +26,19 @@ class StoreCanteenRequest extends FormRequest
      */
     public function rules()
     {
-        return [
+        $currentRoute = Route::currentRouteName();
+
+        $rules = [
             'name' => 'required|string|max:500',
             'address' => 'required|string',
         ];
+
+        // Add the 'school_id' rule if the current route is 'academicYears.store'
+        if ($currentRoute === 'canteens.store') {
+            $rules['school_id'] = 'required|exists:schools,id';
+        }
+
+        return $rules;
     }
 
     protected function failedValidation(\Illuminate\Contracts\Validation\Validator $validator)
