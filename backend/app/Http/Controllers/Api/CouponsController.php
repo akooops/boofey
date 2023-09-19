@@ -54,7 +54,7 @@ class CouponsController extends Controller
      */
     public function store(StoreCouponRequest $request) 
     {
-        $coupon = Coupon::create(array_merge($request->all()));
+        $coupon = Coupon::create(array_merge($request->validated()));
 
         $coupon->save();
 
@@ -70,19 +70,8 @@ class CouponsController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function show($id) 
+    public function show(Coupon $coupon) 
     {
-        $coupon = Coupon::find($id);
-
-        if (!$coupon) {
-            return response()->json([
-                'status' => 'error',
-                'errors' => [
-                    '404' => 'Not found.'
-                ]
-            ], 404);
-        }
-        
         return response()->json([
             'status' => 'success',
             'data' => [
@@ -99,20 +88,9 @@ class CouponsController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function update($id, UpdateCouponRequest $request) 
+    public function update(Coupon $coupon, UpdateCouponRequest $request) 
     {
-        $coupon = Coupon::find($id);
-        
-        if (!$coupon) {
-            return response()->json([
-                'status' => 'error',
-                'errors' => [
-                    '404' => 'Not found.'
-                ]
-            ], 404);
-        }
-
-        $coupon->update(array_merge($request->all()));
+        $coupon->update($request->validated());
 
         return response()->json([
             'status' => 'success'
@@ -126,19 +104,8 @@ class CouponsController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id) 
+    public function destroy(Coupon $coupon) 
     {
-        $coupon = Coupon::find($id);
-
-        if (!$coupon) {
-            return response()->json([
-                'status' => 'error',
-                'errors' => [
-                    '404' => 'Not found.'
-                ]
-            ], 404);
-        }
-
         $coupon->delete();
 
         return response()->json([

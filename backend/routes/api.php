@@ -124,13 +124,10 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'middleware' => [/*'aut
         Route::post('/exit', 'QueueStudentsController@exit')->name('api.queueStudents.exit');
     });
 
-    Route::group(['prefix' => 'coupons'], function() {
-        Route::get('/', 'CouponsController@index')->name('api.coupons.index');
-        Route::get('/{coupon}', 'CouponsController@show')->name('api.coupons.show');
-        Route::post('/store', 'CouponsController@store')->name('api.coupons.store');
-        Route::post('/{coupon}/update', 'CouponsController@update')->name('api.coupons.update');
-        Route::delete('/{coupon}/destroy', 'CouponsController@destroy')->name('api.coupons.destroy');
-    });
+    /* -------------------------------------------------------------------------------- */
+    /* Coupons Routes */
+    Route::resource('coupons', CouponsController::class)->except(['create', 'edit', 'update']);
+    Route::post('coupons/{coupon}/update', 'CouponsController@update')->name('coupons.update');
 
     Route::get('authenticated', 'AuthController@authenticated');
     Route::post('logout', 'AuthController@logout');
