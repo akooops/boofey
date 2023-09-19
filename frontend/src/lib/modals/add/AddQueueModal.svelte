@@ -1,0 +1,88 @@
+<script>
+    import { PathAddQueue } from "$lib/api/paths";
+    import { toast } from "$lib/components/toast.js";
+    import { invalidate } from '$app/navigation';
+    import { redirector } from "$lib/api/auth";
+    
+    
+    let queueName
+    let close
+    let errors
+    export let canteen
+    let selectType
+    let form 
+    
+    async function save(){
+        errors = {}
+    
+        let formData = new FormData(form)
+        
+    
+        let res = await fetch(PathAddQueue(canteen.id),{
+            headers:{
+                Authorization: `${localStorage.getItem("SID")}`
+            },
+            method:"POST",
+            body:formData
+        })
+        redirector(res)
+    
+        res = await res.json()
+    
+        if(res.status == "success") {
+            close.click()
+            let text = `Added  a new queue` 
+            toast(text,"success")
+            invalidate("queues:refresh")  
+            reset()
+        }else {
+            errors = res.errors
+        }
+    
+    
+    }
+    function reset(){    
+        form.reset()
+        // selectType.selectedIndex = 0
+        errors = {}
+    }
+    
+    </script>
+    
+    
+    <div class="modal  fade" id="addQueueModal" tabindex="-1" aria-labelledby="exampleModalgridLabel" aria-modal="true"  on:hidden.bs.modal={reset}>
+        <div class="modal-dialog modal-dialog-centered" >
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalgridLabel">Start Queue</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form  on:submit|preventDefault={save} bind:this={form}>
+                        <div class="row g-3">
+
+                            <div class="col-lg-12">
+                                <label for="role" class="form-label">Type</label>
+                                <select class="form-select" name="type" id="role" aria-label="Default select example" bind:this={selectType}>
+                                    <option value={0}>Main Meal</option>
+                                    <option value={1}>Snack</option>
+                                </select>
+                                {#if errors?.type}
+                                <strong class="text-danger ms-1 my-2">{errors.type[0]}</strong>
+                                {/if}
+                            </div>
+
+                            {#if errors?.["422"] }
+                            <strong class="text-danger ms-1 my-2">{errors["422"]}</strong>
+                            {/if}
+
+                                <div class="hstack gap-2 justify-content-end">
+                                    <button type="button" class="btn btn-light fw-light" data-bs-dismiss="modal" bind:this={close}>Close</button>
+                                    <input type="submit" class="btn btn-primary waves-effect waves-light" value="Save">
+                                </div>
+                        </div><!--end row-->
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>

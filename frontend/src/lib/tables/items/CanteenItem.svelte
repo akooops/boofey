@@ -30,7 +30,7 @@
 
     function openQueues(){
         let toolTipInstance = bootstrap.Tooltip.getOrCreateInstance(queuesToolTip)
-        goto(`canteens/${canteen.id}/queues`)
+        goto(`/admin/canteens/${canteen.id}/queues`)
         toolTipInstance.hide()
     }
     
