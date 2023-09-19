@@ -82,25 +82,8 @@ class FathersController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function show($id) 
+    public function show(Father $father) 
     {
-        $father = Father::with([
-            'user:id,username', 
-            'user.profile:id,user_id,firstname,lastname,file_id',
-            'user.profile.image',
-            'user.roles:id,name,guard_name', 
-            'students'
-        ])->find($id);
-
-        if (!$father) {
-            return response()->json([
-                'status' => 'error',
-                'errors' => [
-                    '404' => 'Not found.'
-                ]
-            ], 404);
-        }
-        
         return response()->json([
             'status' => 'success',
             'data' => [
@@ -117,19 +100,8 @@ class FathersController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function update($id, UpdateFatherRequest $request) 
+    public function update(Father $father, UpdateFatherRequest $request) 
     {
-        $father = Father::find($id);
-        
-        if (!$father) {
-            return response()->json([
-                'status' => 'error',
-                'errors' => [
-                    '404' => 'Not found.'
-                ]
-            ], 404);
-        }
-
         $father->update($request->validated());
 
         return response()->json([
@@ -144,19 +116,8 @@ class FathersController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id) 
+    public function destroy(Father $father) 
     {
-        $father = Father::find($id);
-
-        if (!$father) {
-            return response()->json([
-                'status' => 'error',
-                'errors' => [
-                    '404' => 'Not found.'
-                ]
-            ], 404);
-        }
-
         $father->delete();
 
         return response()->json([

@@ -76,15 +76,12 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'middleware' => [/*'aut
     Route::post('canteens/{canteen}/generate', 'CanteensController@generate')->name('canteens.generate');
     Route::post('canteens/{canteen}/revoke', 'CanteensController@revoke')->name('canteens.revoke');
 
-    /* ------------------------------------ */
+    /* -------------------------------------------------------------------------------- */
+    /* Fathers Routes */
+    Route::resource('fathers', FathersController::class)->except(['create', 'edit', 'update']);
+    Route::post('fathers/{father}/update', 'FathersController@update')->name('fathers.update');
 
-    Route::group(['prefix' => 'fathers'], function() {
-        Route::get('/', 'FathersController@index')->name('api.fathers.index');
-        Route::get('/{father}', 'FathersController@show')->name('api.fathers.show');
-        Route::post('/store', 'FathersController@store')->name('api.fathers.store');
-        Route::post('/{father}/update', 'FathersController@update')->name('api.fathers.update');
-        Route::delete('/{father}/destroy', 'FathersController@destroy')->name('api.fathers.destroy');
-    });
+    /* ------------------------------------ */
 
     Route::group(['prefix' => 'students'], function() {
         Route::get('/', 'StudentsController@index')->name('api.students.index');
