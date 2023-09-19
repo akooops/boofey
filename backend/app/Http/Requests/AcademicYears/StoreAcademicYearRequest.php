@@ -2,9 +2,11 @@
 
 namespace App\Http\Requests\AcademicYears;
 
+use App\Models\School;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Route;
 
 class StoreAcademicYearRequest extends FormRequest
 {
@@ -25,12 +27,21 @@ class StoreAcademicYearRequest extends FormRequest
      */
     public function rules()
     {
-        return [
+        $currentRoute = Route::currentRouteName();
+
+        $rules = [
             'name' => 'required|string|max:500',
             'from' => 'required|date_format:Y-m-d',
             'to' => 'required|date_format:Y-m-d|after_or_equal:from',
             'current' => 'required|boolean'       
         ];
+
+        // Add the 'school_id' rule if the current route is 'academicYears.store'
+        if ($currentRoute === 'academicYears.store') {
+            $rules['school_id'] = 'required|exists:schools,id';
+        }
+
+        return $rules;
     }
 
     protected function failedValidation(\Illuminate\Contracts\Validation\Validator $validator)

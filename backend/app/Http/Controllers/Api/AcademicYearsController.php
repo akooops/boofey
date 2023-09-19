@@ -12,47 +12,79 @@ use App\Models\School;
 class AcademicYearsController extends Controller
 {
     /**
-     * Display all academicYears
+     * Display all packages
      * 
      * @return \Illuminate\Http\Response
      */
-    public function index($id, Request $request) 
+    public function index(Request $request)
     {
-        $school = School::with('logo:id,path,current_name')->find($id);
-
-        if (!$school) {
-            return response()->json([
-                'status' => 'error',
-                'errors' => [
-                    '404' => 'Not found.'
-                ]
-            ], 404);
+        if ($request->has('school')) {
+            $schoolId = $request->query('school');
+            $school = School::findOrFail($schoolId);
+    
+            return $this->indexBySchool($school, $request);
         }
 
-        $perPage = limitPerPage($request->query('perPage', 10));
-        $page = checkPageIfNull($request->query('page', 1));
-        $search = $request->query('search');
-
-        $academicYears = AcademicYear::latest()->where([
-            'school_id' => $school->id
-        ])->with('academicBreaks:id,academic_year_id,name,from,to');
-
-        if ($search) {
-            $academicYears->where('name', 'like', '%' . $search . '%');
-        }
-
-        $academicYears = $academicYears->newQuery()->paginate($perPage, ['*'], 'page', $page);
+        $academicYears = $this->getAcademicYearsQuery($request);
 
         $response = [
             'status' => 'success',
             'data' => [
-                'academicYears' => $academicYears->items(), 
-                'school' => $school, 
+                'academicYears' => $academicYears->items(),
             ],
-            'pagination' => handlePagination($academicYears)
+            'pagination' => handlePagination($academicYears),
         ];
 
         return response()->json($response);
+    }
+
+    public function indexBySchool(School $school, Request $request)
+    {
+        $academicYears = $this->getAcademicYearsQuery($request, $school);
+
+        $response = [
+            'status' => 'success',
+            'data' => [
+                'academicYears' => $academicYears->items(),
+                'school' => $school,
+            ],
+            'pagination' => handlePagination($academicYears),
+        ];
+
+        return response()->json($response);
+    }
+
+    private function getAcademicYearsQuery(Request $request, School $school = null)
+    {
+        $perPage = limitPerPage($request->query('perPage', 10));
+        $page = checkPageIfNull($request->query('page', 1));
+        $search = $request->query('search');
+
+        $academicYearsQuery = AcademicYear::latest()->with([
+            'academicBreaks:id,academic_year_id,name,from,to',
+        ]);
+
+        if ($school) {
+            $academicYearsQuery->where('school_id', $school->id);
+        }
+
+        if ($search) {
+            $academicYearsQuery->where('name', 'like', '%' . $search . '%');
+        }
+
+        return $academicYearsQuery->paginate($perPage, ['*'], 'page', $page);
+    }
+
+    public function store(StoreAcademicYearRequest $request) 
+    {
+        $schoolId = $request->get('school_id');
+        $school = School::findOrFail($schoolId);
+
+        $this->createAcademicYear($request, $school);
+    
+        return response()->json([
+            'status' => 'success'
+        ]);
     }
 
     /**
@@ -63,41 +95,31 @@ class AcademicYearsController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function store($id, StoreAcademicYearRequest $request) 
+    public function storeBySchool(School $school, StoreAcademicYearRequest $request) 
     {
-        $school = School::find($id);
+        $this->createAcademicYear($request, $school);
 
-        if (!$school) {
-            return response()->json([
-                'status' => 'error',
-                'errors' => [
-                    '404' => 'Not found.'
-                ]
-            ], 404);
-        }
+        return response()->json([
+            'status' => 'success'
+        ]);
+    }
 
+    private function createAcademicYear($request, School $school = null) 
+    {
         if($request->input('current') == true) {
             AcademicYear::where('school_id', $school->id)->update(['current' => false]);
         }
 
-        if($school->currentAcademicYear == null){
-            $request->merge(['current' => 1]);
-        }
-
         $academicYear = AcademicYear::create(array_merge(
-            $request->all(),
+            $request->validated(),
             ['school_id' => $school->id]
         ));
 
         $academicYear->save();
 
-        if($request->input('current') == true) {
-            $academicYear->school->updateYearlyPackages();
+        if ($request->input('current') == true && $school) {
+            $school->updateYearlyPackages();
         }
-
-        return response()->json([
-            'status' => 'success'
-        ]);
     }
 
     /**
@@ -107,19 +129,8 @@ class AcademicYearsController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function show($id) 
+    public function show(AcademicYear $academicYear) 
     {
-        $academicYear = AcademicYear::with(['school:id,name', 'academicBreaks'])->find($id);
-
-        if (!$academicYear) {
-            return response()->json([
-                'status' => 'error',
-                'errors' => [
-                    '404' => 'Not found.'
-                ]
-            ], 404);
-        }
-        
         return response()->json([
             'status' => 'success',
             'data' => [
@@ -136,35 +147,24 @@ class AcademicYearsController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function update($id, UpdateAcademicYearRequest $request) 
+    public function update(AcademicYear $academicYear, UpdateAcademicYearRequest $request) 
     {
-        $academicYear = AcademicYear::find($id);
-        
-        if (!$academicYear) {
-            return response()->json([
-                'status' => 'error',
-                'errors' => [
-                    '404' => 'Not found.'
-                ]
-            ], 404);
-        }
-
-        if($request->input('current') == true && $academicYear->current != true) {
+        if($request->input('current') == true) {
             AcademicYear::where('school_id', $academicYear->school_id)->update(['current' => false]);
         }
 
-        //Don't allow the user to update the current year to be not current
-        if($request->input('current') == false && $academicYear->current == true) {
-            $request->merge(['current' => 1]);
-        }
+        $academicYear->update(array_merge(
+            $request->validated(),
+        ));
 
-        $academicYear->update(array_merge($request->all()));
         $academicYear->school->updateYearlyPackages();
 
         return response()->json([
             'status' => 'success'
         ]);
     }
+
+
 
     /**
      * Delete academicYear data
@@ -173,29 +173,8 @@ class AcademicYearsController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id) 
+    public function destroy(AcademicYear $academicYear) 
     {
-        $academicYear = AcademicYear::find($id);
-
-        if (!$academicYear) {
-            return response()->json([
-                'status' => 'error',
-                'errors' => [
-                    '404' => 'Not found.'
-                ]
-            ], 404);
-        }
-
-        //Don't allow the user to update the current year to be not current
-        if($academicYear->current == true) {
-            return response()->json([
-                'status' => 'error',
-                'errors' => [
-                    'current' => 'Unable to delete the current year!'
-                ]
-            ]);
-        }
-
         $academicYear->delete();
 
         return response()->json([

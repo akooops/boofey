@@ -16,27 +16,43 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 */
 
 Route::group(['namespace' => 'App\Http\Controllers\Api', 'middleware' => [/*'auth:sanctum',*/ 'convert.bool.string']], function(){    
+    /* -------------------------------------------------------------------------------- */
+    /* Permissions Routes */
     Route::post('permissions/{permission}/update', [PermissionsController::class, 'update'])->name('roles.update');
     Route::resource('permissions', 'PermissionsController@update')->except(['create', 'edit', 'update']);
 
+    /* -------------------------------------------------------------------------------- */
+    /* Roles Routes */
     Route::resource('roles', RolesController::class)->except(['create', 'edit', 'update']);
     Route::post('roles/{role}/update', 'RolesController@update')->name('roles.update');
 
+    /* -------------------------------------------------------------------------------- */
+    /* Users Routes */
     Route::resource('users', UsersController::class)->except(['create', 'edit', 'update']);
     Route::post('users/{user}/update', 'UsersController@update')->name('users.update');
 
-    Route::resource('users', UsersController::class)->except(['create', 'edit', 'update']);
-
+    /* -------------------------------------------------------------------------------- */
+    /* Profiles Routes */
     Route::get('profiles', 'ProfilesController@update')->name('profiles.update');
     Route::post('profiles/{profile}/update', 'ProfilesController@update')->name('profiles.update');
 
+    /* -------------------------------------------------------------------------------- */
+    /* Schools Routes */
     Route::resource('schools', SchoolsController::class)->except(['create', 'edit', 'update']);
     Route::post('schools/{school}/update', 'SchoolsController@update')->name('schools.update');
 
-    Route::group(['prefix' => 'schools'], function() {
-        Route::get('/{school}/academicYears', 'AcademicYearsController@index')->name('api.academicYears.index');
-        Route::post('/{school}/academicYears/store', 'AcademicYearsController@store')->name('api.academicYears.store');
 
+    /* -------------------------------------------------------------------------------- */
+    /* Acedmic Years Routes */
+    Route::get('schools/{school}/academicYears', 'AcademicYearsController@indexBySchool')->name('academicYears.indexBySchool');
+    Route::post('schools/{school}/academicYears', 'AcademicYearsController@storeBySchool')->name('academicYears.storeBySchool');
+
+    Route::resource('academicYears', AcademicYearsController::class)->except(['create', 'edit', 'update']);
+    Route::post('academicYears/{academicYear}/update', 'AcademicYearsController@update')->name('academicYears.update');
+
+    /* ------------------------------------ */
+
+    Route::group(['prefix' => 'schools'], function() {
         Route::get('/{school}/packages', 'PackagesController@index')->name('api.packages.index');
         Route::post('/{school}/packages/store', 'PackagesController@store')->name('api.packages.store');
 
