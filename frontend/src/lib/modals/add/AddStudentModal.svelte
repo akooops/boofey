@@ -91,7 +91,6 @@ import YearsTableCollapse from "../collapses/YearsTableCollapse.svelte";
                 </div>
                 <div class="modal-body">
                         <div class="row g-3">
-
                             <!-- Base Example -->
                                 <Accordion id={"parent"} title={"Student's Parent"}>
                                     <ParentsTableCollapse on:select={(e) => parentId = e.detail.parentId} bind:resetParent/>            

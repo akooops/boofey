@@ -11,7 +11,7 @@
         { title: "Schools", links: [], route:"/admin/schools"},
         { title: "Parents", links: [], route:"/admin/parents"},
         { title: "Students", links: [], route:"/admin/students"},
-        { title: "Coupons", links: [], route:"/admin/coupouns"},
+        { title: "Coupons", links: [], route:"/admin/coupons"},
 
 
       ],

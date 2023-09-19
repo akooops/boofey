@@ -6,6 +6,8 @@
     import Pagination from "$lib/components/Pagination.svelte";
     import SearchTable from "$lib/components/SearchTable.svelte";
 	import ViewSubModal from "$lib/modals/view/ViewSubModal.svelte";
+	import EditSubModal from "$lib/modals/edit/EditSubModal.svelte";
+
 
 
 	import { onMount } from "svelte";
@@ -55,9 +57,9 @@ export let data
                 <div class="flex-shrink-0">
                     <button type="button" data-bs-toggle="modal" data-bs-target="#addSubModal" class="btn btn-primary waves-effect waves-light"><i class="ri-add-line align-bottom me-1"></i>Add Academic Sub</button>
                     <AddSubModal {student} {packages}/>
-
-                <ViewSubModal />
-
+                    <ViewSubModal />
+                    <EditSubModal {student} {packages}/> 
+                
                 </div>
             </div><!-- end card header -->
         </div><!-- end card -->
@@ -90,7 +92,6 @@ export let data
                  <!--  
              <DeleteSubModal /> -->
             <!--  
-            <EditSubModal /> 
      end col -->
 </div>
 

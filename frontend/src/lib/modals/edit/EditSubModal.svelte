@@ -1,13 +1,13 @@
 <script>
-    import { PathAddSub } from "$lib/api/paths";
+    import { PathUpdateSub } from "$lib/api/paths";
     import { toast } from "$lib/components/toast.js";
     import { invalidate } from '$app/navigation';
     import { redirector } from "$lib/api/auth";
-    import { bill } from "$lib/utils.js";
-
     import {loadDefaultDate} from "$lib/init/initFlatpickr.js"
     import Accordion from "$lib/components/Accordion.svelte";
 	import CouponTableCollapse from "../collapses/CouponTableCollapse.svelte";
+    import {getContext} from "svelte"
+    import { bill } from "$lib/utils.js";
 
     
     let close
@@ -17,7 +17,7 @@
     export let student
     export let packages = []
     let shouldStartAt
-    let usePackageInfo = true
+    let usePackageInfo = false
     let useCoupon = false
     let coupon
     let resetCoupon
@@ -28,6 +28,10 @@
     let calculatedTax = 0
     let total = 0
     let packageId
+    let balance
+    let updatePrices = false
+
+    let {subStore} = getContext("subStore")
 
     async function save(){
     
@@ -40,8 +44,9 @@
         }
         formData.set("use_package_info",usePackageInfo)
         formData.set("apply_coupon",useCoupon)
-    
-        let res = await fetch(PathAddSub(student.id),{
+        formData.set("update_prices",updatePrices)
+        
+        let res = await fetch(PathUpdateSub($subStore.id),{
             headers:{
                 Authorization: `${localStorage.getItem("SID")}`
             },
@@ -54,7 +59,7 @@
     
         if(res.status == "success") {
             close.click()
-            let text = `Added a new subscription` 
+            let text = `Successfuly edited ` 
             toast(text,"success")
             invalidate("subs:refresh")
             reset()
@@ -84,16 +89,33 @@
     }
 
     $: {
-        if(usePackageInfo && packageId){
-            let packageObj = packages.find(obj => obj.id === packageId);
-            days = packageObj.days
-            subtotal = packageObj.currentPrice
-            tax = packageObj.tax
+        if($subStore.payment){
+            if(usePackageInfo && packageId){
+                let packageObj = packages.find(obj => obj.id === packageId);
+                days = packageObj.days
+                subtotal = packageObj.currentPrice
+                tax = packageObj.tax
+            }
+
+            [total,calculatedTax] = bill({subtotal,tax,coupon})
+
+            
         }
-
-        [total,calculatedTax] = bill({subtotal,tax,coupon})
-
     }
+
+    subStore.subscribe(() => {
+        if(Object.keys($subStore).length == 0 || shouldStartAt == undefined) return;
+        console.log("sub")
+        loadDefaultDate(shouldStartAt,$subStore.should_start_at)
+        coupon = $subStore.payment.coupon
+        days = $subStore.days
+        packageId = $subStore.payment.package.id
+        subtotal = $subStore.payment.subtotal
+        tax = $subStore.payment.tax
+        balance = $subStore.balance
+        useCoupon = $subStore?.coupon ? true : false 
+        
+    })
 
 
     function checkCoupon(){
@@ -105,11 +127,11 @@
     </script>
     
     
-    <div class="modal  fade" id="addSubModal" tabindex="-1" aria-labelledby="exampleModalgridLabel" aria-modal="true"  on:hidden.bs.modal={reset}>
+    <div class="modal  fade" id="editSubModal" tabindex="-1" aria-labelledby="exampleModalgridLabel" aria-modal="true"  on:hidden.bs.modal={reset}>
         <div class="modal-dialog modal-dialog-centered" >
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalgridLabel">Add Sub</h5>
+                    <h5 class="modal-title" id="exampleModalgridLabel">Edit  Subscription</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -134,6 +156,29 @@
                                     <strong class="text-danger ms-1 my-2">{errors.should_start_at[0]}</strong>
                                     {/if}
                                 </div>
+                                <div>
+                                    <label for="name" class="form-label">Balance</label>
+                                    <input type="text" name="balance" class="form-control" id="days" placeholder="Enter Subscription days" bind:value={balance}>
+                                    {#if errors?.balance}
+                                    <strong class="text-danger ms-1 my-2">{errors.balance[0]}</strong>
+                                    {/if}
+                                </div>
+                                <div>
+                                    <label for="name" class="form-label">Days</label>
+                                    <input type="text" name="days" class="form-control" id="days" placeholder="Enter Subscription days" bind:value={days}>
+                                    {#if errors?.days}
+                                    <strong class="text-danger ms-1 my-2">{errors.days[0]}</strong>
+                                    {/if}
+                                </div>
+
+                                <div class="row ps-3 g-3">
+                                    <!-- Switches Color -->
+                                    <div class="form-check form-switch col" >
+                                        <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck1" bind:checked={updatePrices}>
+                                        <label class="form-check-label" for="SwitchCheck1">Update Prices</label>
+                                    </div><!-- Switches Color -->
+
+                                </div>
 
                                 <div class="row ps-3 g-3">
                                     <!-- Switches Color -->
@@ -144,13 +189,7 @@
 
                                 </div>
                                 {#if !usePackageInfo}
-                                    <div>
-                                        <label for="name" class="form-label">Days</label>
-                                        <input type="text" name="days" class="form-control" id="days" placeholder="Enter Subscription days" bind:value={days}>
-                                        {#if errors?.days}
-                                        <strong class="text-danger ms-1 my-2">{errors.days[0]}</strong>
-                                        {/if}
-                                    </div>
+                                    
 
                                     <div>
                                         <label for="subtotal" class="form-label">Sub total</label>
@@ -179,7 +218,7 @@
                                 </div>
                                 {#if useCoupon}
                                 <Accordion id={"coupon"} title={"Coupons"}>
-                                    <CouponTableCollapse on:select={(e) => coupon = e.detail.coupon} bind:resetCoupon/>            
+                                    <CouponTableCollapse on:select={(e) => coupon = e.detail.coupon} selected={coupon} bind:resetCoupon/>            
                                 </Accordion>
                                 {#if errors?.coupon_id}
                                 <strong class="text-danger ms-1 my-2">{errors.coupon_id[0]}</strong>
@@ -193,7 +232,7 @@
                                         <table class="table table-borderless mb-0">
                                             <tbody>
                                                 <tr>
-                                                    <td>days : {days}</td>
+                                                    <td>days : </td>
                                                     <td class="text-end" id="cart-discount">{days !== "" ? days : "unset"}</td>
                                                 </tr>
                                                 <tr>
