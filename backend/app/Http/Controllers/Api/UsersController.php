@@ -22,8 +22,8 @@ class UsersController extends Controller
         $search = $request->query('search');
 
         $users = User::latest()->with([
-            'profile:id,user_id,firstname,lastname',
-            'profile.image',
+            'profile:id,user_id,firstname,lastname,file_id',
+            'profile.image:id,current_name,path',
             'roles:id,name,guard_name', 
         ]);
 
@@ -49,7 +49,7 @@ class UsersController extends Controller
         }
 
         $users = $users->paginate($perPage, ['*'], 'page', $page);
-        $roles = Role::get();
+        $roles = Role::select('id', 'name', 'guard_name')->get();
 
         $response = [
             'status' => 'success',

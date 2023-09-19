@@ -36,7 +36,7 @@ class AcademicYear extends Model
         return $this->hasMany(Student::class, 'academic_year_id', 'id');
     }
 
-    function getAcademicDaysAttribute() {  
+    public function getAcademicDaysAttribute() {  
         $academicBreaks = $this->academicBreaks;
 
         $startDate = Carbon::parse($this->from);

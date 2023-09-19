@@ -18,8 +18,8 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 Route::group(['namespace' => 'App\Http\Controllers\Api', 'middleware' => [/*'auth:sanctum',*/ 'convert.bool.string']], function(){    
     /* -------------------------------------------------------------------------------- */
     /* Permissions Routes */
-    Route::post('permissions/{permission}/update', [PermissionsController::class, 'update'])->name('roles.update');
-    Route::resource('permissions', 'PermissionsController@update')->except(['create', 'edit', 'update']);
+    Route::resource('permissions', PermissionsController::class)->except(['create', 'edit', 'update']);
+    Route::post('permissions/{permission}/update', 'PermissionsController@update')->name('permissions.update');
 
     /* -------------------------------------------------------------------------------- */
     /* Roles Routes */

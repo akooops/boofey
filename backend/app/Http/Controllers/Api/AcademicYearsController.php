@@ -40,6 +40,10 @@ class AcademicYearsController extends Controller
 
     public function indexBySchool(School $school, Request $request)
     {
+        $school->load([
+            'logo:id,current_name,path'
+        ]);
+
         $academicYears = $this->getAcademicYearsQuery($request, $school);
 
         $response = [
@@ -60,9 +64,7 @@ class AcademicYearsController extends Controller
         $page = checkPageIfNull($request->query('page', 1));
         $search = $request->query('search');
 
-        $academicYearsQuery = AcademicYear::latest()->with([
-            'academicBreaks:id,academic_year_id,name,from,to',
-        ]);
+        $academicYearsQuery = AcademicYear::without('academicBreaks');
 
         if ($school) {
             $academicYearsQuery->where('school_id', $school->id);
@@ -72,7 +74,7 @@ class AcademicYearsController extends Controller
             $academicYearsQuery->where('name', 'like', '%' . $search . '%');
         }
 
-        return $academicYearsQuery->paginate($perPage, ['*'], 'page', $page);
+        return $academicYearsQuery->without('academicBreaks')->paginate($perPage, ['*'], 'page', $page);
     }
 
     public function store(StoreAcademicYearRequest $request) 
