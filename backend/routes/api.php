@@ -81,17 +81,18 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'middleware' => [/*'aut
     Route::resource('fathers', FathersController::class)->except(['create', 'edit', 'update']);
     Route::post('fathers/{father}/update', 'FathersController@update')->name('fathers.update');
 
+    /* -------------------------------------------------------------------------------- */
+    /* Students Routes */
+    Route::get('schools/{school}/students', 'StudentsController@indexBySchool')->name('students.indexBySchool');
+    Route::post('schools/{school}/students', 'StudentsController@storeBySchool')->name('students.storeBySchool');
+
+    Route::resource('students', StudentsController::class)->except(['create', 'edit', 'update']);
+    Route::post('students/{student}/update', 'StudentsController@update')->name('students.update');
+    Route::post('students/{student}/otp', 'StudentsController@otp')->name('students.otp');
+
     /* ------------------------------------ */
 
     Route::group(['prefix' => 'students'], function() {
-        Route::get('/', 'StudentsController@index')->name('api.students.index');
-        Route::get('/{student}', 'StudentsController@show')->name('api.students.show');
-        Route::post('/store', 'StudentsController@store')->name('api.students.store');
-        Route::post('/{student}/update', 'StudentsController@update')->name('api.students.update');
-        Route::delete('/{student}/destroy', 'StudentsController@destroy')->name('api.students.destroy');
-
-        Route::post('/{student}/otp', 'StudentsController@otp')->name('api.subscriptions.otp');
-
         Route::get('/{student}/subscriptions', 'SubscriptionsController@index')->name('api.subscriptions.index');
         Route::post('/{student}/subscriptions/store', 'SubscriptionsController@store')->name('api.subscriptions.store');
     });

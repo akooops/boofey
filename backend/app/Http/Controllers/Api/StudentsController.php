@@ -20,13 +20,51 @@ class StudentsController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request) 
+    public function index(Request $request)
+    {
+        if ($request->has('school')) {
+            $schoolId = $request->query('school');
+            $school = School::findOrFail($schoolId);
+    
+            return $this->indexBySchool($school, $request);
+        }
+
+        $students = $this->getStudentsQuery($request);
+
+        $response = [
+            'status' => 'success',
+            'data' => [
+                'students' => $students->items(),
+            ],
+            'pagination' => handlePagination($students),
+        ];
+
+        return response()->json($response);
+    }
+
+    public function indexBySchool(School $school, Request $request)
+    {
+        $students = $this->getStudentsQuery($request, $school);
+
+        $response = [
+            'status' => 'success',
+            'data' => [
+                'students' => $students->items(),
+                'school' => $school,
+            ],
+            'pagination' => handlePagination($students),
+        ];
+
+        return response()->json($response);
+    }
+
+    public function getStudentsQuery(Request $request, School $school = null)
     {
         $perPage = limitPerPage($request->query('perPage', 10));
         $page = checkPageIfNull($request->query('page', 1));
         $search = $request->query('search');
 
-        $students = Student::latest()->with([
+        $studentsQuery = Student::latest()->with([
             'image:id,path,current_name', 
             'school:id,name,file_id',
             'school.logo:id,path,current_name',
@@ -37,8 +75,12 @@ class StudentsController extends Controller
             'father.user.profile.image:id,current_name,path',
         ]);
 
+        if ($school) {
+            $studentsQuery->where('school_id', $school->id);
+        }
+
         if ($search) {
-            $students->where(function ($query) use ($search) {
+            $studentsQuery->where(function ($query) use ($search) {
                 $query->where('firstname', 'like', '%' . $search . '%')
                     ->orWhere('lastname', 'like', '%' . $search . '%')
                     ->orWhere('nfc_id', 'like', '%' . $search . '%')
@@ -62,23 +104,7 @@ class StudentsController extends Controller
             });
         }
 
-        $students = $students->paginate($perPage, ['*'], 'page', $page);
-        $fathers = Father::get();
-        $schools = School::get();
-        $academicYears = AcademicYear::get();
-
-        $response = [
-            'status' => 'success',
-            'data' => [
-                'students' => $students->items(), 
-                'fathers' => $fathers, 
-                'schools' => $schools, 
-                'academicYears' => $academicYears, 
-            ],
-            'pagination' => handlePagination($students)
-        ];
-
-        return response()->json($response);
+        return $studentsQuery->paginate($perPage, ['*'], 'page', $page);
     }
 
     /**
@@ -91,18 +117,38 @@ class StudentsController extends Controller
      */
     public function store(StoreStudentRequest $request) 
     {
+        $schoolId = $request->get('school_id');
+        $school = School::findOrFail($schoolId);
+
+        $this->createStudent($request, $school);
+    
+        return response()->json([
+            'status' => 'success'
+        ]);
+    }
+
+    public function storeBySchool(School $school, StoreStudentRequest $request) 
+    {
+        $this->createStudent($request, $school);
+    
+        return response()->json([
+            'status' => 'success'
+        ]);
+    }
+
+    private function createStudent($request, School $school = null) 
+    {
         $file = uploadFile($request->file('file'), 'students');
 
         $student = Student::create(array_merge(
             $request->validated(),
-            ['file_id' => $file->id]
+            [
+                'school_id' => $school->id,
+                'file_id' => $file->id
+            ]
         ));
 
         $student->save();
-
-        return response()->json([
-            'status' => 'success'
-        ]);
     }
 
     /**
@@ -112,23 +158,8 @@ class StudentsController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function show($id) 
-    {
-        $student = Student::with([
-            'image:id,path,current_name', 
-            'school:id,name',
-            'academicYear:id,name,from,to'
-        ])->find($id);
-
-        if (!$student) {
-            return response()->json([
-                'status' => 'error',
-                'errors' => [
-                    '404' => 'Not found.'
-                ]
-            ], 404);
-        }
-        
+    public function show(Student $student) 
+    {        
         return response()->json([
             'status' => 'success',
             'data' => [
@@ -145,19 +176,8 @@ class StudentsController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function update($id, UpdateStudentRequest $request) 
+    public function update(Student $student, UpdateStudentRequest $request) 
     {
-        $student = Student::find($id);
-        
-        if (!$student) {
-            return response()->json([
-                'status' => 'error',
-                'errors' => [
-                    '404' => 'Not found.'
-                ]
-            ], 404);
-        }
-
         $file = File::find($student->file_id);
 
         if($request->file('file')) {
@@ -176,50 +196,8 @@ class StudentsController extends Controller
         ]);
     }
 
-    /**
-     * Delete student data
-     * 
-     * @param Student $student
-     * 
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id) 
+    public function otp(Student $student) 
     {
-        $student = Student::find($id);
-
-        if (!$student) {
-            return response()->json([
-                'status' => 'error',
-                'errors' => [
-                    '404' => 'Not found.'
-                ]
-            ], 404);
-        }
-
-        $file = File::find($student->file_id);
-
-        $student->delete();
-
-        removeFile($file);
-
-        return response()->json([
-            'status' => 'success'
-        ]);
-    }
-
-    public function otp($id) 
-    {
-        $student = Student::find($id);
-
-        if (!$student) {
-            return response()->json([
-                'status' => 'error',
-                'errors' => [
-                    '404' => 'Not found.'
-                ]
-            ], 404);
-        }
-
         $otp = null;
 
         do {
@@ -237,6 +215,26 @@ class StudentsController extends Controller
             'data' => [
                 'otp' => $otp
             ]
+        ]);
+    }
+
+    /**
+     * Delete student data
+     * 
+     * @param Student $student
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Student $student) 
+    {
+        $file = File::find($student->file_id);
+
+        $student->delete();
+
+        removeFile($file);
+
+        return response()->json([
+            'status' => 'success'
         ]);
     }
 }

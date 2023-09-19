@@ -5,6 +5,7 @@ namespace App\Http\Requests\Students;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Route;
 
 class StoreStudentRequest extends FormRequest
 {
@@ -25,7 +26,9 @@ class StoreStudentRequest extends FormRequest
      */
     public function rules()
     {
-        return [
+        $currentRoute = Route::currentRouteName();
+
+        $rules = [
             'firstname' => 'required|string|max:500',
             'lastname' => 'required|string|max:500',
             'class' => 'required|integer',
@@ -36,11 +39,17 @@ class StoreStudentRequest extends FormRequest
             'onhold' => 'required|boolean',
 
             'father_id' => 'required|numeric',
-            'school_id' => 'required|numeric',
             'academic_year_id' => 'required|numeric',
 
             'file' => 'required|file|mimes:jpeg,png'    
         ];
+
+        // Add the 'school_id' rule if the current route is 'academicYears.store'
+        if ($currentRoute === 'students.store') {
+            $rules['school_id'] = 'required|exists:schools,id';
+        }
+
+        return $rules;
     }
 
     protected function failedValidation(\Illuminate\Contracts\Validation\Validator $validator)
