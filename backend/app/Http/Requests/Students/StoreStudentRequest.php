@@ -38,8 +38,8 @@ class StoreStudentRequest extends FormRequest
 
             'onhold' => 'required|boolean',
 
-            'father_id' => 'required|numeric',
-            'academic_year_id' => 'required|numeric',
+            'father_id' => 'required|exists:fathers,id',
+            'academic_year_id' => 'required|exists:academic_years,id',
 
             'file' => 'required|file|mimes:jpeg,png'    
         ];

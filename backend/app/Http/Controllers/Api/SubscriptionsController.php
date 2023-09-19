@@ -19,19 +19,8 @@ class SubscriptionsController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function index($id, Request $request) 
+    public function index(Student $student, Request $request) 
     {
-        $student = Student::with('image:id,current_name,path')->find($id);
-
-        if (!$student) {
-            return response()->json([
-                'status' => 'error',
-                'errors' => [
-                    '404' => 'Not found.'
-                ]
-            ], 404);
-        }
-
         $perPage = limitPerPage($request->query('perPage', 10));
         $page = checkPageIfNull($request->query('page', 1));
         $search = $request->query('search');
@@ -98,19 +87,8 @@ class SubscriptionsController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function store($id, StoreSubscriptionRequest $request) 
+    public function store(Student $student, StoreSubscriptionRequest $request) 
     {
-        $student = Student::find($id);
-
-        if (!$student) {
-            return response()->json([
-                'status' => 'error',
-                'errors' => [
-                    '404' => 'Not found.'
-                ]
-            ], 404);
-        }
-
         $package = Package::find($request->get('package_id'));
 
         $payment = Payment::create([
@@ -152,19 +130,8 @@ class SubscriptionsController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function show($id) 
+    public function show(Subscription $subscription) 
     {
-        $subscription = Subscription::find($id);
-
-        if (!$subscription) {
-            return response()->json([
-                'status' => 'error',
-                'errors' => [
-                    '404' => 'Not found.'
-                ]
-            ], 404);
-        }
-        
         return response()->json([
             'status' => 'success',
             'data' => [
@@ -181,19 +148,8 @@ class SubscriptionsController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function update($id, UpdateSubscriptionRequest $request) 
+    public function update(Subscription $subscription, UpdateSubscriptionRequest $request) 
     {
-        $subscription = Subscription::find($id);
-        
-        if (!$subscription) {
-            return response()->json([
-                'status' => 'error',
-                'errors' => [
-                    '404' => 'Not found.'
-                ]
-            ], 404);
-        }
-
         $package = Package::find($request->get('package_id'));
 
         if($request->get('update_prices') == true){
@@ -232,19 +188,8 @@ class SubscriptionsController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id) 
+    public function destroy(Subscription $subscription) 
     {
-        $subscription = Subscription::find($id);
-
-        if (!$subscription) {
-            return response()->json([
-                'status' => 'error',
-                'errors' => [
-                    '404' => 'Not found.'
-                ]
-            ], 404);
-        }
-
         $subscription->delete();
         $subscription->payment->delete();
 

@@ -37,9 +37,9 @@ class UpdateStudentRequest  extends FormRequest
 
             'onhold' => 'required|boolean',
 
-            'father_id' => 'required|numeric',
-            'school_id' => 'required|numeric',
-            'academic_year_id' => 'required|numeric',
+            'father_id' => 'required|exists:fathers,id',
+            'school_id' => 'required|exists:schools,id',
+            'academic_year_id' => 'required|exists:academic_years,id',
 
             'edit_image' => 'required|boolean',
             'file' => 'required_if:edit_image,true|file|mimes:jpeg,png'    

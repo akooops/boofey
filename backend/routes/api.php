@@ -90,18 +90,15 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'middleware' => [/*'aut
     Route::post('students/{student}/update', 'StudentsController@update')->name('students.update');
     Route::post('students/{student}/otp', 'StudentsController@otp')->name('students.otp');
 
+    /* -------------------------------------------------------------------------------- */
+    /* Subscriptions Routes */
+    Route::get('students/{student}/subscriptions', 'SubscriptionsController@index')->name('students.index');
+    Route::post('students/{student}/subscriptions', 'SubscriptionsController@store')->name('students.store');
+
+    Route::resource('subscriptions', SubscriptionsController::class)->only(['show', 'destroy']);
+    Route::post('subscriptions/{subscription}/update', 'SubscriptionsController@update')->name('subscriptions.update');
+
     /* ------------------------------------ */
-
-    Route::group(['prefix' => 'students'], function() {
-        Route::get('/{student}/subscriptions', 'SubscriptionsController@index')->name('api.subscriptions.index');
-        Route::post('/{student}/subscriptions/store', 'SubscriptionsController@store')->name('api.subscriptions.store');
-    });
-
-    Route::group(['prefix' => 'subscriptions'], function() {
-        Route::get('/{subscription}', 'SubscriptionsController@show')->name('api.subscriptions.show');
-        Route::post('/{subscription}/update', 'SubscriptionsController@update')->name('api.subscriptions.update');
-        Route::delete('/{subscription}/destroy', 'SubscriptionsController@destroy')->name('api.students.destroy');;
-    });
 
     Route::group(['prefix' => 'canteens'], function() {
         Route::get('/{canteen}/queues', 'QueuesController@index')->name('api.queues.index');

@@ -26,7 +26,7 @@ class StoreFatherRequest extends FormRequest
     public function rules()
     {
         return [
-            'user_id' => 'required|numeric',
+            'user_id' => 'required|exists:users,id',
         ];
     }
 

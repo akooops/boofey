@@ -26,7 +26,7 @@ class UpdateSubscriptionRequest extends FormRequest
     public function rules()
     {
         return [
-            'package_id' => 'required|numeric',
+            'package_id' => 'required|exists:packages,id',
             'should_start_at' => 'required|date_format:Y-m-d|after:today',
 
             'days' => 'required|integer|min:0',
@@ -38,7 +38,7 @@ class UpdateSubscriptionRequest extends FormRequest
             'tax' => 'required_if:(use_package_info,false && update_prices,true)|numeric|min:0',
             
             'apply_coupon' => 'required_if:update_prices,true|boolean',
-            'coupon_id' => 'required_if:(apply_coupon,true && update_prices,true)|numeric',
+            'coupon_id' => 'required_if:(apply_coupon,true && update_prices,true)|exists:coupons,id',
 
             'subtotal' => 'required_if:(use_package_info,false && update_prices,true)|numeric|min:0',
         ];
