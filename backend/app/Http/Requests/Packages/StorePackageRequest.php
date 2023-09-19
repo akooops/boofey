@@ -2,10 +2,12 @@
 
 namespace App\Http\Requests\Packages;
 
+use App\Models\School;
 use App\Rules\UniquePackageCodeWithinSchool;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Route;
 
 class StorePackageRequest extends FormRequest
 {
@@ -26,17 +28,10 @@ class StorePackageRequest extends FormRequest
      */
     public function rules()
     {
-        $school = $this->route('school');
+        $currentRoute = Route::currentRouteName();
 
-        return [
+        $rules = [
             'name' => 'required|string|max:500',
-            'code' => [
-                'required',
-                'string',
-                'max:500',
-                new UniquePackageCodeWithinSchool($school),
-            ],            
-            
             'description' => 'sometimes|string',
 
             'sale_price' => 'sometimes|numeric|min:0',
@@ -54,6 +49,24 @@ class StorePackageRequest extends FormRequest
             'features.*.name' => 'required|string|max:1000',
             'features.*.checked' => 'required|boolean',
         ];
+
+        $school = null;
+
+        if ($currentRoute === 'packages.store') {
+            $rules['school_id'] = 'required|exists:schools,id'; 
+            $school = $this->get('school_id');
+        }else{
+            $school = $this->route('school')->id;
+        }
+
+        $rules['code'] = [
+            'required',
+            'string',
+            'max:500',
+            new UniquePackageCodeWithinSchool($school),
+        ];
+
+        return $rules;
     }
 
     protected function failedValidation(\Illuminate\Contracts\Validation\Validator $validator)

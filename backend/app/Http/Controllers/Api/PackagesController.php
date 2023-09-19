@@ -18,6 +18,13 @@ class PackagesController extends Controller
      */
     public function index(Request $request)
     {
+        if ($request->has('school')) {
+            $schoolId = $request->query('school');
+            $school = School::findOrFail($schoolId);
+    
+            return $this->indexBySchool($school, $request);
+        }
+
         $packages = $this->getPackagesQuery($request);
 
         $response = [
@@ -31,7 +38,7 @@ class PackagesController extends Controller
         return response()->json($response);
     }
 
-    public function indexBySchool(Request $request, School $school)
+    public function indexBySchool(School $school, Request $request)
     {
         $packages = $this->getPackagesQuery($request, $school);
 
@@ -80,38 +87,55 @@ class PackagesController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function store($id, StorePackageRequest $request) 
+    public function store(StorePackageRequest $request) 
     {
-        $school = School::find($id);
+        $schoolId = $request->get('school_id');
+        $school = School::findOrFail($schoolId);
 
-        if (!$school) {
-            return response()->json([
-                'status' => 'error',
-                'errors' => [
-                    '404' => 'Not found.'
-                ]
-            ], 404);
-        }
+        $this->createPackage($request, $school);
+    
+        return response()->json([
+            'status' => 'success'
+        ]);
+    }
+
+        /**
+     * Store a newly created academicYear
+     * 
+     * @param AcademicYear $academicYear
+     * @param StoreAcademicYearRequest $request
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function storeBySchool(School $school, StorePackageRequest $request) 
+    {
+        $this->createPackage($request, $school);
+
+        return response()->json([
+            'status' => 'success'
+        ]);
+    }
+
+    private function createPackage($request, School $school = null) 
+    {
+        $days = null;
 
         if ($request->get('yearly') == true) {
-            $currentAcademicYear = $school->currentAcademicYear;
-            if ($currentAcademicYear) {
-                $request->merge(['days' => $currentAcademicYear->academicDays]);
-            }
+            if ($school && $school->currentAcademicYear) 
+                $days = $school->currentAcademicYear->academicDays;
         }
 
         $package = Package::create(array_merge(
-            $request->all(),
-            ['school_id' => $school->id]
+            $request->validated(),
+            [
+                'school_id' => $school->id,
+                'days' => ($days == null) ? $request->input('days') : $days
+            ]
         ));
 
         $package->save();
 
         $package->storePackagesFeatures($request->get('features'));
-
-        return response()->json([
-            'status' => 'success'
-        ]);
     }
 
     /**
@@ -121,19 +145,8 @@ class PackagesController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function show($id) 
-    {
-        $package = Package::with(['school:id,name', 'packageFeatures'])->find($id);
-
-        if (!$package) {
-            return response()->json([
-                'status' => 'error',
-                'errors' => [
-                    '404' => 'Not found.'
-                ]
-            ], 404);
-        }
-        
+    public function show(Package $package) 
+    {    
         return response()->json([
             'status' => 'success',
             'data' => [
@@ -150,40 +163,25 @@ class PackagesController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function update($id, UpdatePackageRequest $request) 
+    public function update(Package $package, UpdatePackageRequest $request) 
     {
-        $package = Package::find($id);
-        
-        if (!$package) {
-            return response()->json([
-                'status' => 'error',
-                'errors' => [
-                    '404' => 'Not found.'
-                ]
-            ], 404);
-        }
+        $days = null;
 
         if ($request->get('yearly') == true) {
             $school = $package->school;
 
-            if ($school) {
-                $currentAcademicYear = $school->currentAcademicYear;
-
-                if ($currentAcademicYear) {
-                    $request->merge(['days' => $currentAcademicYear->academicDays]);
-                }
-            }
+            if ($school && $school->currentAcademicYear) 
+                $days = $school->currentAcademicYear->academicDays;
         }
 
-        if ($request->has('sale_price') == false) {
-            $request->merge(['sale_price' => null]);
-        }
-
-        if ($request->has('tax') == false) {
-            $request->merge(['tax' => 0]);
-        }
-
-        $package->update(array_merge($request->all()));
+        $package->update(array_merge(
+            $request->validated(),
+            [
+                'sale_price' => $request->has('sale_price') ? $request->input('sale_price') : null,
+                'tax' => $request->has('tax') ? $request->input('tax') : 0,
+                'days' => ($days == null) ? $request->input('days') : $days
+            ]
+        ));
 
         $package->updatePackagesFeatures($request->get('features'));
 
@@ -199,19 +197,8 @@ class PackagesController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id) 
+    public function destroy(Package $package) 
     {
-        $package = Package::find($id);
-
-        if (!$package) {
-            return response()->json([
-                'status' => 'error',
-                'errors' => [
-                    '404' => 'Not found.'
-                ]
-            ], 404);
-        }
-
         $package->delete();
 
         return response()->json([

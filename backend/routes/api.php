@@ -58,21 +58,19 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'middleware' => [/*'aut
     Route::resource('academicBreaks', AcademicBreaksController::class)->only(['show', 'destroy']);
     Route::post('academicBreaks/{academicBreak}/update', 'AcademicBreaksController@update')->name('academicBreaks.update');
 
+    /* -------------------------------------------------------------------------------- */
+    /* Packages Routes */
+    Route::get('schools/{school}/packages', 'PackagesController@indexBySchool')->name('packages.indexBySchool');
+    Route::post('schools/{school}/packages', 'PackagesController@storeBySchool')->name('packages.storeBySchool');
+
+    Route::resource('packages', PackagesController::class)->except(['create', 'edit', 'update']);
+    Route::post('packages/{package}/update', 'PackagesController@update')->name('packages.update');
 
     /* ------------------------------------ */
 
     Route::group(['prefix' => 'schools'], function() {
-        Route::get('/{school}/packages', 'PackagesController@index')->name('api.packages.index');
-        Route::post('/{school}/packages/store', 'PackagesController@store')->name('api.packages.store');
-
         Route::get('/{school}/canteens', 'CanteensController@index')->name('api.canteens.index');
         Route::post('/{school}/canteens/store', 'CanteensController@store')->name('api.canteens.store');
-    });
-
-    Route::group(['prefix' => 'packages'], function() {
-        Route::get('/{package}', 'PackagesController@show')->name('api.packages.show');
-        Route::post('/{package}/update', 'PackagesController@update')->name('api.packages.update');
-        Route::delete('/{package}/destroy', 'PackagesController@destroy')->name('api.packages.destroy');
     });
 
     Route::group(['prefix' => 'fathers'], function() {

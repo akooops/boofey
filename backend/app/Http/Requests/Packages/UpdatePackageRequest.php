@@ -27,7 +27,7 @@ class UpdatePackageRequest extends FormRequest
      */
     public function rules()
     {
-        $package = Package::findOrFail($this->route('package'));
+        $package = $this->route('package');
 
         return [
             'name' => 'required|string|max:500',

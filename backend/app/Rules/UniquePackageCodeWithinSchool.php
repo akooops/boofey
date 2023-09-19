@@ -3,6 +3,7 @@
 namespace App\Rules;
 
 use App\Models\Package;
+use App\Models\School;
 use Illuminate\Contracts\Validation\Rule;
 
 class UniquePackageCodeWithinSchool implements Rule
