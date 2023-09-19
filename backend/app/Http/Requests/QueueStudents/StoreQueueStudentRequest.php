@@ -32,7 +32,8 @@ class StoreQueueStudentRequest extends FormRequest
 
         return [
             'started_at' => 'required|date_format:Y-m-d H:i:s',
-            'exited_at' => 'sometimes|date_format:Y-m-d H:i:s|after_or_equal:started_at',
+            'exited' => 'required|boolean',
+            'exited_at' => 'required_if:exited,true|date_format:Y-m-d H:i:s|after_or_equal:started_at',
             'student_id' => ['required', new UniqueStudentInQueue($queue)],
         ];
     }

@@ -64,11 +64,18 @@ class QueueStudentsController extends Controller
      */
     public function store(Queue $queue, StoreQueueStudentRequest $request) 
     {
+        $exited_at = null;
+
+        if ($request->input('exited') == true) {
+            $exited_at = $request->get('exited');
+        }
+
         $queueStudent = QueueStudent::create(array_merge(
             $request->validated(),
             [
                 'queue_id' => $queue->id,
-                'synced_at' => Carbon::now()
+                'synced_at' => Carbon::now(),
+                'exited_at' => $exited_at
             ]
         ));
 
@@ -106,12 +113,15 @@ class QueueStudentsController extends Controller
      */
     public function update(QueueStudent $queueStudent, UpdateQueueStudentRequest $request) 
     {
-        if ($request->has('exited_at') == false) {
-            $request->merge(['exited_at' => null]);
+        $exited_at = null;
+
+        if ($request->input('exited') == true) {
+            $exited_at = $request->get('exited');
         }
 
         $queueStudent->update(array_merge(
-            $request->all(),
+            $request->validated(),
+            ['exited_at' => $exited_at]
         ));
 
         return response()->json([
