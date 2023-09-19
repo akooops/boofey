@@ -171,6 +171,13 @@ export function PathGetSubscriptions(studentId,{page,search}){
 export function PathAddSub(studentId){
     return `${DOMAIN}/students/${studentId}/subscriptions/store`
 }
+export function PathUpdateSub(subId){
+    return `${DOMAIN}/subscriptions/${subId}/update`
+}
+export function PathDelSub(subId){
+    return `${DOMAIN}/subscriptions/${subId}/destroy`
+}
+
 
 /////
 export function PathLogin(){

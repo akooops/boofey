@@ -2,11 +2,13 @@
     import { getContext } from "svelte"
     import {PathGenCanteenAPi} from "$lib/api/paths.js"
     import { redirector } from "$lib/api/auth";
+    import { goto } from '$app/navigation';
 
     export let canteen
     let {canteenStore} = getContext("canteenStore")
     let {apiStore} = getContext("apiStore")
 
+    let queuesToolTip
 
     
     function setCanteen(){
@@ -25,6 +27,12 @@
         res = await res.json()
         $apiStore = res.data.api_key    
     }
+
+    function openQueues(){
+        let toolTipInstance = bootstrap.Tooltip.getOrCreateInstance(queuesToolTip)
+        goto(`canteens/${canteen.id}/queues`)
+        toolTipInstance.hide()
+    }
     
     </script>
     
@@ -39,6 +47,7 @@
         <td>{canteen.address}</td>
         <td>
             <div class="hstack gap-3 flex-wrap">
+                <span on:click={openQueues} bind:this={queuesToolTip}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Queues" ><i class="ri-team-line"></i></a></span>
                 <span data-bs-toggle="modal" data-bs-target="#RevokeApiModal" on:click={setCanteen}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Revoke API Key" ><i class="ri-eraser-line"></i></a></span>
                 <span data-bs-toggle="modal" data-bs-target="#ApiModal" on:click={setApi}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Generate API Key" ><i class="ri-refresh-line"></i></a></span>
                 <span data-bs-toggle="modal" data-bs-target="#viewCanteenModal" on:click={setCanteen}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="View" ><i class="ri-eye-fill"></i></a></span>
