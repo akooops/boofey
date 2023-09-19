@@ -34,13 +34,13 @@ class UpdateSubscriptionRequest extends FormRequest
 
             'update_prices' => 'required|boolean',
             'use_package_info' => 'required_if:update_prices,true|boolean',
-
-            'tax' => 'required_if:use_package_info,false|required_if:update_prices,true|numeric|min:0',
+            
+            'tax' => 'required_if:(use_package_info,false && update_prices,true)|numeric|min:0',
 
             'apply_coupon' => 'required|required_if:update_prices,true|boolean',
             'coupon_id' => 'required_if:apply_coupon,true|required_if:update_prices,true|numeric',
 
-            'subtotal' => 'required_if:use_package_info,false|required_if:update_prices,true|numeric|min:0',
+            'subtotal' => 'required_if:(use_package_info,false && update_prices,true)|numeric|min:0',
         ];
     }
 
