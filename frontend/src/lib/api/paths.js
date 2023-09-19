@@ -174,6 +174,10 @@ export function PathAddSub(studentId){
 export function PathUpdateSub(subId){
     return `${DOMAIN}/subscriptions/${subId}/update`
 }
+export function PathDelSub(subId){
+    return `${DOMAIN}/subscriptions/${subId}/destroy`
+}
+
 
 /////
 export function PathLogin(){

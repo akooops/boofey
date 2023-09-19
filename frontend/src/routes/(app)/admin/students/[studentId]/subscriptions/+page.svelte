@@ -7,6 +7,8 @@
     import SearchTable from "$lib/components/SearchTable.svelte";
 	import ViewSubModal from "$lib/modals/view/ViewSubModal.svelte";
 	import EditSubModal from "$lib/modals/edit/EditSubModal.svelte";
+	import DeleteSubModal from "$lib/modals/delete/DeleteSubModal.svelte";
+
 
 
 
@@ -59,7 +61,7 @@ export let data
                     <AddSubModal {student} {packages}/>
                     <ViewSubModal />
                     <EditSubModal {student} {packages}/> 
-                
+                    <DeleteSubModal />
                 </div>
             </div><!-- end card header -->
         </div><!-- end card -->
