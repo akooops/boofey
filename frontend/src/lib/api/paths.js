@@ -178,6 +178,34 @@ export function PathDelSub(subId){
     return `${DOMAIN}/subscriptions/${subId}/destroy`
 }
 
+//////
+export function PathGetQueues(canteenId,{page,search}){
+    return `${DOMAIN}/canteens/${canteenId}/queues?page=${page}&search=${search}`
+}
+export function PathAddQueue(canteenId){
+    return `${DOMAIN}/canteens/${canteenId}/queues/store`
+}
+export function PathUpdateQueue(queueId){
+    return `${DOMAIN}/queues/${queueId}/update`
+}
+export function PathDelQueue(queueId){
+    return `${DOMAIN}/queues/${queueId}/destroy`
+}
+
+////
+export function PathGetQueueStudents(queueId,{page,search}){
+    return `${DOMAIN}/queues/${queueId}/queueStudents?page=${page}&search=${search}`
+}
+export function PathAddQueueStudent(queueId){
+    return `${DOMAIN}/queues/${queueId}/queueStudents/store`
+}
+export function PathUpdateQueueStudent(queueStudentsId){
+    return `${DOMAIN}/queueStudents/${queueStudentsId}/update`
+}
+export function PathDelQueueStudent(queueStudentsId){
+    return `${DOMAIN}/queueStudents/${queueStudentsId}/destroy`
+}
+
 
 /////
 export function PathLogin(){

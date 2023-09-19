@@ -1,0 +1,107 @@
+<script>
+    import { PathUpdateQueue } from "$lib/api/paths";
+    import { toast } from "$lib/components/toast.js";
+    import { invalidate } from '$app/navigation';
+    import { redirector } from "$lib/api/auth";
+    import { getContext } from 'svelte';
+    let {queueStore} = getContext("queueStore")
+
+    
+    
+    let queueName
+    let close
+    let errors
+    let selectType
+    let form 
+    let closed = false
+    let type = 0
+    async function save(){
+        errors = {}
+    
+        let formData = new FormData(form)
+        formData.set("close",closed)
+    
+        let res = await fetch(PathUpdateQueue($queueStore.id),{
+            headers:{
+                Authorization: `${localStorage.getItem("SID")}`
+            },
+            method:"POST",
+            body:formData
+        })
+        redirector(res)
+    
+        res = await res.json()
+    
+        if(res.status == "success") {
+            close.click()
+            let text = `Successfuly Edited` 
+            toast(text,"success")
+            invalidate("queues:refresh")  
+            reset()
+        }else {
+            errors = res.errors
+        }
+    
+    
+    }
+    function reset(){    
+        form.reset()
+        // selectType.selectedIndex = 0
+        errors = {}
+    }
+    queueStore.subscribe(() => {
+        type = $queueStore.type
+        closed = !($queueStore.closed_at == null) 
+    })
+    
+    </script>
+    
+    
+    <div class="modal  fade" id="editQueueModal" tabindex="-1" aria-labelledby="exampleModalgridLabel" aria-modal="true"  on:hidden.bs.modal={reset}>
+        <div class="modal-dialog modal-dialog-centered" >
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalgridLabel">Start Queue</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form  on:submit|preventDefault={save} bind:this={form}>
+                        <div class="row g-3">
+
+                            <div class="col-lg-12">
+                                <label for="role" class="form-label">Type</label>
+                                <select class="form-select" name="type" id="role" aria-label="Default select example" bind:this={selectType}  bind:value={type}>
+                                    <option value={0}>Main Meal</option>
+                                    <option value={1}>Snack</option>
+                                </select>
+                                {#if errors?.type}
+                                <strong class="text-danger ms-1 my-2">{errors.type[0]}</strong>
+                                {/if}
+                            </div>
+
+                            {#if errors?.["422"] }
+                            <strong class="text-danger ms-1 my-2">{errors["422"]}</strong>
+                            {/if}
+
+                            <div class="row ps-3 g-3">
+                                <!-- Switches Color -->
+                                <div class="form-check form-switch col" >
+                                    <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck1" bind:checked={closed}>
+                                    <label class="form-check-label" for="SwitchCheck1">Close</label>
+                                </div><!-- Switches Color -->
+
+                            </div>
+
+
+
+
+                                <div class="hstack gap-2 justify-content-end">
+                                    <button type="button" class="btn btn-light fw-light" data-bs-dismiss="modal" bind:this={close}>Close</button>
+                                    <input type="submit" class="btn btn-primary waves-effect waves-light" value="Save">
+                                </div>
+                        </div><!--end row-->
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
