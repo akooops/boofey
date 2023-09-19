@@ -98,18 +98,18 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'middleware' => [/*'aut
     Route::resource('subscriptions', SubscriptionsController::class)->only(['show', 'destroy']);
     Route::post('subscriptions/{subscription}/update', 'SubscriptionsController@update')->name('subscriptions.update');
 
+    /* -------------------------------------------------------------------------------- */
+    /* Queues Routes */
+    Route::get('canteens/{canteen}/queues', 'PackagesController@indexByCanteen')->name('queues.indexBySchool');
+    Route::post('canteens/{canteen}/queues', 'PackagesController@storeByCanteen')->name('queues.storeBySchool');
+
+    Route::resource('queues', QueuesController::class)->only(['show', 'destroy']);
+    Route::post('queues/{queue}/update', 'QueuesController@update')->name('queues.update');
+
     /* ------------------------------------ */
 
-    Route::group(['prefix' => 'canteens'], function() {
-        Route::get('/{canteen}/queues', 'QueuesController@index')->name('api.queues.index');
-        Route::post('/{canteen}/queues/store', 'QueuesController@store')->name('api.queues.store');
-    });
 
     Route::group(['prefix' => 'queues'], function() {
-        Route::get('/{queue}', 'QueuesController@show')->name('api.queues.show');
-        Route::post('/{queue}/update', 'QueuesController@update')->name('api.queues.update');
-        Route::delete('/{queue}/destroy', 'QueuesController@destroy')->name('api.queues.destroy');
-
         Route::get('/{queue}/queueStudents', 'QueueStudentsController@index')->name('api.queueStudents.index');
         Route::post('/{queue}/queueStudents/store', 'QueueStudentsController@store')->name('api.queueStudents.store');
     });

@@ -17,12 +17,12 @@ class QueuesController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function index($id, Request $request) 
+    public function index(Canteen $canteen, Request $request) 
     {
-        $canteen = Canteen::with([
+        $canteen->with([
             'school',
             'school.logo:id,current_name,path'
-        ])->find($id);
+        ]);
 
         if (!$canteen) {
             return response()->json([
@@ -77,19 +77,8 @@ class QueuesController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function store($id, StoreQueueRequest $request) 
+    public function store(Canteen $canteen, StoreQueueRequest $request) 
     {
-        $canteen = Canteen::find($id);
-
-        if (!$canteen) {
-            return response()->json([
-                'status' => 'error',
-                'errors' => [
-                    '404' => 'Not found.'
-                ]
-            ], 404);
-        }
-
         $today = Carbon::today();
 
         $activeQueues = Queue::where('canteen_id', $canteen->id)
@@ -128,19 +117,8 @@ class QueuesController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function show($id) 
-    {
-        $queue = Queue::with(['canteen:id,name'])->find($id);
-
-        if (!$queue) {
-            return response()->json([
-                'status' => 'error',
-                'errors' => [
-                    '404' => 'Not found.'
-                ]
-            ], 404);
-        }
-        
+    public function show(Queue $queue) 
+    {        
         return response()->json([
             'status' => 'success',
             'data' => [
@@ -157,19 +135,8 @@ class QueuesController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function update($id, UpdateQueueRequest $request) 
+    public function update(Queue $queue, UpdateQueueRequest $request) 
     {
-        $queue = Queue::find($id);
-        
-        if (!$queue) {
-            return response()->json([
-                'status' => 'error',
-                'errors' => [
-                    '404' => 'Not found.'
-                ]
-            ], 404);
-        }
-
         $today = Carbon::today();
 
         $activeQueues = Queue::where('canteen_id', $queue->canteen->id)
@@ -204,19 +171,8 @@ class QueuesController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id) 
+    public function destroy(Queue $queue) 
     {
-        $queue = Queue::find($id);
-
-        if (!$queue) {
-            return response()->json([
-                'status' => 'error',
-                'errors' => [
-                    '404' => 'Not found.'
-                ]
-            ], 404);
-        }
-
         $queue->delete();
 
         return response()->json([
