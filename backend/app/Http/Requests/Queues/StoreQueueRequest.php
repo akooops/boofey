@@ -28,7 +28,7 @@ class StoreQueueRequest extends FormRequest
     public function rules()
     {
         return [
-            'type' => 'required|integer',
+            'type' => 'required|integer|in:0,1',
         ];
     }
 

@@ -21,22 +21,13 @@ class QueueStudentsController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function index($id, Request $request) 
+    public function index(Queue $queue, Request $request) 
     {
-        $queue = Queue::with([
+        $queue->with([
             'canteen',
             'canteen.school',
             'canteen.school.logo',
-        ])->find($id);
-
-        if (!$queue) {
-            return response()->json([
-                'status' => 'error',
-                'errors' => [
-                    '404' => 'Not found.'
-                ]
-            ], 404);
-        }
+        ]);
 
         $perPage = limitPerPage($request->query('perPage', 10));
         $page = checkPageIfNull($request->query('page', 1));
@@ -71,19 +62,8 @@ class QueueStudentsController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function store($id, StoreQueueStudentRequest $request) 
+    public function store(Queue $queue, StoreQueueStudentRequest $request) 
     {
-        $queue = Queue::find($id);
-
-        if (!$queue) {
-            return response()->json([
-                'status' => 'error',
-                'errors' => [
-                    '404' => 'Not found.'
-                ]
-            ], 404);
-        }
-
         $queueStudent = QueueStudent::create(array_merge(
             $request->validated(),
             [
@@ -106,19 +86,8 @@ class QueueStudentsController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function show($id) 
+    public function show(QueueStudent $queueStudent) 
     {
-        $queueStudent = QueueStudent::with(['queue:id,type'])->find($id);
-
-        if (!$queueStudent) {
-            return response()->json([
-                'status' => 'error',
-                'errors' => [
-                    '404' => 'Not found.'
-                ]
-            ], 404);
-        }
-        
         return response()->json([
             'status' => 'success',
             'data' => [
@@ -135,19 +104,8 @@ class QueueStudentsController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function update($id, UpdateQueueStudentRequest $request) 
+    public function update(QueueStudent $queueStudent, UpdateQueueStudentRequest $request) 
     {
-        $queueStudent = QueueStudent::find($id);
-        
-        if (!$queueStudent) {
-            return response()->json([
-                'status' => 'error',
-                'errors' => [
-                    '404' => 'Not found.'
-                ]
-            ], 404);
-        }
-
         if ($request->has('exited_at') == false) {
             $request->merge(['exited_at' => null]);
         }
@@ -168,19 +126,8 @@ class QueueStudentsController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id) 
+    public function destroy(QueueStudent $queueStudent) 
     {
-        $queueStudent = QueueStudent::find($id);
-
-        if (!$queueStudent) {
-            return response()->json([
-                'status' => 'error',
-                'errors' => [
-                    '404' => 'Not found.'
-                ]
-            ], 404);
-        }
-
         $queueStudent->delete();
 
         return response()->json([
@@ -189,27 +136,8 @@ class QueueStudentsController extends Controller
     }
 
     public function exit(ExitQueueStudentRequest $request){
-        $student = Student::find($request->get('student_id'));
-        
-        if (!$student) {
-            return response()->json([
-                'status' => 'error',
-                'errors' => [
-                    '404' => 'Not found.'
-                ]
-            ], 404);
-        }
-
-        $queue = Queue::find($request->get('queue_id'));
-        
-        if (!$queue) {
-            return response()->json([
-                'status' => 'error',
-                'errors' => [
-                    '404' => 'Not found.'
-                ]
-            ], 404);
-        }
+        $student = Student::findOrFail($request->get('student_id'));
+        $queue = Queue::findOrFail($request->get('queue_id'));
 
         $queueStudent = QueueStudent::where([
             'student_id' => $request->get('student_id'),

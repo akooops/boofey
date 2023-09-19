@@ -100,27 +100,21 @@ Route::group(['namespace' => 'App\Http\Controllers\Api', 'middleware' => [/*'aut
 
     /* -------------------------------------------------------------------------------- */
     /* Queues Routes */
-    Route::get('canteens/{canteen}/queues', 'PackagesController@indexByCanteen')->name('queues.indexBySchool');
-    Route::post('canteens/{canteen}/queues', 'PackagesController@storeByCanteen')->name('queues.storeBySchool');
+    Route::get('canteens/{canteen}/queues', 'QueuesController@index')->name('queues.index');
+    Route::post('canteens/{canteen}/queues', 'QueuesController@store')->name('queues.store');
 
     Route::resource('queues', QueuesController::class)->only(['show', 'destroy']);
     Route::post('queues/{queue}/update', 'QueuesController@update')->name('queues.update');
 
-    /* ------------------------------------ */
+    /* -------------------------------------------------------------------------------- */
+    /* Queues Students Routes */
+    Route::get('queues/{queue}/queueStudents', 'QueueStudentsController@index')->name('queueStudents.index');
+    Route::post('queues/{queue}/queueStudents', 'QueueStudentsController@store')->name('queueStudents.store');
 
+    Route::resource('queueStudents', QueueStudentsController::class)->only(['show', 'destroy']);
+    Route::post('queueStudents/{queueStudent}/update', 'QueueStudentsController@update')->name('queueStudents.update');
+    Route::post('/exit', 'QueueStudentsController@exit')->name('queueStudents.exit');
 
-    Route::group(['prefix' => 'queues'], function() {
-        Route::get('/{queue}/queueStudents', 'QueueStudentsController@index')->name('api.queueStudents.index');
-        Route::post('/{queue}/queueStudents/store', 'QueueStudentsController@store')->name('api.queueStudents.store');
-    });
-
-    Route::group(['prefix' => 'queueStudents'], function() {
-        Route::get('/{queueStudent}', 'QueueStudentsController@show')->name('api.queueStudents.show');
-        Route::post('/{queueStudent}/update', 'QueueStudentsController@update')->name('api.queueStudents.update');
-        Route::delete('/{queueStudent}/destroy', 'QueueStudentsController@destroy')->name('api.queueStudents.destroy');
-
-        Route::post('/exit', 'QueueStudentsController@exit')->name('api.queueStudents.exit');
-    });
 
     /* -------------------------------------------------------------------------------- */
     /* Coupons Routes */
