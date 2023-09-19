@@ -106,13 +106,22 @@ class AcademicYearsController extends Controller
 
     private function createAcademicYear($request, School $school = null) 
     {
+        $current = null;
+
         if($request->input('current') == true) {
             AcademicYear::where('school_id', $school->id)->update(['current' => false]);
         }
 
+        if($school->currentAcademicYear == null){
+            $current = true;
+        }
+
         $academicYear = AcademicYear::create(array_merge(
             $request->validated(),
-            ['school_id' => $school->id]
+            [
+                'school_id' => $school->id,
+                'current' => ($current == null) ? $request->input('current') : $current
+            ]
         ));
 
         $academicYear->save();
@@ -149,12 +158,21 @@ class AcademicYearsController extends Controller
      */
     public function update(AcademicYear $academicYear, UpdateAcademicYearRequest $request) 
     {
+        $current = null;
+
         if($request->input('current') == true) {
             AcademicYear::where('school_id', $academicYear->school_id)->update(['current' => false]);
         }
 
+        if($request->input('current') == false && $academicYear->current == true) {
+            $current = true;
+        }
+
         $academicYear->update(array_merge(
             $request->validated(),
+            [
+                'current' => ($current == null) ? $request->input('current') : $current
+            ]
         ));
 
         $academicYear->school->updateYearlyPackages();
@@ -175,6 +193,15 @@ class AcademicYearsController extends Controller
      */
     public function destroy(AcademicYear $academicYear) 
     {
+        if($academicYear->current == true) {
+            return response()->json([
+                'status' => 'error',
+                'errors' => [
+                    'current' => 'Unable to delete the current year!'
+                ]
+            ]);
+        }
+        
         $academicYear->delete();
 
         return response()->json([
