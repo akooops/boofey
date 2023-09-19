@@ -30,7 +30,7 @@ class AcademicYearsController extends Controller
         $response = [
             'status' => 'success',
             'data' => [
-                'academicYears' => $academicYears->items(),
+                'academicYears' => $academicYears->makeHidden(['academicBreaks']),
             ],
             'pagination' => handlePagination($academicYears),
         ];
@@ -49,8 +49,8 @@ class AcademicYearsController extends Controller
         $response = [
             'status' => 'success',
             'data' => [
-                'academicYears' => $academicYears->items(),
-                'school' => $school,
+                'academicYears' => $academicYears->makeHidden(['academicBreaks']),
+                'school' => $school->makeHidden(['created_at', 'updated_at']),
             ],
             'pagination' => handlePagination($academicYears),
         ];
@@ -64,7 +64,7 @@ class AcademicYearsController extends Controller
         $page = checkPageIfNull($request->query('page', 1));
         $search = $request->query('search');
 
-        $academicYearsQuery = AcademicYear::without('academicBreaks');
+        $academicYearsQuery = AcademicYear::latest();
 
         if ($school) {
             $academicYearsQuery->where('school_id', $school->id);
@@ -74,7 +74,7 @@ class AcademicYearsController extends Controller
             $academicYearsQuery->where('name', 'like', '%' . $search . '%');
         }
 
-        return $academicYearsQuery->without('academicBreaks')->paginate($perPage, ['*'], 'page', $page);
+        return $academicYearsQuery->paginate($perPage, ['*'], 'page', $page);
     }
 
     public function store(StoreAcademicYearRequest $request) 
