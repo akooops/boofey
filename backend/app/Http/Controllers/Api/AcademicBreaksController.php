@@ -16,20 +16,8 @@ class AcademicBreaksController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function index($id, Request $request) 
+    public function index(AcademicYear $academicYear, Request $request) 
     {
-        $academicYear = AcademicYear::with(['school:id,name,file_id', 'school.logo:id,path,current_name'])->find($id);
-        if (!$academicYear) {
-            return response()->json([
-                'status' => 'error',
-                'errors' => [
-                    '404' => 'Not found.'
-                ]
-            ], 404);
-        }
-
-
-
         $perPage = limitPerPage($request->query('perPage', 10));
         $page = checkPageIfNull($request->query('page', 1));
         $search = $request->query('search');
@@ -60,19 +48,8 @@ class AcademicBreaksController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function store($id, StoreAcademicBreakRequest $request) 
+    public function store(AcademicYear $academicYear, StoreAcademicBreakRequest $request) 
     {
-        $academicYear = AcademicYear::find($id);
-
-        if (!$academicYear) {
-            return response()->json([
-                'status' => 'error',
-                'errors' => [
-                    '404' => 'Not found.'
-                ]
-            ], 404);
-        }
-
         $academicBreak = AcademicBreak::create(array_merge(
             $request->validated(),
             ['academic_year_id' => $academicYear->id]
@@ -94,19 +71,8 @@ class AcademicBreaksController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function show($id) 
+    public function show(AcademicBreak $academicBreak) 
     {
-        $academicBreak = AcademicBreak::find($id);
-
-        if (!$academicBreak) {
-            return response()->json([
-                'status' => 'error',
-                'errors' => [
-                    '404' => 'Not found.'
-                ]
-            ], 404);
-        }
-        
         return response()->json([
             'status' => 'success',
             'data' => [
@@ -123,19 +89,8 @@ class AcademicBreaksController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function update($id, UpdateAcademicBreakRequest $request) 
+    public function update(AcademicBreak $academicBreak, UpdateAcademicBreakRequest $request) 
     {
-        $academicBreak = AcademicBreak::find($id);
-        
-        if (!$academicBreak) {
-            return response()->json([
-                'status' => 'error',
-                'errors' => [
-                    '404' => 'Not found.'
-                ]
-            ], 404);
-        }
-
         $academicBreak->update(array_merge($request->validated()));
         $academicBreak->academicYear->school->updateYearlyPackages();
 
@@ -151,19 +106,8 @@ class AcademicBreaksController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id) 
+    public function destroy(AcademicBreak $academicBreak) 
     {
-        $academicBreak = AcademicBreak::find($id);
-
-        if (!$academicBreak) {
-            return response()->json([
-                'status' => 'error',
-                'errors' => [
-                    '404' => 'Not found.'
-                ]
-            ], 404);
-        }
-
         $academicBreak->delete();
 
         return response()->json([
