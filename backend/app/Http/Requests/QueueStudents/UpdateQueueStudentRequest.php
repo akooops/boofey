@@ -27,7 +27,7 @@ class UpdateQueueStudentRequest extends FormRequest
      */
     public function rules()
     {
-        $queueStudent = QueueStudent::findOrFail($this->route('queueStudent'));
+        $queueStudent = $this->route('queueStudent');
 
         return [
             'started_at' => 'required|date_format:Y-m-d H:i:s',
