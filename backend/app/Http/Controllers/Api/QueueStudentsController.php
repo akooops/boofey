@@ -23,10 +23,10 @@ class QueueStudentsController extends Controller
      */
     public function index(Queue $queue, Request $request) 
     {
-        $queue->with([
-            'canteen',
-            'canteen.school',
-            'canteen.school.logo',
+        $queue->load([
+            'canteen:id,name,address,school_id',
+            'canteen.school:id,name,file_id',
+            'canteen.school.logo:id,current_name,path',
         ]);
 
         $perPage = limitPerPage($request->query('perPage', 10));
@@ -34,8 +34,8 @@ class QueueStudentsController extends Controller
         $search = $request->query('search');
 
         $queueStudents = QueueStudent::with([
-            'student',
-            'student.image'
+            'student:id,firstname,lastname',
+            'student.image:id,current_name,path'
         ])->latest()->where([
             'queue_id' => $queue->id
         ]);
@@ -46,7 +46,11 @@ class QueueStudentsController extends Controller
             'status' => 'success',
             'data' => [
                 'queueStudents' => $queueStudents->items(), 
-                'queue' => $queue, 
+                'queue' => $queue->makeHidden([
+                    'studentsCount', 'studentsInCount', 'studentsExitedCount',
+                    'closed', 'started_at', 'closed_at',
+                    'lastSyncedAt', 'created_at', 'updated_at'
+                ]), 
             ],
             'pagination' => handlePagination($queueStudents)
         ];

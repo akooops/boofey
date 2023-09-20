@@ -19,19 +19,10 @@ class QueuesController extends Controller
      */
     public function index(Canteen $canteen, Request $request) 
     {
-        $canteen->with([
-            'school',
+        $canteen->load([
+            'school:id,name,file_id',
             'school.logo:id,current_name,path'
         ]);
-
-        if (!$canteen) {
-            return response()->json([
-                'status' => 'error',
-                'errors' => [
-                    '404' => 'Not found.'
-                ]
-            ], 404);
-        }
 
         $perPage = limitPerPage($request->query('perPage', 10));
         $page = checkPageIfNull($request->query('page', 1));
@@ -44,10 +35,7 @@ class QueuesController extends Controller
             ->where('closed_at', null)
             ->first();
 
-        $queues = Queue::with([
-            'students:id,firstname,lastname,class,file_id',
-            'students.image:id,current_name,path'
-        ])->latest()->where([
+        $queues = Queue::latest()->where([
             'canteen_id' => $canteen->id
         ]);
 
@@ -61,7 +49,7 @@ class QueuesController extends Controller
             'data' => [
                 'queues' => $queues->items(), 
                 'activeQueue' => $activeQueue,
-                'canteen' => $canteen, 
+                'canteen' => $canteen->makeHidden(['created_at', 'updated_at']), 
             ],
             'pagination' => handlePagination($queues)
         ];
