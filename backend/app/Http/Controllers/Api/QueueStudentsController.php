@@ -67,7 +67,7 @@ class QueueStudentsController extends Controller
         $exited_at = null;
 
         if ($request->input('exited') == true) {
-            $exited_at = $request->get('exited');
+            $exited_at = $request->get('exited_at');
         }
 
         $queueStudent = QueueStudent::create(array_merge(
@@ -116,7 +116,7 @@ class QueueStudentsController extends Controller
         $exited_at = null;
 
         if ($request->input('exited') == true) {
-            $exited_at = $request->get('exited');
+            $exited_at = $request->get('exited_at');
         }
 
         $queueStudent->update(array_merge(

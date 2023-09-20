@@ -33,7 +33,7 @@ class UpdateQueueStudentRequest extends FormRequest
             'started_at' => 'required|date_format:Y-m-d H:i:s',
             'exited' => 'required|boolean',
             'exited_at' => 'required_if:exited,true|date_format:Y-m-d H:i:s|after_or_equal:started_at',
-            'student_id' => ['required', new UniqueStudentInQueue($queueStudent->queue_id, $queueStudent->id)],
+            'student_id' => ['required', 'exists:students,id', new UniqueStudentInQueue($queueStudent->queue_id, $queueStudent->id)],
         ];
     }
 

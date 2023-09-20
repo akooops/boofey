@@ -21,6 +21,11 @@ class SubscriptionsController extends Controller
      */
     public function index(Student $student, Request $request) 
     {
+
+        $student->load([
+            'image:id,path,current_name', 
+        ]);
+
         $perPage = limitPerPage($request->query('perPage', 10));
         $page = checkPageIfNull($request->query('page', 1));
         $search = $request->query('search');
@@ -70,7 +75,12 @@ class SubscriptionsController extends Controller
             'data' => [
                 'subscriptions' => $subscriptions->items(), 
                 'activeSubscription' => $activeSubscription,
-                'student' => $student,
+                'student' => $student->makeHidden([
+                    'otp', 'otp_expires_at', 'nfc_id', 
+                    'face_id', 'currentSubscription', 'subscribed', 
+                    'tookSnackToday', 'tookMainMealToday',
+                    'created_at', 'updated_at'
+                ]),
                 'packages' => $packages
             ],
             'pagination' => handlePagination($subscriptions)
