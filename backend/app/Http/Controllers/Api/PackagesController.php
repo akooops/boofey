@@ -40,13 +40,17 @@ class PackagesController extends Controller
 
     public function indexBySchool(School $school, Request $request)
     {
+        $school->load([
+            'logo:id,current_name,path'
+        ]);
+
         $packages = $this->getPackagesQuery($request, $school);
 
         $response = [
             'status' => 'success',
             'data' => [
                 'packages' => $packages->items(),
-                'school' => $school,
+                'school' => $school->makeHidden(['created_at', 'updated_at']),
             ],
             'pagination' => handlePagination($packages),
         ];
@@ -66,6 +70,11 @@ class PackagesController extends Controller
 
         if ($school) {
             $packagesQuery->where('school_id', $school->id);
+        }else{
+            $packagesQuery->with([
+                'school:id,name,file_id',
+                'school.logo:id,current_name,path'
+            ]); 
         }
 
         if ($search) {
