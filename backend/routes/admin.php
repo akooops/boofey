@@ -121,6 +121,16 @@ Route::group(['prefix' => 'admin', 'namespace' => 'App\Http\Controllers\Admin', 
     Route::resource('coupons', CouponsController::class)->except(['create', 'edit', 'update']);
     Route::post('coupons/{coupon}/update', 'CouponsController@update')->name('coupons.update');
 
+    /* -------------------------------------------------------------------------------- */
+    /* Categories Routes */
+    Route::resource('categories', CategoriesController::class)->except(['create', 'edit', 'update']);
+    Route::post('categories/{category}/update', 'CategoriesController@update')->name('categories.update');
+
+    /* -------------------------------------------------------------------------------- */
+    /* Products Routes */
+    Route::resource('products', ProductsController::class)->except(['create', 'edit', 'update']);
+    Route::post('products/{product}/update', 'ProductsController@update')->name('products.update');
+
     Route::get('authenticated', 'AuthController@authenticated');
     Route::post('logout', 'AuthController@logout');
 });

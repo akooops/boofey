@@ -9,6 +9,8 @@ class Product extends Model
 {
     use HasFactory;
 
+    protected $appends = ["currentPrice"];
+
     protected $fillable = [
         'name',
         'name_ar',
@@ -31,5 +33,9 @@ class Product extends Model
             'path' => 'products',
             'current_name' => 'default.png',
         ]);
+    }
+
+    function getCurrentPriceAttribute() {  
+        return ($this->sale_price == null || $this->sale_price == 0) ? $this->price : $this->sale_price;
     }
 }

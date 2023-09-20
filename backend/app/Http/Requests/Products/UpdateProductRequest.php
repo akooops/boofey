@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Requests\Coupons;
+namespace App\Http\Requests\Products;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Http\JsonResponse;
 
-class UpdateCouponRequest extends FormRequest
+class UpdateProductRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,16 +25,22 @@ class UpdateCouponRequest extends FormRequest
      */
     public function rules()
     {
-        $coupon = request()->route('coupon');
+        $product = request()->route('product');
 
         return [
-            'name' => 'required|string|max:500',
-            'code' => 'required|string|max:500|unique:coupons,code,'.$coupon->id,
+            'name' => 'required|string|max:500|unique:products,name,'.$product->id,
+            'name_ar' => 'required|string|max:500|unique:products,name_ar,'.$product->id,
 
-            'discount' => 'required|numeric|min:0',
-            'max' => 'required|integer|min:0',
+            'description' => 'sometimes|string',
+            'description_ar' => 'sometimes|string',
 
-            'onhold' => 'required|boolean',
+            'sale_price' => 'sometimes|numeric|min:0',
+            'price' => 'required|numeric|min:0',
+
+            'category_id' => 'required|exists:categories,id',
+
+            'edit_image' => 'required|boolean',
+            'file' => 'required_if:edit_image,true|file|mimes:jpeg,png'          
         ];
     }
 

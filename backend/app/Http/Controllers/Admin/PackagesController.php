@@ -186,8 +186,8 @@ class PackagesController extends Controller
         $package->update(array_merge(
             $request->validated(),
             [
-                'sale_price' => $request->has('sale_price') ? $request->input('sale_price') : null,
-                'tax' => $request->has('tax') ? $request->input('tax') : 0,
+                'sale_price' => ($request->has('sale_price') || $request->input('sale_price') != null) ? $request->input('sale_price') : null,
+                'tax' => ($request->has('tax') || $request->input('tax') != null) ? $request->input('tax') : 0,
                 'days' => ($days == null) ? $request->input('days') : $days
             ]
         ));

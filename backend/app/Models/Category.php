@@ -9,6 +9,8 @@ class Category extends Model
 {
     use HasFactory;
 
+    protected $appends = ["productsCount"];
+
     protected $fillable = [
         'name',
         'name_ar',
@@ -17,5 +19,9 @@ class Category extends Model
     public function products()
     {
         return $this->hasMany(Product::class, 'category_id', 'id');
+    }
+
+    function getProductsCountAttribute() {  
+        return $this->products()->count();
     }
 }
