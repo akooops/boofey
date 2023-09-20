@@ -33,9 +33,9 @@ class SubscriptionsController extends Controller
         $subscriptions = Subscription::with([
             'payment',
             'payment.coupon',
-            'payment.package',
-            'payment.package.school',
-            'payment.package.school.logo',
+            'payment.package:id,name,school_id',
+            'payment.package.school:id,name,file_id',
+            'payment.package.school.logo:id,current_name,path',
         ])->where('student_id', $student->id)->latest();
 
         $activeSubscription = $student->subscriptions()
@@ -68,7 +68,7 @@ class SubscriptionsController extends Controller
         }
 
         $subscriptions = $subscriptions->paginate($perPage, ['*'], 'page', $page);
-        $packages = Package::where('school_id', $student->school_id)->get();
+        $packages = Package::select('id', 'name')->where('school_id', $student->school_id)->get()->makeHidden(['currentPrice']);
 
         $response = [
             'status' => 'success',
@@ -78,7 +78,7 @@ class SubscriptionsController extends Controller
                 'student' => $student->makeHidden([
                     'otp', 'otp_expires_at', 'nfc_id', 
                     'face_id', 'currentSubscription', 'subscribed', 
-                    'tookSnackToday', 'tookMainMealToday',
+                    'tookSnackToday', 'tookMainMealToday', 'class',
                     'created_at', 'updated_at'
                 ]),
                 'packages' => $packages
