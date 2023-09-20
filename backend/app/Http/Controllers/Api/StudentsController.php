@@ -34,7 +34,7 @@ class StudentsController extends Controller
         $response = [
             'status' => 'success',
             'data' => [
-                'students' => $students->items(),
+                'students' => $students->makeHidden(['otp', 'otp_expires_at']),
             ],
             'pagination' => handlePagination($students),
         ];
@@ -44,13 +44,17 @@ class StudentsController extends Controller
 
     public function indexBySchool(School $school, Request $request)
     {
+        $school->load([
+            'logo:id,current_name,path'
+        ]);
+
         $students = $this->getStudentsQuery($request, $school);
 
         $response = [
             'status' => 'success',
             'data' => [
-                'students' => $students->items(),
-                'school' => $school,
+                'students' => $students->makeHidden(['otp', 'otp_expires_at']),
+                'school' => $school->makeHidden(['created_at', 'updated_at']),
             ],
             'pagination' => handlePagination($students),
         ];
@@ -66,8 +70,6 @@ class StudentsController extends Controller
 
         $studentsQuery = Student::latest()->with([
             'image:id,path,current_name', 
-            'school:id,name,file_id',
-            'school.logo:id,path,current_name',
             'academicYear:id,name,from,to,current',
             'father:id,user_id',
             'father.user:id,username,email,phone',
@@ -77,6 +79,11 @@ class StudentsController extends Controller
 
         if ($school) {
             $studentsQuery->where('school_id', $school->id);
+        }else{
+            $studentsQuery->with([
+                'school:id,name,file_id',
+                'school.logo:id,current_name,path'
+            ]); 
         }
 
         if ($search) {
