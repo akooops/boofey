@@ -29,8 +29,8 @@ class ExitQueueStudentRequest extends FormRequest
     public function rules()
     {
         return [
-            'queue_id' => 'required',
-            'student_id' => 'required',
+            'queue_id' => 'required|exists:queues,id',
+            'student_id' => 'required|exists:students,id',
         ];
     }
 

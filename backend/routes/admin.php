@@ -113,7 +113,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'App\Http\Controllers\Admin', 
 
     Route::resource('queueStudents', QueueStudentsController::class)->only(['show', 'destroy']);
     Route::post('queueStudents/{queueStudent}/update', 'QueueStudentsController@update')->name('queueStudents.update');
-    Route::post('queueStudents/exit', 'QueueStudentsController@exit')->name('queueStudents.exit');
+    Route::post('qr/exit', 'QueueStudentsController@exit')->name('queueStudents.exit');
 
 
     /* -------------------------------------------------------------------------------- */
