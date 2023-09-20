@@ -68,6 +68,11 @@ class AcademicYearsController extends Controller
 
         if ($school) {
             $academicYearsQuery->where('school_id', $school->id);
+        }else{
+            $academicYearsQuery->with([
+                'school:id,name,file_id',
+                'school.logo:id,current_name,path'
+            ]); 
         }
 
         if ($search) {

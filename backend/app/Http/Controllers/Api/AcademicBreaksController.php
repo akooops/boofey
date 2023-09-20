@@ -18,23 +18,21 @@ class AcademicBreaksController extends Controller
      */
     public function index(AcademicYear $academicYear, Request $request) 
     {
-        $perPage = limitPerPage($request->query('perPage', 10));
-        $page = checkPageIfNull($request->query('page', 1));
-        $search = $request->query('search');
+        $academicYear->load([
+            'school:id,name,file_id',
+            'school.logo:id,current_name,path'
+        ]);
 
         $academicBreaks = AcademicBreak::latest()->where([
             'academic_year_id' => $academicYear->id
         ]);
 
-        $academicBreaks = $academicBreaks->paginate($perPage, ['*'], 'page', $page);
-
         $response = [
             'status' => 'success',
             'data' => [
-                'academicBreaks' => $academicBreaks->items(), 
-                'academicYear' => $academicYear,
+                'academicBreaks' => $academicBreaks->get(), 
+                'academicYear' => $academicYear->makeHidden(['academicBreaks', 'created_at', 'updated_at']),
             ],
-            'pagination' => handlePagination($academicBreaks)
         ];
 
         return response()->json($response);
