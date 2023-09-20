@@ -40,13 +40,17 @@ class CanteensController extends Controller
 
     public function indexBySchool(School $school, Request $request)
     {
+        $school->load([
+            'logo:id,current_name,path'
+        ]);
+
         $canteens = $this->getCanteensQuery($request, $school);
 
         $response = [
             'status' => 'success',
             'data' => [
                 'canteens' => $canteens->items(),
-                'school' => $school,
+                'school' => $school->makeHidden(['created_at', 'updated_at']),
             ],
             'pagination' => handlePagination($canteens),
         ];
@@ -64,6 +68,11 @@ class CanteensController extends Controller
 
         if ($school) {
             $canteensQuery->where('school_id', $school->id);
+        }else{
+            $canteensQuery->with([
+                'school:id,name,file_id',
+                'school.logo:id,current_name,path'
+            ]); 
         }
 
         if ($search) {
