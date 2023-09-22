@@ -131,6 +131,5 @@ Route::group(['prefix' => 'admin', 'namespace' => 'App\Http\Controllers\Admin', 
     Route::resource('products', ProductsController::class)->except(['create', 'edit', 'update']);
     Route::post('products/{product}/update', 'ProductsController@update')->name('products.update');
 
-    Route::get('authenticated', 'AuthController@authenticated');
     Route::post('logout', 'AuthController@logout');
 });
