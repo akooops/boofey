@@ -1,11 +1,13 @@
 <script>
 import NavBar from "$lib/components/NavBar.svelte";
 	import TopBar from "$lib/components/TopBar.svelte";
+	import { onMount } from "svelte";
 
 
 export let data 
 $: user = data.userResponse.data.user
 $: console.log(user)
+
 
 </script>
 
@@ -48,5 +50,12 @@ $: console.log(user)
     </div>
 </div>
 
-{@html ''}
+{@html `<script src="/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>`}
+{@html ` <script src="/assets/libs/simplebar/simplebar.min.js"></script>`}
+{@html `<script src="/assets/libs/node-waves/waves.min.js"></script>`}
+{@html ` <script src="/assets/libs/feather-icons/feather.min.js"></script>`}
+{@html ` <script src="/assets/js/pages/plugins/lord-icon-2.1.0.js"></script>`}
+{@html ` <script src="/assets/js/plugins.js"></script>`}
+{@html `<script src="/assets/js/app.js"></script>`}
+
 
