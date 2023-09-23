@@ -8,7 +8,8 @@ export function InitFlatPickr(){
 					dateData.dateFormat = isFlatpickerVal["data-date-format"].value.toString();
 				if (isFlatpickerVal["data-enable-time"]) {
 					(dateData.enableTime = true),
-					(dateData.dateFormat = isFlatpickerVal["data-date-format"].value.toString() + " H:i");
+					(dateData.enableSeconds = true),
+					(dateData.dateFormat = isFlatpickerVal["data-date-format"].value.toString() + " H:i:S");
 				}
 				if (isFlatpickerVal["data-altFormat"]) {
 					(dateData.altInput = true),

@@ -34,7 +34,7 @@ onMount(() => {
                     </div><!-- end card header -->
                     <div class="flex-shrink-0">
                         <button type="button" data-bs-toggle="modal" data-bs-target="#addQueueStudentModal" class="btn btn-primary waves-effect waves-light"><i class="ri-add-line align-bottom me-1"></i>Add Student</button>
-                        <AddQueueStudentModal />
+                        <AddQueueStudentModal {queue}/>
                     </div>
                 </div>
                 <div class="card-body">

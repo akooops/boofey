@@ -12,6 +12,10 @@
         { title: "Parents", links: [], route:"/admin/parents"},
         { title: "Students", links: [], route:"/admin/students"},
         { title: "Coupons", links: [], route:"/admin/coupons"},
+        { title: "Categories ", links: [], route:"/admin/categories"},
+        { title: "Qr Exit Scan ", links: [], route:"/admin/qr-exit"},
+
+
 
 
       ],

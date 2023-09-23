@@ -1,7 +1,7 @@
 <script>
-    // import DeleteQueueStudentModal from "$lib/modals/delete/DeleteQueueStudentModal.svelte"
+    import DeleteQueueStudentModal from "$lib/modals/delete/DeleteQueueStudentModal.svelte"
 	import ViewQueueStudentModal from "$lib/modals/view/ViewQueueStudentModal.svelte";
-	// import EditQueueStudentModal from "$lib/modals/edit/EditQueueStudentModal.svelte";
+	import EditQueueStudentModal from "$lib/modals/edit/EditQueueStudentModal.svelte";
     import QueueStudentItem from "./items/QueueStudentItem.svelte";
     
     import { setContext } from 'svelte';
@@ -40,8 +40,9 @@
             </tbody>
         </table>
         <ViewQueueStudentModal /> 
+        <EditQueueStudentModal />
+        <DeleteQueueStudentModal />
         <!-- 
-             <DeleteQueueStudentModal />
-             <EditQueueStudentModal /> -->
+              -->
     </div>
 </div>

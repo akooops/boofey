@@ -1,11 +1,12 @@
 <script>
-    import { PathAddQueueStudent } from "$lib/api/paths";
+    import { PathUpdateQueueStudent } from "$lib/api/paths";
     import { toast } from "$lib/components/toast.js";
     import { invalidate } from '$app/navigation';
     import { redirector } from "$lib/api/auth";
     import Accordion from "$lib/components/Accordion.svelte";
     import {loadDefaultDate} from "$lib/init/initFlatpickr.js"
     import StudentsTableCollapse from "../collapses/StudentsTableCollapse.svelte"; 
+    import {getContext} from "svelte"
 
     let close
     let form 
@@ -15,6 +16,10 @@
     let exited = true
     let resetStudent
     let studentId = ""
+    let student
+
+    let {queueStudentStore} = getContext("queueStudentStore")
+
     export let queue
 
     async function save(){
@@ -25,7 +30,7 @@
             formData.set("student_id",studentId)
         }
 
-        let res = await fetch(PathAddQueueStudent(queue.id),{
+        let res = await fetch(PathUpdateQueueStudent($queueStudentStore.id),{
             headers:{
                 Authorization: `${localStorage.getItem("SID")}`
             },
@@ -37,7 +42,7 @@
         res = await res.json()
         if(res.status == "success") {
             close.click()
-            let text = `Added a new student to the  queue` 
+            let text = `Successfuly Edited` 
             toast(text,"success")
             invalidate("queueStudents:refresh")
             reset()
@@ -50,6 +55,20 @@
         
     }
 
+    queueStudentStore.subscribe(() => {
+        if(Object.keys($queueStudentStore).length == 0 || startedAt == undefined) return;
+        loadDefaultDate(startedAt,$queueStudentStore.started_at)        
+        if($queueStudentStore.exited_at){
+            console.log(exited,exitedAt)
+            loadDefaultDate(exitedAt,$queueStudentStore.exited_at)
+        }else {
+            exited = false
+        }
+        studentId = $queueStudentStore?.student?.id
+        
+    })
+    
+    
     function reset(){
         loadDefaultDate(startedAt,Date.now())
         if(exitedAt){
@@ -57,6 +76,7 @@
         }
         form.reset()
         resetStudent()
+        exited = true
         studentId = ""
         errors = {}
     }
@@ -65,7 +85,7 @@
     </script>
     
     
-    <div class="modal  fade" id="addQueueStudentModal" tabindex="-1"  data-bs-focus="false" aria-labelledby="exampleModalgridLabel" aria-modal="true"  on:hidden.bs.modal={reset}>
+    <div class="modal  fade" id="editQueueStudentModal" tabindex="-1"  data-bs-focus="false" aria-labelledby="exampleModalgridLabel" aria-modal="true"  on:hidden.bs.modal={reset}>
         <div class="modal-dialog modal-dialog-centered" >
             <div class="modal-content">
                 <div class="modal-header">
@@ -76,7 +96,7 @@
                         <div class="row g-3">
                             <!-- Base Example -->
                                 <Accordion id={"parent"} title={"Student"}>
-                                    <StudentsTableCollapse on:select={(e) => studentId = e.detail.studentId} bind:resetStudent/>            
+                                    <StudentsTableCollapse on:select={(e) => studentId = e.detail.studentId} selected={$queueStudentStore?.student} bind:resetStudent/>            
                                 </Accordion>
                                 {#if errors?.student_id}
                                 <strong class="text-danger ms-1 my-2">{errors.student_id[0]}</strong>
@@ -104,8 +124,8 @@
 
                                 </div>
                                 
-                               {#if exited}
-                               <div>
+                               <!-- {#if exited} -->
+                               <div class:d-none={!exited}>
                                     <div>
                                         <label for="firstName" class="form-label">Exited At</label>
                                         <input type="text" name="exited_at" class="form-control" data-provider="flatpickr" data-date-format="Y-m-d" data-enable-time id="from" bind:this={exitedAt}>
@@ -114,7 +134,7 @@
                                         {/if}
                                     </div>
                                 </div>
-                                {/if}
+                                <!-- {/if} -->
 
                         
 
