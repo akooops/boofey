@@ -13,6 +13,7 @@
         { title: "Students", links: [], route:"/admin/students"},
         { title: "Coupons", links: [], route:"/admin/coupons"},
         { title: "Categories ", links: [], route:"/admin/categories"},
+        { title: "Products ", links: [], route:"/admin/products"},
         { title: "Qr Exit Scan ", links: [], route:"/admin/qr-exit"},
 
 

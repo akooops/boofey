@@ -158,7 +158,7 @@
                                 </div>
                                 {#if sale}
                                 <div class="col-xxl-6">
-                                    <label for="code" class="form-label">Package Sale Priccode898255e</label>
+                                    <label for="code" class="form-label">Package Sale Price</label>
                                     <input type="text" name="sale_price" class="form-control" id="firstName" placeholder="Enter Package Sale price" bind:value={packageStoreInstance.sale_price}>
                                     {#if errors?.sale_price}
                                     <strong class="text-danger ms-1 my-2">{errors.sale_price[0]}</strong>

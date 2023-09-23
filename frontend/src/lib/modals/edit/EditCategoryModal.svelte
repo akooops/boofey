@@ -30,7 +30,7 @@
     
         if(res.status == "success") {
             close.click()
-            let text = `Added ${categoryStore.name} as a new category` 
+            let text = `Edited ${categoryStore.name} successfuly` 
             toast(text,"success")
             invalidate("categories:refresh")
             reset()

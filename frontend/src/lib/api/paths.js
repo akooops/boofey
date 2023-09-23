@@ -229,6 +229,21 @@ export function PathDelCategory(categoryId){
     return `${ADMIN_DOMAIN}/categories/${categoryId}`
 }
 
+////
+export function PathGetProducts({page,search},category){
+    return `${ADMIN_DOMAIN}/products?page=${page}&search=${search}&category=${category}`
+}
+export function PathAddProduct(){
+    return `${ADMIN_DOMAIN}/products`
+}
+export function PathUpdateProduct(productId){
+    return `${ADMIN_DOMAIN}/products/${productId}/update`
+}
+export function PathDelProduct(productId){
+    return `${ADMIN_DOMAIN}/products/${productId}`
+}
+
+
 /////
 export function PathLogin(){
     return `${AUTH_DOMAIN}/login`
