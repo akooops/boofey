@@ -29,11 +29,6 @@ Route::group(['namespace' => 'App\Http\Controllers', 'middleware' => ['auth:sanc
     Route::post('students/{student}/otp', 'StudentsController@otp')->name('parents.students.otp');
 
     /* -------------------------------------------------------------------------------- */
-    /* Subscriptions Routes 
+    /* Subscriptions Routes */
     Route::get('students/{student}/subscriptions', 'SubscriptionsController@index')->name('students.index');
-    Route::post('students/{student}/subscriptions', 'SubscriptionsController@store')->name('students.store');
-
-    Route::resource('subscriptions', SubscriptionsController::class)->only(['show', 'destroy']);
-    Route::post('subscriptions/{subscription}/update', 'SubscriptionsController@update')->name('subscriptions.update');
-    */
 });
