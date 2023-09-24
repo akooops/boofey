@@ -5,6 +5,7 @@
     import { getContext, onMount } from "svelte";
     import { redirector } from "$lib/api/auth";
     
+    export let general = false
     export let schoolId
     let packageName
     let close
@@ -29,7 +30,7 @@
         formData.set("yearly",packageStoreInstance.yearly)
         formData.set("hidden",packageStoreInstance.hidden)
         formData.set("popular",packageStoreInstance.popular)
-
+        formData.set("school_id",2)
         // formData.append("name",packageName)
     
         let res = await fetch(PathUpdatePackage(packageStoreInstance.id),{

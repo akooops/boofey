@@ -2,7 +2,7 @@
     import { getContext } from "svelte";
     import {formatTimestamp} from "$lib/utils.js"
     import ViewRow from "$lib/components/ViewRow.svelte"
-
+    export let general = false
     let {packageStore} = getContext("packageStore")
 
     
@@ -25,6 +25,13 @@
             <ViewRow>
                Code : <span class="badge border border-primary text-primary">{$packageStore.code}</span>
             </ViewRow>
+            {#if general}
+            <ViewRow>
+                School :      
+                        <img src={$packageStore?.school?.logo?.full_path} alt="" class="avatar-xs rounded-circle" />
+                        {$packageStore?.school?.name}
+            </ViewRow>
+            {/if}
 
             <ViewRow>
                 Price : <span class="fs-5">{$packageStore.price}</span> 

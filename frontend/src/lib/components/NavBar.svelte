@@ -9,6 +9,8 @@
         { title: "Roles", links: [], route:"/admin/roles"},
         { title: "Users", links: [], route:"/admin/users"},
         { title: "Schools", links: [], route:"/admin/schools"},
+        { title: "Packages", links: [], route:"/admin/packages"},
+        { title: "Canteens", links: [], route:"/admin/canteens"},
         { title: "Parents", links: [], route:"/admin/parents"},
         { title: "Students", links: [], route:"/admin/students"},
         { title: "Coupons", links: [], route:"/admin/coupons"},

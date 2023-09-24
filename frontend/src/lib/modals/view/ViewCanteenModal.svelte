@@ -4,7 +4,7 @@
     import ViewRow from "$lib/components/ViewRow.svelte"
 
     let {canteenStore} = getContext("canteenStore")
-
+    export let general
     
 
 </script>
@@ -21,6 +21,14 @@
             <ViewRow>
                Name : <span class="fw-normal">{$canteenStore.name}</span>
             </ViewRow>
+
+            {#if general}
+            <ViewRow>
+                School :      
+                        <img src={$canteenStore?.school?.logo?.full_path} alt="" class="avatar-xs rounded-circle" />
+                        {$canteenStore?.school?.name}
+            </ViewRow>
+            {/if}
 
             <ViewRow>
                Address : <span class="fw-normal">{$canteenStore.address}</span>

@@ -4,6 +4,8 @@
     import { invalidate } from '$app/navigation';
     import {redirector} from "$lib/api/auth"
     import { getContext } from "svelte"
+    import Accordion from "$lib/components/Accordion.svelte";
+    import SchoolsTableCollapse from "../collapses/SchoolsTableCollapse.svelte";
 
     let {apiStore} = getContext("apiStore")
 
@@ -12,13 +14,20 @@
     let form
     let apiBtn
     let apiKey
+    let resetSchool
+
+    export let general
     export let schoolId
     let errors
 
     async function save(){
         errors = {}
         let formData = new FormData(form)    
-        
+        if(schoolId == null){
+            errors.school_id = ["school is required"]
+            return;
+        }
+    
         let res = await fetch(PathAddCanteen(schoolId),{
             headers:{
                 Authorization: `${localStorage.getItem("SID")}`
@@ -51,6 +60,8 @@
 
     function reset(){
         form.reset()
+        if(general) resetSchool()
+        schoolId = ""
         errors = {}
     }
 
@@ -84,6 +95,14 @@
                                     <strong class="text-danger ms-1 my-2">{errors.address[0]}</strong>
                                     {/if}
                                 </div>
+                                {#if general}
+                                <Accordion id={"school"} title={"Student's School"}>               
+                                    <SchoolsTableCollapse  on:select={(e) => schoolId = e.detail.schoolId} bind:resetSchool/>                     
+                                </Accordion>
+                                {#if errors?.school_id}
+                                <strong class="text-danger ms-1 my-2">{errors.school_id[0]}</strong>
+                                {/if}
+                                {/if}
     
                                 <div class="hstack gap-2 justify-content-end">
                                     <button type="button" class="btn btn-light fw-light" data-bs-dismiss="modal" bind:this={close}>Close</button>

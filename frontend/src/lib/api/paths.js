@@ -94,6 +94,9 @@ export function PathDelAcademicBreak(breakId){
 
 /////////
 export function PathGetPackages(schoolId,{page,search}){
+    if(schoolId == null){
+        return `${ADMIN_DOMAIN}/packages?page=${page}&search=${search}`
+    }
     return `${ADMIN_DOMAIN}/schools/${schoolId}/packages?page=${page}&search=${search}`
 }
 export function PathAddPackage(schoolId){
@@ -118,6 +121,9 @@ export function PathDelParent(parentId){
 
 /////
 export function PathGetCanteens(schoolId,{page,search}){
+    if(schoolId == null){
+        return `${ADMIN_DOMAIN}/canteens?page=${page}&search=${search}`
+    }
     return `${ADMIN_DOMAIN}/schools/${schoolId}/canteens?page=${page}&search=${search}`
 }
 
