@@ -8,6 +8,7 @@
     import { writable } from 'svelte/store';
     
     export let packagesList
+    export let general = false
     setContext('packageStore', {
 	    packageStore: writable({})
     });
@@ -28,6 +29,9 @@
                     <th scope="col">ID</th>
                     <th scope="col">Name</th>
                     <th scope="col">Code</th>
+                    {#if general}
+                    <th scope="col">School</th>
+                    {/if}
                     <th scope="col">Price</th>
                     <th scope="col">Tax</th>
                     <th scope="col">Days</th>
@@ -39,12 +43,12 @@
             </thead>
             <tbody class="list">
                 {#each packagesList as packageObj}
-                    <PackageItem {packageObj} />
+                    <PackageItem {general} {packageObj} />
                 {/each}
             </tbody>
         </table>
-        <EditPackageModal /> 
+        <EditPackageModal {general}/> 
         <DeletePackageModal />
-        <ViewPackageModal />
+        <ViewPackageModal {general}/>
     </div>
 </div>

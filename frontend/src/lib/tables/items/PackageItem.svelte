@@ -1,12 +1,12 @@
 <script>
     import { getContext } from "svelte"
-    
-        export let packageObj
-        let {packageStore} = getContext("packageStore")
+    export let general = false
+    export let packageObj
+    let {packageStore} = getContext("packageStore")
 
-        function setPackage(){
-            $packageStore = JSON.parse(JSON.stringify(packageObj));
-        }
+    function setPackage(){
+        $packageStore = JSON.parse(JSON.stringify(packageObj));
+    }
     
     </script>
     
@@ -19,6 +19,18 @@
         <td>{packageObj.id}</td>
         <td>{packageObj.name}</td>
         <td><span class="badge border border-primary text-primary">{packageObj.code}</span></td>
+        {#if general}
+        <td>
+            <div class="d-flex gap-2 align-items-center">
+                <div class="flex-shrink-0">
+                    <img src={packageObj.school.logo.full_path} alt="" class="avatar-xs rounded-circle" />
+                </div>
+                <div class="flex-grow-1">
+                    {packageObj.school.name}
+                </div>
+            </div>
+        </td>
+        {/if}
         <td>
             {#if packageObj.sale_price}
                 <span class="fs-6  text-decoration-line-through text-danger">{packageObj.price}</span>

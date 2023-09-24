@@ -3,9 +3,12 @@
     import { toast } from "$lib/components/toast.js";
     import { invalidate } from '$app/navigation';
     import { redirector } from "$lib/api/auth";
+    import Accordion from "$lib/components/Accordion.svelte";
+    import SchoolsTableCollapse from "../collapses/SchoolsTableCollapse.svelte";
 
-    
+    export let general
     export let schoolId
+    let resetSchool
     let packageName
     let close
     let form
@@ -27,6 +30,10 @@
         formData.set("popular",popular)
 
         // formData.append("name",packageName)
+        if(schoolId == null){
+            errors.school_id = ["school is required"]
+            return;
+        }
     
         let res = await fetch(PathAddPackage(schoolId),{
             headers:{
@@ -66,6 +73,8 @@
         form.reset()
         features = []
         yearly = sale = tax = hidden = popular = false
+        if(general) resetSchool()
+        schoolId = ""
         errors = {}
     }
     
@@ -97,6 +106,16 @@
                                     <strong class="text-danger ms-1 my-2">{errors.code[0]}</strong>
                                     {/if}
                                 </div>
+                                {#if general}
+                                <Accordion id={"school"} title={"Student's School"}>               
+                                    <SchoolsTableCollapse  on:select={(e) => schoolId = e.detail.schoolId} bind:resetSchool/>                     
+                                </Accordion>
+                                {#if errors?.school_id}
+                                <strong class="text-danger ms-1 my-2">{errors.school_id[0]}</strong>
+                                {/if}
+                                {/if}
+
+
                                 <div>
                                     <label for="exampleFormControlTextarea5" class="form-label">Package Description</label>
                                     <textarea class="form-control" name="description" id="exampleFormControlTextarea5" placeholder="Enter package description"  rows="3"></textarea>

@@ -11,6 +11,7 @@
 	import RevokeApiModal from "../modals/delete/RevokeApiModal.svelte";
     
     export let canteensList
+    export let general = false
     setContext('canteenStore', {
 	    canteenStore: writable({})
     });
@@ -31,19 +32,22 @@
                     </th>
                     <th scope="col">ID</th>
                     <th scope="col">Name</th>
+                    {#if general}
+                    <th scope="col">School</th>
+                    {/if}
                     <th scope="col">Address</th>
                     <th scope="col">Action</th>
                 </tr>
             </thead> 
             <tbody class="list">
                 {#each canteensList as canteen}
-                    <CanteenItem {canteen} />
+                    <CanteenItem {canteen} {general}/>
                 {/each}
             </tbody>
         </table>
-        <EditCanteenModal /> 
+        <EditCanteenModal {general}/> 
         <DeleteCanteenModal />
-        <ViewCanteenModal /> 
+        <ViewCanteenModal {general}/> 
         <ViewApiModal /> 
         <RevokeApiModal />
     </div>

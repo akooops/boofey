@@ -5,6 +5,7 @@
     import { goto } from '$app/navigation';
 
     export let canteen
+    export let general
     let {canteenStore} = getContext("canteenStore")
     let {apiStore} = getContext("apiStore")
 
@@ -43,7 +44,19 @@
             </div>
         </td>
         <td>{canteen.id}</td>
-        <td>{canteen.name}
+        <td>{canteen.name}</td>
+        {#if general}
+        <td>
+            <div class="d-flex gap-2 align-items-center">
+                <div class="flex-shrink-0">
+                    <img src={canteen.school.logo.full_path} alt="" class="avatar-xs rounded-circle" />
+                </div>
+                <div class="flex-grow-1">
+                    {canteen.school.name}
+                </div>
+            </div>
+        </td>
+        {/if}
         <td>{canteen.address}</td>
         <td>
             <div class="hstack gap-3 flex-wrap">
