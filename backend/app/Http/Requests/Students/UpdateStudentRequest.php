@@ -5,6 +5,7 @@ namespace App\Http\Requests\Students;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Route;
 
 class UpdateStudentRequest  extends FormRequest
 {
@@ -25,9 +26,11 @@ class UpdateStudentRequest  extends FormRequest
      */
     public function rules()
     {
+        $currentRoute = Route::currentRouteName();
+
         $student = request()->route('student');
 
-        return [
+        $rules = [
             'firstname' => 'required|string|max:500',
             'lastname' => 'required|string|max:500',
             'class' => 'required|integer',
@@ -44,6 +47,12 @@ class UpdateStudentRequest  extends FormRequest
             'edit_image' => 'required|boolean',
             'file' => 'required_if:edit_image,true|file|mimes:jpeg,png'    
         ];
+
+        if ($currentRoute === 'students.update') {
+            $rules['father_id'] = 'required|exists:fathers,id';
+        }
+
+        return $rules;
     }
 
     protected function failedValidation(\Illuminate\Contracts\Validation\Validator $validator)

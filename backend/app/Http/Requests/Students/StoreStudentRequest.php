@@ -38,7 +38,6 @@ class StoreStudentRequest extends FormRequest
 
             'onhold' => 'required|boolean',
 
-            'father_id' => 'required|exists:fathers,id',
             'academic_year_id' => 'required|exists:academic_years,id',
 
             'file' => 'required|file|mimes:jpeg,png'    
@@ -46,6 +45,11 @@ class StoreStudentRequest extends FormRequest
 
         // Add the 'school_id' rule if the current route is 'academicYears.store'
         if ($currentRoute === 'students.store') {
+            $rules['school_id'] = 'required|exists:schools,id';
+            $rules['father_id'] = 'required|exists:fathers,id';
+        }
+
+        if ($currentRoute === 'parents.students.store') {
             $rules['school_id'] = 'required|exists:schools,id';
         }
 
