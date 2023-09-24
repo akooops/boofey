@@ -4,7 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
-Route::group(['namespace' => 'App\Http\Controllers\Auth', 'middleware' => ['auth:sanctum']], function(){  
+Route::group(['prefix' => 'auth', 'namespace' => 'App\Http\Controllers\Auth', 'middleware' => ['auth:sanctum']], function(){  
     Route::get('authenticated', 'AuthController@authenticated');
 });
 

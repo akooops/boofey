@@ -16,11 +16,11 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
 
-            $table->float('tax')->nullable(false)->default(0);
-            $table->float('discount')->nullable(false)->default(0);
+            $table->float('tax')->nullable()->default(0);
+            $table->float('discount')->nullable()->default(0);
 
-            $table->float('subtotal')->nullable(false)->default(0);
-            $table->float('total', 8, 3)->nullable(false)->default(0);
+            $table->float('subtotal')->nullable()->default(0);
+            $table->float('total', 8, 3)->nullable()->default(0);
 
             $table->timestamps();
         });
