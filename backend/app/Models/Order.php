@@ -40,11 +40,7 @@ class Order extends Model
         $this->total = $total;
     }
 
-    public function saveOrderItems(array $products){
-        if(is_string($products) && json_decode($products) !== null) {
-            $products = json_decode($products, true);
-        }
-
+    public function saveOrderItems($products){
         OrderItem::where('order_id', $this->id)->delete();
 
         foreach($products as $product){

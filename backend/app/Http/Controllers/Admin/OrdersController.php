@@ -48,11 +48,26 @@ class OrdersController extends Controller
      */
     public function store(StoreOrderRequest $request) 
     {
+        $products = $request->input('products');
+
+        if(is_string($products) && json_decode($products) !== null) {
+            $products = json_decode($products, true);
+        }
+
+        if(count($products) == 0){
+            return response()->json([
+                'status' => 'error',
+                'errors' => [
+                    'products' => 'At least one product should be added'
+                ],
+            ], 422);
+        }
+
         $order = Order::create($request->validated());
 
         $order->save();
 
-        $order->saveOrderItems($request->input('products'));
+        $order->saveOrderItems($products);
         $order->calculateTotal();
 
         $order->save();
@@ -89,6 +104,21 @@ class OrdersController extends Controller
      */
     public function update(Order $order, UpdateOrderRequest $request) 
     {
+        $products = $request->input('products');
+
+        if(is_string($products) && json_decode($products) !== null) {
+            $products = json_decode($products, true);
+        }
+
+        if(count($products) == 0){
+            return response()->json([
+                'status' => 'error',
+                'errors' => [
+                    'products' => 'At least one product should be added'
+                ],
+            ], 422);
+        }
+
         $order->update(array_merge(
             $request->validated(),
             [
@@ -98,7 +128,7 @@ class OrdersController extends Controller
             ]
         ));
 
-        $order->saveOrderItems($request->input('products'));
+        $order->saveOrderItems($products);
         $order->calculateTotal();
         $order->save();
 
