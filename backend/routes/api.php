@@ -21,6 +21,12 @@ include __DIR__ . '/admin.php';
 include __DIR__ . '/sync.php';
 
 Route::group(['namespace' => 'App\Http\Controllers', 'middleware' => ['auth:sanctum', 'convert.bool.string']], function(){    
+    Route::get('profiles', 'ProfilesController@show')->name('profile.show');
+    Route::post('profiles', 'ProfilesController@update')->name('update.update');
+    Route::post('passwordReset', 'ProfilesController@passwordReset')->name('profile.passwordReset');
+});
+
+Route::group(['namespace' => 'App\Http\Controllers', 'middleware' => ['auth:sanctum', 'convert.bool.string']], function(){    
     /* -------------------------------------------------------------------------------- */
     /* Students Routes */
     Route::resource('students', StudentsController::class)->except(['create', 'store', 'edit', 'update']);

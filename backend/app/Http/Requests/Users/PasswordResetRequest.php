@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Requests\Profiles;
+namespace App\Http\Requests\Users;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Http\JsonResponse;
 
-class UpdateProfileRequest extends FormRequest
+class PasswordResetRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,10 +26,8 @@ class UpdateProfileRequest extends FormRequest
     public function rules()
     {
         return [
-            'firstname' => 'required|string|max:500',
-            'lastname' => 'required|string|max:500',
-            'description' => 'sometimes|string',
-            'file' => 'sometimes|file|mimes:jpeg,png'
+            'old_password' => 'required',
+            'password' => 'required|password|confirmed',
         ];
     }
 
