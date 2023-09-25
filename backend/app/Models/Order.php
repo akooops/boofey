@@ -51,7 +51,7 @@ class Order extends Model
             $orderItem = OrderItem::create([
                 'order_id' => $this->id,
                 'product_id' => $product["id"],
-                'qty' => $product["qty"],
+                'qty' => abs($product["qty"]),
                 'price' => $productRecord->currentPrice
             ]);
 

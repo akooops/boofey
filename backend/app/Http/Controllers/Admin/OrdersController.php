@@ -58,7 +58,7 @@ class OrdersController extends Controller
             return response()->json([
                 'status' => 'error',
                 'errors' => [
-                    'products' => 'At least one product should be added'
+                    'products' => ['At least one product should be added']
                 ],
             ], 422);
         }
@@ -114,7 +114,7 @@ class OrdersController extends Controller
             return response()->json([
                 'status' => 'error',
                 'errors' => [
-                    'products' => 'At least one product should be added'
+                    'products' => ['At least one product should be added']
                 ],
             ], 422);
         }
