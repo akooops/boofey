@@ -23,8 +23,9 @@ class OrdersController extends Controller
 
         $orders = Order::with([
             'orderItems',
-            'orderItems.product',
-            'orderItems.product.image',
+            'orderItems.product:id,name,price,sale_price,category_id,file_id',
+            'orderItems.product.image:id,current_name,path',
+            'orderItems.product.category:id,name',
         ])->latest();
 
         $orders = $orders->paginate($perPage, ['*'], 'page', $page);
@@ -86,6 +87,13 @@ class OrdersController extends Controller
      */
     public function show(Order $order) 
     {
+        $order->load([
+            'orderItems',
+            'orderItems.product',
+            'orderItems.product.image',
+            'orderItems.product.category',
+        ]);
+
         return response()->json([
             'status' => 'success',
             'data' => [

@@ -26,7 +26,11 @@ Route::group(['namespace' => 'App\Http\Controllers', 'middleware' => ['auth:sanc
     Route::post('passwordReset', 'ProfilesController@passwordReset')->name('profile.passwordReset');
 });
 
-Route::group(['namespace' => 'App\Http\Controllers', 'middleware' => ['auth:sanctum', 'convert.bool.string']], function(){    
+Route::group(['namespace' => 'App\Http\Controllers', 'middleware' => ['auth:sanctum', 'convert.bool.string']], function(){ 
+    /* -------------------------------------------------------------------------------- */
+    /* Schools Routes */
+    Route::get('schools', 'SchoolsController@index')->name('parents.schools.index');
+    
     /* -------------------------------------------------------------------------------- */
     /* Students Routes */
     Route::resource('students', StudentsController::class)->except(['create', 'store', 'edit', 'update']);
@@ -36,5 +40,5 @@ Route::group(['namespace' => 'App\Http\Controllers', 'middleware' => ['auth:sanc
 
     /* -------------------------------------------------------------------------------- */
     /* Subscriptions Routes */
-    Route::get('students/{student}/subscriptions', 'SubscriptionsController@index')->name('students.index');
+    Route::get('students/{student}/subscriptions', 'SubscriptionsController@index')->name('parents.students.index');
 });
