@@ -5,6 +5,7 @@
 
     export let sub
 
+    export let type 
 
     let {subStore} = getContext("subStore")
     
@@ -48,7 +49,7 @@
     </td>
 
 
-    
+    {#if type != "parent"}
     <td>
         <div class="hstack gap-3 flex-wrap">
             <span data-bs-toggle="modal" data-bs-target="#viewSubModal" on:click={setSub}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="View" ><i class="ri-eye-fill"></i></a></span>
@@ -56,4 +57,5 @@
             <span data-bs-toggle="modal" data-bs-target="#deleteSubModal" on:click={setSub}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Delete"><i class="ri-delete-bin-line"></i></a></span>
         </div>
     </td>
+    {/if}
 </tr>

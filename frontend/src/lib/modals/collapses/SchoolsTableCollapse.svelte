@@ -17,14 +17,16 @@
     let page = 1 
     let searchQuery = ""
     export let selected = {}
+    export let type 
 
     async function fetchSchools(){
         console.log(page,searchQuery)
-        let res = await fetch(PathGetSchools({page,search:searchQuery}),{
+        let res = await fetch(PathGetSchools({page,search:searchQuery},type),{
             headers:{
-                Authorization: `${localStorage.getItem("SID")}`
+                Authorization: `${localStorage.getItem("SID")}`,
             }
         })
+
         redirector(res)
 
 

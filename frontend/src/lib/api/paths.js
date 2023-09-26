@@ -4,6 +4,8 @@ export const DOMAIN = "https://boofey.akoops.com/"
 
 export const ADMIN_DOMAIN = `${DOMAIN}api/admin`
 export const AUTH_DOMAIN = `${DOMAIN}api/auth`
+export const PARENT_DOMAIN = `${DOMAIN}api`
+
 
 
 export function PathGetPermissions({page,search}){
@@ -51,7 +53,10 @@ export function PathUpdateUser(id){
 }
 
 /////////
-export function PathGetSchools({page,search}){
+export function PathGetSchools({page,search},type){
+    if(type == "parent"){
+        return `${PARENT_DOMAIN}/schools?page=${page}&search=${search}`
+    }
     return `${ADMIN_DOMAIN}/schools?page=${page}&search=${search}`
 }
 
@@ -61,12 +66,19 @@ export function PathAddSchool(){
 export function PathDelSchool(id){
     return `${ADMIN_DOMAIN}/schools/${id}`
 }
-export function PathUpdateSchool(id){
+export function PathUpdateSchool(id,type){
+    if(type == "parent"){
+        return `${PARENT_DOMAIN}/schools/${id}/update`
+    }
     return `${ADMIN_DOMAIN}/schools/${id}/update`
 }
 ////////////
-export function PathGetAcademicYears(schoolId,{page,search}){
+export function PathGetAcademicYears(schoolId,{page,search},type){
+    if(type == "parent"){
+        return `${PARENT_DOMAIN}/schools/${schoolId}/academicYears?page=${page}&search=${search}`
+    }
     return `${ADMIN_DOMAIN}/schools/${schoolId}/academicYears?page=${page}&search=${search}`
+
 }
 
 export function PathAddAcademicYear(schoolId){
@@ -145,17 +157,29 @@ export function PathRevokeAPi(canteenId){
 
 }
 ///
-export function PathGetStudents({page,search}){
+export function PathGetStudents({page,search},type){
+    if(type = "parent"){
+        return `${PARENT_DOMAIN}/students?page=${page}&search=${search}`
+    }
     return `${ADMIN_DOMAIN}/students?page=${page}&search=${search}`
 }
-export function PathAddStudent(){
+export function PathAddStudent(type){
+    if(type == "parent"){
+        return `${PARENT_DOMAIN}/students`
+    }
     return `${ADMIN_DOMAIN}/students`
 }
-export function PathUpdateStudent(studentId){
+export function PathUpdateStudent(studentId,type){
+    if(type == "parent"){
+        return `${PARENT_DOMAIN}/students/${studentId}/update`
+    }
     return `${ADMIN_DOMAIN}/students/${studentId}/update`
 }
 
-export function PathDelStudent(studentId){
+export function PathDelStudent(studentId,type){
+    if(type == "parent"){
+        return `${PARENT_DOMAIN}/students/${studentId}`
+    }
     return `${ADMIN_DOMAIN}/students/${studentId}`
 }
 
@@ -177,7 +201,10 @@ export function PathDelCoupon(couponId){
 
 
 //// 
-export function PathGetSubscriptions(studentId,{page,search}){
+export function PathGetSubscriptions(studentId,{page,search},type){
+    if(type == "parent"){
+        return `${PARENT_DOMAIN}/students/${studentId}/subscriptions?page=${page}&search=${search}`
+    }
     return `${ADMIN_DOMAIN}/students/${studentId}/subscriptions?page=${page}&search=${search}`
 }
 export function PathAddSub(studentId){
@@ -248,6 +275,25 @@ export function PathUpdateProduct(productId){
 export function PathDelProduct(productId){
     return `${ADMIN_DOMAIN}/products/${productId}`
 }
+
+//////
+
+export function PathGetOrders({page,search}){
+    return `${ADMIN_DOMAIN}/orders?page=${page}&search=${search}`
+}
+export function PathGetOrderById(orderId){
+    return `${ADMIN_DOMAIN}/orders/${orderId}`
+}
+export function PathAddOrder(){
+    return `${ADMIN_DOMAIN}/orders`
+}
+export function PathUpdateOrder(orderId){
+    return `${ADMIN_DOMAIN}/orders/${orderId}/update`
+}
+export function PathDelOrder(orderId){
+    return `${ADMIN_DOMAIN}/orders/${orderId}`
+}
+
 
 
 /////

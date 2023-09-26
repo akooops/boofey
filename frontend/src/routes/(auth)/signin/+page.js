@@ -16,6 +16,8 @@ export async function load({fetch,cookies,url,depends}) {
         let authResponse = await res.json()
         if(authResponse?.data?.user?.roles[0]?.name != "parent"){
             goto("/admin")
+        }else{
+            goto("/")
         }
     }
 

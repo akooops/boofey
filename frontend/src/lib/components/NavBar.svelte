@@ -1,6 +1,9 @@
 <script>
+    export let user = {}
 
-     let menuItems = [
+    let menuItems = []
+
+     let menuItemsAdmin = [
     {
       title: "Admin",
       submenu: [
@@ -16,15 +19,29 @@
         { title: "Coupons", links: [], route:"/admin/coupons"},
         { title: "Categories ", links: [], route:"/admin/categories"},
         { title: "Products ", links: [], route:"/admin/products"},
+        { title: "Orders ", links: [], route:"/admin/orders"},
         { title: "Qr Exit Scan ", links: [], route:"/admin/qr-exit"},
-
-
-
-
       ],
     },
     { title: "Pages",submenu: [], links: [] },
   ];
+
+
+  let menuItemsParent = [
+    {
+      title: "Pages",
+      submenu: [
+        { title: "Students", links: [], route:"/students"},
+      ],
+    },
+  ];
+
+
+$: {
+    menuItems = user?.roles[0]?.name != "parent" ? menuItemsAdmin : menuItemsParent 
+    console.log(user?.roles[0]?.name == "parent" , user?.roles[0]?.name)
+}
+
 
 
 </script>

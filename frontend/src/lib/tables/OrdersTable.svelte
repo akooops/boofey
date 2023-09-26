@@ -1,17 +1,14 @@
 <script>
-    import DeleteSchoolModal from "$lib/modals/delete/DeleteSchoolModal.svelte"
-	import ViewSchoolModal from "$lib/modals/view/ViewSchoolModal.svelte";
-	import EditSchoolModal from "$lib/modals/edit/EditSchoolModal.svelte";
-    import SchoolItem from "./items/SchoolItem.svelte";
+    import DeleteOrderModal from "$lib/modals/delete/DeleteOrderModal.svelte"
+    import OrderItem from "./items/OrderItem.svelte";
     
     import { setContext } from 'svelte';
     import { writable } from 'svelte/store';
     
-    export let schoolsList
-    setContext('schoolStore', {
-	    schoolStore: writable({})
+    export let ordersList
+    setContext('orderStore', {
+	    orderStore: writable({})
     });
-
 
 </script>
 
@@ -27,20 +24,22 @@
                         </div>
                     </th>
                     <th scope="col">ID</th>
-                    <th scope="col">Name</th>
+                    <th scope="col">Tax</th>
+                    <th scope="col">Calculated Tax</th>
+                    <th scope="col">Discount</th>
+                    <th scope="col">SubTotal</th>
+                    <th scope="col">Total</th>
                     <th scope="col">Action</th>
 
                 </tr>
             </thead>
             <tbody class="list">
-                {#each schoolsList as school}
-                    <SchoolItem {school} />
+                {#each ordersList as order}
+                    <OrderItem {order} />
                 {/each}
             </tbody>
         </table>
-            <DeleteSchoolModal /> 
-            <EditSchoolModal /> 
-            <ViewSchoolModal />
+         <DeleteOrderModal /> 
 
     </div>
 </div>

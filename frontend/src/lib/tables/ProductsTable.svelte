@@ -31,7 +31,6 @@
                     <th scope="col">Product</th>
                     <th scope="col">Price</th>
                     <th scope="col">Action</th>
-
                 </tr>
             </thead>
             <tbody class="list">

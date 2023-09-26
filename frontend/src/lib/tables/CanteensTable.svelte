@@ -45,7 +45,7 @@
                 {/each}
             </tbody>
         </table>
-        <EditCanteenModal {general}/> 
+        <EditCanteenModal /> 
         <DeleteCanteenModal />
         <ViewCanteenModal {general}/> 
         <ViewApiModal /> 

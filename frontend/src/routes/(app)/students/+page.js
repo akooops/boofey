@@ -3,9 +3,10 @@ import { PathGetStudents,DefaultGetQueries } from "$lib/api/paths"
 import { redirector } from "$lib/api/auth";
 
 export const ssr = false;
-export async function load({fetch,url,depends,params}) {
+export async function load({fetch,url,depends}) {
     depends('students:refresh');
-    let res = await fetch(PathGetStudents(DefaultGetQueries(url)),{
+
+    let res = await fetch(PathGetStudents(DefaultGetQueries(url),"parent"),{
         headers:{
             Authorization: `${localStorage.getItem("SID")}`
         }
@@ -13,6 +14,8 @@ export async function load({fetch,url,depends,params}) {
     redirector(res)
 
 
+
     let studentsResponse = await res.json() 
+    console.log(studentsResponse)
     return {studentsResponse}
 };

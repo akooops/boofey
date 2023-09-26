@@ -19,10 +19,12 @@
     
     let searchQuery = ""
     export let selected = {}
+    export let type 
+
 
     async function fetchYears(){
         console.log(page,searchQuery)
-        let res = await fetch(PathGetAcademicYears(schoolId,{page,search:searchQuery}),{
+        let res = await fetch(PathGetAcademicYears(schoolId,{page,search:searchQuery},type),{
             headers:{
                 Authorization: `${localStorage.getItem("SID")}`
             }

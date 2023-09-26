@@ -3,6 +3,7 @@
     import { goto } from '$app/navigation';
 
     export let student
+    export let type
 
 
     let {studentStore} = getContext("studentStore")
@@ -32,6 +33,7 @@
             </div>
         </div>
     </td>
+    {#if type != "parent"}
     <td>
         <div class="d-flex gap-2 align-items-center">
             <div class="flex-shrink-0">
@@ -42,6 +44,7 @@
             </div>
         </div>
     </td>
+    {/if}
     <td>
         {#if student.subscribed}
         <span class="badge bg-success-subtle text-success">Subscribed</span>
@@ -63,7 +66,11 @@
 
     <td>
         <div class="hstack gap-3 flex-wrap">
+            {#if type == "parent"}
+            <span data-bs-toggle="modal"><a href="/students/{student.id}/subscriptions" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Subscribtion" ><i class="ri-money-dollar-circle-line"></i></a></span>
+            {:else}
             <span data-bs-toggle="modal"><a href="/admin/students/{student.id}/subscriptions" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Subscribtion" ><i class="ri-money-dollar-circle-line"></i></a></span>
+            {/if}
             <span data-bs-toggle="modal" data-bs-target="#viewStudentModal" on:click={setStudent}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="View" ><i class="ri-eye-fill"></i></a></span>
             <span data-bs-toggle="modal" data-bs-target="#editStudentModal" on:click={setStudent}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Edit" ><i class="ri-edit-2-line"></i></a></span>
             <span data-bs-toggle="modal" data-bs-target="#deleteStudentModal" on:click={setStudent}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Delete"><i class="ri-delete-bin-line"></i></a></span>

@@ -21,6 +21,7 @@ import YearsTableCollapse from "../collapses/YearsTableCollapse.svelte";
     let resetParent
     let resetSchool
     let resetYear
+    export let type
 
 
 
@@ -28,7 +29,7 @@ import YearsTableCollapse from "../collapses/YearsTableCollapse.svelte";
         errors = {}
         let formData = new FormData(form)
         console.log(parentId)
-        if(parentId != ""){
+        if(parentId != "" && type != "parent"){
             formData.set("father_id",parentId)
         }
         if(schoolId != ""){
@@ -40,8 +41,8 @@ import YearsTableCollapse from "../collapses/YearsTableCollapse.svelte";
     
     
         formData.set("onhold",onHold)
-
-        let res = await fetch(PathAddStudent(),{
+        
+        let res = await fetch(PathAddStudent(type),{
             headers:{
                 Authorization: `${localStorage.getItem("SID")}`
             },
@@ -70,7 +71,9 @@ import YearsTableCollapse from "../collapses/YearsTableCollapse.svelte";
         form.reset()
         selectClass.selectedIndex = 0
         errors = {}
-        resetParent()
+        if(type != "parent"){
+            resetParent()
+        }
         resetSchool()
         resetYear()
         onHold = false
@@ -92,20 +95,23 @@ import YearsTableCollapse from "../collapses/YearsTableCollapse.svelte";
                 <div class="modal-body">
                         <div class="row g-3">
                             <!-- Base Example -->
-                                <Accordion id={"parent"} title={"Student's Parent"}>
-                                    <ParentsTableCollapse on:select={(e) => parentId = e.detail.parentId} bind:resetParent/>            
-                                </Accordion>
-                                {#if errors?.father_id}
-                                <strong class="text-danger ms-1 my-2">{errors.father_id[0]}</strong>
+
+                                {#if type != "parent"}
+                                    <Accordion id={"parent"} title={"Student's Parent"}>
+                                        <ParentsTableCollapse on:select={(e) => parentId = e.detail.parentId} bind:resetParent/>            
+                                    </Accordion>
+                                    {#if errors?.father_id}
+                                    <strong class="text-danger ms-1 my-2">{errors.father_id[0]}</strong>
+                                    {/if}
                                 {/if}
                                 <Accordion id={"school"} title={"Student's School"}>               
-                                    <SchoolsTableCollapse  on:select={(e) => schoolId = e.detail.schoolId} bind:resetSchool/>                     
+                                    <SchoolsTableCollapse  on:select={(e) => schoolId = e.detail.schoolId} bind:resetSchool {type}/>                     
                                 </Accordion>
                                 {#if errors?.school_id}
                                 <strong class="text-danger ms-1 my-2">{errors.school_id[0]}</strong>
                                 {/if}
                                 <Accordion id={"year"} title={"Student's Academic Year"}>
-                                    <YearsTableCollapse {schoolId} on:select={(e) => yearId = e.detail.yearId} bind:resetYear/>
+                                    <YearsTableCollapse {schoolId} on:select={(e) => yearId = e.detail.yearId} bind:resetYear {type}/>
                                 </Accordion>
                                 {#if errors?.academic_year_id}
                                 <strong class="text-danger ms-1 my-2">{errors.academic_year_id[0]}</strong>

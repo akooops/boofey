@@ -51,13 +51,11 @@
     function search(e){
         page = 1
         searchQuery = e.detail.searchQuery
-        console.log(page,e.detail.searchQuery)
         fetchCoupons()
     }
 
     function switchPage(e){
         page = e.detail.page
-        console.log(page,e.detail.searchQuery)
         fetchCoupons()
     }
 

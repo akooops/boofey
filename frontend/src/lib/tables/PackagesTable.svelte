@@ -47,7 +47,7 @@
                 {/each}
             </tbody>
         </table>
-        <EditPackageModal {general}/> 
+        <EditPackageModal /> 
         <DeletePackageModal />
         <ViewPackageModal {general}/>
     </div>

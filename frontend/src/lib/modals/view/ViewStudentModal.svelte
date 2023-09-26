@@ -4,7 +4,7 @@
     import ViewRow from "$lib/components/ViewRow.svelte"
 
     let {studentStore} = getContext("studentStore")
-
+    export let type 
     
 
 </script>
@@ -17,17 +17,18 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body p-4">
-                <img class="rounded avatar-xl mb-3 object-fit-cover" alt="School logo" width="200" src={$studentStore?.image?.full_path}>
+                <img class="rounded avatar-xl mb-3 object-fit-cover" alt="Student image" width="200" src={$studentStore?.image?.full_path}>
             
                 <ViewRow>
                    Name : <span class="fw-normal">{$studentStore?.fullname}</span>
                 </ViewRow>
-    
+                {#if type != "parent"}
                 <ViewRow>
                    Father : 
                             <img src={$studentStore?.father?.user?.profile?.image?.full_path} alt="" class="avatar-xs d-inline rounded-circle" />
                             {$studentStore?.father?.user?.profile?.fullname}
                 </ViewRow>
+                {/if}
     
                 <ViewRow>
                     Status :         {#if $studentStore?.subscribed}

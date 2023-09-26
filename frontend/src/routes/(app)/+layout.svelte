@@ -6,6 +6,8 @@
     
     export let data 
     $: user = data.userResponse.data.user
+    $: sessionStorage.setItem("type", user.roles[0].name);
+
 
 </script>
     
@@ -14,7 +16,7 @@
     
     
     <TopBar {user}/>
-    <NavBar />
+    <NavBar {user}/>
     
         <!-- ========== App Menu ========== -->
     <div class="vertical-overlay"></div>
@@ -50,7 +52,6 @@
     {#if browser}
         <script>
 
-            console.log("bluuuuuuuuuuuue")
 
         </script>
     {/if}
