@@ -5,8 +5,11 @@
     
     import { writable } from 'svelte/store';
     
+    
     export let subsList
   
+    export let type 
+
 
 </script>
 
@@ -28,12 +31,14 @@
                     <th scope="col">Should Start At</th>
                     <th scope="col">Started At</th>
                     <th scope="col">Status</th>
+                    {#if type != "parent"}
                     <th scope="col">Action</th>
+                    {/if}
                 </tr>
             </thead>
             <tbody class="list">
                 {#each subsList as sub}
-                    <SubItem {sub} />
+                    <SubItem {sub} {type}/>
                 {/each}
             </tbody>
         </table>

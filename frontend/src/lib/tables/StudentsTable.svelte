@@ -8,6 +8,7 @@
     import { writable } from 'svelte/store';
     
     export let studentsList
+    export let type
     setContext('studentStore', {
 	    studentStore: writable({})
     });
@@ -27,7 +28,9 @@
                     </th>
                     <th scope="col">ID</th>
                     <th scope="col">Student</th>
+                    {#if type != "parent"}
                     <th scope="col">Father</th>
+                    {/if}
                     <th scope="col">Status</th>
                     <th scope="col">School</th>
                     <th scope="col">Class</th>
@@ -36,12 +39,12 @@
             </thead>
             <tbody class="list">
                 {#each studentsList as student}
-                    <StudentItem {student} />
+                    <StudentItem {student} {type} />
                 {/each}
             </tbody>
         </table>
-             <ViewStudentModal /> 
+             <ViewStudentModal {type}/> 
              <DeleteStudentModal />
-             <EditStudentModal />
+             <EditStudentModal {type}/>
     </div>
 </div>

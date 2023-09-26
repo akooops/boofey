@@ -22,7 +22,10 @@
             localStorage.setItem("SID", `Bearer ${resJson.data.token}`);
             if(resJson?.data?.user?.roles[0]?.name != "parent"){
                 goto("/admin")
-            }            
+            }else {
+                console.log("not admin")
+                goto("/")
+            }
         }else {
             if(res.status == 422){
                 errors = resJson.errors

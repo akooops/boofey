@@ -1,4 +1,4 @@
-import { goto } from '$app/navigation';
+import { goto} from '$app/navigation';
 import { PathRefresh,PathAuth } from "$lib/api/paths"
 
 
@@ -34,6 +34,11 @@ export async function ProfileData(){
     })
     if(authRes.ok){
         let authResponse = await authRes.json()
+        if(authResponse?.data?.user?.roles[0]?.name == "parent" && window.location.href.includes("admin")){
+            
+            goto("/",{ replaceState: true })
+            return;
+        }
         return authResponse
     }else {
         goto("/signin")

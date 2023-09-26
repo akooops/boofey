@@ -5,7 +5,6 @@
     import { getContext, onMount } from "svelte";
     import { redirector } from "$lib/api/auth";
     
-    export let general = false
     export let schoolId
     let packageName
     let close
