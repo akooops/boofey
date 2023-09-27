@@ -23,7 +23,7 @@
             if(resJson?.data?.user?.roles[0]?.name != "parent"){
                 goto("/admin")
             }else {
-                console.log("not admin")
+                // console.log("not admin")
                 goto("/")
             }
         }else {

@@ -2,27 +2,22 @@
 
     // import SubsTable from "$lib/tables/SubsTable.svelte";
     import AddSubModal from "$lib/modals/add/AddSubModal.svelte";
-    import {InitFlatPickr} from "$lib/init/initFlatpickr.js"
     import Pagination from "$lib/components/Pagination.svelte";
     import SearchTable from "$lib/components/SearchTable.svelte";
 	import ViewSubModal from "$lib/modals/view/ViewSubModal.svelte";
-	import EditSubModal from "$lib/modals/edit/EditSubModal.svelte";
-	import DeleteSubModal from "$lib/modals/delete/DeleteSubModal.svelte";
-
-
 
 
 	import { onMount } from "svelte";
     import {initToolTip} from "$lib/init/initToolTip.js"
 	import ActiveSub from "$lib/components/cards/ActiveSub.svelte";
-	import SubsTable from "$lib/tables/SubsTable.svelte";
+	import SubsTable from "$lib/tables/parent/SubsTable.svelte";
     import { setContext } from 'svelte';
     import { writable } from 'svelte/store';
 
 
 
 
-export let data
+    export let data
 
     setContext('subStore', {
         subStore: writable({})
@@ -32,14 +27,11 @@ export let data
     $: activeSub = data.subsResponse.data.activeSubscription
     $: student = data.subsResponse.data.student
     $: packages = data.subsResponse.data.packages
-
     $: subsPagination = data.subsResponse.pagination
 
     let subsPage
     onMount(() => {
         initToolTip(subsPage)
-        InitFlatPickr()
-
     })
     
 </script>
@@ -57,11 +49,11 @@ export let data
 
                
                 <div class="flex-shrink-0">
-
+                    <ViewSubModal />
                 </div>
             </div><!-- end card header -->
         </div><!-- end card -->
-        <ActiveSub {activeSub} />
+        <ActiveSub {activeSub} type={"parent"}/>
     
 
         <div class="card">
@@ -75,7 +67,7 @@ export let data
                     <div class="row">
                             <!-- Input with Icon -->
                         <SearchTable type={"Sub"}/>
-                        <SubsTable {subsList} type={"parent"}/>
+                        <SubsTable {subsList} />
                         <Pagination {...subsPagination} />
                         <!--end col-->
                     </div>

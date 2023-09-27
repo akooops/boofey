@@ -15,6 +15,9 @@
 
 
     }
+    async function profile(){
+        goto("/profile")    
+    }
 
         
 </script>
@@ -67,41 +70,6 @@
                     <a href="javascript:void(0);" class="dropdown-item notify-item language py-2" data-lang="en" title="English">
                         <img src="/assets/images/flags/us.svg" alt="user-image" class="me-2 rounded" height="18">
                         <span class="align-middle">English</span>
-                    </a>
-
-                    <!-- item-->
-                    <a href="javascript:void(0);" class="dropdown-item notify-item language" data-lang="sp" title="Spanish">
-                        <img src="/assets/images/flags/spain.svg" alt="user-image" class="me-2 rounded" height="18">
-                        <span class="align-middle">Española</span>
-                    </a>
-
-                    <!-- item-->
-                    <a href="javascript:void(0);" class="dropdown-item notify-item language" data-lang="gr" title="German">
-                        <img src="/assets/images/flags/germany.svg" alt="user-image" class="me-2 rounded" height="18"> <span class="align-middle">Deutsche</span>
-                    </a>
-
-                    <!-- item-->
-                    <a href="javascript:void(0);" class="dropdown-item notify-item language" data-lang="it" title="Italian">
-                        <img src="/assets/images/flags/italy.svg" alt="user-image" class="me-2 rounded" height="18">
-                        <span class="align-middle">Italiana</span>
-                    </a>
-
-                    <!-- item-->
-                    <a href="javascript:void(0);" class="dropdown-item notify-item language" data-lang="ru" title="Russian">
-                        <img src="/assets/images/flags/russia.svg" alt="user-image" class="me-2 rounded" height="18">
-                        <span class="align-middle">русский</span>
-                    </a>
-
-                    <!-- item-->
-                    <a href="javascript:void(0);" class="dropdown-item notify-item language" data-lang="ch" title="Chinese">
-                        <img src="/assets/images/flags/china.svg" alt="user-image" class="me-2 rounded" height="18">
-                        <span class="align-middle">中国人</span>
-                    </a>
-
-                    <!-- item-->
-                    <a href="javascript:void(0);" class="dropdown-item notify-item language" data-lang="fr" title="French">
-                        <img src="/assets/images/flags/french.svg" alt="user-image" class="me-2 rounded" height="18">
-                        <span class="align-middle">français</span>
                     </a>
 
                     <!-- item-->
@@ -469,15 +437,8 @@
                 </button>
                 <div class="dropdown-menu dropdown-menu-end">
                     <!-- item-->
-                    <h6 class="dropdown-header">Welcome Anna!</h6>
-                    <a class="dropdown-item" href="pages-profile.html"><i class="mdi mdi-account-circle text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Profile</span></a>
-                    <a class="dropdown-item" href="apps-chat.html"><i class="mdi mdi-message-text-outline text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Messages</span></a>
-                    <a class="dropdown-item" href="apps-tasks-kanban.html"><i class="mdi mdi-calendar-check-outline text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Taskboard</span></a>
-                    <a class="dropdown-item" href="pages-faqs.html"><i class="mdi mdi-lifebuoy text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Help</span></a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="pages-profile.html"><i class="mdi mdi-wallet text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Balance : <b>$5971.67</b></span></a>
-                    <a class="dropdown-item" href="pages-profile-settings.html"><span class="badge bg-success-subtle text-success mt-1 float-end">New</span><i class="mdi mdi-cog-outline text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Settings</span></a>
-                    <a class="dropdown-item" href="auth-lockscreen-basic.html"><i class="mdi mdi-lock text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Lock screen</span></a>
+                    <h6 class="dropdown-header">Welcome {user?.profile?.fullname}!</h6>
+                    <a class="dropdown-item" on:click={profile} href=""><i class="mdi mdi-account-circle text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Profile</span></a>
                     <a class="dropdown-item" on:click={logOut} href=""><i class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i> <span class="align-middle" data-key="t-logout" >Logout</span></a>
                 </div>
             </div>
