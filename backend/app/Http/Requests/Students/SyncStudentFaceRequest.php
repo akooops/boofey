@@ -28,7 +28,7 @@ class SyncStudentFaceRequest extends FormRequest
         $student = request()->route('student');
 
         return [
-            'face_id' => 'required|string|unique:students,face_id,'.$student,  
+            'face_id' => 'required|string|unique:students,face_id,'.$student->id,  
         ];
     }
 

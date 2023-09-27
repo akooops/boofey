@@ -35,12 +35,11 @@ class UpdateStudentRequest  extends FormRequest
             'lastname' => 'required|string|max:500',
             'class' => 'required|integer',
 
-            'nfc_id' => 'sometimes|string|unique:students,nfc_id,'.$student,
-            'face_id' => 'sometimes|string|unique:students,face_id,'.$student,
+            'nfc_id' => 'sometimes|string|unique:students,nfc_id,'.$student->id,
+            'face_id' => 'sometimes|string|unique:students,face_id,'.$student->id,
 
             'onhold' => 'required|boolean',
 
-            'father_id' => 'required|exists:fathers,id',
             'school_id' => 'required|exists:schools,id',
             'academic_year_id' => 'required|exists:academic_years,id',
 

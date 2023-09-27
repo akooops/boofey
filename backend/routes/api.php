@@ -34,9 +34,16 @@ Route::group(['namespace' => 'App\Http\Controllers', 'middleware' => ['auth:sanc
     Route::get('schools/{school}/academicYears', 'AcademicYearsController@indexBySchool')->name('parents.academicYears.indexBySchool');
     Route::get('academicYears', 'AcademicYearsController@index')->name('parents.academicYears.index');
 
+    Route::get('schools/{school}/packages', 'PackagesController@indexBySchool')->name('parents.packages.indexBySchool');
+
     /* -------------------------------------------------------------------------------- */
     /* Students Routes */
-    Route::resource('students', StudentsController::class)->except(['create', 'store', 'edit', 'update']);
+    Route::resource('students', StudentsController::class)->except(['create', 'store', 'edit', 'update'])->names([
+        'index' => 'parent.students.index',
+        'show' => 'parent.students.show',
+        'destroy' => 'parent.students.destroy',
+    ]);
+
     Route::post('students', 'StudentsController@store')->name('parents.students.store');
     Route::post('students/{student}/update', 'StudentsController@update')->name('parents.students.update');
     Route::post('students/{student}/otp', 'StudentsController@otp')->name('parents.students.otp');

@@ -28,7 +28,7 @@ class SyncStudentNfcRequest extends FormRequest
         $student = request()->route('student');
 
         return [
-            'nfc_id' => 'required|string|unique:students,nfc_id,'.$student,
+            'nfc_id' => 'required|string|unique:students,nfc_id,'.$student->id,
         ];
     }
 
