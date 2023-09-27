@@ -13,8 +13,6 @@ export async function load({fetch,url,depends}) {
     })
     redirector(res)
 
-
-
     let studentsResponse = await res.json() 
     console.log(studentsResponse)
     return {studentsResponse}

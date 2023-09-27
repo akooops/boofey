@@ -22,12 +22,6 @@
                    Name : <span class="fw-normal">{$studentStore?.fullname}</span>
                 </ViewRow>
                 <ViewRow>
-                   Father : 
-                            <img src={$studentStore?.father?.user?.profile?.image?.full_path} alt="" class="avatar-xs d-inline rounded-circle" />
-                            {$studentStore?.father?.user?.profile?.fullname}
-                </ViewRow>
-    
-                <ViewRow>
                     Status :         {#if $studentStore?.subscribed}
                     <span class="badge bg-success-subtle text-success">Subscribed</span>
                     {:else}

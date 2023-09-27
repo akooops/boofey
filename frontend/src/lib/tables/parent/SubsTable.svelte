@@ -1,16 +1,14 @@
 <script>
-    import DeleteStudentModal from "$lib/modals/delete/DeleteStudentModal.svelte"
-	import ViewStudentModal from "$lib/modals/view/ViewStudentModal.svelte";
-	import EditStudentModal from "$lib/modals/edit/EditStudentModal.svelte";
-    import StudentItem from "./items/StudentItem.svelte";
+    // import DeleteSubModal from "$lib/modals/delete/DeleteSubModal.svelte"
+	// import EditSubModal from "$lib/modals/edit/EditSubModal.svelte";
+    import SubItem from "$lib/tables/items/parent/SubItem.svelte";
     
-    import { setContext } from 'svelte';
     import { writable } from 'svelte/store';
     
-    export let studentsList
-    setContext('studentStore', {
-	    studentStore: writable({})
-    });
+    
+    export let subsList
+  
+
 
 </script>
 
@@ -26,22 +24,21 @@
                         </div>
                     </th>
                     <th scope="col">ID</th>
-                    <th scope="col">Student</th>
-                    <th scope="col">Father</th>
+                    <th scope="col">Package</th>
+                    <th scope="col">Days</th>
+                    <th scope="col">Balance</th>
+                    <th scope="col">Should Start At</th>
+                    <th scope="col">Started At</th>
                     <th scope="col">Status</th>
-                    <th scope="col">School</th>
-                    <th scope="col">Class</th>
                     <th scope="col">Action</th>
                 </tr>
             </thead>
             <tbody class="list">
-                {#each studentsList as student}
-                    <StudentItem {student}  />
+                {#each subsList as sub}
+                    <SubItem {sub} />
                 {/each}
             </tbody>
         </table>
-             <ViewStudentModal /> 
-             <DeleteStudentModal />
-             <EditStudentModal />
+
     </div>
 </div>

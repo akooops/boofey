@@ -294,6 +294,16 @@ export function PathDelOrder(orderId){
     return `${ADMIN_DOMAIN}/orders/${orderId}`
 }
 
+////
+export function PathGetProfile(){
+    return `${PARENT_DOMAIN}/profiles`
+}
+export function PathChangePass(){
+    return `${PARENT_DOMAIN}/passwordReset`
+}
+export function PathUpdateProfile(){
+    return `${PARENT_DOMAIN}/profiles`
+}
 
 
 /////

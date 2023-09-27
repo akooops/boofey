@@ -1,8 +1,8 @@
 <script>
     import DeleteStudentModal from "$lib/modals/delete/DeleteStudentModal.svelte"
-	import ViewStudentModal from "$lib/modals/view/ViewStudentModal.svelte";
-	import EditStudentModal from "$lib/modals/edit/EditStudentModal.svelte";
-    import StudentItem from "./items/StudentItem.svelte";
+	import ViewStudentModal from "$lib/modals/view/parent/ViewStudentModal.svelte";
+	import EditStudentModal from "$lib/modals/edit/parent/EditStudentModal.svelte";
+    import StudentItem from "$lib/tables/items/parent/StudentItem.svelte";
     
     import { setContext } from 'svelte';
     import { writable } from 'svelte/store';
@@ -11,6 +11,8 @@
     setContext('studentStore', {
 	    studentStore: writable({})
     });
+
+ 
 
 </script>
 
@@ -27,7 +29,6 @@
                     </th>
                     <th scope="col">ID</th>
                     <th scope="col">Student</th>
-                    <th scope="col">Father</th>
                     <th scope="col">Status</th>
                     <th scope="col">School</th>
                     <th scope="col">Class</th>
@@ -35,8 +36,8 @@
                 </tr>
             </thead>
             <tbody class="list">
-                {#each studentsList as student}
-                    <StudentItem {student}  />
+                {#each studentsList as student,_ (student.id)}
+                    <StudentItem {student} />
                 {/each}
             </tbody>
         </table>

@@ -6,7 +6,7 @@
     export let activeSub
 
     let {subStore} = getContext("subStore")
-    
+    export let type
     function setSub(){
         $subStore = JSON.parse(JSON.stringify(activeSub));
     }
@@ -25,8 +25,10 @@
             {#if activeSub}
             <div class="hstack gap-3 flex-wrap">
                 <span data-bs-toggle="modal" data-bs-target="#viewSubModal" on:click={setSub}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-title="View" ><i class="ri-eye-fill"></i></a></span>
+                {#if type != "parent"}
                 <span data-bs-toggle="modal" data-bs-target="#editSubModal" on:click={setSub}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-title="Edit" ><i class="ri-edit-2-line"></i></a></span>
                 <span data-bs-toggle="modal" data-bs-target="#deleteSubModal" on:click={setSub}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-title="Delete"><i class="ri-delete-bin-line"></i></a></span>
+                {/if}
             </div>
             {/if}
             <!-- <AddSubModal schoolId={school.id}/> -->
