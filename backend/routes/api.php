@@ -31,6 +31,9 @@ Route::group(['namespace' => 'App\Http\Controllers', 'middleware' => ['auth:sanc
     /* Schools Routes */
     Route::get('schools', 'SchoolsController@index')->name('parents.schools.index');
     
+    Route::get('schools/{school}/academicYears', 'AcademicYearsController@indexBySchool')->name('parents.academicYears.indexBySchool');
+    Route::get('academicYears', 'AcademicYearsController@index')->name('parents.academicYears.index');
+
     /* -------------------------------------------------------------------------------- */
     /* Students Routes */
     Route::resource('students', StudentsController::class)->except(['create', 'store', 'edit', 'update']);

@@ -26,7 +26,8 @@ class ProfilesController extends Controller
 
         $user->load([
             'profile:id,firstname,lastname,description,user_id,file_id',
-            'profile.image:id,current_name,path'
+            'profile.image:id,current_name,path',
+            'roles:id,name'
         ]);
 
         return response()->json([
