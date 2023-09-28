@@ -136,6 +136,25 @@ class StudentsController extends Controller
      */
     public function show(Student $student) 
     {        
+        $user = Auth::user();
+        $father = Father::where('user_id', $user->id)->first();
+
+        if($father == null){
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Oops! Resource Not Found. The Resource you are looking for is not available or has been moved.'
+            ], 404);
+        }
+
+        if($student->father_id != $father->id){
+            return response()->json([
+                'status' => 'error',
+                'errors' => [
+                    '403' => 'Access Denied: Please Log In to Access This Resource'
+                ]
+            ], 403);
+        }
+        
         return response()->json([
             'status' => 'success',
             'data' => [
@@ -154,6 +173,25 @@ class StudentsController extends Controller
      */
     public function update(Student $student, UpdateStudentRequest $request) 
     {
+        $user = Auth::user();
+        $father = Father::where('user_id', $user->id)->first();
+
+        if($father == null){
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Oops! Resource Not Found. The Resource you are looking for is not available or has been moved.'
+            ], 404);
+        }
+
+        if($student->father_id != $father->id){
+            return response()->json([
+                'status' => 'error',
+                'errors' => [
+                    '403' => 'Access Denied: Please Log In to Access This Resource'
+                ]
+            ], 403);
+        }
+
         $file = File::find($student->file_id);
 
         if($request->file('file')) {
@@ -174,6 +212,25 @@ class StudentsController extends Controller
 
     public function otp(Student $student) 
     {
+        $user = Auth::user();
+        $father = Father::where('user_id', $user->id)->first();
+
+        if($father == null){
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Oops! Resource Not Found. The Resource you are looking for is not available or has been moved.'
+            ], 404);
+        }
+
+        if($student->father_id != $father->id){
+            return response()->json([
+                'status' => 'error',
+                'errors' => [
+                    '403' => 'Access Denied: Please Log In to Access This Resource'
+                ]
+            ], 403);
+        }
+
         $otp = null;
 
         do {
@@ -203,6 +260,25 @@ class StudentsController extends Controller
      */
     public function destroy(Student $student) 
     {
+        $user = Auth::user();
+        $father = Father::where('user_id', $user->id)->first();
+
+        if($father == null){
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Oops! Resource Not Found. The Resource you are looking for is not available or has been moved.'
+            ], 404);
+        }
+
+        if($student->father_id != $father->id){
+            return response()->json([
+                'status' => 'error',
+                'errors' => [
+                    '403' => 'Access Denied: Please Log In to Access This Resource'
+                ]
+            ], 403);
+        }
+
         $file = File::find($student->file_id);
 
         $student->delete();

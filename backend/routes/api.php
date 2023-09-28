@@ -51,4 +51,9 @@ Route::group(['namespace' => 'App\Http\Controllers', 'middleware' => ['auth:sanc
     /* -------------------------------------------------------------------------------- */
     /* Subscriptions Routes */
     Route::get('students/{student}/subscriptions', 'SubscriptionsController@index')->name('parents.students.index');
+
+    /* -------------------------------------------------------------------------------- */
+    /* Billing Routes */
+    Route::resource('billings', BillingsController::class)->except(['create', 'edit', 'update']);
+    Route::post('billings/{billing}/update', 'BillingsController@update')->name('parents.billings.update');
 });
