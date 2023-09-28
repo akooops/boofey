@@ -155,6 +155,13 @@ class StudentsController extends Controller
             ], 403);
         }
         
+        $student->load([
+            'image:id,path,current_name', 
+            'academicYear:id,name,from,to,current',
+            'school:id,name,file_id',
+            'school.logo:id,current_name,path'
+        ]);
+
         return response()->json([
             'status' => 'success',
             'data' => [

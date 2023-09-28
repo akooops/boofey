@@ -21,32 +21,29 @@ class PackagesController extends Controller
             'logo:id,current_name,path'
         ]);
 
-        $packagesQuery = Package::latest()->with([
-            'packageFeatures:id,name,checked,package_id',
-        ]);
-
-        $packagesQuery->where([
+        $packages = Package::latest()->where([
             'school_id' => $school->id,
-            'hidden' => false
-        ]);
+            'hidden' => false,
+            'yearly' => 0
+        ])->with([
+            'packageFeatures:id,name,checked,package_id',
+        ])->get();
 
-        if ($search) {
-            $packagesQuery->where(function ($query) use ($search) {
-                $query->where('name', 'like', '%' . $search . '%')
-                    ->orWhere('code', 'like', '%' . $search . '%')
-                    ->orWhere('description', 'like', '%' . $search . '%');
-            });
-        }
-
-        $packages = $packagesQuery->paginate($perPage, ['*'], 'page', $page);
+        $yearlyPackages = Package::latest()->where([
+            'school_id' => $school->id,
+            'hidden' => false,
+            'yearly' => 1
+        ])->with([
+            'packageFeatures:id,name,checked,package_id',
+        ])->get();
 
         $response = [
             'status' => 'success',
             'data' => [
-                'packages' => $packages->items(),
+                'packages' => $packages,
+                'yearlyPackages' => $yearlyPackages,
                 'school' => $school->makeHidden(['created_at', 'updated_at']),
             ],
-            'pagination' => handlePagination($packages),
         ];
 
         return response()->json($response);
