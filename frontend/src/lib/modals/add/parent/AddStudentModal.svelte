@@ -2,6 +2,7 @@
     import { PathAddStudent } from "$lib/api/paths";
     import {onMount} from "svelte"
     import { toast } from "$lib/components/toast.js";
+    import { imageDataURLToFile } from "$lib/utils.js";
     import { invalidate } from '$app/navigation';
     import { redirector } from "$lib/api/auth";
     import Accordion from "$lib/components/Accordion.svelte";
@@ -20,6 +21,16 @@ import YearsTableCollapse from "$lib/modals/collapses/parent/YearsTableCollapse.
     let resetSchool
     let resetYear
 
+    let video 
+    let canvas
+    let ctx
+    let cameraActive = false
+    let front = true 
+    let imageDataURL
+
+    $: constraints = {
+        video: { facingMode: front ? "user" : "environment" },
+    };
 
 
     async function save(){
@@ -36,6 +47,8 @@ import YearsTableCollapse from "$lib/modals/collapses/parent/YearsTableCollapse.
     
         formData.set("onhold",onHold)
         
+        formData.set("file",imageDataURLToFile(imageDataURL))
+
         let res = await fetch(PathAddStudent("parent"),{
             headers:{
                 Authorization: `${localStorage.getItem("SID")}`
@@ -69,9 +82,54 @@ import YearsTableCollapse from "$lib/modals/collapses/parent/YearsTableCollapse.
         resetYear()
         onHold = false
         schoolId = yearId = ""
+        stopCam()
+        imageDataURL = null
 
     }
 
+    function capture(){
+        ctx = canvas.getContext('2d');
+        const sourceX = (video.videoWidth - 400) / 2;
+        const sourceY = (video.videoHeight - 400) / 2;
+        const sourceWidth = 400;
+        const sourceHeight = 400;
+
+        // Draw the cropped image onto the canvas
+        ctx.drawImage(video, sourceX, sourceY, sourceWidth, sourceHeight, 0, 0, 400, 400);
+
+        // Convert the canvas content to a data URL (e.g., toDataURL('image/jpeg'))
+        imageDataURL = canvas.toDataURL('image/jpeg');
+    }
+
+    async function openCam(){
+        try {
+            cameraActive = true
+            let stream = await navigator.mediaDevices.getUserMedia(constraints)
+            video.srcObject = stream;
+        }catch(error)  {
+            console.error('Error accessing camera:', error);
+        };
+    }
+
+    function stopCam(){
+        if (video.srcObject) {
+            const stream = video.srcObject;
+            const tracks = stream.getTracks();
+            
+            tracks.forEach(track => {
+            track.stop(); // Stop each track in the stream
+            });
+            
+            video.srcObject = null; // Clear the srcObject to stop displaying the video
+        }
+        cameraActive = false
+    }
+
+    function switchCamera(){
+        front = !front;
+        console.log(constraints)
+        openCam()
+    }
 
     </script>
     
@@ -163,14 +221,37 @@ import YearsTableCollapse from "$lib/modals/collapses/parent/YearsTableCollapse.
                                     </div><!-- Switches Color -->
 
                                 </div>
-
                                 <div>
-                                    <label for="formFile" class="form-label">Student  Image</label>
-                                    <input class="form-control" name="file" type="file" id="formFile">
+                                    {#if cameraActive}
+                                    <button type="button"  class="btn btn-danger waves-effect waves-light" on:click={stopCam}>Stop Camera</button>
+                                    {:else}
+                                    <button type="button" class="btn btn-primary waves-effect waves-light" on:click={openCam}>Launch Camera</button>              
+                                    {/if}
+                                </div>
+                                {#if cameraActive}
+                                    <div>
+                                        <video id="video" autoplay bind:this={video}></video>
+                                        {#if video?.srcObject}
+                                        <div class="square"></div>
+                                        {/if}
+                                        <canvas id="canvas" width="400" height="400" bind:this={canvas}></canvas>
+                                    </div>
+                                    <div class="hstack gap-2 justify-content-end">
+                                        <button type="button"  class="btn btn-info waves-effect waves-light" on:click={switchCamera}>Switch Camera</button>
+                                    <button type="button" class="btn btn-primary waves-effect waves-light" on:click={capture}>Capture</button>              
+                                    </div>
+                                {/if}
+                                {#if imageDataURL}
+                                <div>
+                                    <img class="rounded avatar-xl mb-3 object-fit-cover" alt="School logo" width="200" src={imageDataURL}>
+                                </div>
+                                {/if}
+                                <div>
                                     {#if errors?.file}
                                     <strong class="text-danger ms-1 my-2">{errors.file[0]}</strong>
                                     {/if}
                                 </div>
+
 
 
                                 <div class="hstack gap-2 justify-content-end">
@@ -184,4 +265,23 @@ import YearsTableCollapse from "$lib/modals/collapses/parent/YearsTableCollapse.
             </div>
         </div>
     </div>
+
+<style>
+ video {
+    width: 100%;
+    display: block;
+ }
+canvas {
+    display: none;
+}
+.square {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 400px;
+    height: 400px;
+    transform: translate(-50%, -50%);
+    border: 2px solid red; /* Add styling for the cropping square */
+}
+</style>
 

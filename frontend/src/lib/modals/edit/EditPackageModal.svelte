@@ -5,7 +5,7 @@
     import { getContext, onMount } from "svelte";
     import { redirector } from "$lib/api/auth";
     
-    export let schoolId
+    export let general = false
     let packageName
     let close
     let form
@@ -18,7 +18,7 @@
     let errors
     let {packageStore} = getContext("packageStore")
     let packageStoreInstance
-
+    
 
     async function save(){
         
@@ -29,7 +29,7 @@
         formData.set("yearly",packageStoreInstance.yearly)
         formData.set("hidden",packageStoreInstance.hidden)
         formData.set("popular",packageStoreInstance.popular)
-        formData.set("school_id",2)
+        
         // formData.append("name",packageName)
     
         let res = await fetch(PathUpdatePackage(packageStoreInstance.id),{
@@ -86,13 +86,13 @@
         <div class="modal-dialog modal-dialog-centered" >
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalgridLabel">Add Package</h5>
+                    <h5 class="modal-title" id="exampleModalgridLabel">Edit Package</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form   on:submit|preventDefault={save} bind:this={form}>
                         <div class="row g-3">
-    
+
                                 <div>
                                     <label for="name" class="form-label">Package Name</label>
                                     <input type="text" class="form-control" name="name" id="firstName" placeholder="Enter Package name" bind:value={packageStoreInstance.name}>

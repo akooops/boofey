@@ -3,6 +3,7 @@
 	import ViewStudentModal from "$lib/modals/view/parent/ViewStudentModal.svelte";
 	import EditStudentModal from "$lib/modals/edit/parent/EditStudentModal.svelte";
     import StudentItem from "$lib/tables/items/parent/StudentItem.svelte";
+	import Qr from "$lib/modals/view/Qr.svelte";
     
     import { setContext } from 'svelte';
     import { writable } from 'svelte/store';
@@ -41,6 +42,7 @@
                 {/each}
             </tbody>
         </table>
+             <Qr type={"parent"}/>
              <ViewStudentModal /> 
              <DeleteStudentModal />
              <EditStudentModal />

@@ -8,6 +8,8 @@
     import SchoolsTableCollapse from "$lib/modals/collapses/parent/SchoolsTableCollapse.svelte";
     import YearsTableCollapse from "$lib/modals/collapses/parent/YearsTableCollapse.svelte";
     import { getContext } from 'svelte';
+    import { imageDataURLToFile } from "$lib/utils.js";
+
 
     let close
     let studentname
@@ -23,6 +25,17 @@
     let editImage = false
     let {studentStore} = getContext("studentStore")
 
+    let video 
+    let canvas
+    let ctx
+    let cameraActive = false
+    let front = true 
+    let imageDataURL
+
+    $: constraints = {
+        video: { facingMode: front ? "user" : "environment" },
+    };
+
 
     async function save(){
         errors = {}
@@ -35,7 +48,7 @@
             formData.set("academic_year_id",yearId)
         }
         formData.set("edit_image",editImage)
-    
+        formData.set("file",imageDataURLToFile(imageDataURL))
     
         formData.set("onhold",onHold)
 
@@ -80,8 +93,61 @@
         resetYear()
         onHold = false
         parentId = schoolId = yearId = ""
-
+        stopCam()
+        imageDataURL = null
     }
+
+    function capture(){
+        ctx = canvas.getContext('2d');
+        const sourceX = (video.videoWidth - 400) / 2;
+        const sourceY = (video.videoHeight - 400) / 2;
+        const sourceWidth = 400;
+        const sourceHeight = 400;
+
+        // Draw the cropped image onto the canvas
+        ctx.drawImage(video, sourceX, sourceY, sourceWidth, sourceHeight, 0, 0, 400, 400);
+
+        // Convert the canvas content to a data URL (e.g., toDataURL('image/jpeg'))
+        imageDataURL = canvas.toDataURL('image/jpeg');
+    }
+
+    async function openCam(){
+        try {
+            cameraActive = true
+            let stream = await navigator.mediaDevices.getUserMedia(constraints)
+            video.srcObject = stream;
+        }catch(error)  {
+            console.error('Error accessing camera:', error);
+        };
+    }
+
+    function stopCam(){
+        if (video.srcObject) {
+            const stream = video.srcObject;
+            const tracks = stream.getTracks();
+            
+            tracks.forEach(track => {
+            track.stop(); // Stop each track in the stream
+            });
+            
+            video.srcObject = null; // Clear the srcObject to stop displaying the video
+        }
+        cameraActive = false
+    }
+
+    function switchCamera(){
+        front = !front;
+        console.log(constraints)
+        openCam()
+    }
+
+    function changeEditImage(){
+        if(editImage && video){
+            stopCam()
+            imageDataURL = null
+        }
+    }
+
 
 
     </script>
@@ -180,7 +246,7 @@
                                 <div class="row ps-3 g-3">
                                     <!-- Switches Color -->
                                     <div class="form-check form-switch col" >
-                                        <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck1" bind:checked={editImage}>
+                                        <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck1" on:change={changeEditImage} bind:checked={editImage}>
                                         <label class="form-check-label" for="SwitchCheck1">Edit Image</label>
                                     </div><!-- Switches Color -->
 
@@ -188,20 +254,43 @@
 
 
 
-                                {#if editImage}
-                                <div>
-                                    <label for="formFile" class="form-label">Student  Image</label>
-                                    <input class="form-control" name="file" type="file" id="formFile">
-                                    {#if errors?.file}
-                                    <strong class="text-danger ms-1 my-2">{errors.file[0]}</strong>
-                                    {/if}
-                                </div>
-                                {:else}
-                                <figure class="figure">
-                                    <img  alt="school logo " width="200" src={$studentStore?.image?.full_path} class="figure-img rounded avatar-xl mb-3 object-fit-cover" >
-                                    <figcaption class="figure-caption">Current Student image</figcaption>
-                                </figure>
                                 
+                                    <div  class:none={!editImage}>
+                                        {#if cameraActive}
+                                        <button type="button"  class="btn btn-danger waves-effect waves-light" on:click={stopCam}>Stop Camera</button>
+                                        {:else}
+                                        <button type="button" class="btn btn-primary waves-effect waves-light" on:click={openCam}>Launch Camera</button>              
+                                        {/if}
+                                    </div>
+                                    {#if cameraActive}
+                                        <div class:none={!editImage}>
+                                            <video id="video" autoplay bind:this={video}></video>
+                                            {#if video?.srcObject}
+                                            <div class="square"></div>
+                                            {/if}
+                                            <canvas id="canvas" width="400" height="400" bind:this={canvas}></canvas>
+                                        </div>
+                                        <div  class:none={!editImage} class="hstack gap-2 justify-content-end">
+                                            <button type="button"  class="btn btn-info waves-effect waves-light" on:click={switchCamera}>Switch Camera</button>
+                                        <button type="button" class="btn btn-primary waves-effect waves-light" on:click={capture}>Capture</button>              
+                                        </div>
+                                    {/if}
+                                    {#if imageDataURL}
+                                    <div class:none={!editImage}>
+                                        <img class="rounded avatar-xl mb-3 object-fit-cover" alt="School logo" width="200" src={imageDataURL}>
+                                    </div>
+                                    {/if}
+                                    <div class:none={!editImage}>
+                                        {#if errors?.file}
+                                        <strong class="text-danger ms-1 my-2">{errors.file[0]}</strong>
+                                        {/if}
+                                    </div>
+                                {#if !editImage}
+                                    <figure class="figure">
+                                        <img  alt="school logo " width="200" src={$studentStore?.image?.full_path} class="figure-img rounded avatar-xl mb-3 object-fit-cover" >
+                                        <figcaption class="figure-caption">Current Student image</figcaption>
+                                    </figure>
+                                    
                                 {/if}
                                 
 
@@ -218,3 +307,25 @@
         </div>
     </div>
 
+    <style>
+        video {
+           width: 100%;
+           display: block;
+        }
+       canvas {
+           display: none;
+       }
+       .square {
+           position: absolute;
+           top: 50%;
+           left: 50%;
+           width: 400px;
+           height: 400px;
+           transform: translate(-50%, -50%);
+           border: 2px solid red; /* Add styling for the cropping square */
+       }
+       .none {
+        display: none;
+       }
+       </style>
+       

@@ -183,6 +183,13 @@ export function PathDelStudent(studentId,type){
     return `${ADMIN_DOMAIN}/students/${studentId}`
 }
 
+export function PathGetStudentQr(studentId,type){
+if(type == "parent"){
+        return `${PARENT_DOMAIN}/students/${studentId}/otp`
+    }
+    return `${ADMIN_DOMAIN}/students/${studentId}/otp`
+}
+
 ////
 
 export function PathGetCoupons({page,search}){

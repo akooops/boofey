@@ -20,9 +20,11 @@
     async function save(){
         errors = {}
         let formData = new FormData(form)
-        if(password == "" || editPassword == false){
-            formData.delete("password")
-        }
+        // if(password == "" || editPassword == false){
+        //     formData.delete("password")
+        // }
+        formData.set("edit_password",editPassword)
+
         let res = await fetch(PathUpdateUser($userStore.id),{
             headers:{
                 Authorization: `${localStorage.getItem("SID")}`

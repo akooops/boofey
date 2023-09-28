@@ -31,6 +31,7 @@
 		"@fullcalendar/core": "^6.1.8",
 		"crypto-js": "^4.1.1",
 		"fullcalendar": "^6.1.8",
+		"qr-code-styling": "^1.6.0-rc.1",
 		"qr-scanner": "^1.4.2"
 	}
 }
