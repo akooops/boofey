@@ -21,7 +21,17 @@ use Illuminate\Support\Str;
 class PayfortController extends Controller
 {
     public function index(){
-        return view('payfort');
+        $timestamp = now()->timestamp;
+
+        // Generate a random string (you can adjust the length as needed)
+        $randomPart = Str::random(6); // Adjust the length as needed
+    
+        // Combine the timestamp and random part to create a reference
+        $merchant_reference = $timestamp . $randomPart;
+
+        return view('payfort', [
+            'merchant_reference' => $merchant_reference
+        ]);
     }
 
     public function calculateSignature(Request $request){
@@ -36,7 +46,7 @@ class PayfortController extends Controller
         
             return response()->json([
                 'status' => 'success',
-                'hashed' => $this->hash($fields, $request->input('prefix'))
+                'hashed' => $this->hash($fields, env('PAYFORT_SHA_REQUEST_PHRASE'))
             ]);
         }
     }
@@ -86,12 +96,7 @@ class PayfortController extends Controller
                 $paymentMethod = PaymentMethod::where('token_name', $request->input('token_name'))->first();
 
                 if($paymentMethod != null){
-                    return response()->json([
-                        'status' => 'error',
-                        'errors' => [
-                            'token_name' => ['Token already exists']
-                        ]
-                    ], 422);
+                    return redirect()->route('payfort')->with('error', 'This card is already exists');
                 }
 
                 $paymentMethod = PaymentMethod::create([
@@ -102,12 +107,11 @@ class PayfortController extends Controller
                 ]);
 
                 $paymentMethod->save();
+
+                return redirect()->route('payfort')->with('success', 'Your card was added successfully');
             }
 
-            return response()->json([
-                'status' => 'error',
-                'errors' => $request->input('response_message')
-            ], 200);
+            return redirect()->route('payfort')->with('error', $request->input('response_message'));
         }
     }
 }

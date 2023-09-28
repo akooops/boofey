@@ -56,9 +56,4 @@ Route::group(['namespace' => 'App\Http\Controllers', 'middleware' => [/*'auth:sa
     /* Billing Routes */
     Route::resource('billings', BillingsController::class)->except(['create', 'edit', 'update']);
     Route::post('billings/{billing}/update', 'BillingsController@update')->name('parents.billings.update');
-
-    /* -------------------------------------------------------------------------------- */
-    /* Payfort Routes */
-    Route::get('calculateSignature', 'PayfortController@calculateSignature')->name('calculateSignature');
-    Route::post('paymentReturn', 'PayfortController@paymentReturn')->name('paymentReturn');
 });

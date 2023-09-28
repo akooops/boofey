@@ -19,3 +19,6 @@ Route::get('/', function () {
 });
 
 Route::get('payfort', [PayfortController::class, 'index'])->name('payfort');
+Route::post('payfort', [PayfortController::class, 'paymentReturn'])->name('paymentReturn');
+
+Route::get('calculateSignature', [PayfortController::class, 'calculateSignature'])->name('calculateSignature');
