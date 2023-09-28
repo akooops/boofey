@@ -53,6 +53,10 @@ Route::group(['namespace' => 'App\Http\Controllers', 'middleware' => [/*'auth:sa
     Route::get('students/{student}/subscriptions', 'SubscriptionsController@index')->name('parents.students.index');
 
     /* -------------------------------------------------------------------------------- */
+    /* Coupons Routes */
+    Route::get('coupons/check/{code}', 'CouponsController@check')->name('parents.coupons.check');
+
+    /* -------------------------------------------------------------------------------- */
     /* Billing Routes */
     Route::resource('billings', BillingsController::class)->except(['create', 'edit', 'update']);
     Route::post('billings/{billing}/update', 'BillingsController@update')->name('parents.billings.update');
