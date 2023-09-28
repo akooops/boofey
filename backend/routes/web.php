@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PayfortController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,3 +17,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('payfort', [PayfortController::class, 'index'])->name('payfort');
+Route::get('calculateSignature', [PayfortController::class, 'calculateSignature'])->name('calculateSignature');
+Route::post('paymentReturn', [PayfortController::class, 'paymentReturn'])->name('paymentReturn');
