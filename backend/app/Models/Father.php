@@ -29,6 +29,10 @@ class Father extends Model
         return $this->hasMany(Payment::class, 'father_id', 'id');
     }
 
+    public function paymentMethods(){
+        return $this->hasMany(PaymentMethod::class, 'father_id', 'id');
+    }
+
     public function billings(){
         return $this->hasMany(Billing::class, 'father_id', 'id');
     }

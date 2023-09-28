@@ -1,10 +1,10 @@
-<form method="post" action="https://sbcheckout.payfort.com/FortAPI/paymentPage" id="payment-form" name="form1" onsubmit="submitForm(event)">
+<form method="post" action="https://sbcheckout.payfort.com/FortAPI/paymentPage" id="payment-form" name="form1">
     <input type="hidden" name="service_command" value="TOKENIZATION" />
     <input type="hidden" name="language" value="en" />
     <input type="hidden" name="merchant_identifier" value="ea198946" />
     <input type="hidden" name="access_code" value="fVV2e5KWuLxKDRqIcBYW" />
     <input type="hidden" name="signature"  />
-    <input type="hidden" name="return_url" value="https://boofey.test/backend/public/paymentReturn" />
+    <input type="hidden" name="return_url" value="https://boofey.test/backend/public/api/paymentReturn" />
     <input type="hidden" name="merchant_reference" id="merchant_reference" value="" />
     <input type="hidden" name="remember_me" value="YES" />
 
@@ -25,8 +25,6 @@
 <script src="https://code.jquery.com/jquery-1.12.4.min.js" crossorigin="anonymous"></script>
 
 <script>
-
-
     $(document).ready(function() {
         if($("#payment-form") !== undefined && $("#payment-form").length > 0) {
 

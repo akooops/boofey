@@ -26,7 +26,7 @@ Route::group(['namespace' => 'App\Http\Controllers', 'middleware' => ['auth:sanc
     Route::post('passwordReset', 'ProfilesController@passwordReset')->name('profile.passwordReset');
 });
 
-Route::group(['namespace' => 'App\Http\Controllers', 'middleware' => ['auth:sanctum', 'convert.bool.string']], function(){ 
+Route::group(['namespace' => 'App\Http\Controllers', 'middleware' => [/*'auth:sanctum', */'convert.bool.string']], function(){ 
     /* -------------------------------------------------------------------------------- */
     /* Schools Routes */
     Route::get('schools', 'SchoolsController@index')->name('parents.schools.index');
@@ -56,4 +56,9 @@ Route::group(['namespace' => 'App\Http\Controllers', 'middleware' => ['auth:sanc
     /* Billing Routes */
     Route::resource('billings', BillingsController::class)->except(['create', 'edit', 'update']);
     Route::post('billings/{billing}/update', 'BillingsController@update')->name('parents.billings.update');
+
+    /* -------------------------------------------------------------------------------- */
+    /* Payfort Routes */
+    Route::get('calculateSignature', 'PayfortController@calculateSignature')->name('calculateSignature');
+    Route::post('paymentReturn', 'PayfortController@paymentReturn')->name('paymentReturn');
 });

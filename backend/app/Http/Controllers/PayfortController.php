@@ -10,6 +10,7 @@ use App\Http\Requests\Users\PasswordResetRequest;
 use App\Models\AcademicYear;
 use App\Models\Father;
 use App\Models\File;
+use App\Models\PaymentMethod;
 use App\Models\School;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Scope;
@@ -34,6 +35,7 @@ class PayfortController extends Controller
             }
         
             return response()->json([
+                'status' => 'success',
                 'hashed' => $this->hash($fields, $request->input('prefix'))
             ]);
         }
@@ -67,6 +69,45 @@ class PayfortController extends Controller
     }
 
     public function paymentReturn(Request $request){
-        dd($request->all());
+        /*
+        $user = Auth::user();
+        $father = Father::where('user_id', $user->id)->first();
+
+        if($father == null){
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Oops! Resource Not Found. The Resource you are looking for is not available or has been moved.'
+            ], 404);
+        }
+        */
+
+        if($request->input('service_command') == 'TOKENIZATION'){
+            if($request->input('status') == 18){
+                $paymentMethod = PaymentMethod::where('token_name', $request->input('token_name'))->first();
+
+                if($paymentMethod != null){
+                    return response()->json([
+                        'status' => 'error',
+                        'errors' => [
+                            'token_name' => ['Token already exists']
+                        ]
+                    ], 422);
+                }
+
+                $paymentMethod = PaymentMethod::create([
+                    'card_number' => $request->input('card_number'),
+                    'card_holder_name' => $request->input('card_holder_name'),
+                    'token_name' => $request->input('token_name'),
+                    'father_id' => 1,
+                ]);
+
+                $paymentMethod->save();
+            }
+
+            return response()->json([
+                'status' => 'error',
+                'errors' => $request->input('response_message')
+            ], 200);
+        }
     }
 }
