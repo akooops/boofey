@@ -6,6 +6,7 @@
     
     import { setContext } from 'svelte';
     import { writable } from 'svelte/store';
+	import Qr from "$lib/modals/view/Qr.svelte";
     
     export let studentsList
     setContext('studentStore', {
@@ -40,6 +41,7 @@
                 {/each}
             </tbody>
         </table>
+              <Qr />
              <ViewStudentModal /> 
              <DeleteStudentModal />
              <EditStudentModal />

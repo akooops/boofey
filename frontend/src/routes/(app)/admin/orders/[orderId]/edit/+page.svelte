@@ -18,7 +18,7 @@
 
     function addProduct(e){
         const existingProductIndex = productsList.findIndex((product) => product.id == e.detail.product.id);
-
+        console.log(e.detail.product)
         if (existingProductIndex != -1) {    
             productsList[existingProductIndex].qty++;
         } else {
@@ -39,10 +39,14 @@
 
     }
     onMount(() => {
-        productsList = products
+        productsList = products.map(product => ({
+            ...product,
+            id: product.product.id
+            }));
     })
 
     function remove(e){ 
+        
         productsList = productsList.filter((product) => product.id !== e.detail.id);
     }
 

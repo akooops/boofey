@@ -1,13 +1,18 @@
 <script>
     import NavBar from "$lib/components/NavBar.svelte";
-        import TopBar from "$lib/components/TopBar.svelte";
-        import { browser } from '$app/environment';
+    import TopBar from "$lib/components/TopBar.svelte";
+    import { browser } from '$app/environment';
+    import {initApp} from "$lib/init/initApp.js"
+	import { onMount } from "svelte";
     
     
     export let data 
     $: user = data.userResponse.data.user
     $: sessionStorage.setItem("type", user.roles[0].name);
 
+    onMount(() => {
+        initApp()
+    })
 
 </script>
     
