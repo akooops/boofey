@@ -18,6 +18,7 @@ return new class extends Migration
 
             $table->string('card_number', 19);
             $table->string('card_holder_name', 500);
+            $table->string('card_bin', 19);
             $table->string('token_name', 500);
 
             $table->unsignedBigInteger('father_id')->nullable();

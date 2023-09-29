@@ -6,6 +6,8 @@ use App\Models\Billing;
 use Illuminate\Http\Request;
 use App\Http\Requests\Billings\StoreBillingRequest;
 use App\Http\Requests\Billings\UpdateBillingRequest;
+use App\Http\Requests\Packages\StorePackageRequest;
+use App\Http\Requests\Payments\StorePaymentMethodRequest;
 use App\Models\AcademicYear;
 use App\Models\Father;
 use App\Models\File;
@@ -95,5 +97,13 @@ class PaymentsController extends Controller
                 'payment' => $payment
             ]
         ]);
+    }
+
+    private function getIp(){
+
+    }
+
+    public function storePaymentMethod(StorePaymentMethodRequest $request){
+
     }
 }

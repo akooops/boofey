@@ -12,6 +12,7 @@ class PaymentMethod extends Model
     protected $fillable = [
         'card_number',
         'card_holder_name',
+        'card_bin',
         'token_name',
         'father_id'
     ];

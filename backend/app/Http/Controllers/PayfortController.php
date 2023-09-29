@@ -93,7 +93,10 @@ class PayfortController extends Controller
 
         if($request->input('service_command') == 'TOKENIZATION'){
             if($request->input('status') == 18){
-                $paymentMethod = PaymentMethod::where('token_name', $request->input('token_name'))->first();
+                $paymentMethod = PaymentMethod::where([
+                    'token_name' => $request->input('token_name'),
+                    'card_bin' => $request->input('card_bin')
+                ])->first();
 
                 if($paymentMethod != null){
                     return redirect()->route('payfort')->with('error', 'This card is already exists');
@@ -102,6 +105,7 @@ class PayfortController extends Controller
                 $paymentMethod = PaymentMethod::create([
                     'card_number' => $request->input('card_number'),
                     'card_holder_name' => $request->input('card_holder_name'),
+                    'card_bin' => $request->input('card_bin'),
                     'token_name' => $request->input('token_name'),
                     'father_id' => 1,
                 ]);
