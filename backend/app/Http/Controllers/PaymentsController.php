@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\Billings\StoreBillingRequest;
 use App\Http\Requests\Billings\UpdateBillingRequest;
 use App\Http\Requests\Packages\StorePackageRequest;
-use App\Http\Requests\Payments\initPaymentMethodAddRequest;
+use App\Http\Requests\Payments\InitPaymentMethodAddRequest;
 use App\Http\Requests\Payments\ProcessPaymentRequest;
 use App\Http\Requests\Payments\StorePaymentMethodRequest;
 use App\Models\AcademicYear;
