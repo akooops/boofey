@@ -93,15 +93,6 @@ class PayfortController extends Controller
 
         if($request->input('service_command') == 'TOKENIZATION'){
             if($request->input('status') == 18){
-                $paymentMethod = PaymentMethod::where([
-                    'token_name' => $request->input('token_name'),
-                    'card_bin' => $request->input('card_bin')
-                ])->first();
-
-                if($paymentMethod != null){
-                    return redirect()->route('payfort')->with('error', 'This card is already exists');
-                }
-
                 $paymentMethod = PaymentMethod::create([
                     'card_number' => $request->input('card_number'),
                     'card_holder_name' => $request->input('card_holder_name'),
@@ -117,5 +108,10 @@ class PayfortController extends Controller
 
             return redirect()->route('payfort')->with('error', $request->input('response_message'));
         }
+
+        return response()->json([
+            'status' => 'error',
+            'message' => 'Oops! Resource Not Found. The Resource you are looking for is not available or has been moved.'
+        ], 404);
     }
 }

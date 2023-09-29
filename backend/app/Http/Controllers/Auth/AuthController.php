@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RefreshTokensRequest;
+use App\Models\Father;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -24,10 +25,13 @@ class AuthController extends Controller
             'roles.permissions:id,name,guard_name', 
         ])->find($user->id);
 
+        $father = Father::where('user_id', $user->id)->first();
+
         return response()->json([
             'status' => 'success',
             'data' => [
-                'user' => $user
+                'user' => $user,
+                'father' => $father
             ]
         ]);
     }

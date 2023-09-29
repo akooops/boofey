@@ -13,6 +13,7 @@ use App\Models\Father;
 use App\Models\File;
 use App\Models\Package;
 use App\Models\Payment;
+use App\Models\PaymentMethod;
 use App\Models\School;
 use App\Models\Student;
 use Illuminate\Database\Eloquent\Scope;
@@ -103,7 +104,41 @@ class PaymentsController extends Controller
 
     }
 
-    public function storePaymentMethod(StorePaymentMethodRequest $request){
+    public function indexPaymentMethods(){
+        $user = Auth::user();
+        $father = Father::where('user_id', $user->id)->first();
 
+        if($father == null){
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Oops! Resource Not Found. The Resource you are looking for is not available or has been moved.'
+            ], 404);
+        }
+
+        $paymentMethods = PaymentMethod::where('father_id', $father->id)->get();
+
+        $response = [
+            'status' => 'success',
+            'data' => [
+                'paymentMethods' => $paymentMethods->makeHidden(['token_name']),
+            ]
+        ];
+
+        return response()->json($response);
+    }
+
+    public function storePaymentMethods(Father $father, StorePaymentMethodRequest $request){
+        $paymentMethod = PaymentMethod::create(array_merge(
+            $request->validated(),
+            [
+                'father_id' => $father->id 
+            ]
+        ));
+
+        $paymentMethod->save();
+
+        return response()->json([
+            'status' => 'success'
+        ]);
     }
 }
