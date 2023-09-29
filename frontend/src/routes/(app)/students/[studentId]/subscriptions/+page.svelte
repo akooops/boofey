@@ -13,6 +13,7 @@
 	import SubsTable from "$lib/tables/parent/SubsTable.svelte";
     import { setContext } from 'svelte';
     import { writable } from 'svelte/store';
+    import { goto } from '$app/navigation';
 
 
 
@@ -28,6 +29,12 @@
     $: student = data.subsResponse.data.student
     $: packages = data.subsResponse.data.packages
     $: subsPagination = data.subsResponse.pagination
+
+
+    function subscribe(){
+        goto(`/students/${student.id}/choosePackage`)
+    }
+
 
     let subsPage
     onMount(() => {
@@ -49,6 +56,7 @@
 
                
                 <div class="flex-shrink-0">
+                    <button type="button" on:click={subscribe} class="btn btn-primary waves-effect waves-light"><i class="ri-money-dollar-circle-line align-bottom me-1"></i>Subscribe</button>
                     <ViewSubModal />
                 </div>
             </div><!-- end card header -->

@@ -32,6 +32,8 @@
       title: "Pages",
       submenu: [
         { title: "Students", links: [], route:"/students"},
+        { title: "Payment Methods", links: [], route:"/paymentMethods"},
+
       ],
     },
   ];

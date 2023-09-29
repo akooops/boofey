@@ -17,19 +17,19 @@
 
     function openAcademicYears(){
         let toolTipInstance = bootstrap.Tooltip.getOrCreateInstance(yearsToolTip)
-        goto(`schools/${school.id}/academicYears`)
         toolTipInstance.hide()
+        goto(`schools/${school.id}/academicYears`)
     }
 
     function openPackages(){
         let toolTipInstance = bootstrap.Tooltip.getOrCreateInstance(packagesToolTip)
-        goto(`schools/${school.id}/packages`)
         toolTipInstance.hide()
+        goto(`schools/${school.id}/packages`)
     }
     function openCanteens(){
         let toolTipInstance = bootstrap.Tooltip.getOrCreateInstance(canteensToolTip)
-        goto(`schools/${school.id}/canteens`)
         toolTipInstance.hide()
+        goto(`schools/${school.id}/canteens`)
     }
 
 
