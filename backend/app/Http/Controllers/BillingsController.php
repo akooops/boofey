@@ -33,23 +33,20 @@ class BillingsController extends Controller
             ], 404);
         }
 
-        $perPage = limitPerPage($request->query('perPage', 10));
-        $page = checkPageIfNull($request->query('page', 1));
         $search = $request->query('search');
 
         $billingsQuery = Billing::latest()->where([
             'father_id' => $father->id
         ]);
 
-        $billings = $billingsQuery->paginate($perPage, ['*'], 'page', $page);
+        $billings = $billingsQuery->get();
 
 
         $response = [
             'status' => 'success',
             'data' => [
-                'billings' => $billings->items(),
+                'billings' => $billings,
             ],
-            'pagination' => handlePagination($billings),
         ];
 
         return response()->json($response);
@@ -85,7 +82,10 @@ class BillingsController extends Controller
         $billing->save();
 
         return response()->json([
-            'status' => 'success'
+            'status' => 'success',
+            'data' => [
+                'billing' => $billing
+            ]
         ]);
     }
 
