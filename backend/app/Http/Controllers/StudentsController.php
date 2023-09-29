@@ -244,7 +244,7 @@ class StudentsController extends Controller
             $otp = Str::random(16);
         
             $studentWithOtpCode = Student::where('otp', $otp)->first();
-        } while ($studentWithOtpCode);
+        } while ($studentWithOtpCode != null);
 
         $otpExpiresAt = now()->addMinutes(10);
 

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Payment extends Model
 {
@@ -19,7 +20,10 @@ class Payment extends Model
         'father_id',
         'package_id',
         'coupon_id',
-        'billing_id'
+        'billing_id',
+        'pending',
+        'student_id',
+        'ref'
     ];
 
     public function coupon()
@@ -96,6 +100,18 @@ class Payment extends Model
             'balance' => $balance,
             'should_start_at' => $shouldStartAt,
         ]);
+    }
+
+    public function generateRef(){
+        $ref = null;
+
+        do {
+            $ref = 'B-'.strtoupper(Str::random(8));
+        
+            $paymentWithRef = Payment::where('ref', $ref)->first();
+        } while ($paymentWithRef != null);
+
+        $this->ref = $ref;
     }
 
     public function getDiscountCalculatedAttribute(){

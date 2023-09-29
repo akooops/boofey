@@ -8,6 +8,7 @@ use App\Http\Requests\Packages\StorePackageRequest;
 use App\Http\Requests\Packages\UpdatePackageRequest;
 use App\Models\File;
 use App\Models\School;
+use App\Models\Student;
 
 class PackagesController extends Controller
 {
