@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Http\JsonResponse;
 
-class StorePaymentMethodRequest extends FormRequest
+class InitPaymentMethodAddRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,11 +26,7 @@ class StorePaymentMethodRequest extends FormRequest
     public function rules()
     {
         return [
-            'card_number' => 'required',
-            'card_holder_name' => 'required',
-            'card_bin' => 'required',
-            'expiry_date' => 'required',
-            'token_name' => 'required',
+            'return_url' => 'required',
         ];
     }
 

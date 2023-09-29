@@ -157,10 +157,6 @@
             {
                 field: 'service_command',
                 val: $("input[name=service_command]").val()
-            },
-            {
-                field: 'remember_me',
-                val: $("input[name=remember_me]").val()
             }
         ];
 

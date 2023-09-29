@@ -90,7 +90,7 @@ class PayfortController extends Controller
             ], 404);
         }
         */
-
+        dd($request->all());
         if($request->input('service_command') == 'TOKENIZATION'){
             if($request->input('status') == 18){
                 $paymentMethod = PaymentMethod::create([

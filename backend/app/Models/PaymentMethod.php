@@ -13,6 +13,7 @@ class PaymentMethod extends Model
         'card_number',
         'card_holder_name',
         'card_bin',
+        'expiry_date',
         'token_name',
         'father_id'
     ];

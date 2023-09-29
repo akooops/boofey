@@ -67,8 +67,9 @@ Route::group(['namespace' => 'App\Http\Controllers', 'middleware' => ['auth:sanc
     Route::post('payments/init/{student}/{package}', 'PaymentsController@init')->name('parents.payments.init');
 
     Route::get('paymentMethods', 'PaymentsController@indexPaymentMethods')->name('parents.payments.indexPaymentMethods');
+    Route::get('paymentMethods/init', 'PaymentsController@initPaymentMethodAdd')->name('parents.payments.initPaymentMethodAdd');
 });
 
 Route::group(['namespace' => 'App\Http\Controllers', 'middleware' => ['convert.bool.string']], function(){ 
-    Route::post('paymentMethods/{father}', 'PaymentsController@storePaymentsMethod')->name('parents.payments.storePaymentsMethod');
+    Route::post('paymentMethods/store/{father}', 'PaymentsController@storePaymentsMethod')->name('parents.payments.storePaymentsMethod');
 });
