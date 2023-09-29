@@ -8,8 +8,10 @@ use App\Http\Requests\Billings\StoreBillingRequest;
 use App\Http\Requests\Billings\UpdateBillingRequest;
 use App\Http\Requests\Packages\StorePackageRequest;
 use App\Http\Requests\Payments\initPaymentMethodAddRequest;
+use App\Http\Requests\Payments\ProcessPaymentRequest;
 use App\Http\Requests\Payments\StorePaymentMethodRequest;
 use App\Models\AcademicYear;
+use App\Models\Coupon;
 use App\Models\Father;
 use App\Models\File;
 use App\Models\Package;
@@ -20,10 +22,12 @@ use App\Models\Student;
 use Illuminate\Database\Eloquent\Scope;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Http;
 
 class PaymentsController extends Controller
 {
-    public function init(Student $student, Package $package){
+    public function init(Student $student, Package $package, Request $request){
         $user = Auth::user();
         $father = Father::where('user_id', $user->id)->first();
 
@@ -96,13 +100,11 @@ class PaymentsController extends Controller
                     'tookSnackToday', 'tookMainMealToday', 'class',
                     'created_at', 'updated_at'
                 ]),
-                'payment' => $payment
+                'payment' => $payment,
+                'customer_ip' => $request->ip(),
+                'customer_email' => $user->email
             ]
         ]);
-    }
-
-    private function getIp(){
-
     }
 
     public function indexPaymentMethods(){
@@ -161,7 +163,7 @@ class PaymentsController extends Controller
                 'service_command' => 'TOKENIZATION',
                 'language' => 'en',
                 'access_code' => env('PAYFORT_ACCESS_CODE'),
-                'merchant_id' => env('PAYFORT_MERCHANT_ID'),
+                'merchant_identifier' => env('PAYFORT_MERCHANT_ID'),
                 'merchant_reference' => $ref,             
                 'signature' => $this->calculateSignature([
                     'service_command=TOKENIZATION',
@@ -175,7 +177,56 @@ class PaymentsController extends Controller
         ]);
     }
 
-    
+    public function processPayment(ProcessPaymentRequest $request){
+        $payment = Payment::findOrFail($request->input('payment_id'));
+
+        if($request->has('coupon_id') && $request->input('coupon_id') != null){
+            $coupon = Coupon::findOrFail($request->get('coupon_id'));
+            $payment->applyCoupon($coupon);
+        }
+
+        if($payment->ref == null)
+            $payment->generateRef();
+
+        $payment->calculateTotal();
+        $payment->updateBilling($request->input('billing_id'));
+        $payment->save();
+
+        $paymentMethod = PaymentMethod::findOrFail($request->input('payment_method_id'));
+
+        $payfort_url = env('PAYFORT_IS_SANDBOX') ? env('PAYFORT_API_TEST_URL') : env('PAYFORT_API_PROD_URL');
+        
+        $response = Http::withHeaders([
+            'Content-Type' => 'application/json', 
+        ])->post($payfort_url, [
+            'command' => 'PURCHASE',
+            'language' => 'en',
+            'access_code' => env('PAYFORT_ACCESS_CODE'),
+            'merchant_identifier' => env('PAYFORT_MERCHANT_ID'),
+            'merchant_reference' => $payment->ref,  
+            'amount' => round($payment->total, 2) * 100,
+            'currency' => 'SAR',
+            'customer_email' => $request->input('customer_email'), 
+            'customer_ip' => $request->input('customer_ip'), 
+            'token_name' => $paymentMethod->token_name,
+            'signature' => $this->calculateSignature([
+                'command=PURCHASE',
+                'language=en',
+                'access_code='.env('PAYFORT_ACCESS_CODE'),
+                'merchant_identifier='.env('PAYFORT_MERCHANT_ID'),
+                'merchant_reference='.$payment->ref,
+                'amount='.round($payment->total, 2) * 100,
+                'currency=SAR',
+                'customer_email='.$request->input('customer_email'),
+                'customer_ip='.$request->input('customer_ip'),
+                'token_name='.$paymentMethod->token_name
+            ])
+        ]);
+
+        $responseData = $response->json();
+        dd($responseData);
+    }
+
     private function calculateSignature(array $fieldArray){
         $fields = [];
     
@@ -208,6 +259,7 @@ class PaymentsController extends Controller
                 $shaString .= $sub_str;
             }
         }
+
 
         $shaString = $prefix . $shaString . $prefix;
 

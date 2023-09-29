@@ -65,6 +65,7 @@ Route::group(['namespace' => 'App\Http\Controllers', 'middleware' => ['auth:sanc
     /* -------------------------------------------------------------------------------- */
     /* Payments Routes */
     Route::post('payments/init/{student}/{package}', 'PaymentsController@init')->name('parents.payments.init');
+    Route::post('payments/process', 'PaymentsController@processPayment')->name('parents.payments.processPayment');
 
     Route::get('paymentMethods', 'PaymentsController@indexPaymentMethods')->name('parents.payments.indexPaymentMethods');
     Route::get('paymentMethods/init', 'PaymentsController@initPaymentMethodAdd')->name('parents.payments.initPaymentMethodAdd');

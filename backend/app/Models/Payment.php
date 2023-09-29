@@ -106,12 +106,19 @@ class Payment extends Model
         $ref = null;
 
         do {
-            $ref = 'B-'.strtoupper(Str::random(8));
+            $ref = 'PURCHASE-'.strtoupper(Str::random(8));
         
             $paymentWithRef = Payment::where('ref', $ref)->first();
         } while ($paymentWithRef != null);
 
         $this->ref = $ref;
+    }
+
+    public function updateBilling($id){
+        $billing = Billing::find($id);
+        if($billing == null) return;
+
+        $this->billing_id = $billing->id;
     }
 
     public function getDiscountCalculatedAttribute(){
