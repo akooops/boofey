@@ -25,7 +25,7 @@ class Payment extends Model
         'student_id',
         'ref',
         'payment_method_id',
-        'fort'
+        'fort_id'
     ];
 
     public function coupon()
@@ -108,8 +108,8 @@ class Payment extends Model
         if($student == null) return;
 
         $subscription = new Subscription([
-            'days' => $package->sayd,
-            'balance' => $package->sayd,
+            'days' => $package->days,
+            'balance' => $package->days,
             'should_start_at' => NULL,
             'student_id' => $student->id,
             'payment_id' => $this->id, 

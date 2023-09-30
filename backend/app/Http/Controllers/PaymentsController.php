@@ -182,7 +182,7 @@ class PaymentsController extends Controller
             'payment_id' => '45',
             'customer_email' => 'test@test.com',
             'customer_ip' => '127.0.0.1',
-            'payment_method_id' => '16',
+            'payment_method_id' => '17',
             'billing_id' => '1',
         ]);
 
@@ -239,14 +239,14 @@ class PaymentsController extends Controller
 
         $responseData = $response->json();
 
-
         if($responseData['response_code'] == '20064' && $responseData['3ds_url'] ){
             return redirect($responseData['3ds_url']);
 
             return response()->json([
                 'status' => '3ds_url',
                 'data' => [
-                    '3ds_url' => $responseData['3ds_url']
+                    '3ds_url' => $responseData['3ds_url'],
+                    'merchant_reference' => $responseData['merchant_reference']
                 ]
             ]);
         }
@@ -269,8 +269,37 @@ class PaymentsController extends Controller
         }
     }
 
-    public function paymentReturnAfter3d(Request $request){
-        dd($request->all());
+    public function paymentReturn(Request $request){
+        $responseData = $request->all();
+
+        $payment = Payment::where('ref', $responseData['merchant_reference'])->first();
+
+        if($payment == null){
+            return response()->json([
+                'status' => 'error',
+                'error' => [
+                    'message' => 'Payment Not found on our server, please contact the administration',
+                    'data' => $responseData
+                ]
+            ]);
+        }
+
+        if($responseData['status'] == 14){
+            $payment->pending = 0;
+            $payment->fort_id = $responseData['fort_id'];
+            $payment->save();
+
+            $payment->saveSubscriptionInfoAfterPayment();
+
+            return response()->json([
+                'status' => 'success'
+            ]);
+        }else{
+            return response()->json([
+                'status' => 'error',
+                'error' => $responseData['response_message']
+            ]);
+        }
     }
 
     private function calculateSignature(array $fieldArray){

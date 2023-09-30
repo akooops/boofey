@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('payments', function (Blueprint $table) {
-            $table->integer('fort_id')->nullable()->default(null);
+            $table->string('fort_id')->nullable()->default(null);
             $table->unsignedBigInteger('payment_method_id')->nullable();
             $table->foreign('payment_method_id')->nullable()->references('id')->on('payment_methods')->nullOnDelete();
         });
