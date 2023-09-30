@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PayfortController;
+use App\Http\Controllers\PaymentsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,3 +23,5 @@ Route::get('payfort', [PayfortController::class, 'index'])->name('payfort');
 Route::post('payfort', [PayfortController::class, 'paymentReturn'])->name('paymentReturn');
 
 Route::get('calculateSignature', [PayfortController::class, 'calculateSignature'])->name('calculateSignature');
+
+Route::get('testPayment', [PaymentsController::class, 'testPayment'])->name('testPayment');

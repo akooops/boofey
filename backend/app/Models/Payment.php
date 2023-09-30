@@ -23,7 +23,9 @@ class Payment extends Model
         'billing_id',
         'pending',
         'student_id',
-        'ref'
+        'ref',
+        'payment_method_id',
+        'fort'
     ];
 
     public function coupon()
@@ -49,6 +51,11 @@ class Payment extends Model
     public function billing()
     {
         return $this->belongsTo(Billing::class);
+    }
+
+    public function paymentMethod()
+    {
+        return $this->belongsTo(PaymentMethod::class);
     }
 
     public function calculateDiscount(){
@@ -93,6 +100,24 @@ class Payment extends Model
         $subscription->save();
     }
 
+    public function saveSubscriptionInfoAfterPayment(){
+        $package = Package::find($this->package_id);
+        if($package == null) return;
+
+        $student = Student::find($this->student_id);
+        if($student == null) return;
+
+        $subscription = new Subscription([
+            'days' => $package->sayd,
+            'balance' => $package->sayd,
+            'should_start_at' => NULL,
+            'student_id' => $student->id,
+            'payment_id' => $this->id, 
+        ]);
+    
+        $subscription->save();
+    }
+
     public function updateSubscriptionInfo($days, $balance, $shouldStartAt)
     {
         $this->subscription->update([
@@ -119,6 +144,13 @@ class Payment extends Model
         if($billing == null) return;
 
         $this->billing_id = $billing->id;
+    }
+
+    public function updatePaymentMethod($id){
+        $paymentMethod = PaymentMethod::find($id);
+        if($paymentMethod == null) return;
+
+        $this->payment_method_id = $paymentMethod->id;
     }
 
     public function getDiscountCalculatedAttribute(){

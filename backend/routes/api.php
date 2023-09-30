@@ -73,4 +73,5 @@ Route::group(['namespace' => 'App\Http\Controllers', 'middleware' => ['auth:sanc
 
 Route::group(['namespace' => 'App\Http\Controllers', 'middleware' => ['convert.bool.string']], function(){ 
     Route::post('paymentMethods/store/{father}', 'PaymentsController@storePaymentsMethod')->name('parents.payments.storePaymentsMethod');
+    Route::post('payments/return3d', 'PaymentsController@paymentReturnAfter3d')->name('parents.payments.paymentReturnAfter3d');
 });
