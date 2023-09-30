@@ -111,6 +111,16 @@ export function PathGetPackages(schoolId,{page,search}){
     }
     return `${ADMIN_DOMAIN}/schools/${schoolId}/packages?page=${page}&search=${search}`
 }
+export function PathGetPackagesById(packageId){
+    return `${PARENT_DOMAIN}/packages/${packageId}`
+}
+
+export function PathGetPackagesBySchoolId(schoolId){
+    return `${PARENT_DOMAIN}/schools/${schoolId}/packages`
+}
+
+
+
 export function PathAddPackage(schoolId){
     return `${ADMIN_DOMAIN}/schools/${schoolId}/packages`
 }
@@ -158,10 +168,13 @@ export function PathRevokeAPi(canteenId){
 }
 ///
 export function PathGetStudents({page,search},type){
-    if(type = "parent"){
+    if(type == "parent"){
         return `${PARENT_DOMAIN}/students?page=${page}&search=${search}`
     }
     return `${ADMIN_DOMAIN}/students?page=${page}&search=${search}`
+}
+export function PathGetStudent(studentId){
+    return `${PARENT_DOMAIN}/students/${studentId}`
 }
 export function PathAddStudent(type){
     if(type == "parent"){
@@ -313,6 +326,24 @@ export function PathUpdateProfile(){
 }
 
 
+///
+export function PathGetBillings(){
+    return `${PARENT_DOMAIN}/billings`
+}
+export function PathAddBilling(){
+    return `${PARENT_DOMAIN}/billings`
+}
+export function PathDelBilling(billingId){
+    return `${PARENT_DOMAIN}/billings/${billingId}`
+}
+export function PathUpdateBilling(billingId){
+    return `${PARENT_DOMAIN}/billings/${billingId}/update`
+}
+
+export function PathInitPaymentMethod(){
+    return `${PARENT_DOMAIN}/paymentMethods/init`
+}
+
 /////
 export function PathLogin(){
     return `${AUTH_DOMAIN}/login`
@@ -336,5 +367,9 @@ export function DefaultGetQueries(url){
     let search =  url.searchParams.get("search")
     search = search ? search : ""
     return {page,search}
+}
+
+export function returnUrl(father){
+    return `https://localhost:5173/paymentReturn/${father}`
 }
 
