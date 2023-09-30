@@ -243,8 +243,6 @@ class PaymentsController extends Controller
         $responseData = $response->json();
 
         if($responseData['response_code'] == '20064' && $responseData['3ds_url'] ){
-            return redirect($responseData['3ds_url']);
-
             return response()->json([
                 'status' => '3ds_url',
                 'data' => [
@@ -262,7 +260,10 @@ class PaymentsController extends Controller
             $payment->saveSubscriptionInfoAfterPayment();
 
             return response()->json([
-                'status' => 'success'
+                'status' => 'success',
+                'data' => [
+                    'merchant_reference' => $responseData['merchant_reference']
+                ]
             ]);
         }else{
             return response()->json([
@@ -270,6 +271,25 @@ class PaymentsController extends Controller
                 'error' => $responseData['response_message']
             ]);
         }
+    }
+
+    public function checkPayment($ref){
+        $payment = Payment::where('ref', $ref)->first();
+        if($payment == null){
+            return response()->json([
+                'status' => 'error',
+                'error' => [
+                    'message' => 'Payment Not found on our server, please contact the administration',
+                ]
+            ]);
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'data' => [
+                'payment' => $payment
+            ]
+        ]);
     }
 
     public function paymentReturn(Request $request){
