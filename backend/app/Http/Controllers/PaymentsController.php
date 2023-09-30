@@ -24,6 +24,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class PaymentsController extends Controller
 {
@@ -137,6 +138,8 @@ class PaymentsController extends Controller
                 'father_id' => $father->id 
             ]
         ));
+
+        $paymentMethod->generateRef();
 
         $paymentMethod->save();
 
@@ -300,6 +303,14 @@ class PaymentsController extends Controller
                 'error' => $responseData['response_message']
             ]);
         }
+    }
+
+    public function webhook(Request $request){
+        // Get all input data from the request
+        $requestData = $request->all();
+
+        // Log the request inputs
+        Log::info('Request Inputs:', $requestData);    
     }
 
     private function calculateSignature(array $fieldArray){

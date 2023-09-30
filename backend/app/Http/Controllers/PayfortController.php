@@ -101,6 +101,8 @@ class PayfortController extends Controller
                     'father_id' => 1,
                 ]);
 
+                $paymentMethod->generateRef();
+
                 $paymentMethod->save();
 
                 return redirect()->route('payfort')->with('success', 'Your card was added successfully');
