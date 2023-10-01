@@ -22,33 +22,28 @@ import { returnUrl } from "$lib/api/paths";
 export let data 
 $: payFort = data.paymentMethodInitResponse.data
 $: fatherId = data.fatherId
-let form
+let expiry_date
 
-async function save(){
-    
+let params 
 
-    let formData = new FormData(form)
-    let res = await fetch(payFort.payfort_url,{
-        method:"POST",
-        mode:"no-cors",
-        body:formData
-    })
-    redirector(res)
+function slash(event){
+    const input = event.target;
+    const value = input.value.replace(/\D/g, ''); // Remove non-numeric characters
 
-    res = await res.json()
+    if (value.length > 2) {
+        // Insert a slash after the second digit
+        input.value = `${value.slice(0, 2)}/${value.slice(2)}`;
+    } else {
+        input.value = value;
+    }
 
-    // if(res.status == "success") {
-    //     close.click()
-    //     let text = `Added a new subscription` 
-    //     toast(text,"success")
-    //     invalidate("subs:refresh")
-    //     reset()
-    // }else {
-    //     errors = res.errors
-    // }
-
-
+    console.log(expiry_date[3],expiry_date[4],expiry_date[0],expiry_date[1])
 }
+onMount(() => {
+    params = new URL(document.location).searchParams;
+
+})
+
 
 
 </script>
@@ -66,6 +61,17 @@ async function save(){
                 <input type="hidden" name="return_url" value="{returnUrl(fatherId)}" />
                 <input type="hidden" name="merchant_reference" id="merchant_reference" value="{payFort.merchant_reference}" />
                 <input type="hidden" name="remember_me" value="YES" />
+                <input type="hidden"name="expiry_date" value="{`${expiry_date?.[3]}${expiry_date?.[4]}${expiry_date?.[0]}${expiry_date?.[1]}`}">
+                {#if params?.get("status") == "fail"}
+                    <div class="row p-3">
+                        <!-- Danger Alert -->
+                        <div class="alert alert-danger alert-border-left alert-dismissible fade show" role="alert">
+                            <i class="ri-error-warning-line me-3 align-middle"></i> <strong>Fail</strong> - {params?.get("msg")}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+
+                    </div>
+                {/if}
 
                 <div class="row gy-3">
                     <div class="col-md-12">
@@ -81,21 +87,18 @@ async function save(){
     
                     <div class="col-md-3">
                         <label for="cc-expiration" class="form-label">Expiration</label>
-                        <input type="text" class="form-control" name="expiry_date" id="cc-expiration" placeholder="MM/YY">
+                        <input type="text" class="form-control" id="cc-expiration" placeholder="MM/YY" maxlength="5" on:input={slash} bind:value={expiry_date}>
                     </div>
     
                     <div class="col-md-3">
                         <label for="cc-cvv" class="form-label">CVV</label>
-                        <input type="text" name="card_security_code" class="form-control" id="cc-cvv" placeholder="xxx">
+                        <input type="text" name="card_security_code" class="form-control" id="cc-cvv" maxlength="3" placeholder="xxx">
                     </div>
                 </div>
         </div>
     </div>
 
     <div class="d-flex align-items-start gap-3 mt-4">
-        <button type="button" class="btn btn-light btn-label previestab">
-            <i class="ri-arrow-left-line label-icon align-middle fs-16 me-2"></i>Back
-        </button>
         <button type="submit" class="btn btn-primary right ms-auto">Add Card</button>
     </div>
 </form>

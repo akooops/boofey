@@ -21,7 +21,6 @@
         <input  type="checkbox" class="form-check-input" checked={selectedaddressId == billing.id}>
         <label class="form-check-label" for="shippingAddress01">
             <span class="fs-14 mb-2 d-block">{billing.firstname} {billing.lastname}</span>
-            <span class="text-muted fw-normal text-wrap mb-1 d-block">4739 Bubby Drive Austin, TX 78729</span>
             <span class="text-muted fw-normal text-wrap mb-1 d-block">{billing.email}</span>
             <span class="text-muted fw-normal text-wrap mb-1 d-block">{billing.phone}</span>
             <span class="text-muted fw-normal text-wrap mb-1 d-block">{billing.country},{billing.state},{billing.zipcode}</span>
