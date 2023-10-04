@@ -26,6 +26,8 @@ class User extends Authenticatable
         'password',
     ];
 
+    protected $appends = ["verified"];
+
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -60,5 +62,14 @@ class User extends Authenticatable
 
     public function profile(){
         return $this->hasOne(Profile::class);
+    }
+
+    public function verificationCodes()
+    {
+        return $this->hasMany(VerificationCode::class);
+    }
+
+    public function getVerifiedAttribute(){
+        return ($this->phone_verified_at == null) ? false : true;
     }
 }

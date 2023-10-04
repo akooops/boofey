@@ -20,13 +20,13 @@ include __DIR__ . '/auth.php';
 include __DIR__ . '/admin.php';
 include __DIR__ . '/sync.php';
 
-Route::group(['namespace' => 'App\Http\Controllers', 'middleware' => ['auth:sanctum', 'convert.bool.string']], function(){    
+Route::group(['namespace' => 'App\Http\Controllers', 'middleware' => ['auth:sanctum', 'convert.bool.string', 'verified']], function(){    
     Route::get('profiles', 'ProfilesController@show')->name('profile.show');
     Route::post('profiles', 'ProfilesController@update')->name('update.update');
     Route::post('passwordReset', 'ProfilesController@passwordReset')->name('profile.passwordReset');
 });
 
-Route::group(['namespace' => 'App\Http\Controllers', 'middleware' => ['auth:sanctum', 'convert.bool.string']], function(){ 
+Route::group(['namespace' => 'App\Http\Controllers', 'middleware' => ['auth:sanctum', 'convert.bool.string', 'verified']], function(){ 
     /* -------------------------------------------------------------------------------- */
     /* Schools Routes */
     Route::get('schools', 'SchoolsController@index')->name('parents.schools.index');
@@ -71,6 +71,8 @@ Route::group(['namespace' => 'App\Http\Controllers', 'middleware' => ['auth:sanc
     Route::get('paymentMethods', 'PaymentsController@indexPaymentMethods')->name('parents.payments.indexPaymentMethods');
     Route::post('paymentMethods/init', 'PaymentsController@initPaymentMethodAdd')->name('parents.payments.initPaymentMethodAdd');
 
+    Route::post('users/generateVerificationCode', 'UsersController@generateVerificationCode')->name('parents.users.generateVerificationCode');
+    Route::post('users/verify', 'UsersController@verify')->name('parents.users.verify');
 });
 
 Route::group(['namespace' => 'App\Http\Controllers', 'middleware' => ['convert.bool.string']], function(){ 

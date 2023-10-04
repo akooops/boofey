@@ -70,5 +70,6 @@ class Kernel extends HttpKernel
         'verify.apikey' => \App\Http\Middleware\VerifyApiKey::class,
         'refresh.tokens' => \App\Http\Middleware\RefreshTokens::class,
         'convert.bool.string' => \App\Http\Middleware\ConvertBooleanStrings::class,
+        'verified' => \App\Http\Middleware\VerifyUser::class,
     ];
 }
