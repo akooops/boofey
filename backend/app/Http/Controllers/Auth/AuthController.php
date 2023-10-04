@@ -5,13 +5,16 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RefreshTokensRequest;
+use App\Http\Requests\Auth\RegisterRequest;
 use App\Models\Father;
 use App\Models\User;
+use App\Models\VerificationCode;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Validation\ValidationException;
 use Laravel\Sanctum\PersonalAccessToken;
+use Spatie\Permission\Models\Role;
 
 class AuthController extends Controller
 {
@@ -34,6 +37,47 @@ class AuthController extends Controller
                 'father' => $father
             ]
         ]);
+    }
+
+    public function register(RegisterRequest $request){
+        $user = User::create(array_merge($request->validated()));
+        $user->save();
+
+        $parentRole = Role::where('name', 'parent')->first();
+        if($parentRole == null){
+            $parentRole = Role::create([
+                'name' => 'parent'
+            ]);
+
+            $parentRole->save();
+        }
+
+        $user->syncRoles($parentRole->id);
+
+        $user->profile()->create(array_merge($request->validated()));
+
+        $expiration = now()->addMinutes(15);
+        $tokenName = 'short-lived-token';
+
+        $token = $user->createToken($tokenName, ['*'], $expiration);
+
+        $expiration = now()->addMinutes(5);
+        
+        $verificationCode = new VerificationCode([
+            'expires_at' => $expiration,
+        ]);
+
+        $verificationCode->generateCode();
+        
+        $user->verificationCodes()->save($verificationCode);
+
+        return response()->json([
+            'status' => 'success',
+            'data' => [
+                'roles' => $user->roles,
+                'token' => $token->plainTextToken
+            ]   
+        ], 200);
     }
 
     public function login(LoginRequest $request)
