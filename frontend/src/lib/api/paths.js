@@ -339,10 +339,38 @@ export function PathDelBilling(billingId){
 export function PathUpdateBilling(billingId){
     return `${PARENT_DOMAIN}/billings/${billingId}/update`
 }
+////
+export function PathInitPayment(studentId,packageId){
+    return `${PARENT_DOMAIN}/payments/init/${studentId}/${packageId}`
+}
 
+export function PathCheckCoupon(code){
+    return `${PARENT_DOMAIN}/coupons/check/${code}`
+
+}
+export function PathPay(){
+    return `${PARENT_DOMAIN}/payments/process`
+
+}
+export function PathCheckPaymentRef(ref){
+    return `${PARENT_DOMAIN}/payments/check/${ref}`
+}
+
+//// 
+export function PathGetPaymentMethods({page,search}){
+    return `${PARENT_DOMAIN}/paymentMethods?page=${page}&search=${search}`
+}
 export function PathInitPaymentMethod(){
     return `${PARENT_DOMAIN}/paymentMethods/init`
 }
+export function PathAddPaymentMethod(fatherId){
+    return `${PARENT_DOMAIN}/paymentMethods/store/${fatherId}`
+}
+export function PathDelPaymentMethod(paymentMethodId){
+    return `${PARENT_DOMAIN}/paymentMethods/${paymentMethodId}`
+}
+
+
 
 /////
 export function PathLogin(){

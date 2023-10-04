@@ -1,19 +1,13 @@
-import { PathGetStudent,PathGetPackagesById,PathGetBillings } from "$lib/api/paths"
+import { PathGetStudent,PathGetPaymentMethods,PathInitPayment,PathGetBillings,DefaultGetQueries } from "$lib/api/paths"
 
 import { redirector } from "$lib/api/auth";
 
 export const ssr = false;
 export async function load({fetch,url,depends,params}) {
     depends('billings:refresh');
-    let res = await fetch(PathGetStudent(params.studentId),{
-        headers:{
-            Authorization: `${localStorage.getItem("SID")}`
-        }
-    })
-    redirector(res)
-    let studentResponse = await res.json()
 
-    res = await fetch(PathGetBillings(),{
+
+    let res = await fetch(PathGetBillings(),{
         headers:{
             Authorization: `${localStorage.getItem("SID")}`
         }
@@ -21,15 +15,31 @@ export async function load({fetch,url,depends,params}) {
     redirector(res)
     let billingsResponse = await res.json()
 
-    // res = await fetch(PathGetPackagesById(url.searchParams.get("package")),{
-    //     headers:{
-    //         Authorization: `${localStorage.getItem("SID")}`
-    //     }
-    // })
-    // redirector(res)
 
-    // let packageResponse = await res.json()
-    
+    res = await fetch(PathInitPayment(params.studentId,url.searchParams.get("package")),{
+        headers:{
+            Authorization: `${localStorage.getItem("SID")}`
+        },
+        method:"POST"
+    })
+    redirector(res)
+    let initPaymentResponse = await res.json()
 
-    return {student:studentResponse.data.student,billings:billingsResponse.data.billings}
+    res = await fetch(PathGetPaymentMethods(DefaultGetQueries(url)),{
+        headers:{
+            Authorization: `${localStorage.getItem("SID")}`
+        }
+    })
+    redirector(res)
+
+
+    let paymentMethodsResponse = await res.json()
+
+    return {student:initPaymentResponse.data.student,
+        payment:initPaymentResponse.data.payment,
+        customerIp:initPaymentResponse.data.customer_ip,
+        customerEmail:initPaymentResponse.data.customer_email,
+        billings:billingsResponse.data.billings,
+        paymentMethods:paymentMethodsResponse.data.paymentMethods
+    }
 };
