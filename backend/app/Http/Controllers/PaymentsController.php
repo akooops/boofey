@@ -314,9 +314,16 @@ class PaymentsController extends Controller
 
             $payment->saveSubscriptionInfoAfterPayment();
 
+            $script = "<script>window.close();</script>";
+
+            // Return the script as a response
+            return response($script)->header('Content-Type', 'text/html');
+
+            /*
             return response()->json([
                 'status' => 'success'
             ]);
+            */
         }else{
             return response()->json([
                 'status' => 'error',
