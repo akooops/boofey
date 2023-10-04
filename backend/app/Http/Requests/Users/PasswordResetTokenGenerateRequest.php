@@ -5,9 +5,8 @@ namespace App\Http\Requests\Users;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Route;
 
-class PasswordResetRequest extends FormRequest
+class PasswordResetTokenGenerateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,23 +24,10 @@ class PasswordResetRequest extends FormRequest
      * @return array<string, mixed>
      */
     public function rules()
-    {        
-        $currentRoute = Route::currentRouteName();
-
-        $rules = [
-            'password' => 'required|password|confirmed',
+    {
+        return [
+            'phone' => 'required|phone|exists:users,phone',
         ];
-
-        if($currentRoute === 'profile.passwordReset') {
-            $rules['old_password'] = 'required';
-        }
-
-        if($currentRoute === 'users.passwordReset') {
-            $rules['phone'] = 'required|phone|exists:users,phone';
-            $rules['token'] = 'required';
-        }
-
-        return $rules;
     }
 
     protected function failedValidation(\Illuminate\Contracts\Validation\Validator $validator)
