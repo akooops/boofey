@@ -378,4 +378,32 @@ class PaymentsController extends Controller
 
         return hash("sha256", $shaString);
     }
+
+    public function deletePaymentMethod(PaymentMethod $paymentMethod){
+        $user = Auth::user();
+        $father = Father::where('user_id', $user->id)->first();
+
+        if($father == null){
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Oops! Resource Not Found. The Resource you are looking for is not available or has been moved.'
+            ], 404);
+        }
+
+        if($paymentMethod->father_id != $father->id){
+            return response()->json([
+                'status' => 'error',
+                'errors' => [
+                    '403' => 'Access Denied: Please Log In to Access This Resource'
+                ]
+            ], 403);
+        }
+
+
+        $paymentMethod->delete();
+
+        return response()->json([
+            'status' => 'success'
+        ]);
+    }
 }

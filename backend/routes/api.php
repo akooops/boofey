@@ -70,6 +70,7 @@ Route::group(['namespace' => 'App\Http\Controllers', 'middleware' => ['auth:sanc
 
     Route::get('paymentMethods', 'PaymentsController@indexPaymentMethods')->name('parents.payments.indexPaymentMethods');
     Route::post('paymentMethods/init', 'PaymentsController@initPaymentMethodAdd')->name('parents.payments.initPaymentMethodAdd');
+    Route::delete('paymentMethods/{paymentMethod}', 'PaymentsController@deletePaymentMethod')->name('parents.payments.deletePaymentMethod');
 });
 
 Route::group(['namespace' => 'App\Http\Controllers', 'middleware' => ['auth:sanctum', 'convert.bool.string']], function(){ 
