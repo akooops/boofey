@@ -26,8 +26,8 @@ class StoreOrderRequest extends FormRequest
     public function rules()
     {
         return [
-            'discount' => 'sometimes|numeric|min:0',
-            'tax' => 'sometimes|numeric|min:0',  
+            'discount' => 'nullable|numeric|min:0',
+            'tax' => 'nullable|numeric|min:0',  
 
             'products' => 'required',
             'products.*.id' => 'exists:products,id', 

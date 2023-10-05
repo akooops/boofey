@@ -37,11 +37,11 @@ class UpdatePackageRequest extends FormRequest
                 'max:500',
                 new UniquePackageCodeWithinSchool($package->school_id, $package->id),
             ],
-            'description' => 'sometimes|string',
+            'description' => 'nullable|string',
 
-            'sale_price' => 'sometimes|numeric|min:0',
+            'sale_price' => 'nullable|numeric|min:0',
             'price' => 'required|numeric|min:0',
-            'tax' => 'sometimes|numeric|min:0',
+            'tax' => 'nullable|numeric|min:0',
 
             'yearly' => 'required|boolean',
             'hidden' => 'required|boolean',
@@ -51,7 +51,7 @@ class UpdatePackageRequest extends FormRequest
             'popular' => 'required|boolean',
 
             'features' => 'required',
-            'features.*.id' => 'sometimes|integer',
+            'features.*.id' => 'nullable|integer',
             'features.*.name' => 'required|string|max:1000',
             'features.*.checked' => 'required|boolean',
         ];

@@ -34,7 +34,7 @@ class UpdateUserRequest extends FormRequest
             'username' => 'required|username|unique:users,username,'.$user->id,
             'email' => 'required|email:rfc,dns|unique:users,email,'.$user->id,
             'phone' => 'required|phone|unique:users,phone,'.$user->id,
-            'password' => 'sometimes|required|password|confirmed',
+            'password' => 'nullable|required|password|confirmed',
             'verified' => 'required|boolean'
         ];
     }

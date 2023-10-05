@@ -33,7 +33,7 @@ class ProcessPaymentRequest extends FormRequest
             'billing_id' => 'required|exists:billings,id',
 
             'payment_id' => 'required|exists:payments,id',
-            'coupon_id' => 'sometimes|exists:coupons,id',
+            'coupon_id' => 'nullable|exists:coupons,id',
         ];
     }
 

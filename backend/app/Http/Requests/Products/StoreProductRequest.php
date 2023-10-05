@@ -29,10 +29,10 @@ class StoreProductRequest extends FormRequest
             'name' => 'required|string|max:500|unique:products,name',
             'name_ar' => 'required|string|max:500|unique:products,name_ar',
 
-            'description' => 'sometimes|string',
-            'description_ar' => 'sometimes|string',
+            'description' => 'nullable|string',
+            'description_ar' => 'nullable|string',
 
-            'sale_price' => 'sometimes|numeric|min:0',
+            'sale_price' => 'nullable|numeric|min:0',
             'price' => 'required|numeric|min:0',
 
             'category_id' => 'required|exists:categories,id',

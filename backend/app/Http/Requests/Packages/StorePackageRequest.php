@@ -32,11 +32,11 @@ class StorePackageRequest extends FormRequest
 
         $rules = [
             'name' => 'required|string|max:500',
-            'description' => 'sometimes|string',
+            'description' => 'nullable|string',
 
-            'sale_price' => 'sometimes|numeric|min:0',
+            'sale_price' => 'nullable|numeric|min:0',
             'price' => 'required|numeric|min:0',
-            'tax' => 'sometimes|numeric|min:0',
+            'tax' => 'nullable|numeric|min:0',
 
             'yearly' => 'required|boolean',
             'hidden' => 'required|boolean',

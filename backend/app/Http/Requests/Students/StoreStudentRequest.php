@@ -44,8 +44,8 @@ class StoreStudentRequest extends FormRequest
         if ($currentRoute === 'students.store') {
             $rules['school_id'] = 'required|exists:schools,id';
             $rules['father_id'] = 'required|exists:fathers,id';
-            $rules['nfc_id'] = 'sometimes|unique:students,nfc_id';
-            $rules['face_id'] = 'sometimes|unique:students,face_id';
+            $rules['nfc_id'] = 'nullable|string|unique:students,nfc_id';
+            $rules['face_id'] = 'nullable|string|unique:students,face_id';
         }
 
         if ($currentRoute === 'parents.students.store') {

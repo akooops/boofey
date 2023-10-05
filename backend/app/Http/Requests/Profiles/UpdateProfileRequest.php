@@ -28,8 +28,8 @@ class UpdateProfileRequest extends FormRequest
         return [
             'firstname' => 'required|string|max:500',
             'lastname' => 'required|string|max:500',
-            'description' => 'sometimes|string',
-            'file' => 'sometimes|file|mimes:jpeg,png'
+            'description' => 'nullable|string',
+            'file' => 'nullable|file|mimes:jpeg,png'
         ];
     }
 
