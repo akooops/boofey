@@ -75,7 +75,7 @@ class UsersController extends Controller
     {
         $user = User::create(array_merge(
             $request->validated(),
-            ['phone_verified_at' => $request->input('verified') == true ? now() : NULL]
+            ['phone_verified_at' => $request->get('verified') ? now() : NULL]
         ));
 
         $user->save();
@@ -123,7 +123,7 @@ class UsersController extends Controller
     {
         $user->update(array_merge(
             $request->validated(),
-            ['phone_verified_at' => $request->input('verified') == true ? now() : NULL]
+            ['phone_verified_at' => $request->get('verified') ? now() : null]
         ));
 
         $user->profile()->update([

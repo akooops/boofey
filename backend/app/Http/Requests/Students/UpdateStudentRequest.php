@@ -34,10 +34,7 @@ class UpdateStudentRequest  extends FormRequest
             'firstname' => 'required|string|max:500',
             'lastname' => 'required|string|max:500',
             'class' => 'required|integer',
-
-            'nfc_id' => 'sometimes|string|unique:students,nfc_id,'.$student->id,
-            'face_id' => 'sometimes|string|unique:students,face_id,'.$student->id,
-
+            
             'onhold' => 'required|boolean',
 
             'school_id' => 'required|exists:schools,id',
@@ -49,6 +46,8 @@ class UpdateStudentRequest  extends FormRequest
 
         if ($currentRoute === 'students.update') {
             $rules['father_id'] = 'required|exists:fathers,id';
+            $rules['nfc_id'] = 'sometimes|string|unique:students,nfc_id,'.$student->id;
+            $rules['face_id'] = 'sometimes|string|unique:students,face_id,'.$student->id;
         }
 
         return $rules;

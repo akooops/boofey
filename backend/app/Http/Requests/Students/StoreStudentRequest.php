@@ -33,9 +33,6 @@ class StoreStudentRequest extends FormRequest
             'lastname' => 'required|string|max:500',
             'class' => 'required|integer',
 
-            'nfc_id' => 'sometimes|string|unique:students,nfc_id',
-            'face_id' => 'sometimes|string|unique:students,face_id',
-
             'onhold' => 'required|boolean',
 
             'academic_year_id' => 'required|exists:academic_years,id',
@@ -47,6 +44,8 @@ class StoreStudentRequest extends FormRequest
         if ($currentRoute === 'students.store') {
             $rules['school_id'] = 'required|exists:schools,id';
             $rules['father_id'] = 'required|exists:fathers,id';
+            $rules['nfc_id'] = 'sometimes|unique:students,nfc_id';
+            $rules['face_id'] = 'sometimes|unique:students,face_id';
         }
 
         if ($currentRoute === 'parents.students.store') {
