@@ -73,7 +73,11 @@ class UsersController extends Controller
      */
     public function store(StoreUserRequest $request) 
     {
-        $user = User::create(array_merge($request->validated()));
+        $user = User::create(array_merge(
+            $request->validated(),
+            ['phone_verified_at' => $request->input('verified') == true ? now() : NULL]
+        ));
+
         $user->save();
 
         $user->syncRoles($request->get('role_id'));
@@ -92,18 +96,12 @@ class UsersController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function show($id) 
+    public function show(User $user) 
     {
-        $user = User::with(['roles:id,name,guard_name', 'roles.permissions:id,name,guard_name'])->find($id);
-
-        if (!$user) {
-            return response()->json([
-                'status' => 'error',
-                'errors' => [
-                    '404' => 'Not found.'
-                ]
-            ], 404);
-        }
+        $user->load([
+            'roles:id,name,guard_name', 
+            'roles.permissions:id,name,guard_name'
+        ]);
         
         return response()->json([
             'status' => 'success',
@@ -121,20 +119,12 @@ class UsersController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function update($id, UpdateUserRequest $request) 
+    public function update(User $user, UpdateUserRequest $request) 
     {
-        $user = User::find($id);
-        
-        if (!$user) {
-            return response()->json([
-                'status' => 'error',
-                'errors' => [
-                    '404' => 'Not found.'
-                ]
-            ], 404);
-        }
-
-        $user->update($request->validated());
+        $user->update(array_merge(
+            $request->validated(),
+            ['phone_verified_at' => $request->input('verified') == true ? now() : NULL]
+        ));
 
         $user->profile()->update([
             'firstname' => $request->get('firstname'),
@@ -156,19 +146,8 @@ class UsersController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id) 
+    public function destroy(User $user) 
     {
-        $user = User::find($id);
-
-        if (!$user) {
-            return response()->json([
-                'status' => 'error',
-                'errors' => [
-                    '404' => 'Not found.'
-                ]
-            ], 404);
-        }
-
         $user->delete();
 
         return response()->json([

@@ -33,6 +33,7 @@ class StoreUserRequest extends FormRequest
             'email' => 'required|email:rfc,dns|unique:users,email',
             'phone' => 'required|phone|unique:users,phone',
             'password' => 'required|password|confirmed',
+            'verified' => 'required|boolean'
         ];
     }
 
