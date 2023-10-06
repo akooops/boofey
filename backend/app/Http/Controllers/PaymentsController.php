@@ -325,6 +325,7 @@ class PaymentsController extends Controller
         $payment->status = $responseData['status'];
         $payment->response_code = $responseData['response_code'];
         $payment->response_message = $responseData['response_message'];
+        $payment->fort_id = $responseData['fort_id'];
         $payment->save();
 
         $script = "<script>window.close();</script>";

@@ -1,5 +1,5 @@
-export const DOMAIN = "https://boofey.akoops.com/"
-// export const DOMAIN = "https://backend.boofey.app/"
+// export const DOMAIN = "https://boofey.akoops.com/"
+export const DOMAIN = "https://backend.boofey.app/"
 
 
 export const ADMIN_DOMAIN = `${DOMAIN}api/admin`
