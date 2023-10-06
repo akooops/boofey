@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PayfortController;
 use App\Http\Controllers\PaymentsController;
+use App\Http\Controllers\SMSController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,3 +26,4 @@ Route::post('payfort', [PayfortController::class, 'paymentReturn'])->name('payme
 Route::get('calculateSignature', [PayfortController::class, 'calculateSignature'])->name('calculateSignature');
 
 Route::get('testPayment', [PaymentsController::class, 'testPayment'])->name('testPayment');
+Route::get('testSMS', [SMSController::class, 'testSMS'])->name('testSMS');

@@ -29,7 +29,8 @@
         },
         "files" : [
             "app/Http/Helpers/PaginationHelper.php",
-            "app/Http/Helpers/FileHelper.php"
+            "app/Http/Helpers/FileHelper.php",
+            "app/Http/Helpers/SMSHelper.php"
         ]
     },
     "autoload-dev": {
