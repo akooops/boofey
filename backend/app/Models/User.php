@@ -64,6 +64,16 @@ class User extends Authenticatable
         return $this->hasOne(Profile::class);
     }
 
+    public function canteens()
+    {
+        return $this->belongsToMany(Canteen::class, 'canteen_users', 'user_id', 'canteen_id');
+    }
+
+    public function canteensUsers()
+    {
+        return $this->hasMany(CanteenUser::class);
+    }
+
     public function verificationCodes()
     {
         return $this->hasMany(VerificationCode::class);

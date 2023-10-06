@@ -19,13 +19,6 @@ use Illuminate\Support\Facades\RateLimiter;
 
 class UsersController extends Controller
 {
-    protected $limiter;
-
-    public function __construct(RateLimiter $limiter)
-    {
-        $this->limiter = $limiter;
-    }
-
     public function generateVerificationCode(){
         $user = Auth::user();
         $user = User::findOrFail($user->id);

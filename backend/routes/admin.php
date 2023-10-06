@@ -77,6 +77,13 @@ Route::group(['prefix' => 'admin', 'namespace' => 'App\Http\Controllers\Admin', 
     Route::post('canteens/{canteen}/revoke', 'CanteensController@revoke')->name('canteens.revoke');
 
     /* -------------------------------------------------------------------------------- */
+    /* Canteens Users Routes */
+    Route::get('users/{user}/canteens', 'CanteenUsersController@index')->name('canteenUsers.index');
+    Route::post('users/{user}/canteens', 'CanteenUsersController@store')->name('canteenUsers.store');
+
+    Route::resource('canteenUsers', CanteenUsersController::class)->only(['show', 'destroy']);
+
+    /* -------------------------------------------------------------------------------- */
     /* Fathers Routes */
     Route::resource('fathers', FathersController::class)->except(['create', 'edit', 'update']);
     Route::post('fathers/{father}/update', 'FathersController@update')->name('fathers.update');
