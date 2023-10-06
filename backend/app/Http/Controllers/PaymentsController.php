@@ -132,6 +132,18 @@ class PaymentsController extends Controller
     }
 
     public function storePaymentsMethod(Father $father, StorePaymentMethodRequest $request){
+        $paymentMethod = PaymentMethod::where('token_name', $request->input('token_name'))->first();
+        if($paymentMethod != null){
+            return response()->json([
+                'status' => 'error',
+                'data' => [
+                    'duplicate_card' => [
+                        'Oops! This card is already stores on our system. Please use your existing card or try a different one.'
+                    ]
+                ]
+            ]);
+        }
+
         $paymentMethod = PaymentMethod::create(array_merge(
             $request->validated(),
             [
@@ -185,7 +197,7 @@ class PaymentsController extends Controller
             'payment_id' => '45',
             'customer_email' => 'test@test.com',
             'customer_ip' => '127.0.0.1',
-            'payment_method_id' => '17',
+            'payment_method_id' => '20',
             'billing_id' => '1',
         ]);
 
@@ -318,12 +330,6 @@ class PaymentsController extends Controller
 
             // Return the script as a response
             return response($script)->header('Content-Type', 'text/html');
-
-            /*
-            return response()->json([
-                'status' => 'success'
-            ]);
-            */
         }else{
             return response()->json([
                 'status' => 'error',
