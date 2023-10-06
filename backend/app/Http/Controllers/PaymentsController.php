@@ -219,9 +219,7 @@ class PaymentsController extends Controller
 
         $payfort_url = env('PAYFORT_IS_SANDBOX') ? env('PAYFORT_API_TEST_URL') : env('PAYFORT_API_PROD_URL');
         
-        $response = Http::withHeaders([
-            'Content-Type' => 'application/json', 
-        ])->post($payfort_url, [
+        $payload = [
             'command' => 'PURCHASE',
             'language' => 'en',
             'access_code' => env('PAYFORT_ACCESS_CODE'),
@@ -244,7 +242,11 @@ class PaymentsController extends Controller
                 'customer_ip='.$request->input('customer_ip'),
                 'token_name='.$paymentMethod->token_name
             ])
-        ]);
+        ];
+
+        $response = Http::withHeaders([
+            'Content-Type' => 'application/json', 
+        ])->post($payfort_url, $payload);
 
         $responseData = $response->json();
 
@@ -275,15 +277,9 @@ class PaymentsController extends Controller
                 ]
             ]);
         }else{
-            $payment->generateRef();
-            $payment->save();
-
             return response()->json([
                 'status' => 'error',
-                'error' => $responseData['response_message'],
-                'data' => [
-                    'merchant_reference' => $payment->ref
-                ]
+                'error' => $responseData['response_message']
             ]);
         }
     }
