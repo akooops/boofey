@@ -60,36 +60,30 @@ class PaymentsController extends Controller
         if($package->hidden == true){
             return response()->json([
                 'status' => 'error',
-                'errors' => [
-                    '403' => 'Access Denied: Please Log In to Access This Resource'
-                ]
-            ], 403);
+                'message' => 'Oops! Resource Not Found. The Resource you are looking for is not available or has been moved.'
+            ], 404);
         }
 
         Payment::where([
             'student_id' => $student->id,
             'package_id' => $package->id,
-            'pending' => 1
+            'status' => null
         ])->delete();
         
         $payment = Payment::create([
             'father_id' => $father->id,
             'student_id' => $student->id,
-            'pending' => 1
+            'status' => null
         ]);
 
         $payment->saveFromPackageInfo($package);
         $payment->calculateTotal();
         $payment->generateRef();
         $payment->save();
-
-        $package->load('packageFeatures:id,name,checked,package_id');
         
-        $student->load([
-            'image:id,path,current_name', 
-            'school:id,name,file_id',
-            'school.logo:id,current_name,path'
-        ]);
+        $student->load(
+            'image:id,path,current_name'
+        );
 
         return response()->json([
             'status' => 'success',
@@ -265,8 +259,11 @@ class PaymentsController extends Controller
         }
 
         if($responseData['status'] == 14){
-            $payment->pending = 0;
+            $payment->status = $responseData['status'];
+            $payment->response_code = $responseData['response_code'];
+            $payment->response_message = $responseData['response_message'];
             $payment->fort_id = $responseData['fort_id'];
+
             $payment->save();
 
             $payment->saveSubscriptionInfoAfterPayment();
@@ -278,9 +275,15 @@ class PaymentsController extends Controller
                 ]
             ]);
         }else{
+            $payment->generateRef();
+            $payment->save();
+
             return response()->json([
                 'status' => 'error',
-                'error' => $responseData['response_message']
+                'error' => $responseData['response_message'],
+                'data' => [
+                    'merchant_reference' => $payment->ref
+                ]
             ]);
         }
     }
@@ -320,30 +323,41 @@ class PaymentsController extends Controller
         }
 
         if($responseData['status'] == 14){
-            $payment->pending = 0;
-            $payment->fort_id = $responseData['fort_id'];
-            $payment->save();
-
             $payment->saveSubscriptionInfoAfterPayment();
-
-            $script = "<script>window.close();</script>";
-
-            // Return the script as a response
-            return response($script)->header('Content-Type', 'text/html');
-        }else{
-            return response()->json([
-                'status' => 'error',
-                'error' => $responseData['response_message']
-            ]);
         }
+        
+        $payment->status = $responseData['status'];
+        $payment->response_code = $responseData['response_code'];
+        $payment->response_message = $responseData['response_message'];
+        $payment->save();
+
+        $script = "<script>window.close();</script>";
+        return response($script)->header('Content-Type', 'text/html');
     }
 
     public function webhook(Request $request){
-        // Get all input data from the request
-        $requestData = $request->all();
+        $responseData = $request->all();
 
-        // Log the request inputs
-        Log::info('Request Inputs:', $requestData);    
+        $payment = Payment::where('ref', $responseData['merchant_reference'])->first();
+
+        if($payment == null){
+            return response()->json([
+                'status' => 'error',
+                'error' => [
+                    'message' => 'Payment Not found on our server, please contact the administration',
+                    'data' => $responseData
+                ]
+            ]);
+        }
+
+        if($responseData['status'] == 14){
+            $payment->status = $responseData['status'];
+            $payment->response_code = $responseData['response_code'];
+            $payment->response_message = $responseData['response_message'];
+            $payment->save();
+
+            $payment->saveSubscriptionInfoAfterPayment();
+        } 
     }
 
     private function calculateSignature(array $fieldArray){

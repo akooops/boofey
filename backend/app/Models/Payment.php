@@ -107,15 +107,27 @@ class Payment extends Model
         $student = Student::find($this->student_id);
         if($student == null) return;
 
-        $subscription = new Subscription([
-            'days' => $package->days,
-            'balance' => $package->days,
-            'should_start_at' => NULL,
-            'student_id' => $student->id,
-            'payment_id' => $this->id, 
-        ]);
-    
-        $subscription->save();
+        $subscription = Subscription::where('payment_id', $this->id)->first();
+
+        if($subscription != null){
+            $subscription->update([
+                'days' => $package->days,
+                'balance' => $package->days,
+                'should_start_at' => NULL,
+                'student_id' => $student->id,
+                'payment_id' => $this->id, 
+            ]);
+        }else{
+            $subscription = new Subscription([
+                'days' => $package->days,
+                'balance' => $package->days,
+                'should_start_at' => NULL,
+                'student_id' => $student->id,
+                'payment_id' => $this->id, 
+            ]);
+        
+            $subscription->save();
+        }
     }
 
     public function updateSubscriptionInfo($days, $balance, $shouldStartAt)

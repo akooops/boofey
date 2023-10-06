@@ -117,6 +117,10 @@ return [
         'emergency' => [
             'path' => storage_path('logs/laravel.log'),
         ],
+
+        'payfort' => [
+            'path' => storage_path('logs/payfort.log'),
+        ],
     ],
 
 ];
