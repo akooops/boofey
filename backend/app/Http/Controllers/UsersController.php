@@ -77,6 +77,15 @@ class UsersController extends Controller
     }
 
     public function generatePasswordResetToken(PasswordResetTokenGenerateRequest $request) {
+        $user = Auth::user();
+
+        if($user !== null){
+            return response()->json([
+                'status' => 'error',
+                'error' => 'You are already logged in!'  
+            ], 400);
+        }
+
         $passwordReset = PasswordReset::where('phone', $request->input('phone'))->first();
 
         if($passwordReset != null)
@@ -106,6 +115,15 @@ class UsersController extends Controller
     }
 
     public function passwordReset(PasswordResetRequest $request){
+        $user = Auth::user();
+
+        if($user !== null){
+            return response()->json([
+                'status' => 'error',
+                'error' => 'You are already logged in!'  
+            ], 400);
+        }
+        
         $passwordReset = PasswordReset::where([
             'phone' => $request->input('phone'),
             'token' => $request->input('token')

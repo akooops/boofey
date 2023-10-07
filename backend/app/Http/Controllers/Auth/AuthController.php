@@ -82,6 +82,15 @@ class AuthController extends Controller
 
     public function login(LoginRequest $request)
     {
+        $user = Auth::user();
+
+        if($user !== null){
+            return response()->json([
+                'status' => 'error',
+                'error' => 'You are already logged in!'  
+            ], 400);
+        }
+
         // Attempt to authenticate the user
         if (Auth::attempt(['email' => $request->input('login'), 'password' => $request->password])
             || Auth::attempt(['username' => $request->input('login'), 'password' => $request->password])
