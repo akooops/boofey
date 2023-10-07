@@ -27,11 +27,13 @@
             <div class="card-header align-items-center d-flex">
                 <h4 class="card-title mb-0 flex-grow-1">Students Managment</h4>
                 <div class="flex-shrink-0">
+                    {#if JSON.parse(sessionStorage.getItem("permissions")).includes("students.store")}
                     <button type="button" data-bs-toggle="modal" data-bs-target="#addStudentModal" class="btn btn-primary waves-effect waves-light"><i class="ri-add-line align-bottom me-1"></i> Add Student</button>
                     <AddStudentModal />
+                    {/if}
                 </div>
             </div>
-
+            {#if JSON.parse(sessionStorage.getItem("permissions")).includes("students.index")}
             <div class="card-body">
 
                 <!-- <div class="live-preview"> -->
@@ -45,6 +47,7 @@
                     <!--end row-->
                 <!-- </div> -->
             </div><!-- end card-body -->
+            {/if}
         </div><!-- end card -->
     </div>
     <!-- end col -->

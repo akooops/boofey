@@ -34,10 +34,13 @@
 
                
                 <div class="flex-shrink-0">
+                    {#if JSON.parse(sessionStorage.getItem("permissions")).includes("canteens.store")}
                     <button type="button" data-bs-toggle="modal" data-bs-target="#addCanteenModal" class="btn btn-primary waves-effect waves-light"><i class="ri-add-line align-bottom me-1"></i>Add Canteen</button>
                     <AddCanteenModal general={true}/>
+                    {/if}
                 </div>
             </div><!-- end card header -->
+            {#if JSON.parse(sessionStorage.getItem("permissions")).includes("canteens.index")}
 
             <div class="card-body">
 
@@ -52,7 +55,10 @@
                     <!--end row-->
                 <!-- </div> -->
             </div><!-- end card-body -->
+
+            {/if}
         </div><!-- end card -->
+
     </div>
     <!-- end col -->
 </div>
