@@ -37,7 +37,7 @@ class UpdateSubscriptions extends Command
                 ->where('started_at', '!=', NULL)
                 ->first();
 
-            if($activeSubscription == null && !$student->in_hold) {
+            if($activeSubscription === null && !$student->in_hold) {
                 // Find subscriptions with balance > 0, started_at is null, and order by should_start_at
                 $subscriptions = $student->subscriptions()->where('balance', '>', 0)
                     ->whereNull('started_at')

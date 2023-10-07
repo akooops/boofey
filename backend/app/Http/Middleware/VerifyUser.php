@@ -10,7 +10,7 @@ class VerifyUser
     public function handle(Request $request, Closure $next)
     {
         // Check if the user is authenticated and their phone is verified
-        if ($request->user() && $request->user()->phone_verified_at == null) {
+        if ($request->user() && $request->user()->phone_verified_at === null) {
             return response()->json([
                 'status' => 'error',
                 'errors' => [

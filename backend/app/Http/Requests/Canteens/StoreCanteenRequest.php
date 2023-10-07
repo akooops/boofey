@@ -30,7 +30,9 @@ class StoreCanteenRequest extends FormRequest
 
         $rules = [
             'name' => 'required|string|max:500',
-            'address' => 'required|string',
+            'name_ar' => 'required|string|max:500',
+            'address' => 'required|string|max:3000',
+            'address_ar' => 'required|string|max:3000',
         ];
 
         // Add the 'school_id' rule if the current route is 'academicYears.store'

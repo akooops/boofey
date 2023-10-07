@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('canteens', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('address');
+            $table->string('name', 500);
+            $table->string('address', 3000);
             $table->string('api_key', 1000)->nullable()->default(null);
 
             $table->unsignedBigInteger('school_id')->nullable();

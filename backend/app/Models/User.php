@@ -80,6 +80,6 @@ class User extends Authenticatable
     }
 
     public function getVerifiedAttribute(){
-        return ($this->phone_verified_at == null) ? false : true;
+        return ($this->phone_verified_at === null) ? false : true;
     }
 }

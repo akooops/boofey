@@ -19,7 +19,7 @@ class CouponsController extends Controller
     {
         $coupon = Coupon::where('code', $code)->whereRaw('(used < max AND onhold = false)')->first();
 
-        if($coupon == null){
+        if($coupon === null){
             return response()->json([
                 'status' => 'error',
                 'error' => 'Invalid Coupon Code' 

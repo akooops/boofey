@@ -82,7 +82,7 @@ class Student extends Model
     }
 
     function getSubscribedAttribute() {  
-        return ($this->currentSubscription == null) ? false : true;
+        return ($this->currentSubscription === null) ? false : true;
     }
 
     public function getFullnameAttribute()

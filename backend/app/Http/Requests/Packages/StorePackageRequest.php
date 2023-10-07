@@ -32,7 +32,9 @@ class StorePackageRequest extends FormRequest
 
         $rules = [
             'name' => 'required|string|max:500',
+            'name_ar' => 'required|string|max:500',
             'description' => 'nullable|string',
+            'description_ar' => 'nullable|string',
 
             'sale_price' => 'nullable|numeric|min:0',
             'price' => 'required|numeric|min:0',
@@ -47,6 +49,7 @@ class StorePackageRequest extends FormRequest
 
             'features' => 'required',
             'features.*.name' => 'required|string|max:1000',
+            'features.*.name_ar' => 'required|string|max:1000',
             'features.*.checked' => 'required|boolean',
         ];
 

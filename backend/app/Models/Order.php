@@ -46,7 +46,7 @@ class Order extends Model
         foreach($products as $product){
             $productRecord = Product::find($product["id"]);
 
-            if($productRecord == null) continue;
+            if($productRecord === null) continue;
 
             $orderItem = OrderItem::create([
                 'order_id' => $this->id,

@@ -27,6 +27,7 @@ class StoreSchoolRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:500|unique:schools,name',
+            'name_ar' => 'required|string|max:500|unique:schools,name_ar',
             'file' => 'required|file|mimes:jpeg,png'       
         ];
     }

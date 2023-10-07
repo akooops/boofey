@@ -138,7 +138,7 @@ class SyncController extends Controller
 
         $students = $request->get('students');
 
-        if(is_string($students) && json_decode($students) !== null) {
+        if(is_string($students) && json_decode($students) !=== null) {
             $students = json_decode($students, true);
         }
         

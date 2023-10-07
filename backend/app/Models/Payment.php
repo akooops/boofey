@@ -60,7 +60,7 @@ class Payment extends Model
 
     public function calculateDiscount(){
         $coupon = Coupon::find($this->coupon_id);
-        $this->discount = ($coupon == null) ? 0 : $coupon->discount;
+        $this->discount = ($coupon === null) ? 0 : $coupon->discount;
     }
 
     public function calculateTotal(){
@@ -102,10 +102,10 @@ class Payment extends Model
 
     public function saveSubscriptionInfoAfterPayment(){
         $package = Package::find($this->package_id);
-        if($package == null) return;
+        if($package === null) return;
 
         $student = Student::find($this->student_id);
-        if($student == null) return;
+        if($student === null) return;
 
         $subscription = Subscription::where('payment_id', $this->id)->first();
 
@@ -153,14 +153,14 @@ class Payment extends Model
 
     public function updateBilling($id){
         $billing = Billing::find($id);
-        if($billing == null) return;
+        if($billing === null) return;
 
         $this->billing_id = $billing->id;
     }
 
     public function updatePaymentMethod($id){
         $paymentMethod = PaymentMethod::find($id);
-        if($paymentMethod == null) return;
+        if($paymentMethod === null) return;
 
         $this->payment_method_id = $paymentMethod->id;
     }

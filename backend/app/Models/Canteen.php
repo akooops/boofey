@@ -13,7 +13,9 @@ class Canteen extends Model
 
     protected $fillable = [
         'name',
+        'name_ar',
         'address',
+        'address_ar',
         'school_id',
         'api_key'
     ];

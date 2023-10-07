@@ -13,7 +13,9 @@ class Package extends Model
 
     protected $fillable = [
         'name',
+        'name_ar',
         'description',
+        'description_ar',
         'sale_price',
         'price',
         'days',
@@ -42,7 +44,7 @@ class Package extends Model
 
     public function storePackagesFeatures($features)
     {
-        if(is_string($features) && json_decode($features) !== null) {
+        if(is_string($features) && json_decode($features) !=== null) {
             $features = json_decode($features, true);
         }
 
@@ -51,7 +53,7 @@ class Package extends Model
 
     public function updatePackagesFeatures($features)
     {
-        if(is_string($features) && json_decode($features) !== null) {
+        if(is_string($features) && json_decode($features) !=== null) {
             $features = json_decode($features, true);
         }
 
@@ -68,6 +70,6 @@ class Package extends Model
     }
 
     function getCurrentPriceAttribute() {  
-        return ($this->sale_price == null || $this->sale_price == 0) ? $this->price : $this->sale_price;
+        return ($this->sale_price === null || $this->sale_price == 0) ? $this->price : $this->sale_price;
     }
 }

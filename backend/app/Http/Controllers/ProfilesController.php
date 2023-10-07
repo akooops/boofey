@@ -62,7 +62,7 @@ class ProfilesController extends Controller
         $user->profile->update(array_merge(
             $request->validated(),
             [
-                'file_id' => ($file == null) ? null : $file->id,
+                'file_id' => ($file === null) ? null : $file->id,
                 'description' => ($request->has('description') || $request->input('description') != null) ? $request->input('description') : NULL,
             ]
         ));

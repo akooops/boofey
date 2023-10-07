@@ -44,7 +44,7 @@ class AuthController extends Controller
         $user->save();
 
         $parentRole = Role::where('name', 'parent')->first();
-        if($parentRole == null){
+        if($parentRole === null){
             $parentRole = Role::create([
                 'name' => 'parent'
             ]);

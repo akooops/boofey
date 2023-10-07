@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('schools', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 500)->unique();
+            $table->string('name', 500);
 
             $table->unsignedBigInteger('file_id')->nullable();
             $table->foreign('file_id')->nullable()->references('id')->on('files')->nullOnDelete();

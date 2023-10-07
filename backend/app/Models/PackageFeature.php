@@ -11,6 +11,7 @@ class PackageFeature extends Model
 
     protected $fillable = [
         'name',
+        'name_ar',
         'checked',
         'package_id',
     ];

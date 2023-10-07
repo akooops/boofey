@@ -119,7 +119,7 @@ class AcademicYearsController extends Controller
             AcademicYear::where('school_id', $school->id)->update(['current' => false]);
         }
 
-        if($school->currentAcademicYear == null){
+        if($school->currentAcademicYear === null){
             $current = true;
         }
 
@@ -127,7 +127,7 @@ class AcademicYearsController extends Controller
             $request->validated(),
             [
                 'school_id' => $school->id,
-                'current' => ($current == null) ? $request->input('current') : $current
+                'current' => ($current === null) ? $request->input('current') : $current
             ]
         ));
 
@@ -178,7 +178,7 @@ class AcademicYearsController extends Controller
         $academicYear->update(array_merge(
             $request->validated(),
             [
-                'current' => ($current == null) ? $request->input('current') : $current
+                'current' => ($current === null) ? $request->input('current') : $current
             ]
         ));
 

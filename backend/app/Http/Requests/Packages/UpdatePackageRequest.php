@@ -31,13 +31,16 @@ class UpdatePackageRequest extends FormRequest
 
         return [
             'name' => 'required|string|max:500',
+            'name_ar' => 'required|string|max:500',
+            'description' => 'nullable|string',
+            'description_ar' => 'nullable|string',
+
             'code' => [
                 'required',
                 'string',
                 'max:500',
                 new UniquePackageCodeWithinSchool($package->school_id, $package->id),
             ],
-            'description' => 'nullable|string',
 
             'sale_price' => 'nullable|numeric|min:0',
             'price' => 'required|numeric|min:0',
@@ -52,6 +55,7 @@ class UpdatePackageRequest extends FormRequest
 
             'features' => 'required',
             'features.*.id' => 'nullable|integer',
+            'features.*.name_ar' => 'required|string|max:1000',
             'features.*.name' => 'required|string|max:1000',
             'features.*.checked' => 'required|boolean',
         ];

@@ -29,7 +29,7 @@ class Queue extends Model
     }
 
     public function getClosedAttribute(){
-        return ($this->closed_at == null) ? false : true;
+        return ($this->closed_at === null) ? false : true;
     }
 
     public function getStudentsCountAttribute(){

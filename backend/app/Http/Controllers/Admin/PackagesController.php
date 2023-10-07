@@ -138,7 +138,7 @@ class PackagesController extends Controller
             $request->validated(),
             [
                 'school_id' => $school->id,
-                'days' => ($days == null) ? $request->input('days') : $days
+                'days' => ($days === null) ? $request->input('days') : $days
             ]
         ));
 
@@ -188,7 +188,7 @@ class PackagesController extends Controller
             [
                 'sale_price' => ($request->has('sale_price') || $request->input('sale_price') != null) ? $request->input('sale_price') : null,
                 'tax' => ($request->has('tax') || $request->input('tax') != null) ? $request->input('tax') : 0,
-                'days' => ($days == null) ? $request->input('days') : $days
+                'days' => ($days === null) ? $request->input('days') : $days
             ]
         ));
 
