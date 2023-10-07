@@ -11,6 +11,8 @@ class Canteen extends Model
 {
     use HasFactory;
 
+    protected $appends = ['display_name', 'display_address'];
+
     protected $fillable = [
         'name',
         'name_ar',
@@ -50,5 +52,29 @@ class Canteen extends Model
 
     public function revokeApiKey(){
         $this->update(['api_key' => NULL]);
+    }
+
+    public function getDisplayNameAttribute(){
+        if (session()->has('local')) {
+            $local = session('local');
+
+            if ($local === 'ar') {
+                return $this->name_ar;
+            }
+        }
+
+        return $this->name;
+    }
+
+    public function getDisplayAddressAttribute(){
+        if (session()->has('local')) {
+            $local = session('local');
+
+            if ($local === 'ar') {
+                return $this->address_ar;
+            }
+        }
+
+        return $this->address;
     }
 }

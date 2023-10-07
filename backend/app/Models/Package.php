@@ -9,7 +9,7 @@ class Package extends Model
 {
     use HasFactory;
 
-    protected $appends = ["currentPrice"];
+    protected $appends = ["currentPrice", 'display_name', 'description_ar'];
 
     protected $fillable = [
         'name',
@@ -71,5 +71,29 @@ class Package extends Model
 
     function getCurrentPriceAttribute() {  
         return ($this->sale_price === null || $this->sale_price == 0) ? $this->price : $this->sale_price;
+    }
+
+    public function getDisplayNameAttribute(){
+        if (session()->has('local')) {
+            $local = session('local');
+
+            if ($local === 'ar') {
+                return $this->name_ar;
+            }
+        }
+
+        return $this->name;
+    }
+
+    public function getDisplayDescriptionAttribute(){
+        if (session()->has('local')) {
+            $local = session('local');
+
+            if ($local === 'ar') {
+                return $this->description_ar;
+            }
+        }
+
+        return $this->description;
     }
 }
