@@ -44,7 +44,7 @@ class Package extends Model
 
     public function storePackagesFeatures($features)
     {
-        if(is_string($features) && json_decode($features) !=== null) {
+        if(is_string($features) && json_decode($features) !== null) {
             $features = json_decode($features, true);
         }
 
@@ -53,7 +53,7 @@ class Package extends Model
 
     public function updatePackagesFeatures($features)
     {
-        if(is_string($features) && json_decode($features) !=== null) {
+        if(is_string($features) && json_decode($features) !== null) {
             $features = json_decode($features, true);
         }
 

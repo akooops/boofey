@@ -51,7 +51,7 @@ class OrdersController extends Controller
     {
         $products = $request->input('products');
 
-        if(is_string($products) && json_decode($products) !=== null) {
+        if(is_string($products) && json_decode($products) !== null) {
             $products = json_decode($products, true);
         }
 
@@ -114,7 +114,7 @@ class OrdersController extends Controller
     {
         $products = $request->input('products');
 
-        if(is_string($products) && json_decode($products) !=== null) {
+        if(is_string($products) && json_decode($products) !== null) {
             $products = json_decode($products, true);
         }
 

@@ -63,7 +63,7 @@ class RolesController extends Controller
 
         $permissions = $request->get('permissions');
 
-        if(is_string($permissions) && json_decode($permissions) !=== null) {
+        if(is_string($permissions) && json_decode($permissions) !== null) {
             $permissions = json_decode($permissions, true);
         }
 
@@ -107,7 +107,7 @@ class RolesController extends Controller
         
         $permissions = $request->get('permissions');
 
-        if(is_string($permissions) && json_decode($permissions) !=== null) {
+        if(is_string($permissions) && json_decode($permissions) !== null) {
             $permissions = json_decode($permissions, true);
         }
 
