@@ -26,12 +26,12 @@ class CanteenUsersController extends Controller
         $user->load([
             'profile:id,user_id,firstname,lastname,file_id',
             'profile.image:id,current_name,path',
-            'canteens:id,address,school_id',
-            'canteens.school:id,name,file_id',
-            'canteens.school.logo:id,current_name,path'
         ]);
 
-        $canteens = $user->canteens();
+        $canteens = $user->canteens()->with([
+            'school:id,name,file_id',
+            'school.logo:id,current_name,path'
+        ]);
 
         $perPage = limitPerPage($request->query('perPage', 10));
         $page = checkPageIfNull($request->query('page', 1));
