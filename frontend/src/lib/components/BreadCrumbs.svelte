@@ -152,6 +152,12 @@ const routes = [
     active: "List",
   },
   {
+    path: /^\/paymentMethods\/add$/,
+    title: "Add Payment Method",
+    item: "Payment Methods",
+    active: "Add",
+  },
+  {
     path: /^\/profile\/settings$/,
     title: "Settings",
     item: "Profile",

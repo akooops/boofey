@@ -34,6 +34,9 @@ export async function ProfileData(){
     })
     if(authRes.ok){
         let authResponse = await authRes.json()
+        if(authResponse?.data?.user?.verified == false){
+            goto("/verification")   
+        }
         if(authResponse?.data?.user?.roles[0]?.name == "parent" && window.location.href.includes("admin")){
             
             goto("/",{ replaceState: true })

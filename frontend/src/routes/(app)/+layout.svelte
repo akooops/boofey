@@ -9,7 +9,12 @@
     
     export let data 
     $: user = data.userResponse.data.user
-    $: sessionStorage.setItem("type", user.roles[0].name);
+    $: {
+        const permissionNames = user.roles[0].permissions.map(permission => permission.name);    
+        sessionStorage.setItem("permissions",JSON.stringify(permissionNames))
+        console.log(JSON.parse(sessionStorage.getItem("permissions")))
+        
+    }
 
     onMount(() => {
         initApp()

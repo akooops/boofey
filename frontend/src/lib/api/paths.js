@@ -377,6 +377,24 @@ export function PathLogin(){
     return `${AUTH_DOMAIN}/login`
 }
 
+export function PathRegister(){
+    return `${AUTH_DOMAIN}/register`
+}
+
+export function PathGenVerificationCode(){
+    return `${PARENT_DOMAIN}/users/generateVerificationCode`
+}
+export function PathGenVerify(){
+    return `${PARENT_DOMAIN}/users/verify`
+}
+
+export function generatePasswordResetToken(){
+    return `${PARENT_DOMAIN}/users/generatePasswordResetToken`
+}
+export function passwordReset(){
+    return `${PARENT_DOMAIN}/users/passwordReset`
+}
+
 export function PathRefresh(){
     return `${AUTH_DOMAIN}/tokens/refresh`
 }

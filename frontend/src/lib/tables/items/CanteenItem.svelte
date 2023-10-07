@@ -60,12 +60,24 @@
         <td>{canteen.address}</td>
         <td>
             <div class="hstack gap-3 flex-wrap">
+                
+                
                 <span on:click={openQueues} bind:this={queuesToolTip}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Queues" ><i class="ri-team-line"></i></a></span>
-                <span data-bs-toggle="modal" data-bs-target="#RevokeApiModal" on:click={setCanteen}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Revoke API Key" ><i class="ri-eraser-line"></i></a></span>
-                <span data-bs-toggle="modal" data-bs-target="#ApiModal" on:click={setApi}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Generate API Key" ><i class="ri-refresh-line"></i></a></span>
-                <span data-bs-toggle="modal" data-bs-target="#viewCanteenModal" on:click={setCanteen}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="View" ><i class="ri-eye-fill"></i></a></span>
-                <span data-bs-toggle="modal" data-bs-target="#editCanteenModal" on:click={setCanteen}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Edit" ><i class="ri-edit-2-line"></i></a></span>
-                <span data-bs-toggle="modal" data-bs-target="#deleteCanteenModal" on:click={setCanteen}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Delete"><i class="ri-delete-bin-line"></i></a></span>
+                {#if JSON.parse(sessionStorage.getItem("permissions")).includes("canteens.revoke")}
+                    <span data-bs-toggle="modal" data-bs-target="#RevokeApiModal" on:click={setCanteen}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Revoke API Key" ><i class="ri-eraser-line"></i></a></span>
+                {/if}
+                {#if JSON.parse(sessionStorage.getItem("permissions")).includes("canteens.generate")}
+                    <span data-bs-toggle="modal" data-bs-target="#ApiModal" on:click={setApi}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Generate API Key" ><i class="ri-refresh-line"></i></a></span>
+                {/if}
+                {#if JSON.parse(sessionStorage.getItem("permissions")).includes("canteens.show")}
+                    <span data-bs-toggle="modal" data-bs-target="#viewCanteenModal" on:click={setCanteen}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="View" ><i class="ri-eye-fill"></i></a></span>
+                {/if}
+                {#if JSON.parse(sessionStorage.getItem("permissions")).includes("canteens.update")}
+                    <span data-bs-toggle="modal" data-bs-target="#editCanteenModal" on:click={setCanteen}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Edit" ><i class="ri-edit-2-line"></i></a></span>
+                {/if}
+                {#if JSON.parse(sessionStorage.getItem("permissions")).includes("canteens.destroy")}
+                    <span data-bs-toggle="modal" data-bs-target="#deleteCanteenModal" on:click={setCanteen}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Delete"><i class="ri-delete-bin-line"></i></a></span>
+                {/if}
             </div>
         </td>
     </tr>

@@ -22,10 +22,13 @@ onMount(() => {
             <div class="card-header align-items-center d-flex">
                 <h4 class="card-title mb-0 flex-grow-1">Schools Managment</h4>
                 <div class="flex-shrink-0">
+                    {#if JSON.parse(sessionStorage.getItem("permissions")).includes("schools.store")}
                     <button type="button" data-bs-toggle="modal" data-bs-target="#addSchoolModal" class="btn btn-primary waves-effect waves-light"><i class="ri-add-line align-bottom me-1"></i>Add School</button>
                     <AddSchoolModal />
+                    {/if}
                 </div>
             </div><!-- end card header -->
+            {#if JSON.parse(sessionStorage.getItem("permissions")).includes("schools.index")}
 
             <div class="card-body">
 
@@ -40,6 +43,7 @@ onMount(() => {
                     <!--end row-->
                 <!-- </div> -->
             </div><!-- end card-body -->
+            {/if}
         </div><!-- end card -->
     </div>
     <!-- end col -->
