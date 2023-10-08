@@ -10,7 +10,7 @@ class Student extends Model
 {
     use HasFactory;
 
-    protected $appends = ['fullname', "subscribed", "tookSnackToday", 'tookMainMealToday'];
+    protected $appends = ['fullname', "subscribed", 'subscribedPackage', "tookSnackToday", 'tookMainMealToday'];
 
     protected $fillable = [
         'name',
@@ -88,5 +88,17 @@ class Student extends Model
     public function getFullnameAttribute()
     {
         return $this->firstname . ' ' . $this->lastname;
+    }
+
+    public function getSubscribedPackageAttribute(){
+        $currentSubscription = $this->currentSubscription;
+        if($currentSubscription !== null && $currentSubscription->payment !== null){
+            $payment = $this->currentSubscription->payment;
+
+            if($payment !== null && $payment->package !== null)
+                return $payment->package->code;
+        }
+
+        return null;
     }
 }

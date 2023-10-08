@@ -40,6 +40,7 @@ class SyncController extends Controller
                 'face_id' => $student->face_id,
                 'onhold' => $student->onhold,
                 'subscribed' => $student->subscribed,
+                'subscribedPackage' => $student->subscribedPackage,
                 'otp' => [
                     'opt' => $student->otp,
                     'expired_at' => $student->otp_expires_at,
@@ -59,6 +60,7 @@ class SyncController extends Controller
                 'school' => [
                     'id' => $canteen->school->id,
                     'name' => $canteen->school->name,
+                    'name_ar' => $canteen->school->name_ar,
                     'logo' => ($student->school->logo != null) ? [
                         'id' => $student->school->logo->id,
                         'full_path' => $student->school->logo->full_path,
@@ -67,7 +69,9 @@ class SyncController extends Controller
                 'canteen' => [
                     'id' => $canteen->id,
                     'name' => $canteen->name,
-                    'address' => $canteen->address
+                    'name_ar' => $canteen->name_ar,
+                    'address' => $canteen->address,
+                    'address_ar' => $canteen->address_ar
                 ],
                 'current_queue' => ($canteen->currentQueue != null) ? [
                     'id' => $canteen->currentQueue->id,
