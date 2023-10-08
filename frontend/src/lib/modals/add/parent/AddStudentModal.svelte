@@ -220,9 +220,18 @@ import YearsTableCollapse from "$lib/modals/collapses/parent/YearsTableCollapse.
                                     <select class="form-select" name="class" id="class" aria-label="Default select example" bind:this={selectClass}>
                                         <option disabled selected value> -- select a class -- </option>
 
-                                        <option value={0}>ابتدائي</option>
-                                        <option value={1}>متوسط</option>
-                                        <option value={2}>ثانوي</option>
+                                        <option value={0}>Primary School - Grade 1</option>
+                                        <option value={1}>Primary School - Grade 2</option>
+                                        <option value={2}>Primary School - Grade 3</option>
+                                        <option value={3}>Primary School - Grade 4</option>
+                                        <option value={4}>Primary School - Grade 5</option>
+                                        <option value={5}>Primary School - Grade 6</option>
+                                        <option value={6}>Middle School - Grade 1</option>
+                                        <option value={7}>Middle School - Grade 2</option>
+                                        <option value={8}>Middle School - Grade 3</option>
+                                        <option value={9}>Secondary School - Grade 1</option>
+                                        <option value={10}>Secondary School - Grade 2</option>
+                                        <option value={11}>Secondary School - Grade 3</option>
                                     
                                     </select>
                                     {#if errors?.class}
