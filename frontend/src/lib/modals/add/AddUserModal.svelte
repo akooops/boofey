@@ -12,6 +12,7 @@
     let selectRole
     export let roles = []
     let errors 
+    let verified = true
 
     onMount(() => {
         var cleave = new Cleave('.phone-input', {
@@ -25,7 +26,7 @@
     async function save(){
         errors = {}
         let formData = new FormData(form)
-        console.log(formData)
+        formData.set("verified",verified)
     
         let res = await fetch(PathAddUser(),{
             headers:{
@@ -57,7 +58,7 @@
         form.reset()
         selectRole.selectedIndex = 0
         errors = {}
-
+        verified = true
     }
 
 
@@ -129,6 +130,15 @@
                                     {#if errors?.password_confirmation}
                                     <strong class="text-danger ms-1 my-2">{errors.password_confirmation[0]}</strong>
                                     {/if}
+                                </div>
+
+                                <div class="row ps-3 g-3">
+                                    <!-- Switches Color -->
+                                    <div class="form-check form-switch col" >
+                                        <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck1" bind:checked={verified}>
+                                        <label class="form-check-label" for="SwitchCheck1">Verified</label>
+                                    </div><!-- Switches Color -->
+
                                 </div>
 
                                 <div class="col-lg-12">

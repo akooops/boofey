@@ -17,6 +17,7 @@
     let role
     let editPassword = false;
     let errors
+    let verified
     async function save(){
         errors = {}
         let formData = new FormData(form)
@@ -24,6 +25,8 @@
         //     formData.delete("password")
         // }
         formData.set("edit_password",editPassword)
+        formData.set("verified",verified)
+
 
         let res = await fetch(PathUpdateUser($userStore.id),{
             headers:{
@@ -54,6 +57,7 @@
         lastName = $userStore?.profile?.lastname
         roles = $page.data.usersResponse.data.roles
         password = ""
+        verified = $userStore?.verified
         if(!$userStore?.roles?.length) return;
         console.log("role")
         role = $userStore?.roles[0]
@@ -119,12 +123,16 @@
                                     <strong class="text-danger ms-1 my-2">{errors.phone[0]}</strong>
                                     {/if}
                                 </div>
-                               
-                                <div class="mb-2 col-lg-12">
-                                    <input class="form-check-input" type="checkbox" id="formCheck1" bind:checked={editPassword}>
-                                    <label class="form-check-label" for="formCheck1">Edit Password </label>
+
+                                <div class="row ps-3 g-3">
+                                    <!-- Switches Color -->
+                                    <div class="form-check form-switch col" >
+                                        <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck1" bind:checked={editPassword}>
+                                        <label class="form-check-label" for="SwitchCheck1">Edit Password </label>
+                                    </div><!-- Switches Color -->
 
                                 </div>
+                                
                                 {#if editPassword}
                                 <div class="col-xxl-6">
                                     <label for="password" class="form-label">Password</label>
@@ -143,6 +151,15 @@
                                     {/if}
                                 </div>
                                 {/if}
+
+                                <div class="row ps-3 g-3">
+                                    <!-- Switches Color -->
+                                    <div class="form-check form-switch col" >
+                                        <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck1" bind:checked={verified}>
+                                        <label class="form-check-label" for="SwitchCheck1">Verified</label>
+                                    </div><!-- Switches Color -->
+
+                                </div>
 
                                 <div class="col-lg-12">
                                     <label for="role" class="form-label">Role</label>
