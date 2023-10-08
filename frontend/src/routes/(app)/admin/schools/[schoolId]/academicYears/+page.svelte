@@ -5,6 +5,7 @@
     import AddYearModal from "$lib/modals/add/AddYearModal.svelte";
     import {InitFlatPickr} from "$lib/init/initFlatpickr.js"
 	import { onMount } from "svelte";
+import { fade } from 'svelte/transition';
     import {initToolTip} from "$lib/init/initToolTip.js"
     export let data
     $: yearsList = data.academicYearsResponse.data.academicYears
@@ -19,7 +20,7 @@
     })
     
 </script>
-<div class="row" bind:this={yearsPage}>
+<div class="row" in:fade={{delay:200,duration: 200 }} out:fade={{duration: 200 }} bind:this={yearsPage}>
     <div class="col-lg-12">
         <div class="card">
             <div class="card-header align-items-center d-flex">

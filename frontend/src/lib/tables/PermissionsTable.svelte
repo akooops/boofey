@@ -30,7 +30,7 @@
                     <th scope="col">Action</th>
                 </tr>
             </thead>
-            {#if $navigating == null || $navigating?.from?.route?.id = $navigating?.to?.route?.id}
+            {#if $navigating == null || $navigating?.from?.route?.id  != $navigating?.to?.route?.id}
             <tbody class="list">
                 {#each permissionsList as permission}
                     <PermissionItem {permission} />

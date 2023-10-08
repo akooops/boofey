@@ -5,6 +5,7 @@
     import CategoriesTable from "$lib/tables/CategoriesTable.svelte";
     import AddCategoryModal from "$lib/modals/add/AddCategoryModal.svelte";
     import { onMount } from "svelte";
+import { fade } from 'svelte/transition';
     import {initToolTip} from "$lib/init/initToolTip.js"
     export let data
     
@@ -16,7 +17,7 @@
     })
     
     </script>
-    <div class="row" bind:this={categoriesPage}>
+    <div class="row" in:fade={{delay:200,duration: 200 }} out:fade={{duration: 200 }} bind:this={categoriesPage}>
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header align-items-center d-flex">

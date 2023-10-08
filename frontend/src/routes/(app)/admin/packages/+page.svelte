@@ -5,6 +5,7 @@
 	import { onMount } from "svelte";
     import {initToolTip} from "$lib/init/initToolTip.js"
 	import PackagesTable from "$lib/tables/PackagesTable.svelte";
+import { fade } from 'svelte/transition';
     export let data
     $: packagesList = data.packagesResponse.data.packages
     $: packagesPagination = data.packagesResponse.pagination
@@ -16,7 +17,7 @@
     })
     
 </script>
-<div class="row" bind:this={packagesPage}>
+<div class="row" in:fade={{delay:200,duration: 200 }} out:fade={{duration: 200 }} bind:this={packagesPage}>
     <div class="col-lg-12">
         <div class="card">
             <div class="card-header align-items-center d-flex">

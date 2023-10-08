@@ -4,6 +4,7 @@ import {PathInitPaymentMethod} from "$lib/api/paths.js"
 import {onMount} from "svelte"
 import { redirector } from "$lib/api/auth";
 import { returnUrl } from "$lib/api/paths";
+import { fade } from 'svelte/transition';
 
 
 //https://sbcheckout.payfort.com/FortAPI/paymentPage

@@ -3,6 +3,7 @@ import QrScanner from 'qr-scanner';
 import { onMount } from 'svelte';
 import {PathExitQueue} from "$lib/api/paths.js"
 import { redirector } from "$lib/api/auth";
+import { fade } from 'svelte/transition';
 
 let stream
 let qrScanner
@@ -91,7 +92,7 @@ async function switchCamera(){
 
 </script>
 
-<div class="row">
+<div class="row" in:fade={{delay:200,duration: 200 }} out:fade={{duration: 200 }} >
     <div class="col-lg-12">
         <div class="card">
             <div class="card-header align-items-center d-flex">

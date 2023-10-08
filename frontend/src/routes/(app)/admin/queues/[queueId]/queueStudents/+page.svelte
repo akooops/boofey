@@ -4,6 +4,7 @@
     import QueueStudentsTable from "$lib/tables/QueueStudentsTable.svelte";
     import AddQueueStudentModal from "$lib/modals/add/AddQueueStudentModal.svelte"
     import {InitFlatPickr} from "$lib/init/initFlatpickr.js"
+    import { fade } from 'svelte/transition';
 
     import { onMount } from "svelte";
     import {initToolTip} from "$lib/init/initToolTip.js"
@@ -21,7 +22,7 @@ onMount(() => {
 })
 
 </script>
-<div class="row" bind:this={queueStudentsPage}>
+<div class="row" in:fade={{delay:200,duration: 200 }} out:fade={{duration: 200 }} bind:this={queueStudentsPage}>
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header align-items-center d-flex">

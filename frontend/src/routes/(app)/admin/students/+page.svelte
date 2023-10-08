@@ -7,6 +7,7 @@
     import {initToolTip} from "$lib/init/initToolTip.js"
     import { setContext } from 'svelte';
     import { writable } from 'svelte/store';
+    import { fade } from 'svelte/transition';
 
     export let data
     $: studentsList = data.studentsResponse.data.students
@@ -21,7 +22,7 @@
 
     
 </script>
-<div class="row" bind:this={studentsPage}>
+<div class="row" in:fade={{delay:200,duration: 200 }} out:fade={{duration: 200 }} bind:this={studentsPage}>
     <div class="col-lg-12">
         <div class="card">
             <div class="card-header align-items-center d-flex">
