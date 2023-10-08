@@ -4,6 +4,7 @@
     import { toast } from "$lib/components/toast.js";
     import { invalidate } from '$app/navigation';
     import { redirector } from "$lib/api/auth";
+    import Cleave from 'cleave.js';
 
     let close
     let username
@@ -12,6 +13,14 @@
     export let roles = []
     let errors 
 
+    onMount(() => {
+        var cleave = new Cleave('.phone-input', {
+            prefix: '05',
+            delimiter: '',
+            blocks: [2, 8],
+            numericOnly: true,
+        });
+    });
 
     async function save(){
         errors = {}
@@ -102,7 +111,7 @@
                                 </div>
                                 <div class="col-xxl-6">
                                     <label for="phone" class="form-label">Phone</label>
-                                    <input type="tel" name="phone" class="form-control" id="phone" placeholder="Enter your Phone no.">
+                                    <input type="tel" name="phone" class="form-control phone-input" id="phone" placeholder="Enter your Phone no.">
                                     {#if errors?.phone}
                                     <strong class="text-danger ms-1 my-2">{errors.phone[0]}</strong>
                                     {/if}
