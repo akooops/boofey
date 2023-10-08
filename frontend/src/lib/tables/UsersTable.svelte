@@ -7,6 +7,7 @@ import EditUserModal from "$lib/modals/edit/EditUserModal.svelte";
 export let usersList
 import { setContext } from 'svelte';
 import { writable } from 'svelte/store';
+import { navigating } from '$app/stores';
 
     setContext('userStore', {
 	    userStore: writable({})
@@ -35,11 +36,13 @@ import { writable } from 'svelte/store';
                     
                 </tr>
             </thead>
+            {#if $navigating == null || $navigating?.from?.route?.id != $navigating?.to?.route?.id}
             <tbody>
                 {#each usersList as user,i}
                   <UserItem {user}/>
                 {/each}
             </tbody>
+            {/if}
         </table>
         <DeleteUserModal />
         <ViewUserModal />
@@ -48,3 +51,9 @@ import { writable } from 'svelte/store';
 
     </div>
 </div>
+
+{#if $navigating?.from?.route?.id == $navigating?.to?.route?.id  && $navigating}
+    <div class="text-center">
+        <lord-icon src="https://cdn.lordicon.com/xjovhxra.json" trigger="loop" colors="primary:#695eef,secondary:#73dce9" style="width:120px;height:120px"></lord-icon>
+    </div>
+{/if}

@@ -8,6 +8,7 @@
 
     import { setContext } from 'svelte';
     import { writable } from 'svelte/store';
+    import { navigating } from '$app/stores';
 	import RevokeApiModal from "../modals/delete/RevokeApiModal.svelte";
     
     export let canteensList
@@ -38,12 +39,14 @@
                     <th scope="col">Address</th>
                     <th scope="col">Action</th>
                 </tr>
-            </thead> 
+             </thead>
+            {#if $navigating == null || $navigating?.from?.route?.id != $navigating?.to?.route?.id} 
             <tbody class="list">
                 {#each canteensList as canteen}
                     <CanteenItem {canteen} {general}/>
                 {/each}
             </tbody>
+            {/if}
         </table>
         <EditCanteenModal /> 
         <DeleteCanteenModal />
@@ -52,3 +55,9 @@
         <RevokeApiModal />
     </div>
 </div>
+
+{#if $navigating?.from?.route?.id == $navigating?.to?.route?.id  && $navigating}
+    <div class="text-center">
+        <lord-icon src="https://cdn.lordicon.com/xjovhxra.json" trigger="loop" colors="primary:#695eef,secondary:#73dce9" style="width:120px;height:120px"></lord-icon>
+    </div>
+{/if}

@@ -6,6 +6,7 @@
     
     import { setContext } from 'svelte';
     import { writable } from 'svelte/store';
+    import { navigating } from '$app/stores';
     
     export let permissionsList
     setContext('permissionStore', {
@@ -13,7 +14,6 @@
     });
 
 </script>
-
 
 <div class="row pe-0">
     <div class="table-responsive">
@@ -30,11 +30,13 @@
                     <th scope="col">Action</th>
                 </tr>
             </thead>
+            {#if $navigating == null || $navigating?.from?.route?.id = $navigating?.to?.route?.id}
             <tbody class="list">
                 {#each permissionsList as permission}
                     <PermissionItem {permission} />
                 {/each}
             </tbody>
+            {/if}
         </table>
         <DeletePermissionModal />
         <ViewPermissionModal />
@@ -42,3 +44,8 @@
 
     </div>
 </div>
+{#if $navigating?.from?.route?.id == $navigating?.to?.route?.id  && $navigating}
+    <div class="text-center">
+        <lord-icon src="https://cdn.lordicon.com/xjovhxra.json" trigger="loop" colors="primary:#695eef,secondary:#73dce9" style="width:120px;height:120px"></lord-icon>
+    </div>
+{/if}

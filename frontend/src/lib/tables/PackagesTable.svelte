@@ -5,6 +5,7 @@
     import PackageItem from "$lib/tables/items/PackageItem.svelte";
 
     import { setContext } from 'svelte';
+    import { navigating } from '$app/stores';
     import { writable } from 'svelte/store';
     
     export let packagesList
@@ -40,15 +41,23 @@
                     <th scope="col">Hidden</th>
                     <th scope="col">Actions</th>
                 </tr>
-            </thead>
+             </thead>
+            {#if $navigating == null || $navigating?.from?.route?.id != $navigating?.to?.route?.id}
             <tbody class="list">
                 {#each packagesList as packageObj}
                     <PackageItem {general} {packageObj} />
                 {/each}
             </tbody>
+            {/if}
         </table>
         <EditPackageModal /> 
         <DeletePackageModal />
         <ViewPackageModal {general}/>
     </div>
 </div>
+
+{#if $navigating?.from?.route?.id == $navigating?.to?.route?.id  && $navigating}
+    <div class="text-center">
+        <lord-icon src="https://cdn.lordicon.com/xjovhxra.json" trigger="loop" colors="primary:#695eef,secondary:#73dce9" style="width:120px;height:120px"></lord-icon>
+    </div>
+{/if}
