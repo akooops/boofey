@@ -56,6 +56,12 @@ class AuthController extends Controller
 
         $user->profile()->create(array_merge($request->validated()));
 
+        $father = Father::create([
+            'user_id' => $user->id
+        ]);
+
+        $father->save();
+
         $expiration = now()->addMinutes(15);
         $tokenName = 'short-lived-token';
 
