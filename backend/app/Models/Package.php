@@ -9,7 +9,7 @@ class Package extends Model
 {
     use HasFactory;
 
-    protected $appends = ["currentPrice", 'display_name', 'description_ar'];
+    protected $appends = ["currentPrice", 'display_name', 'display_description'];
 
     protected $fillable = [
         'name',

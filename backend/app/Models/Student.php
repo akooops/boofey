@@ -10,7 +10,7 @@ class Student extends Model
 {
     use HasFactory;
 
-    protected $appends = ['fullname', "subscribed", 'subscribedPackage', "tookSnackToday", 'tookMainMealToday'];
+    protected $appends = ['fullname', "subscribed", 'subscribedPackage', "tookSnackToday", 'tookMainMealToday', 'className', 'classNameAr'];
 
     protected $fillable = [
         'name',
@@ -100,5 +100,57 @@ class Student extends Model
         }
 
         return null;
+    }
+
+    public function getClassNameAttribute(){
+        $classNames = [
+            0 => 'Primary School - Grade 1',
+            1 => 'Primary School - Grade 2',
+            2 => 'Primary School - Grade 3',
+            3 => 'Primary School - Grade 4',
+            4 => 'Primary School - Grade 5',
+            5 => 'Primary School - Grade 6',
+            6 => 'Middle  School - Grade 1',
+            7 => 'Middle  School - Grade 2',
+            8 => 'Middle  School - Grade 3',
+            9 => 'Secondary  School - Grade 1',
+            10 => 'Secondary  School - Grade 2',
+            11 => 'Secondary  School - Grade 3',
+        ];
+
+        // Check if the provided number exists in the array
+        if (array_key_exists($this->class, $classNames)) {
+            // Return the class name
+            return $classNames[$this->class];
+        } else {
+            // Return a default value or an error message if the number is not found
+            return 'ClassNotFound';
+        }
+    }
+
+    public function getClassNameArAttribute(){
+        $classNames = [
+            0 => 'الطور الإبتدائي - السنة الأولى',
+            1 => 'الطور الإبتدائي - السنة الثانية',
+            2 => 'الطور الإبتدائي - السنة الثالثة',
+            3 => 'الطور الإبتدائي - السنة الرابعة',
+            4 => 'الطور الإبتدائي - السنة الخامسة',
+            5 => 'الطور الإبتدائي - السنة السادسة',
+            6 => 'الطور المتوسط - السنة الأولى',
+            7 => 'الطور المتوسط - السنة الثانية',
+            8 => 'الطور المتوسط - السنة الثالثة',
+            9 => 'الطور الثانوي - السنة الأولى',
+            10 => 'الطور الثانوي - السنة الثانية',
+            11 => 'الطور الثانوي - السنة الثالثة',
+        ];
+
+        // Check if the provided number exists in the array
+        if (array_key_exists($this->class, $classNames)) {
+            // Return the class name
+            return $classNames[$this->class];
+        } else {
+            // Return a default value or an error message if the number is not found
+            return 'ClassNotFound';
+        }
     }
 }
