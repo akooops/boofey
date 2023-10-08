@@ -5,6 +5,7 @@ import SearchTable from "$lib/components/SearchTable.svelte";
 import SchoolsTable from "$lib/tables/SchoolsTable.svelte";
 import AddSchoolModal from "$lib/modals/add/AddSchoolModal.svelte";
 import { onMount } from "svelte";
+import { fade } from 'svelte/transition';
 import {initToolTip} from "$lib/init/initToolTip.js"
 export let data
 
@@ -16,7 +17,7 @@ onMount(() => {
 })
 
 </script>
-<div class="row" bind:this={schoolsPage}>
+<div class="row" in:fade={{delay:200,duration: 200 }} out:fade={{duration: 200 }} bind:this={schoolsPage}>
     <div class="col-lg-12">
         <div class="card">
             <div class="card-header align-items-center d-flex">

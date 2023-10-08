@@ -14,6 +14,7 @@
     import { setContext } from 'svelte';
     import { writable } from 'svelte/store';
     import { goto } from '$app/navigation';
+    import { fade } from 'svelte/transition';
 
 
 
@@ -42,7 +43,7 @@
     })
     
 </script>
-<div class="row" bind:this={subsPage}>
+<div class="row" in:fade={{delay:200,duration: 200 }} out:fade={{duration: 200 }} bind:this={subsPage}>
     <div class="col-lg-12">
         <div class="card">
             <div class="card-header align-items-center d-flex">

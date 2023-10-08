@@ -4,6 +4,7 @@
     import UsersTable from "$lib/tables/UsersTable.svelte";
     import AddUserModal from "$lib/modals/add/AddUserModal.svelte";
     import { onMount } from "svelte";
+import { fade } from 'svelte/transition';
 import {initToolTip} from "$lib/init/initToolTip.js"
 
     export let data
@@ -16,7 +17,7 @@ onMount(() => {
 })
 
 </script>
-    <div class="row" bind:this={usersPage}>
+    <div class="row" in:fade={{delay:200,duration: 200 }} out:fade={{duration: 200 }} bind:this={usersPage}>
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header align-items-center d-flex">

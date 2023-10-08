@@ -5,6 +5,7 @@
     import PaymentMethodItem from "$lib/tables/items/parent/PaymentMethodItem.svelte";
     
     import { setContext } from 'svelte';
+    import { navigating } from '$app/stores';
     import { writable } from 'svelte/store';
     
     export let paymentMethodsList
@@ -33,13 +34,21 @@
                     <th scope="col">Expiry Date</th>
                     <th scope="col">Action</th>
                 </tr>
-            </thead>
+             </thead>
+            {#if $navigating == null || $navigating?.from?.route?.id != $navigating?.to?.route?.id}
             <tbody class="list">
                 {#each paymentMethodsList as paymentMethod,_ (paymentMethod.id)}
                     <PaymentMethodItem {paymentMethod} />
                 {/each}
             </tbody>
+            {/if}
         </table>
             <DeletePaymentMethodModal />
     </div>
 </div>
+
+{#if $navigating?.from?.route?.id == $navigating?.to?.route?.id  && $navigating}
+    <div class="text-center">
+        <lord-icon src="https://cdn.lordicon.com/xjovhxra.json" trigger="loop" colors="primary:#695eef,secondary:#73dce9" style="width:120px;height:120px"></lord-icon>
+    </div>
+{/if}

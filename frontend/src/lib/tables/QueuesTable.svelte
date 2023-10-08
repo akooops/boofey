@@ -2,6 +2,7 @@
     // import DeleteQueueModal from "$lib/modals/delete/DeleteQueueModal.svelte"
 	// import EditQueueModal from "$lib/modals/edit/EditQueueModal.svelte";
     import QueueItem from "./items/QueueItem.svelte";
+    import { navigating } from '$app/stores';
     
     
     export let queuesList
@@ -30,13 +31,21 @@
                     <th scope="col">Actions</th>
 
                 </tr>
-            </thead>
+             </thead>
+            {#if $navigating == null || $navigating?.from?.route?.id != $navigating?.to?.route?.id}
             <tbody class="list">
                 {#each queuesList as queue}
                     <QueueItem {queue} />
                 {/each}
             </tbody>
+            {/if}
         </table>
 
     </div>
 </div>
+
+{#if $navigating?.from?.route?.id == $navigating?.to?.route?.id  && $navigating}
+    <div class="text-center">
+        <lord-icon src="https://cdn.lordicon.com/xjovhxra.json" trigger="loop" colors="primary:#695eef,secondary:#73dce9" style="width:120px;height:120px"></lord-icon>
+    </div>
+{/if}

@@ -5,6 +5,7 @@
     import OrdersTable from "$lib/tables/OrdersTable.svelte";
     import { onMount } from "svelte";
     import {initToolTip} from "$lib/init/initToolTip.js"
+import { fade } from 'svelte/transition';
     export let data
     
     $: ordersList = data.ordersResponse.data  
@@ -15,7 +16,7 @@
     })
     
     </script>
-    <div class="row" bind:this={ordersPage}>
+    <div class="row" in:fade={{delay:200,duration: 200 }} out:fade={{duration: 200 }} bind:this={ordersPage}>
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header align-items-center d-flex">

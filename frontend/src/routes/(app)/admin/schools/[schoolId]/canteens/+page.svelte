@@ -6,6 +6,7 @@
 	import { onMount } from "svelte";
     import {initToolTip} from "$lib/init/initToolTip.js"
     import { setContext } from 'svelte';
+import { fade } from 'svelte/transition';
     import { writable } from 'svelte/store';
 
     export let data
@@ -26,7 +27,7 @@
 
     
 </script>
-<div class="row" bind:this={canteensPage}>
+<div class="row" in:fade={{delay:200,duration: 200 }} out:fade={{duration: 200 }} bind:this={canteensPage}>
     <div class="col-lg-12">
         <div class="card">
             <div class="card-header align-items-center d-flex">

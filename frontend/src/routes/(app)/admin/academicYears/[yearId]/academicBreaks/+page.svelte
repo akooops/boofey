@@ -4,6 +4,7 @@ import { invalidate } from '$app/navigation';
 import { onMount, setContext,getContext } from 'svelte';
 import {InitFlatPickr} from "$lib/init/initFlatpickr.js"
 import { writable } from 'svelte/store';
+import { fade } from 'svelte/transition';
 
 import AddBreakModal from '$lib/modals/add/AddBreakModal.svelte';
 	import ViewBreakModal from '$lib/modals/view/ViewBreakModal.svelte';
@@ -40,7 +41,7 @@ onMount(() => {
 </script>
 
 
-<div class="row" >
+<div class="row" in:fade={{delay:200,duration: 200 }} out:fade={{duration: 200 }}>
     <div class="col-12">
         <div class="row">
             <div class="col-xl-3">

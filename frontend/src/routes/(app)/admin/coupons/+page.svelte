@@ -5,6 +5,7 @@
     import CouponsTable from "$lib/tables/CouponsTable.svelte";
     import AddCouponModal from "$lib/modals/add/AddCouponModal.svelte";
     import { onMount } from "svelte";
+import { fade } from 'svelte/transition';
     import {initToolTip} from "$lib/init/initToolTip.js"
     export let data
     
@@ -16,7 +17,7 @@
     })
     
     </script>
-    <div class="row" bind:this={couponsPage}>
+    <div class="row" in:fade={{delay:200,duration: 200 }} out:fade={{duration: 200 }} bind:this={couponsPage}>
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header align-items-center d-flex">

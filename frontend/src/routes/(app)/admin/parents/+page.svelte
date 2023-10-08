@@ -5,6 +5,7 @@
 
     import { onMount } from "svelte";
     import {initToolTip} from "$lib/init/initToolTip.js"
+    import { fade } from 'svelte/transition';
 
     export let data
     $: parentsList = data.parentsResponse.data.fathers
@@ -16,7 +17,7 @@ onMount(() => {
 })
 
 </script>
-    <div class="row" bind:this={parentsPage}>
+    <div class="row" in:fade={{delay:200,duration: 200 }} out:fade={{duration: 200 }} bind:this={parentsPage}>
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header align-items-center d-flex">

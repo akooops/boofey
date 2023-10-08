@@ -5,6 +5,7 @@
 	import SearchTable from "$lib/components/SearchTable.svelte";
     import { onMount } from "svelte";
     import {initToolTip} from "$lib/init/initToolTip.js"
+    import { fade,blur } from 'svelte/transition';
 
     export let data
     $: rolesList = data.rolesResponse.data.roles
@@ -16,7 +17,7 @@
     })
 
 </script>
-    <div class="row" bind:this={rolesPage}>
+    <div class="row" in:fade={{delay:200,duration: 200 }} out:fade={{duration: 200 }} bind:this={rolesPage}>
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header align-items-center d-flex">

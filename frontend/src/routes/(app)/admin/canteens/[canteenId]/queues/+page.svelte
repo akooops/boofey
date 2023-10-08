@@ -18,6 +18,7 @@
 	import QueuesTable from "$lib/tables/QueuesTable.svelte";
     import { setContext } from 'svelte';
     import { writable } from 'svelte/store';
+    import { fade } from 'svelte/transition';
 
 
 
@@ -42,7 +43,7 @@ export let data
     })
     
 </script>
-<div class="row" bind:this={queuesPage}>
+<div class="row" in:fade={{delay:200,duration: 200 }} out:fade={{duration: 200 }} bind:this={queuesPage}>
     <div class="col-lg-12">
         <div class="card">
             <div class="card-header align-items-center d-flex">

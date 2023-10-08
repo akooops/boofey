@@ -4,6 +4,7 @@
     import SubItem from "$lib/tables/items/parent/SubItem.svelte";
     
     import { writable } from 'svelte/store';
+    import { navigating } from '$app/stores';
     
     
     export let subsList
@@ -32,13 +33,21 @@
                     <th scope="col">Status</th>
                     <th scope="col">Action</th>
                 </tr>
-            </thead>
+             </thead>
+            {#if $navigating == null || $navigating?.from?.route?.id != $navigating?.to?.route?.id}
             <tbody class="list">
                 {#each subsList as sub}
                     <SubItem {sub} />
                 {/each}
             </tbody>
+            {/if}
         </table>
 
     </div>
 </div>
+
+{#if $navigating?.from?.route?.id == $navigating?.to?.route?.id  && $navigating}
+    <div class="text-center">
+        <lord-icon src="https://cdn.lordicon.com/xjovhxra.json" trigger="loop" colors="primary:#695eef,secondary:#73dce9" style="width:120px;height:120px"></lord-icon>
+    </div>
+{/if}

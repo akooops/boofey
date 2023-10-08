@@ -5,6 +5,8 @@ import PermissionsTable from "$lib/tables/PermissionsTable.svelte";
 import AddPermissionModal from "$lib/modals/add/AddPermissionModal.svelte";
 import { onMount } from "svelte";
 import {initToolTip} from "$lib/init/initToolTip.js"
+import { fade } from 'svelte/transition';
+
 export let data
 $: permissionsList = data.permissionsResponse.data  
 $: permissionsPagination = data.permissionsResponse.pagination
@@ -17,7 +19,7 @@ onMount(() => {
 
 
 </script>
-<div class="row" bind:this={permissionsPage}>
+<div class="row"  in:fade={{delay:200,duration: 200 }} out:fade={{duration: 200 }} bind:this={permissionsPage}>
     <div class="col-lg-12">
         <div class="card">
             <div class="card-header align-items-center d-flex">
