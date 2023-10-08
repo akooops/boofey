@@ -23,8 +23,12 @@ import YearsTableCollapse from "$lib/modals/collapses/parent/YearsTableCollapse.
 
     let video 
     let canvas
+    let square
+    let squareWidth = 400
+    let squareHeight = 400
     let ctx
     let cameraActive = false
+    let captured = false
     let front = true 
     let imageDataURL
 
@@ -32,6 +36,29 @@ import YearsTableCollapse from "$lib/modals/collapses/parent/YearsTableCollapse.
         video: { facingMode: front ? "user" : "environment" },
     };
 
+    onMount(() => {
+        window.addEventListener('resize', sizeSquare);
+    });
+
+    
+    function sizeSquare(){
+        let videoWidth = 400; 
+        let videoHeight = 400; 
+        let scale = 1; 
+
+        videoWidth = video.offsetWidth;
+        videoHeight = video.offsetHeight;
+
+        if (videoWidth < 400 || videoHeight < 400) {
+            scale = Math.min(videoWidth / 400, videoHeight / 400); 
+
+            squareWidth = Math.min(videoWidth  * scale, videoHeight  * scale);
+            squareHeight = Math.min(videoWidth  * scale, videoHeight  * scale);
+        }else{
+            squareWidth = 400;
+            squareHeight = 400;
+        }
+    }
 
     async function save(){
         errors = {}
@@ -67,11 +94,7 @@ import YearsTableCollapse from "$lib/modals/collapses/parent/YearsTableCollapse.
             reset()
         }else {
             errors = res.errors
-        }
-
-        
-
-        
+        }     
     }
 
     function reset(){
@@ -83,8 +106,16 @@ import YearsTableCollapse from "$lib/modals/collapses/parent/YearsTableCollapse.
         onHold = false
         schoolId = yearId = ""
         stopCam()
+        captured = false;
         imageDataURL = null
 
+    }
+
+    function takeAnother(){
+        captured = false;
+        imageDataURL = null;
+
+        openCam();
     }
 
     function capture(){
@@ -99,6 +130,9 @@ import YearsTableCollapse from "$lib/modals/collapses/parent/YearsTableCollapse.
 
         // Convert the canvas content to a data URL (e.g., toDataURL('image/jpeg'))
         imageDataURL = canvas.toDataURL('image/jpeg');
+
+        cameraActive = false;
+        captured = true;
     }
 
     async function openCam(){
@@ -130,7 +164,6 @@ import YearsTableCollapse from "$lib/modals/collapses/parent/YearsTableCollapse.
         console.log(constraints)
         openCam()
     }
-
     </script>
     
     
@@ -222,7 +255,9 @@ import YearsTableCollapse from "$lib/modals/collapses/parent/YearsTableCollapse.
 
                                 </div>
                                 <div>
-                                    {#if cameraActive}
+                                    {#if captured}
+                                    <button type="button"  class="btn btn-success waves-effect waves-light" on:click={takeAnother}>Take Another</button>
+                                    {:else if cameraActive}
                                     <button type="button"  class="btn btn-danger waves-effect waves-light" on:click={stopCam}>Stop Camera</button>
                                     {:else}
                                     <button type="button" class="btn btn-primary waves-effect waves-light" on:click={openCam}>Launch Camera</button>              
@@ -230,18 +265,28 @@ import YearsTableCollapse from "$lib/modals/collapses/parent/YearsTableCollapse.
                                 </div>
                                 {#if cameraActive}
                                     <div>
-                                        <video id="video" autoplay bind:this={video}></video>
-                                        {#if video?.srcObject}
-                                        <div class="square"></div>
-                                        {/if}
+                                        <div id="video-container">
+                                            <video id="video" autoplay bind:this={video} on:playing={sizeSquare}></video>
+                                            {#if video?.srcObject}
+                                                <div class="square" bind:this={square} style="width: {squareWidth}px; height: {squareHeight}px"></div>
+
+                                                <div class="camera-btn-group">
+                                                    <button type="button" class="btn btn-primary waves-effect waves-light" on:click={capture}>
+                                                        <i class="ri-camera-lens-fill"></i>
+                                                    </button>   
+
+                                                    <button type="button" class="btn btn-success waves-effect waves-light mt-2" on:click={switchCamera}>
+                                                        <i class="ri-camera-switch-line"></i>
+                                                    </button>   
+                                                </div>
+
+                                                           
+                                            {/if}
+                                        </div>
                                         <canvas id="canvas" width="400" height="400" bind:this={canvas}></canvas>
                                     </div>
-                                    <div class="hstack gap-2 justify-content-end">
-                                        <button type="button"  class="btn btn-info waves-effect waves-light" on:click={switchCamera}>Switch Camera</button>
-                                    <button type="button" class="btn btn-primary waves-effect waves-light" on:click={capture}>Capture</button>              
-                                    </div>
                                 {/if}
-                                {#if imageDataURL}
+                                {#if imageDataURL && captured}
                                 <div>
                                     <img class="rounded avatar-xl mb-3 object-fit-cover" alt="School logo" width="200" src={imageDataURL}>
                                 </div>
@@ -278,10 +323,16 @@ canvas {
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 400px;
-    height: 400px;
     transform: translate(-50%, -50%);
-    border: 2px solid red; /* Add styling for the cropping square */
+    outline: 4px solid #695eef;
+}
+
+.camera-btn-group{
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 15px;
+    right: 20px;
 }
 </style>
 
