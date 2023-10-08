@@ -2,9 +2,11 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\User;
 use Closure;
 use Illuminate\Http\Request;
 use Spatie\Permission\Exceptions\UnauthorizedException;
+use Spatie\Permission\Models\Permission;
 
 class PermissionMiddleware
 {
@@ -20,7 +22,12 @@ class PermissionMiddleware
         $authGuard = app('auth')->guard($guard);
 
         if ($authGuard->guest()) {
-            throw UnauthorizedException::notLoggedIn();
+            return response()->json([
+                'status' => 'error',
+                'errors' => [
+                    '403' => 'Access Denied: Please Log In to Access This Resource'
+                ]
+            ], 403);        
         }
 
         if (! is_null($permission)) {
@@ -36,12 +43,20 @@ class PermissionMiddleware
         }
         
 
-        foreach ($permissions as $permission) {
-            if ($authGuard->user()->can($permission)) {
-                return $next($request);
+        foreach ($permissions as $permission) {            
+            foreach ($authGuard->user()->roles as $role) {
+                if ($role->hasPermissionTo($permission)) {
+                    return $next($request);
+
+                }
             }
         }
-
-        throw UnauthorizedException::forPermissions($permissions);
+        
+        return response()->json([
+            'status' => 'error',
+            'errors' => [
+                '403' => 'User does not have the right permissions.'
+            ]
+        ], 403);   
     }
 }
