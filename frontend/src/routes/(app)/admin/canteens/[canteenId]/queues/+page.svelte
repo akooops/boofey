@@ -57,22 +57,26 @@ export let data
 
                
                 <div class="flex-shrink-0">
+                    {#if JSON.parse(sessionStorage.getItem("permissions")).includes("queues.store")}
                     <button type="button" data-bs-toggle="modal" data-bs-target="#addQueueModal" class="btn btn-primary waves-effect waves-light"><i class="ri-add-line align-bottom me-1"></i>Start Queue</button>
-                    <ViewQueueModal />
                     <AddQueueModal {canteen}/>
+                    {/if}
+                    <ViewQueueModal />
                     <EditQueueModal /> 
                     <DeleteQueueModal />
                 </div>
             </div><!-- end card header -->
         </div><!-- end card -->
-        <ActiveQueue {activeQueue} />
-    
+        {#if JSON.parse(sessionStorage.getItem("permissions")).includes("queues.index")}
+            <ActiveQueue {activeQueue} />
+        {/if}
 
         <div class="card">
             <div class="card-header align-items-center d-flex">
                 <h4 class="card-title mb-0 flex-grow-1">All queues</h4>
             </div><!-- end card header -->
-        
+
+            {#if JSON.parse(sessionStorage.getItem("permissions")).includes("queues.index")}
             <div class="card-body">
         
                 <!-- <div class="live-preview"> -->
@@ -86,6 +90,7 @@ export let data
                     <!--end row-->
                 <!-- </div> -->
             </div><!-- end card-body -->
+            {/if}
         </div><!-- end card -->
         
        

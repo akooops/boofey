@@ -61,8 +61,9 @@
         <td>
             <div class="hstack gap-3 flex-wrap">
                 
-                
+                {#if JSON.parse(sessionStorage.getItem("permissions")).includes("queues.index")}
                 <span on:click={openQueues} bind:this={queuesToolTip}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Queues" ><i class="ri-team-line"></i></a></span>
+                {/if}
                 {#if JSON.parse(sessionStorage.getItem("permissions")).includes("canteens.revoke")}
                     <span data-bs-toggle="modal" data-bs-target="#RevokeApiModal" on:click={setCanteen}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Revoke API Key" ><i class="ri-eraser-line"></i></a></span>
                 {/if}

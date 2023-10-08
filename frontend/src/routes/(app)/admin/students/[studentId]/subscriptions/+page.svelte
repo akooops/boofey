@@ -58,8 +58,10 @@ export let data
 
                
                 <div class="flex-shrink-0">
+                    {#if JSON.parse(sessionStorage.getItem("permissions")).includes("subscriptions.store")}
                     <button type="button" data-bs-toggle="modal" data-bs-target="#addSubModal" class="btn btn-primary waves-effect waves-light"><i class="ri-add-line align-bottom me-1"></i>Add Academic Sub</button>
                     <AddSubModal {student} {packages}/>
+                    {/if}
                     <ViewSubModal />
                     <EditSubModal {student} {packages}/> 
                     <DeleteSubModal />

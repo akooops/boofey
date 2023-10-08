@@ -41,10 +41,13 @@ import { fade } from 'svelte/transition';
 
                
                 <div class="flex-shrink-0">
+                    {#if JSON.parse(sessionStorage.getItem("permissions")).includes("canteens.storeBySchool")}
                     <button type="button" data-bs-toggle="modal" data-bs-target="#addCanteenModal" class="btn btn-primary waves-effect waves-light"><i class="ri-add-line align-bottom me-1"></i>Add Canteen</button>
                     <AddCanteenModal schoolId={school.id}/>
+                    {/if}
                 </div>
             </div><!-- end card header -->
+            {#if JSON.parse(sessionStorage.getItem("permissions")).includes("canteens.indexBySchool")}
 
             <div class="card-body">
 
@@ -59,6 +62,7 @@ import { fade } from 'svelte/transition';
                     <!--end row-->
                 <!-- </div> -->
             </div><!-- end card-body -->
+            {/if}
         </div><!-- end card -->
     </div>
     <!-- end col -->

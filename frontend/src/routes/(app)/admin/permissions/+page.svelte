@@ -25,11 +25,14 @@ onMount(() => {
             <div class="card-header align-items-center d-flex">
                 <h4 class="card-title mb-0 flex-grow-1">Permissions Managment</h4>
                 <div class="flex-shrink-0">
+                    {#if JSON.parse(sessionStorage.getItem("permissions")).includes("parmissions.store")}
+
                     <button type="button" data-bs-toggle="modal" data-bs-target="#addPermissionModal" class="btn btn-primary waves-effect waves-light"><i class="ri-add-line align-bottom me-1"></i> Add Permission</button>
                     <AddPermissionModal />
+                    {/if}
                 </div>
             </div><!-- end card header -->
-
+            {#if JSON.parse(sessionStorage.getItem("permissions")).includes("permissions.index")}
             <div class="card-body">
 
                 <!-- <div class="live-preview"> -->
@@ -43,6 +46,7 @@ onMount(() => {
                     <!--end row-->
                 <!-- </div> -->
             </div><!-- end card-body -->
+            {/if}
         </div><!-- end card -->
     </div>
     <!-- end col -->

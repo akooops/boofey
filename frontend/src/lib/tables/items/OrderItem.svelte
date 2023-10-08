@@ -32,9 +32,15 @@
     <td>{order.total} SAR</td>
     <td>
         <div class="hstack gap-3 flex-wrap">
+            {#if JSON.parse(sessionStorage.getItem("permissions")).includes("orders.show")}
             <a href="/admin/orders/{order.id}" target="_blank" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="View" ><i class="ri-eye-fill"></i></a>
+            {/if}
+            {#if JSON.parse(sessionStorage.getItem("permissions")).includes("orders.update")}
             <a href="/admin/orders/{order.id}/edit" target="_blank" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Edit" ><i class="ri-edit-2-line"></i></a>
+            {/if}
+            {#if JSON.parse(sessionStorage.getItem("permissions")).includes("orders.destroy")}
             <span data-bs-toggle="modal" data-bs-target="#deleteOrderModal" on:click={setOrder}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Delete"><i class="ri-delete-bin-line"></i></a></span>
+            {/if}
         
         </div>
     </td>

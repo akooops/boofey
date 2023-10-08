@@ -23,7 +23,7 @@ onMount(() => {
                 <div class="card-header align-items-center d-flex">
                     <h4 class="card-title mb-0 flex-grow-1">Parents Managment</h4>
                 </div><!-- end card header -->
-    
+                {#if JSON.parse(sessionStorage.getItem("permissions")).includes("fathers.index")}
                 <div class="card-body">
     
                     <!-- <div class="live-preview"> -->
@@ -36,6 +36,7 @@ onMount(() => {
                         <!--end row-->
                     <!-- </div> -->
                 </div><!-- end card-body -->
+                {/if}
             </div><!-- end card -->
         </div>
         <!-- end col -->

@@ -39,9 +39,16 @@
     </td>
     <td>
         <div class="hstack gap-3 flex-wrap">
+            
+            {#if JSON.parse(sessionStorage.getItem("permissions")).includes("products.show")}
             <span data-bs-toggle="modal" data-bs-target="#viewProductModal" on:click={setProduct}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="View" ><i class="ri-eye-fill"></i></a></span>
+            {/if}
+            {#if JSON.parse(sessionStorage.getItem("permissions")).includes("products.update")}
             <span data-bs-toggle="modal" data-bs-target="#editProductModal" on:click={setProduct}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Edit" ><i class="ri-edit-2-line"></i></a></span>
+            {/if}
+            {#if JSON.parse(sessionStorage.getItem("permissions")).includes("products.destroy")}
             <span data-bs-toggle="modal" data-bs-target="#deleteProductModal" on:click={setProduct}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Delete"><i class="ri-delete-bin-line"></i></a></span>
+            {/if}
         
         </div>
     </td>

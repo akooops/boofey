@@ -23,11 +23,14 @@
                 <div class="card-header align-items-center d-flex">
                     <h4 class="card-title mb-0 flex-grow-1">Roles Managment</h4>
                     <div class="flex-shrink-0">
+                    {#if JSON.parse(sessionStorage.getItem("permissions")).includes("roles.store")}
+
                         <button type="button" data-bs-toggle="modal" data-bs-target="#addRoleModal" class="btn btn-primary waves-effect waves-light"><i class="ri-add-line align-bottom me-1"></i> Add Role</button>
                         <AddRoleModal {permissions}/>
+                    {/if}
                     </div>
                 </div><!-- end card header -->
-    
+                {#if JSON.parse(sessionStorage.getItem("permissions")).includes("roles.index")}
                 <div class="card-body">
     
                     <!-- <div class="live-preview"> -->
@@ -41,6 +44,7 @@
                         <!--end row-->
                     <!-- </div> -->
                 </div><!-- end card-body -->
+                {/if}
             </div><!-- end card -->
         </div>
         <!-- end col -->
