@@ -11,7 +11,7 @@ function sendSMS($text, $number){
         "messages" => [
             [
                 "text" => $text,
-                "numbers" => ["9665{$number}"],
+                "numbers" => ["9665".substr($number, 2)],
                 "sender" => env("4JAWALY_SENDER_ID")
             ]
         ]

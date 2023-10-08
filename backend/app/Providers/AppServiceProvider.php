@@ -31,7 +31,7 @@ class AppServiceProvider extends ServiceProvider
 
         Validator::extend('phone', function ($attribute, $value, $parameters, $validator) {
             // Define the regular expression for a U.S. phone number (10 digits, optional hyphens or spaces)
-            return preg_match("/^\d{10}$/", $value) || preg_match("/^\d{3}[-\s]?\d{3}[-\s]?\d{4}$/", $value);
+            return preg_match("/^05\d{8}$/", $value);
         });
 
         Validator::extend('password', function ($attribute, $value, $parameters, $validator) {
