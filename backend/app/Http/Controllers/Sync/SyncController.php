@@ -36,6 +36,8 @@ class SyncController extends Controller
                 'firstname' => $student->firstname,
                 'lastname' => $student->lastname,
                 'class' => $student->class,
+                'className' => $student->className,
+                'classNameAr' => $student->classNameAr,
                 'nfc_id' => $student->nfc_id,
                 'face_id' => $student->face_id,
                 'onhold' => $student->onhold,

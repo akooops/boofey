@@ -124,7 +124,7 @@ class Student extends Model
             return $classNames[$this->class];
         } else {
             // Return a default value or an error message if the number is not found
-            return 'ClassNotFound';
+            return 'Class not defined';
         }
     }
 
@@ -150,7 +150,7 @@ class Student extends Model
             return $classNames[$this->class];
         } else {
             // Return a default value or an error message if the number is not found
-            return 'ClassNotFound';
+            return 'الصف غير محدد';
         }
     }
 }
