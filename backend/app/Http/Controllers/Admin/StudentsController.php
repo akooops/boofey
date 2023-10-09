@@ -67,8 +67,9 @@ class StudentsController extends Controller
         $perPage = limitPerPage($request->query('perPage', 10));
         $page = checkPageIfNull($request->query('page', 1));
         $search = $request->query('search');
+        $archived = $request->query('archived', false);
 
-        $studentsQuery = Student::latest()->with([
+        $studentsQuery = Student::latest()->where('archived', false)->with([
             'image:id,path,current_name', 
             'academicYear:id,name,from,to,current',
             'father:id,user_id',
@@ -76,6 +77,10 @@ class StudentsController extends Controller
             'father.user.profile:id,user_id,firstname,lastname',
             'father.user.profile.image:id,current_name,path',
         ]);
+
+        if($archived){
+            $studentsQuery->where('archived', true);
+        }
 
         if ($school) {
             $studentsQuery->where('school_id', $school->id);

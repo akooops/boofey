@@ -26,7 +26,7 @@ class SyncController extends Controller
     public function sync(Request $request) 
     {
         $canteen = $request->get('canteen');
-        $students = $canteen->school->students;
+        $students = $canteen->school->students->where('onhold', false)->where('archived', false);
 
         $studentsData = [];
 
@@ -40,7 +40,6 @@ class SyncController extends Controller
                 'classNameAr' => $student->classNameAr,
                 'nfc_id' => $student->nfc_id,
                 'face_id' => $student->face_id,
-                'onhold' => $student->onhold,
                 'subscribed' => $student->subscribed,
                 'subscribedPackage' => $student->subscribedPackage,
                 'otp' => [
