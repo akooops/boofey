@@ -34,8 +34,10 @@ import { fade } from 'svelte/transition';
 
                
                 <div class="flex-shrink-0">
+                    {#if JSON.parse(sessionStorage.getItem("permissions")).includes("academicYears.store")}
                     <button type="button" data-bs-toggle="modal" data-bs-target="#addYearModal" class="btn btn-primary waves-effect waves-light"><i class="ri-add-line align-bottom me-1"></i>Add Academic Year</button>
                     <AddYearModal schoolId={school.id}/>
+                    {/if}
                 </div>
             </div><!-- end card header -->
 

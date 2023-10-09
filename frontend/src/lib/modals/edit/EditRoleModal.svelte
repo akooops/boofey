@@ -72,13 +72,18 @@
         allChecked = false
         roleName = $roleStore.name
         if($page?.data?.rolesResponse?.data?.permissions == undefined || $roleStore.permissions == undefined) return;
-        console.log($roleStore)
         permissions = $page.data.rolesResponse.data.permissions.map((permission) => {
             return {
-                checked:$roleStore.permissions.some(rolePermission => rolePermission.id == permission.id),
+                checked:$roleStore.permissions.some(rolePermission => {
+                    return rolePermission.id == permission.id
+                }),
                 ...permission
+
             }
         })
+
+        checkAll()
+        // console.log(permissions)
     
     })
 

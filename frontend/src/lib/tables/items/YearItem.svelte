@@ -33,11 +33,19 @@
         <td>{year.academicDays}</td>
         <td>
             <div class="hstack gap-3 flex-wrap">
+                {#if JSON.parse(sessionStorage.getItem("permissions")).includes("academicBreaks.index")}
                 <span on:click={openAcademicBreaks}><a href="/admin/academicYears/{year.id}/academicBreaks"  target="_blank"  class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Academic Breaks" ><i class="ri-calendar-2-fill"></i></a></span>
+                {/if}
+                {#if JSON.parse(sessionStorage.getItem("permissions")).includes("academicYears.show")}
                 <span data-bs-toggle="modal" data-bs-target="#viewYearModal" on:click={setYear}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="View" ><i class="ri-eye-fill"></i></a></span>
+                {/if}
+                {#if JSON.parse(sessionStorage.getItem("permissions")).includes("academicYears.update")}
                 <span data-bs-toggle="modal" data-bs-target="#editYearModal" on:click={setYear}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Edit" ><i class="ri-edit-2-line"></i></a></span>
+                {/if}
                 {#if !year.current}
-                <span data-bs-toggle="modal" data-bs-target="#deleteYearModal" on:click={setYear}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Delete"><i class="ri-delete-bin-line"></i></a></span>
+                    {#if JSON.parse(sessionStorage.getItem("permissions")).includes("academicYears.destroy")}
+                    <span data-bs-toggle="modal" data-bs-target="#deleteYearModal" on:click={setYear}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Delete"><i class="ri-delete-bin-line"></i></a></span>
+                    {/if}
                 {/if}
             </div>
         </td>

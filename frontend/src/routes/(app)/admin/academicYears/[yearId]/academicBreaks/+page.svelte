@@ -65,9 +65,11 @@ onMount(() => {
                                 </div>
 
                             </div>
+                        {#if JSON.parse(sessionStorage.getItem("permissions")).includes("academicBreaks.store")}
                         
                         <button  class="btn btn-primary w-100" id="btn-new-event"  data-bs-toggle="modal" data-bs-target="#addBreakModal"><i class="mdi mdi-plus"></i> New Academic Break</button>
                         <AddBreakModal {year} />
+                        {/if}
                         <ViewBreakModal />
                         <DeleteBreakModal />
                         <EditBreakModal {year} />
@@ -95,12 +97,14 @@ onMount(() => {
 
             <div class="col-xl-9">
                 <div class="card card-h-100">
+                    {#if JSON.parse(sessionStorage.getItem("permissions")).includes("academicBreaks.index")}
                     <div class="card-body">
                         
                         <!-- <div id="calendar"></div> -->
                         <Calendar {year}/>
 
                     </div>
+                    {/if}
                 </div>
             </div><!-- end col -->
         </div>

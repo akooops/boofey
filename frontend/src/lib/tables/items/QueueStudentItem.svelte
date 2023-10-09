@@ -45,9 +45,16 @@
 
     <td>
         <div class="hstack gap-3 flex-wrap">
+            
+            {#if JSON.parse(sessionStorage.getItem("permissions")).includes("queueStudents.show")}
             <span data-bs-toggle="modal" data-bs-target="#viewQueueStudentModal" on:click={setQueueStudent}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="View" ><i class="ri-eye-fill"></i></a></span>
+            {/if}
+            {#if JSON.parse(sessionStorage.getItem("permissions")).includes("queueStudents.update")}
             <span data-bs-toggle="modal" data-bs-target="#editQueueStudentModal" on:click={setQueueStudent}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Edit" ><i class="ri-edit-2-line"></i></a></span>
+            {/if}
+            {#if JSON.parse(sessionStorage.getItem("permissions")).includes("queueStudents.destroy")}
             <span data-bs-toggle="modal" data-bs-target="#deleteQueueStudentModal" on:click={setQueueStudent}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Delete"><i class="ri-delete-bin-line"></i></a></span>
+            {/if}
         
         </div>
     </td>

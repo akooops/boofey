@@ -50,9 +50,15 @@
 
     <td>
         <div class="hstack gap-3 flex-wrap">
+            {#if JSON.parse(sessionStorage.getItem("permissions")).includes("subscriptions.show")}
             <span data-bs-toggle="modal" data-bs-target="#viewSubModal" on:click={setSub}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="View" ><i class="ri-eye-fill"></i></a></span>
+            {/if}
+            {#if JSON.parse(sessionStorage.getItem("permissions")).includes("subscriptions.update")}
             <span data-bs-toggle="modal" data-bs-target="#editSubModal" on:click={setSub}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Edit" ><i class="ri-edit-2-line"></i></a></span>
+            {/if}
+            {#if JSON.parse(sessionStorage.getItem("permissions")).includes("subscriptions.destroy")}
             <span data-bs-toggle="modal" data-bs-target="#deleteSubModal" on:click={setSub}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Delete"><i class="ri-delete-bin-line"></i></a></span>
+            {/if}
         </div>
     </td>
 </tr>

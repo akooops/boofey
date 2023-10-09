@@ -24,8 +24,10 @@ let viewBtn
 let calendarBreaks
 function Init(node){
     let staticOptions = staticCalendarOptions()
-
-
+    if(!JSON.parse(sessionStorage.getItem("permissions")).includes("academicBreaks.update")){
+                staticOptions.editable = false
+    }
+    
     calendarInstance = new Calendar(node,{
         ...staticOptions,
         validRange: {
@@ -34,16 +36,22 @@ function Init(node){
         },
         windowResize:(view) => ResponsiveView(calendarInstance,view),
         dateClick:(info) => {
-            
-            $breakStore.from = info.dateStr
-            $breakStore.fromBtn = true
-            addBtn.click()
+            if(JSON.parse(sessionStorage.getItem("permissions")).includes("academicBreaks.store")){
+                
+                $breakStore.from = info.dateStr
+                $breakStore.fromBtn = true
+                addBtn.click()
+                
+            }
         },
         eventClick: (info) => {
-            $breakStore = JSON.parse(JSON.stringify(info.event.extendedProps))
-            $breakStore.id = info.event.id
-            // console.log(info.event.startStr , info.event.endStr)
-            viewBtn.click()
+            if(JSON.parse(sessionStorage.getItem("permissions")).includes("academicBreaks.update")){
+                $breakStore = JSON.parse(JSON.stringify(info.event.extendedProps))
+                $breakStore.id = info.event.id
+                // console.log(info.event.startStr , info.event.endStr)
+                viewBtn.click()
+            }
+            
         },
         eventResize:editEvent,
         eventDrop:editEvent

@@ -34,10 +34,14 @@ onMount(() => {
                         <h4 class="card-title mb-0 flex-grow-1"><span class="text-primary">{queue?.canteen?.school?.name}</span> - <span class="text-primary">{queue?.canteen?.name}</span> - <span class="text-primary">Queue #{queue.id}</span> - Queue students Managment</h4>
                     </div><!-- end card header -->
                     <div class="flex-shrink-0">
+                    {#if JSON.parse(sessionStorage.getItem("permissions")).includes("queueStudents.store")}
+
                         <button type="button" data-bs-toggle="modal" data-bs-target="#addQueueStudentModal" class="btn btn-primary waves-effect waves-light"><i class="ri-add-line align-bottom me-1"></i>Add Student</button>
                         <AddQueueStudentModal {queue}/>
+                    {/if}
                     </div>
                 </div>
+                {#if JSON.parse(sessionStorage.getItem("permissions")).includes("queueStudents.index")}
                 <div class="card-body">
     
                     <!-- <div class="live-preview"> -->
@@ -50,6 +54,7 @@ onMount(() => {
                         <!--end row-->
                     <!-- </div> -->
                 </div><!-- end card-body -->
+                {/if}
         </div><!-- end card -->
     </div>
         <!-- end col -->
