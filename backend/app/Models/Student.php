@@ -25,7 +25,8 @@ class Student extends Model
         'academic_year_id',
         'file_id',
         'otp',
-        'otp_expires_at'
+        'otp_expires_at',
+        'archived'
     ];
 
     public function image()

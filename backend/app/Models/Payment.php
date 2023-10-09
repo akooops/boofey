@@ -107,6 +107,9 @@ class Payment extends Model
         $student = Student::find($this->student_id);
         if($student === null) return;
 
+        $school = School::find($student->school_id);
+        if($school === null) return;
+
         $subscription = Subscription::where('payment_id', $this->id)->first();
 
         if($subscription != null){
@@ -128,6 +131,11 @@ class Payment extends Model
         
             $subscription->save();
         }
+
+        $student->update([
+            'academic_year_id' => $school->currentAcademicYear->id,
+            'archived' => false
+        ]);
     }
 
     public function updateSubscriptionInfo($days, $balance, $shouldStartAt)

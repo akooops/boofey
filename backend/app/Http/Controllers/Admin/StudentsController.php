@@ -151,7 +151,8 @@ class StudentsController extends Controller
             $request->validated(),
             [
                 'school_id' => $school->id,
-                'file_id' => $file->id
+                'file_id' => $file->id,
+                'archived' => ($school->currentAcademicYear->id == $request->input('academic_year_id')) ? false : true
             ]
         ));
 
@@ -193,9 +194,14 @@ class StudentsController extends Controller
             $file = uploadFile($request->file('file'), 'students');
         }
 
+        $school = School::findOrFail($student->school_id);
+
         $student->update(array_merge(
             $request->validated(),
-            ['file_id' => $file->id]
+            [
+                'file_id' => $file->id,
+                'archived' => ($school->currentAcademicYear->id == $request->input('academic_year_id')) ? false : true
+            ]
         ));
 
         return response()->json([
