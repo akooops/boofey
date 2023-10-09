@@ -57,6 +57,7 @@ class SubscriptionsController extends Controller
             'payment.package.school:id,name,file_id',
             'payment.package.school.logo:id,current_name,path',
             'payment.billing:firstname,lastname,email,phone,address,country,state,zipcode',
+            'payment.paymentMethod:card_number,card_holder_name'
         ])->where('student_id', $student->id)->latest();
 
         $activeSubscription = $student->subscriptions()
@@ -69,6 +70,7 @@ class SubscriptionsController extends Controller
                 'payment.package.school',
                 'payment.package.school.logo',
                 'payment.billing:firstname,lastname,email,phone,address,country,state,zipcode',
+                'payment.paymentMethod:card_number,card_holder_name'
             ])
             ->first();
                 
