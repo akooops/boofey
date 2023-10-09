@@ -40,6 +40,11 @@ class Canteen extends Model
         return $this->hasOne(Queue::class, 'canteen_id', 'id')->where('started_at', '!=', NULL)->where('closed_at', NULL);
     }
 
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'canteens_users');
+    }
+
     public function generateApiKey(){
         $apiKey = Str::random(64); 
 

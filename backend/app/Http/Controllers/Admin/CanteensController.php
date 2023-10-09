@@ -8,6 +8,8 @@ use App\Http\Requests\Canteens\StoreCanteenRequest;
 use App\Http\Requests\Canteens\UpdateCanteenRequest;
 use App\Models\File;
 use App\Models\School;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class CanteensController extends Controller
 {
@@ -64,7 +66,8 @@ class CanteensController extends Controller
         $page = checkPageIfNull($request->query('page', 1));
         $search = $request->query('search');
 
-        $canteensQuery = Canteen::latest();
+        $user = Auth::user();
+        $canteensQuery = $user->canteens();
 
         if ($school) {
             $canteensQuery->where('school_id', $school->id);
@@ -155,6 +158,15 @@ class CanteensController extends Controller
      */
     public function show(Canteen $canteen) 
     {        
+        $user = Auth::user();
+
+        if (!$user->canteens->contains('id', $canteen->id)) {
+            return response()->json([
+                'status' => 'error',
+                'error' => 'Forbidden - Access Denied'
+            ], 403);
+        }
+        
         return response()->json([
             'status' => 'success',
             'data' => [
@@ -173,6 +185,15 @@ class CanteensController extends Controller
      */
     public function update(Canteen $canteen, UpdateCanteenRequest $request) 
     {
+        $user = Auth::user();
+
+        if (!$user->canteens->contains('id', $canteen->id)) {
+            return response()->json([
+                'status' => 'error',
+                'error' => 'Forbidden - Access Denied'
+            ], 403);
+        }
+
         $canteen->update($request->validated());
 
         return response()->json([
@@ -182,6 +203,15 @@ class CanteensController extends Controller
 
     public function generate(Canteen $canteen) 
     {
+        $user = Auth::user();
+
+        if (!$user->canteens->contains('id', $canteen->id)) {
+            return response()->json([
+                'status' => 'error',
+                'error' => 'Forbidden - Access Denied'
+            ], 403);
+        }
+
         $canteen->generateApiKey();
 
         return response()->json([
@@ -194,6 +224,15 @@ class CanteensController extends Controller
 
     public function revoke(Canteen $canteen) 
     {
+        $user = Auth::user();
+
+        if (!$user->canteens->contains('id', $canteen->id)) {
+            return response()->json([
+                'status' => 'error',
+                'error' => 'Forbidden - Access Denied'
+            ], 403);
+        }
+
         $canteen->revokeApiKey();
 
         return response()->json([
@@ -210,6 +249,15 @@ class CanteensController extends Controller
      */
     public function destroy(Canteen $canteen) 
     {
+        $user = Auth::user();
+
+        if (!$user->canteens->contains('id', $canteen->id)) {
+            return response()->json([
+                'status' => 'error',
+                'error' => 'Forbidden - Access Denied'
+            ], 403);
+        }
+
         $canteen->delete();
 
         return response()->json([
