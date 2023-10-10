@@ -6,7 +6,6 @@
     import { redirector } from "$lib/api/auth";
     import Accordion from "$lib/components/Accordion.svelte";
     import SchoolsTableCollapse from "$lib/modals/collapses/parent/SchoolsTableCollapse.svelte";
-    import YearsTableCollapse from "$lib/modals/collapses/parent/YearsTableCollapse.svelte";
     import { getContext } from 'svelte';
     import { imageDataURLToFile } from "$lib/utils.js";
 
@@ -19,16 +18,18 @@
     let onHold = false;
     let parentId = ""
     let schoolId = ""
-    let yearId = ""
     let resetSchool
-    let resetYear
     let editImage = false
     let {studentStore} = getContext("studentStore")
 
     let video 
     let canvas
+    let square
+    let squareWidth = 400
+    let squareHeight = 400
     let ctx
     let cameraActive = false
+    let captured = false
     let front = true 
     let imageDataURL
 
@@ -36,6 +37,28 @@
         video: { facingMode: front ? "user" : "environment" },
     };
 
+    onMount(() => {
+        window.addEventListener('resize', sizeSquare);
+    });
+
+    function sizeSquare(){
+        let videoWidth = 400; 
+        let videoHeight = 400; 
+        let scale = 1; 
+
+        videoWidth = video.offsetWidth;
+        videoHeight = video.offsetHeight;
+
+        if (videoWidth < 400 || videoHeight < 400) {
+            scale = Math.min(videoWidth / 400, videoHeight / 400); 
+
+            squareWidth = Math.min(videoWidth  * scale, videoHeight  * scale);
+            squareHeight = Math.min(videoWidth  * scale, videoHeight  * scale);
+        }else{
+            squareWidth = 400;
+            squareHeight = 400;
+        }
+    }
 
     async function save(){
         errors = {}
@@ -44,11 +67,10 @@
         if(schoolId != ""){
             formData.set("school_id",schoolId)
         }
-        if(yearId != ""){
-            formData.set("academic_year_id",yearId)
-        }
+
         formData.set("edit_image",editImage)
-        formData.set("file",imageDataURLToFile(imageDataURL))
+
+        if(editImage) formData.set("file", imageDataURLToFile(imageDataURL))    
     
         formData.set("onhold",onHold)
 
@@ -80,8 +102,6 @@
     studentStore.subscribe(() => {
         parentId = $studentStore.father_id
         schoolId = $studentStore.school_id
-        yearId = $studentStore.academic_year_id
-
     })
 
     function reset(){
@@ -90,11 +110,18 @@
         selectClass.selectedIndex = 0
         errors = {}
         resetSchool()
-        resetYear()
         onHold = false
-        parentId = schoolId = yearId = ""
+        parentId = schoolId = ""
         stopCam()
+        captured = false;
         imageDataURL = null
+    }
+
+    function takeAnother(){
+        captured = false;
+        imageDataURL = null;
+
+        openCam();
     }
 
     function capture(){
@@ -109,6 +136,9 @@
 
         // Convert the canvas content to a data URL (e.g., toDataURL('image/jpeg'))
         imageDataURL = canvas.toDataURL('image/jpeg');
+
+        cameraActive = false;
+        captured = true;
     }
 
     async function openCam(){
@@ -173,12 +203,6 @@
                                 {#if errors?.school_id}
                                 <strong class="text-danger ms-1 my-2">{errors.school_id[0]}</strong>
                                 {/if}
-                                <Accordion id={"year"} title={"Student's Academic Year"}>
-                                    <YearsTableCollapse {schoolId} on:select={(e) => yearId = e.detail.yearId} selected={$studentStore.academic_year} bind:resetYear/>
-                                </Accordion>
-                                {#if errors?.academic_year_id}
-                                <strong class="text-danger ms-1 my-2">{errors.academic_year_id[0]}</strong>
-                                {/if}
 
                         <form  on:submit|preventDefault={save} bind:this={form}>
                          <div class="row g-3">
@@ -209,9 +233,18 @@
                                     <select class="form-select" name="class" id="class" aria-label="Default select example" bind:this={selectClass} bind:value={$studentStore.class}>
                                         <option disabled selected value> -- select a class -- </option>
 
-                                        <option value={0}>ابتدائي</option>
-                                        <option value={1}>متوسط</option>
-                                        <option value={2}>ثانوي</option>
+                                        <option value={0}>Primary School - Grade 1</option>
+                                        <option value={1}>Primary School - Grade 2</option>
+                                        <option value={2}>Primary School - Grade 3</option>
+                                        <option value={3}>Primary School - Grade 4</option>
+                                        <option value={4}>Primary School - Grade 5</option>
+                                        <option value={5}>Primary School - Grade 6</option>
+                                        <option value={6}>Middle School - Grade 1</option>
+                                        <option value={7}>Middle School - Grade 2</option>
+                                        <option value={8}>Middle School - Grade 3</option>
+                                        <option value={9}>Secondary School - Grade 1</option>
+                                        <option value={10}>Secondary School - Grade 2</option>
+                                        <option value={11}>Secondary School - Grade 3</option>
                                     
                                     </select>
                                     {#if errors?.class}
@@ -256,26 +289,40 @@
 
                                 
                                     <div  class:none={!editImage}>
-                                        {#if cameraActive}
+                                        {#if captured}
+                                        <button type="button"  class="btn btn-success waves-effect waves-light" on:click={takeAnother}>Take Another</button>
+                                        {:else if cameraActive}
                                         <button type="button"  class="btn btn-danger waves-effect waves-light" on:click={stopCam}>Stop Camera</button>
                                         {:else}
                                         <button type="button" class="btn btn-primary waves-effect waves-light" on:click={openCam}>Launch Camera</button>              
                                         {/if}
                                     </div>
-                                    {#if cameraActive}
-                                        <div class:none={!editImage}>
-                                            <video id="video" autoplay bind:this={video}></video>
-                                            {#if video?.srcObject}
-                                            <div class="square"></div>
-                                            {/if}
+                                    
+                                    {#if cameraActive && editImage}
+                                        <div>
+                                            <div id="video-container">
+                                                <video id="video" autoplay bind:this={video} on:playing={sizeSquare}></video>
+                                                {#if video?.srcObject}
+                                                    <div class="square" bind:this={square} style="width: {squareWidth}px; height: {squareHeight}px"></div>
+
+                                                    <div class="camera-btn-group">
+                                                        <button type="button" class="btn btn-primary waves-effect waves-light" on:click={capture}>
+                                                            <i class="ri-camera-lens-fill"></i>
+                                                        </button>   
+
+                                                        <button type="button" class="btn btn-success waves-effect waves-light mt-2" on:click={switchCamera}>
+                                                            <i class="ri-camera-switch-line"></i>
+                                                        </button>   
+                                                    </div>
+
+                                                            
+                                                {/if}
+                                            </div>
                                             <canvas id="canvas" width="400" height="400" bind:this={canvas}></canvas>
                                         </div>
-                                        <div  class:none={!editImage} class="hstack gap-2 justify-content-end">
-                                            <button type="button"  class="btn btn-info waves-effect waves-light" on:click={switchCamera}>Switch Camera</button>
-                                        <button type="button" class="btn btn-primary waves-effect waves-light" on:click={capture}>Capture</button>              
-                                        </div>
                                     {/if}
-                                    {#if imageDataURL}
+
+                                    {#if imageDataURL && captured}
                                     <div class:none={!editImage}>
                                         <img class="rounded avatar-xl mb-3 object-fit-cover" alt="School logo" width="200" src={imageDataURL}>
                                     </div>
@@ -315,15 +362,21 @@
        canvas {
            display: none;
        }
-       .square {
-           position: absolute;
-           top: 50%;
-           left: 50%;
-           width: 400px;
-           height: 400px;
-           transform: translate(-50%, -50%);
-           border: 2px solid red; /* Add styling for the cropping square */
-       }
+        .square {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            outline: 4px solid #695eef;
+        }
+
+        .camera-btn-group{
+            display: flex;
+            flex-direction: column;
+            position: absolute;
+            top: 15px;
+            right: 20px;
+        }
        .none {
         display: none;
        }
