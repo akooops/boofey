@@ -76,6 +76,7 @@ class SyncController extends Controller
                 ],
                 'current_queue' => ($canteen->currentQueue != null) ? [
                     'id' => $canteen->currentQueue->id,
+                    'type' => $canteen->currentQueue->type,
                     'started_at' => $canteen->currentQueue->started_at,
                     'closed_at' => $canteen->currentQueue->closed_at,
                 ] : null,
