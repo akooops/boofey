@@ -65,7 +65,6 @@ import SchoolsTableCollapse from "$lib/modals/collapses/parent/SchoolsTableColla
             formData.set("school_id",schoolId)
         }
     
-    
         formData.set("onhold",onHold)
         
         formData.set("file",imageDataURLToFile(imageDataURL))
@@ -123,8 +122,7 @@ import SchoolsTableCollapse from "$lib/modals/collapses/parent/SchoolsTableColla
 
         // Convert the canvas content to a data URL (e.g., toDataURL('image/jpeg'))
         imageDataURL = canvas.toDataURL('image/jpeg');
-        
-        stopCam()
+
         cameraActive = false;
         captured = true;
     }
@@ -140,7 +138,7 @@ import SchoolsTableCollapse from "$lib/modals/collapses/parent/SchoolsTableColla
     }
 
     function stopCam(){
-        if (video?.srcObject) {
+        if (video.srcObject) {
             const stream = video.srcObject;
             const tracks = stream.getTracks();
             
@@ -178,12 +176,6 @@ import SchoolsTableCollapse from "$lib/modals/collapses/parent/SchoolsTableColla
                                 {#if errors?.school_id}
                                 <strong class="text-danger ms-1 my-2">{errors.school_id[0]}</strong>
                                 {/if}
-                                <!-- <Accordion id={"year"} title={"Student's Academic Year"}>
-                                    <YearsTableCollapse {schoolId} on:select={(e) => yearId = e.detail.yearId} bind:resetYear />
-                                </Accordion>
-                                {#if errors?.academic_year_id}
-                                <strong class="text-danger ms-1 my-2">{errors.academic_year_id[0]}</strong>
-                                {/if} -->
 
                         <form  on:submit|preventDefault={save} bind:this={form}>
                          <div class="row g-3">

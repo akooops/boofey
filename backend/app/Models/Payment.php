@@ -132,6 +132,15 @@ class Payment extends Model
             $subscription->save();
         }
 
+        $activeSubscription = $student->subscriptions()
+                ->where('balance', '>', 0)
+                ->where('started_at', '!=', NULL)
+                ->first();
+
+        if($activeSubscription === null && $student->onhold != false) {
+            $subscription->update(['started_at' => now()]);
+        }
+
         $student->update([
             'academic_year_id' => $school->currentAcademicYear->id,
             'archived' => false
