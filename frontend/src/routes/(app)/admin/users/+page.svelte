@@ -6,6 +6,8 @@
     import { onMount } from "svelte";
 import { fade } from 'svelte/transition';
 import {initToolTip} from "$lib/init/initToolTip.js"
+import { phoneMask } from "$lib/inputMasks.js";
+
 
     export let data
     $: usersList = data.usersResponse.data.users
@@ -14,6 +16,8 @@ import {initToolTip} from "$lib/init/initToolTip.js"
 let usersPage
 onMount(() => {
     initToolTip(usersPage)
+    console.log("hi")
+    phoneMask()
 })
 
 </script>

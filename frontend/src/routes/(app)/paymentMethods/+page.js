@@ -14,5 +14,5 @@ export async function load({fetch,url,depends,params}) {
 
 
     let paymentMethodsResponse = await res.json() 
-    return {paymentMethodsResponse}
+    return {paymentMethodsResponse,tabTitle:"Payment Methods"}
 };

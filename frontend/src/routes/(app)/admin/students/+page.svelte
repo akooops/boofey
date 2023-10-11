@@ -8,16 +8,29 @@
     import { setContext } from 'svelte';
     import { writable } from 'svelte/store';
     import { fade } from 'svelte/transition';
+    import { page } from '$app/stores';
+    import { goto } from '$app/navigation';
 
     export let data
     $: studentsList = data.studentsResponse.data.students
     $: studentsPagination = data.studentsResponse.pagination
 
+    let archived = false
     let studentsPage
     onMount(() => {
         initToolTip(studentsPage)
+
+        archived = $page.url.searchParams.get("archived") == "true" ? true : false 
+        
         // InitFlatPickr()
     })
+
+    function toggleArchived(e){
+            const url = new URL($page.url);
+            url.searchParams.delete("page")
+            url.searchParams.set("archived",archived)
+            goto(url)
+    }
 
 
     
@@ -41,6 +54,14 @@
                     <div class="row">
                             <!-- Input with Icon -->
                         <SearchTable type={"Student"}/>
+                        <div class="row ps-4 mb-2">
+                            <!-- Switches Color -->
+                            <div class="form-check form-switch col" >
+                                <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck1" bind:checked={archived} on:change={toggleArchived} >
+                                <label class="form-check-label" for="SwitchCheck1">Show archived</label>
+                            </div><!-- Switches Color -->
+
+                        </div>
                         <StudentsTable {studentsList}/>
                         <Pagination {...studentsPagination} />
                         <!--end col-->

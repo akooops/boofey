@@ -15,5 +15,5 @@ export async function load({fetch,url,depends}) {
 
     let studentsResponse = await res.json() 
     console.log(studentsResponse)
-    return {studentsResponse}
+    return {studentsResponse,title:"Students"}
 };

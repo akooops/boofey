@@ -13,5 +13,5 @@ export async function load({fetch,url,depends,params}) {
 
 
     let queuesResponse = await res.json() 
-    return {queuesResponse}
+    return {queuesResponse,tabTitle:"Queues"}
 };

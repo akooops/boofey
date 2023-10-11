@@ -88,12 +88,20 @@
                             Authorization: `${localStorage.getItem("SID")}`
                         }
                     })
+
                     redirector(res)
 
+                    res = await res.json()
+    
+                    if(res.status == "success") {
+                        pending = false                    
+                        let text = `Payment has been fullfilled` 
+                        toast(text,"success")
+                    }else if (res.status == "error"){
+                        error = res.error.message
+                    }
                     clearInterval(interval);
-                    pending = false                    
-                    let text = `Payment has been fullfilled` 
-                    toast(text,"success")
+
                 }
             }, 500);
         }

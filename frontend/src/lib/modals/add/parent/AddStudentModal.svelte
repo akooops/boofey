@@ -7,7 +7,6 @@
     import { redirector } from "$lib/api/auth";
     import Accordion from "$lib/components/Accordion.svelte";
 import SchoolsTableCollapse from "$lib/modals/collapses/parent/SchoolsTableCollapse.svelte";
-import YearsTableCollapse from "$lib/modals/collapses/parent/YearsTableCollapse.svelte";
 
     let close
     let studentname
@@ -17,9 +16,7 @@ import YearsTableCollapse from "$lib/modals/collapses/parent/YearsTableCollapse.
     let onHold = false;
     let parentId = ""
     let schoolId = ""
-    let yearId = ""
     let resetSchool
-    let resetYear
 
     let video 
     let canvas
@@ -67,9 +64,6 @@ import YearsTableCollapse from "$lib/modals/collapses/parent/YearsTableCollapse.
         if(schoolId != ""){
             formData.set("school_id",schoolId)
         }
-        if(yearId != ""){
-            formData.set("academic_year_id",yearId)
-        }
     
     
         formData.set("onhold",onHold)
@@ -102,9 +96,8 @@ import YearsTableCollapse from "$lib/modals/collapses/parent/YearsTableCollapse.
         selectClass.selectedIndex = 0
         errors = {}
         resetSchool()
-        resetYear()
         onHold = false
-        schoolId = yearId = ""
+        schoolId = ""
         stopCam()
         captured = false;
         imageDataURL = null
@@ -130,7 +123,8 @@ import YearsTableCollapse from "$lib/modals/collapses/parent/YearsTableCollapse.
 
         // Convert the canvas content to a data URL (e.g., toDataURL('image/jpeg'))
         imageDataURL = canvas.toDataURL('image/jpeg');
-
+        
+        stopCam()
         cameraActive = false;
         captured = true;
     }
@@ -146,7 +140,7 @@ import YearsTableCollapse from "$lib/modals/collapses/parent/YearsTableCollapse.
     }
 
     function stopCam(){
-        if (video.srcObject) {
+        if (video?.srcObject) {
             const stream = video.srcObject;
             const tracks = stream.getTracks();
             
@@ -184,12 +178,12 @@ import YearsTableCollapse from "$lib/modals/collapses/parent/YearsTableCollapse.
                                 {#if errors?.school_id}
                                 <strong class="text-danger ms-1 my-2">{errors.school_id[0]}</strong>
                                 {/if}
-                                <Accordion id={"year"} title={"Student's Academic Year"}>
+                                <!-- <Accordion id={"year"} title={"Student's Academic Year"}>
                                     <YearsTableCollapse {schoolId} on:select={(e) => yearId = e.detail.yearId} bind:resetYear />
                                 </Accordion>
                                 {#if errors?.academic_year_id}
                                 <strong class="text-danger ms-1 my-2">{errors.academic_year_id[0]}</strong>
-                                {/if}
+                                {/if} -->
 
                         <form  on:submit|preventDefault={save} bind:this={form}>
                          <div class="row g-3">

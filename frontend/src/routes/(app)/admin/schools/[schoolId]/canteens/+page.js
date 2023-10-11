@@ -15,5 +15,5 @@ export async function load({fetch,url,depends,params}) {
 
 
     let canteensResponse = await res.json() 
-    return {canteensResponse}
+    return {canteensResponse,tabTitle:"Canteens"}
 };

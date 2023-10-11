@@ -19,9 +19,7 @@
     let onHold = false;
     let parentId = ""
     let schoolId = ""
-    let yearId = ""
     let resetSchool
-    let resetYear
     let editImage = false
     let {studentStore} = getContext("studentStore")
 
@@ -43,9 +41,6 @@
         
         if(schoolId != ""){
             formData.set("school_id",schoolId)
-        }
-        if(yearId != ""){
-            formData.set("academic_year_id",yearId)
         }
         formData.set("edit_image",editImage)
         formData.set("file",imageDataURLToFile(imageDataURL))
@@ -80,7 +75,6 @@
     studentStore.subscribe(() => {
         parentId = $studentStore.father_id
         schoolId = $studentStore.school_id
-        yearId = $studentStore.academic_year_id
 
     })
 
@@ -90,9 +84,8 @@
         selectClass.selectedIndex = 0
         errors = {}
         resetSchool()
-        resetYear()
         onHold = false
-        parentId = schoolId = yearId = ""
+        parentId = schoolId =  ""
         stopCam()
         imageDataURL = null
     }
@@ -173,12 +166,12 @@
                                 {#if errors?.school_id}
                                 <strong class="text-danger ms-1 my-2">{errors.school_id[0]}</strong>
                                 {/if}
-                                <Accordion id={"year"} title={"Student's Academic Year"}>
+                                <!-- <Accordion id={"year"} title={"Student's Academic Year"}>
                                     <YearsTableCollapse {schoolId} on:select={(e) => yearId = e.detail.yearId} selected={$studentStore.academic_year} bind:resetYear/>
                                 </Accordion>
                                 {#if errors?.academic_year_id}
                                 <strong class="text-danger ms-1 my-2">{errors.academic_year_id[0]}</strong>
-                                {/if}
+                                {/if} -->
 
                         <form  on:submit|preventDefault={save} bind:this={form}>
                          <div class="row g-3">

@@ -22,5 +22,5 @@ export async function load({fetch,url,depends,params}) {
 
     let packagesResponse = await res.json()
     
-    return {student:studentResponse.data.student,...packagesResponse.data}
+    return {student:studentResponse.data.student,tabTitle:"Choose Package",...packagesResponse.data}
 };

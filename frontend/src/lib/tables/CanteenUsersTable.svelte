@@ -1,16 +1,15 @@
 <script>
-import UserItem from "./items/UserItem.svelte";
-import DeleteUserModal from "$lib/modals/delete/DeleteUserModal.svelte"
-import ViewUserModal from "$lib/modals/view/ViewUserModal.svelte"
-import EditUserModal from "$lib/modals/edit/EditUserModal.svelte";
-
-export let usersList
-import { setContext } from 'svelte';
-import { writable } from 'svelte/store';
-import { navigating } from '$app/stores';
-
-    setContext('userStore', {
-	    userStore: writable({})
+    import DeleteCanteenUserModal from "$lib/modals/delete/DeleteCanteenUserModal.svelte"
+	import ViewCanteenUserModal from "$lib/modals/view/ViewCanteenUserModal.svelte";
+    import CanteenUserItem from "./items/CanteenUserItem.svelte";
+    
+    import { setContext } from 'svelte';
+    import { writable } from 'svelte/store';
+    import { navigating } from '$app/stores';
+    
+    export let canteensList = []
+    setContext('canteenUserStore', {
+	    canteenUserStore: writable({})
     });
 
 </script>
@@ -27,27 +26,23 @@ import { navigating } from '$app/stores';
                         </div>
                     </th>
                     <th scope="col">ID</th>
-                    <th scope="col">Username</th>
-                    <th scope="col">First Name</th>
-                    <th scope="col">Last Name</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Phone</th>
-                    <th scope="col" class="text-end" >Action</th>
-                    
+                    <th scope="col">Name</th>
+                    <th scope="col">School</th>
+                    <th scope="col">Address</th>
+                    <th scope="col">Action</th>
+
                 </tr>
-            </thead>
+             </thead>
             {#if $navigating == null || $navigating?.from?.route?.id != $navigating?.to?.route?.id}
-            <tbody>
-                {#each usersList as user,i}
-                  <UserItem {user}/>
+            <tbody class="list">
+                {#each canteensList as canteenUser}
+                    <CanteenUserItem {canteenUser} />
                 {/each}
             </tbody>
             {/if}
         </table>
-        <DeleteUserModal />
-        <ViewUserModal />
-        <EditUserModal />
-
+        <ViewCanteenUserModal />
+        <DeleteCanteenUserModal /> 
 
     </div>
 </div>

@@ -13,5 +13,5 @@ export async function load({fetch,url,depends,params}) {
     redirector(res)
     
     let profileResponse = await res.json()
-    return {profileResponse}
+    return {profileResponse,tabTitle:"Profile Settings"}
 };

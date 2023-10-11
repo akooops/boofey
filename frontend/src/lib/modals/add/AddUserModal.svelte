@@ -1,11 +1,10 @@
 <script>
     import { PathAddUser } from "$lib/api/paths";
-    import {onMount} from "svelte"
     import { toast } from "$lib/components/toast.js";
     import { invalidate } from '$app/navigation';
     import { redirector } from "$lib/api/auth";
-    import Cleave from 'cleave.js';
 
+    
     let close
     let username
     let form 
@@ -13,15 +12,6 @@
     export let roles = []
     let errors 
     let verified = true
-
-    onMount(() => {
-        var cleave = new Cleave('.phone-input', {
-            prefix: '05',
-            delimiter: '',
-            blocks: [2, 8],
-            numericOnly: true,
-        });
-    });
 
     async function save(){
         errors = {}

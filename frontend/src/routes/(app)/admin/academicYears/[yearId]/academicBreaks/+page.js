@@ -13,5 +13,5 @@ export async function load({fetch,url,depends,params}) {
 
 
     let breaksResponse = await res.json() 
-    return {breaksResponse}
+    return {breaksResponse,tabTitle:"Academic Breaks"}
 };

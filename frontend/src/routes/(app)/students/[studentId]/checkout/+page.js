@@ -40,6 +40,7 @@ export async function load({fetch,url,depends,params}) {
         customerIp:initPaymentResponse.data.customer_ip,
         customerEmail:initPaymentResponse.data.customer_email,
         billings:billingsResponse.data.billings,
-        paymentMethods:paymentMethodsResponse.data.paymentMethods
+        paymentMethods:paymentMethodsResponse.data.paymentMethods,
+        tabTitle:"Check-Out"
     }
 };

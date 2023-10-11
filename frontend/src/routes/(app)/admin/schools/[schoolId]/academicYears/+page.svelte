@@ -26,11 +26,11 @@ import { fade } from 'svelte/transition';
             <div class="card-header align-items-center d-flex">
 
                 <div class="d-flex gap-2 align-items-center flex-grow-1">
-                <div class="flex-shrink-0">
-                    <img src={school.logo.full_path} alt="" class="avatar-xs rounded-circle" />
-                </div>
-                <h4 class="card-title mb-0 flex-grow-1"><span class="text-primary">{school.name}'s</span> Academic Years Management</h4>
-            </div> 
+                    <div class="flex-shrink-0">
+                        <img src={school.logo.full_path} alt="" class="avatar-xs rounded-circle" />
+                    </div>
+                    <h4 class="card-title mb-0 flex-grow-1"><span class="text-primary">{school.name}'s</span> Academic Years Management</h4>
+                </div> 
 
                
                 <div class="flex-shrink-0">

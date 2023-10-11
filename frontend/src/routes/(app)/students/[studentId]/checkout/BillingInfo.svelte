@@ -61,7 +61,9 @@ async function SendAdress(){
 }
 
 onMount(() => {
-    addressId = billings[0].id
+    if(billings[0]){
+        addressId = billings[0].id
+    }
 })
 
 function select(e){
