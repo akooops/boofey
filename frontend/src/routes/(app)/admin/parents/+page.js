@@ -13,5 +13,5 @@ export async function load({fetch,url,depends}) {
 
 
     let parentsResponse = await res.json() 
-    return {parentsResponse}
+    return {parentsResponse,tabTitle:"Parents"}
 };

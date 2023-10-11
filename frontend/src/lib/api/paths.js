@@ -167,11 +167,25 @@ export function PathRevokeAPi(canteenId){
 
 }
 ///
-export function PathGetStudents({page,search},type){
+export function PathGetCanteenUsers(userId,{page,search}){
+    return `${ADMIN_DOMAIN}/users/${userId}/canteens?page=${page}&search=${search}`
+}
+export function PathAddCanteenUser(userId){
+    return `${ADMIN_DOMAIN}/users/${userId}/canteens`
+}
+export function PathDelCanteenUser(canteenUserId){
+    return `${ADMIN_DOMAIN}/canteenUsers/${canteenUserId}`
+}
+
+
+
+
+////
+export function PathGetStudents({page,search},type,archived){
     if(type == "parent"){
         return `${PARENT_DOMAIN}/students?page=${page}&search=${search}`
     }
-    return `${ADMIN_DOMAIN}/students?page=${page}&search=${search}`
+    return `${ADMIN_DOMAIN}/students?page=${page}&search=${search}&archived=${archived}`
 }
 export function PathGetStudent(studentId){
     return `${PARENT_DOMAIN}/students/${studentId}`

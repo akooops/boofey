@@ -5,7 +5,7 @@
     import {initApp} from "$lib/init/initApp.js"
 	import { onMount } from "svelte";
 	import BreadCrumbs from "$lib/components/BreadCrumbs.svelte";
-    
+    import { page } from '$app/stores';
     
     export let data 
     $: user = data.userResponse.data.user
@@ -21,7 +21,8 @@
     })
 
 </script>
-    
+
+
     
     <div id="layout-wrapper">
     

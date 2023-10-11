@@ -65,7 +65,7 @@
             </div>
         </div>
     </td>
-    <td>{student.class}</td>
+    <td>{student.className}</td>
 
     <td>
         <div class="hstack gap-3 flex-wrap">

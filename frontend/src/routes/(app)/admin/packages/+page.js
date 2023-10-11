@@ -14,5 +14,5 @@ export async function load({fetch,url,depends}) {
     redirector(res)
 
     let packagesResponse = await res.json() 
-    return {packagesResponse}
+    return {packagesResponse,tabTitle:"Packages"}
 };

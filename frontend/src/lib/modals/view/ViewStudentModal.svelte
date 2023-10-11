@@ -42,7 +42,7 @@
                 </ViewRow>
     
                 <ViewRow>
-                    Class : <span class="fw-normal">{$studentStore.class}</span>
+                    Class : <span class="fw-normal">{$studentStore.className}</span>
                 </ViewRow>
     
                 <ViewRow>

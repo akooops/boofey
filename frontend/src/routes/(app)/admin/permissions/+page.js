@@ -13,5 +13,5 @@ export async function load({fetch,cookies,url,depends}) {
 
     let permissionsResponse = await res.json()
 
-    return {permissionsResponse}
+    return {permissionsResponse,tabTitle:"Permissions"}
 };

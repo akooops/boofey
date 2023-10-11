@@ -5,10 +5,10 @@
     import { invalidate } from '$app/navigation';
     import { redirector } from "$lib/api/auth";
     import Accordion from "$lib/components/Accordion.svelte";
-    import ParentsTableCollapse from "../collapses/ParentsTableCollapse.svelte";
-import SchoolsTableCollapse from "../collapses/SchoolsTableCollapse.svelte";
-import YearsTableCollapse from "../collapses/YearsTableCollapse.svelte";
-import { getContext } from 'svelte';
+    import SchoolsTableCollapse from "$lib/modals/collapses/parent/SchoolsTableCollapse.svelte";
+    import { getContext } from 'svelte';
+    import { imageDataURLToFile } from "$lib/utils.js";
+
 
     let close
     let studentname
@@ -18,33 +18,63 @@ import { getContext } from 'svelte';
     let onHold = false;
     let parentId = ""
     let schoolId = ""
-    let yearId = ""
-    let resetParent
     let resetSchool
-    let resetYear
     let editImage = false
     let {studentStore} = getContext("studentStore")
 
+    let video 
+    let canvas
+    let square
+    let squareWidth = 400
+    let squareHeight = 400
+    let ctx
+    let cameraActive = false
+    let captured = false
+    let front = true 
+    let imageDataURL
+
+    $: constraints = {
+        video: { facingMode: front ? "user" : "environment" },
+    };
+
+    onMount(() => {
+        window.addEventListener('resize', sizeSquare);
+    });
+
+    function sizeSquare(){
+        let videoWidth = 400; 
+        let videoHeight = 400; 
+        let scale = 1; 
+
+        videoWidth = video.offsetWidth;
+        videoHeight = video.offsetHeight;
+
+        if (videoWidth < 400 || videoHeight < 400) {
+            scale = Math.min(videoWidth / 400, videoHeight / 400); 
+
+            squareWidth = Math.min(videoWidth  * scale, videoHeight  * scale);
+            squareHeight = Math.min(videoWidth  * scale, videoHeight  * scale);
+        }else{
+            squareWidth = 400;
+            squareHeight = 400;
+        }
+    }
 
     async function save(){
         errors = {}
         let formData = new FormData(form)
-        console.log(parentId)
-        if(parentId != ""){
-            formData.set("father_id",parentId)
-        }
+        
         if(schoolId != ""){
             formData.set("school_id",schoolId)
         }
-        if(yearId != ""){
-            formData.set("academic_year_id",yearId)
-        }
+
         formData.set("edit_image",editImage)
-    
+
+        if(editImage) formData.set("file", imageDataURLToFile(imageDataURL))    
     
         formData.set("onhold",onHold)
 
-        let res = await fetch(PathUpdateStudent($studentStore.id),{
+        let res = await fetch(PathUpdateStudent($studentStore.id,"parent"),{
             headers:{
                 Authorization: `${localStorage.getItem("SID")}`
             },
@@ -72,8 +102,6 @@ import { getContext } from 'svelte';
     studentStore.subscribe(() => {
         parentId = $studentStore.father_id
         schoolId = $studentStore.school_id
-        yearId = $studentStore.academic_year_id
-
     })
 
     function reset(){
@@ -81,13 +109,75 @@ import { getContext } from 'svelte';
         form.reset()
         selectClass.selectedIndex = 0
         errors = {}
-        resetParent()
         resetSchool()
-        resetYear()
         onHold = false
-        parentId = schoolId = yearId = ""
-
+        parentId = schoolId = ""
+        stopCam()
+        captured = false;
+        imageDataURL = null
     }
+
+    function takeAnother(){
+        captured = false;
+        imageDataURL = null;
+
+        openCam();
+    }
+
+    function capture(){
+        ctx = canvas.getContext('2d');
+        const sourceX = (video.videoWidth - 400) / 2;
+        const sourceY = (video.videoHeight - 400) / 2;
+        const sourceWidth = 400;
+        const sourceHeight = 400;
+
+        // Draw the cropped image onto the canvas
+        ctx.drawImage(video, sourceX, sourceY, sourceWidth, sourceHeight, 0, 0, 400, 400);
+
+        // Convert the canvas content to a data URL (e.g., toDataURL('image/jpeg'))
+        imageDataURL = canvas.toDataURL('image/jpeg');
+
+        cameraActive = false;
+        captured = true;
+    }
+
+    async function openCam(){
+        try {
+            cameraActive = true
+            let stream = await navigator.mediaDevices.getUserMedia(constraints)
+            video.srcObject = stream;
+        }catch(error)  {
+            console.error('Error accessing camera:', error);
+        };
+    }
+
+    function stopCam(){
+        if (video.srcObject) {
+            const stream = video.srcObject;
+            const tracks = stream.getTracks();
+            
+            tracks.forEach(track => {
+            track.stop(); // Stop each track in the stream
+            });
+            
+            video.srcObject = null; // Clear the srcObject to stop displaying the video
+        }
+        cameraActive = false
+    }
+
+    function switchCamera(){
+        front = !front;
+        console.log(constraints)
+        openCam()
+    }
+
+    function changeEditImage(){
+        if(editImage && video){
+            stopCam()
+            imageDataURL = null
+        }
+    }
+
 
 
     </script>
@@ -105,24 +195,13 @@ import { getContext } from 'svelte';
 
                             <!-- Base Example -->
 
-                                <Accordion id={"parent"} title={"Student's Parent"}>
-                                    <ParentsTableCollapse on:select={(e) => parentId = e.detail.parentId} selected={$studentStore.father} bind:resetParent />            
-                                </Accordion>
-                                {#if errors?.father_id}
-                                <strong class="text-danger ms-1 my-2">{errors.father_id[0]}</strong>
-                                {/if}
+                              
 
                                 <Accordion id={"school"} title={"Student's School"}>               
                                     <SchoolsTableCollapse  on:select={(e) => schoolId = e.detail.schoolId} selected={$studentStore.school} bind:resetSchool />                     
                                 </Accordion>
                                 {#if errors?.school_id}
                                 <strong class="text-danger ms-1 my-2">{errors.school_id[0]}</strong>
-                                {/if}
-                                <Accordion id={"year"} title={"Student's Academic Year"}>
-                                    <YearsTableCollapse {schoolId} on:select={(e) => yearId = e.detail.yearId} selected={$studentStore.academic_year} bind:resetYear/>
-                                </Accordion>
-                                {#if errors?.academic_year_id}
-                                <strong class="text-danger ms-1 my-2">{errors.academic_year_id[0]}</strong>
                                 {/if}
 
                         <form  on:submit|preventDefault={save} bind:this={form}>
@@ -200,7 +279,7 @@ import { getContext } from 'svelte';
                                 <div class="row ps-3 g-3">
                                     <!-- Switches Color -->
                                     <div class="form-check form-switch col" >
-                                        <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck1" bind:checked={editImage}>
+                                        <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck1" on:change={changeEditImage} bind:checked={editImage}>
                                         <label class="form-check-label" for="SwitchCheck1">Edit Image</label>
                                     </div><!-- Switches Color -->
 
@@ -208,20 +287,57 @@ import { getContext } from 'svelte';
 
 
 
-                                {#if editImage}
-                                <div>
-                                    <label for="formFile" class="form-label">Student  Image</label>
-                                    <input class="form-control" name="file" type="file" id="formFile">
-                                    {#if errors?.file}
-                                    <strong class="text-danger ms-1 my-2">{errors.file[0]}</strong>
-                                    {/if}
-                                </div>
-                                {:else}
-                                <figure class="figure">
-                                    <img  alt="school logo " width="200" src={$studentStore?.image?.full_path} class="figure-img rounded avatar-xl mb-3 object-fit-cover" >
-                                    <figcaption class="figure-caption">Current Student image</figcaption>
-                                </figure>
                                 
+                                    <div  class:none={!editImage}>
+                                        {#if captured}
+                                        <button type="button"  class="btn btn-success waves-effect waves-light" on:click={takeAnother}>Take Another</button>
+                                        {:else if cameraActive}
+                                        <button type="button"  class="btn btn-danger waves-effect waves-light" on:click={stopCam}>Stop Camera</button>
+                                        {:else}
+                                        <button type="button" class="btn btn-primary waves-effect waves-light" on:click={openCam}>Launch Camera</button>              
+                                        {/if}
+                                    </div>
+                                    
+                                    {#if cameraActive && editImage}
+                                        <div>
+                                            <div id="video-container">
+                                                <video id="video" autoplay bind:this={video} on:playing={sizeSquare}></video>
+                                                {#if video?.srcObject}
+                                                    <div class="square" bind:this={square} style="width: {squareWidth}px; height: {squareHeight}px"></div>
+
+                                                    <div class="camera-btn-group">
+                                                        <button type="button" class="btn btn-primary waves-effect waves-light" on:click={capture}>
+                                                            <i class="ri-camera-lens-fill"></i>
+                                                        </button>   
+
+                                                        <button type="button" class="btn btn-success waves-effect waves-light mt-2" on:click={switchCamera}>
+                                                            <i class="ri-camera-switch-line"></i>
+                                                        </button>   
+                                                    </div>
+
+                                                            
+                                                {/if}
+                                            </div>
+                                            <canvas id="canvas" width="400" height="400" bind:this={canvas}></canvas>
+                                        </div>
+                                    {/if}
+
+                                    {#if imageDataURL && captured}
+                                    <div class:none={!editImage}>
+                                        <img class="rounded avatar-xl mb-3 object-fit-cover" alt="School logo" width="200" src={imageDataURL}>
+                                    </div>
+                                    {/if}
+                                    <div class:none={!editImage}>
+                                        {#if errors?.file}
+                                        <strong class="text-danger ms-1 my-2">{errors.file[0]}</strong>
+                                        {/if}
+                                    </div>
+                                {#if !editImage}
+                                    <figure class="figure">
+                                        <img  alt="school logo " width="200" src={$studentStore?.image?.full_path} class="figure-img rounded avatar-xl mb-3 object-fit-cover" >
+                                        <figcaption class="figure-caption">Current Student image</figcaption>
+                                    </figure>
+                                    
                                 {/if}
                                 
 
@@ -238,3 +354,31 @@ import { getContext } from 'svelte';
         </div>
     </div>
 
+    <style>
+        video {
+           width: 100%;
+           display: block;
+        }
+       canvas {
+           display: none;
+       }
+        .square {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            outline: 4px solid #695eef;
+        }
+
+        .camera-btn-group{
+            display: flex;
+            flex-direction: column;
+            position: absolute;
+            top: 15px;
+            right: 20px;
+        }
+       .none {
+        display: none;
+       }
+       </style>
+       

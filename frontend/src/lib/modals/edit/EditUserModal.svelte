@@ -68,7 +68,6 @@
         errors = {}
     }
 
-
     </script>
     
     
@@ -76,7 +75,7 @@
         <div class="modal-dialog modal-dialog-centered" >
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalgridLabel">Add User</h5>
+                    <h5 class="modal-title" id="exampleModalgridLabel">Edit User</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -118,7 +117,7 @@
                                 </div>
                                 <div class="col-xxl-6">
                                     <label for="phone" class="form-label">Phone</label>
-                                    <input type="tel" name="phone" class="form-control" id="phone" placeholder="Enter your Phone no." bind:value={$userStore.phone}>
+                                    <input type="tel" name="phone" class="form-control phone-input" id="phoneedit" placeholder="Enter your Phone no." bind:value={$userStore.phone}>
                                     {#if errors?.phone}
                                     <strong class="text-danger ms-1 my-2">{errors.phone[0]}</strong>
                                     {/if}

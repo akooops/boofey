@@ -15,5 +15,5 @@ export async function load({fetch,url,depends}) {
 
 
     let rolesResponse = await res.json() 
-    return {rolesResponse}
+    return {rolesResponse,tabTitle:"Roles"}
 };

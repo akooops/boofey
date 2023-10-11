@@ -14,5 +14,5 @@ export async function load({fetch,url,depends,params}) {
     redirector(res)
 
     let subsResponse = await res.json()
-    return {subsResponse}
+    return {subsResponse,tabTitle:"Subscriptions"}
 };

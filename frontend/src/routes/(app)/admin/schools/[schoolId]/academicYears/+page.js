@@ -14,5 +14,5 @@ export async function load({fetch,url,depends,params}) {
     redirector(res)
 
     let academicYearsResponse = await res.json()
-    return {academicYearsResponse}
+    return {academicYearsResponse,tabTitle:"Academic Year"}
 };

@@ -7,7 +7,9 @@
 
     let paymentMethodId
     onMount(() => {
-        paymentMethodId = paymentMethods[0].id
+        if(paymentMethods[0]){
+            paymentMethodId = paymentMethods[0].id
+        }
     })
     function select(e){
         paymentMethodId = e.detail.paymentMethodId
