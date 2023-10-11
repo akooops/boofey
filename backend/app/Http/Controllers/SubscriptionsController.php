@@ -52,12 +52,12 @@ class SubscriptionsController extends Controller
 
         $subscriptions = Subscription::with([
             'payment',
-            'payment.coupon',
-            'payment.package:id,name,school_id',
-            'payment.package.school:id,name,file_id',
-            'payment.package.school.logo:id,current_name,path',
-            'payment.billing:firstname,lastname,email,phone,address,country,state,zipcode',
-            'payment.paymentMethod:card_number,card_holder_name'
+            'payment.coupon:id,name,code,discount',
+            'payment.package:id,name,name_ar,sale_price,price,days,tax,popular',
+            'payment.package.school:id,name,name_ar,file_id',
+            'payment.package.school.logo:id,path,current_nam',
+            'payment.billing:id,firstname,lastname,email,phone,address,country,state,zipcode',
+            'payment.paymentMethod:id,card_number,card_holder_name'
         ])->where('student_id', $student->id)->latest();
 
         $activeSubscription = $student->subscriptions()
@@ -65,12 +65,12 @@ class SubscriptionsController extends Controller
             ->where('started_at', '!=', NULL)
             ->with([
                 'payment',
-                'payment.coupon',
-                'payment.package',
-                'payment.package.school',
-                'payment.package.school.logo',
-                'payment.billing:firstname,lastname,email,phone,address,country,state,zipcode',
-                'payment.paymentMethod:card_number,card_holder_name'
+                'payment.coupon:id,name,code,discount',
+                'payment.package:id,name,name_ar,sale_price,price,days,tax,popular',
+                'payment.package.school:id,name,name_ar,file_id',
+                'payment.package.school.logo:id,path,current_nam',
+                'payment.billing:id,firstname,lastname,email,phone,address,country,state,zipcode',
+                'payment.paymentMethod:id,card_number,card_holder_name'
             ])
             ->first();
                 

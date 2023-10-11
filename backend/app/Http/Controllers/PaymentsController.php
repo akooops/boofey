@@ -28,6 +28,100 @@ use Illuminate\Support\Facades\Log;
 
 class PaymentsController extends Controller
 {
+    public function index(Request $request) 
+    {
+        $user = Auth::user();
+        $father = Father::where('user_id', $user->id)->first();
+
+        if($father === null){
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Oops! Resource Not Found. The Resource you are looking for is not available or has been moved.'
+            ], 404);
+        }
+
+        $perPage = limitPerPage($request->query('perPage', 10));
+        $page = checkPageIfNull($request->query('page', 1));
+        $search = $request->query('search');
+
+        $payments = Payment::latest()->where('father_id', $father->id)->with([
+            'coupon:id,name,code,discount',
+            'package:id,name,name_ar,sale_price,price,days,tax,popular',
+            'package.school:id,name,name_ar,file_id',
+            'package.school.logo:id,path,current_name',
+            'billing:id,firstname,lastname,email,phone,address,country,state,zipcode',
+            'paymentMethod:id,card_number,card_holder_name',
+            'father:id,user_id',
+            'father.user:id,username,email,phone', 
+            'father.user.profile:id,user_id,firstname,lastname,file_id',
+            'father.user.profile.image', 
+            'student:id,firstname,lastname,file_id',
+            'student.image:id,path,current_name'
+        ]);
+
+        /*
+        if ($search) {
+            $payments->where('name', 'like', '%' . $search . '%');
+        }
+        */
+
+        $payments = $payments->paginate($perPage, ['*'], 'page', $page);
+
+        $response = [
+            'status' => 'success',
+            'data' => $payments->makeHidden(['student.current_subscription']), 
+            'pagination' => handlePagination($payments)
+        ];
+
+        return response()->json($response);
+    }
+
+    public function show(Payment $payment) 
+    {
+        $user = Auth::user();
+        $father = Father::where('user_id', $user->id)->first();
+
+        if($father === null){
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Oops! Resource Not Found. The Resource you are looking for is not available or has been moved.'
+            ], 404);
+        }
+
+        if($payment->father_id != $father->id){
+            return response()->json([
+                'status' => 'error',
+                'errors' => [
+                    '403' => 'Access Denied: Please Log In to Access This Resource'
+                ]
+            ], 403);
+        }
+
+        $payment->load([
+            'coupon:id,name,code,discount',
+            'package:id,name,name_ar,sale_price,price,days,tax,popular',
+            'package.school:id,name,name_ar,file_id',
+            'package.school.logo:id,path,current_name',
+            'billing:id,firstname,lastname,email,phone,address,country,state,zipcode',
+            'paymentMethod:id,card_number,card_holder_name',
+            'father:id,user_id',
+            'father.user:id,username,email,phone', 
+            'father.user.profile:id,user_id,firstname,lastname,file_id',
+            'father.user.profile.image', 
+            'student:id,firstname,lastname,file_id',
+            'student.image:id,path,current_name'
+        ]);
+
+        return response()->json([
+            'status' => 'success',
+            'data' => [
+                'payment' => $payment
+            ]
+        ]);
+
+        return response()->json($payment);
+    }
+    
     public function init(Student $student, Package $package, Request $request){
         $user = Auth::user();
         $father = Father::where('user_id', $user->id)->first();

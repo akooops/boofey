@@ -99,12 +99,16 @@ Route::group(['prefix' => 'admin', 'namespace' => 'App\Http\Controllers\Admin', 
 
     /* -------------------------------------------------------------------------------- */
     /* Subscriptions Routes */
-    Route::get('students/{student}/subscriptions', 'SubscriptionsController@index')->name('students.index');
-    Route::post('students/{student}/subscriptions', 'SubscriptionsController@store')->name('students.store');
+    Route::get('students/{student}/subscriptions', 'SubscriptionsController@index')->name('subscriptions.index');
+    Route::post('students/{student}/subscriptions', 'SubscriptionsController@store')->name('subscriptions.store');
 
     Route::resource('subscriptions', SubscriptionsController::class)->only(['show', 'destroy']);
     Route::post('subscriptions/{subscription}/update', 'SubscriptionsController@update')->name('subscriptions.update');
 
+    /* -------------------------------------------------------------------------------- */
+    /* Payments Routes */
+    Route::resource('payments', PaymentsController::class)->only(['index', 'show', 'destroy']);
+    
     /* -------------------------------------------------------------------------------- */
     /* Queues Routes */
     Route::get('canteens/{canteen}/queues', 'QueuesController@index')->name('queues.index');

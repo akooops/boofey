@@ -51,7 +51,11 @@ Route::group(['namespace' => 'App\Http\Controllers', 'middleware' => ['auth:sanc
 
     /* -------------------------------------------------------------------------------- */
     /* Subscriptions Routes */
-    Route::get('students/{student}/subscriptions', 'SubscriptionsController@index')->name('parents.students.index');
+    Route::get('students/{student}/subscriptions', 'SubscriptionsController@index')->name('parents.subscriptions.index');
+
+    /* -------------------------------------------------------------------------------- */
+    /* Payments Routes */
+    Route::resource('payments', PaymentsController::class)->only(['index', 'show']);
 
     /* -------------------------------------------------------------------------------- */
     /* Coupons Routes */

@@ -40,7 +40,7 @@ class Payment extends Model
 
     public function package()
     {
-        return $this->belongsTo(Package::class);
+        return $this->hasOne(Package::class, 'id', 'package_id');
     }
 
     public function father()
@@ -48,14 +48,19 @@ class Payment extends Model
         return $this->belongsTo(father::class);
     }
 
+    public function student()
+    {
+        return $this->belongsTo(Student::class);
+    }
+
     public function billing()
     {
-        return $this->belongsTo(Billing::class);
+        return $this->hasOne(Billing::class, 'id', 'billing_id');
     }
 
     public function paymentMethod()
     {
-        return $this->belongsTo(PaymentMethod::class);
+        return $this->hasOne(PaymentMethod::class, 'id', 'payment_method_id');
     }
 
     public function calculateDiscount(){
