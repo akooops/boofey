@@ -19,7 +19,7 @@
                 <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option1" >
             </div>
         </td>
-        <td>{canteenUser.pivot_id}</td>
+        <td>{canteenUser.pivot.id}</td>
         <td>{canteenUser.name}</td>
         <td>
             <div class="d-flex gap-2 align-items-center">
