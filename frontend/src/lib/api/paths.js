@@ -121,7 +121,10 @@ export function PathGetPackagesBySchoolId(schoolId){
 
 
 
-export function PathAddPackage(schoolId){
+export function PathAddPackage(schoolId,general){
+    if(general){
+        return `${ADMIN_DOMAIN}/packages`
+    }
     return `${ADMIN_DOMAIN}/schools/${schoolId}/packages`
 }
 export function PathUpdatePackage(packageId){
@@ -149,7 +152,10 @@ export function PathGetCanteens(schoolId,{page,search}){
     return `${ADMIN_DOMAIN}/schools/${schoolId}/canteens?page=${page}&search=${search}`
 }
 
-export function PathAddCanteen(schoolId){
+export function PathAddCanteen(schoolId,general){
+    if(general){
+        return `${ADMIN_DOMAIN}/canteens`
+    }
     return `${ADMIN_DOMAIN}/schools/${schoolId}/canteens`
 }
 export function PathUpdateCanteen(canteenId){

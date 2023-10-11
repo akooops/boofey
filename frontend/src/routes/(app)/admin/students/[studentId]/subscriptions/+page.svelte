@@ -19,6 +19,7 @@
     import { setContext } from 'svelte';
     import { writable } from 'svelte/store';
     import { fade } from 'svelte/transition';
+	import ReceiptCard from "$lib/components/ReceiptCard.svelte";
 
 
 
@@ -44,7 +45,7 @@ export let data
     })
     
 </script>
-<div class="row" in:fade={{delay:200,duration: 200 }} out:fade={{duration: 200 }} bind:this={subsPage}>
+<div class="row d-print-none" in:fade={{delay:200,duration: 200 }} out:fade={{duration: 200 }} bind:this={subsPage}>
     <div class="col-lg-12">
         <div class="card">
             <div class="card-header align-items-center d-flex">
@@ -99,6 +100,8 @@ export let data
             <!--  
      end col -->
 </div>
+
+<ReceiptCard />
 
 <!-- src="https://boofey.akoops.com/uploads/schools/_5607de8d-e2d4-47e3-a808-d54851903b65.jpeg"
 <div class="d-flex gap-2 align-items-center">

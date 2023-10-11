@@ -101,6 +101,13 @@
                                     {/if}
                                 </div>
                                 <div>
+                                    <label for="productarName" class="form-label">Arabic Name</label>
+                                    <input type="text" class="form-control" id="productName" name="name_ar" dir="rtl" placeholder="ادخل اسم الباكج" bind:value={packageStoreInstance.name_ar}>
+                                    {#if errors?.name_ar}
+                                    <strong class="text-danger ms-1 my-2">{errors.name_ar[0]}</strong>
+                                    {/if}
+                                </div>
+                                <div>
                                     <label for="code" class="form-label">Package Code</label>
                                     <input type="text" name="code" class="form-control" id="firstName" placeholder="Enter package code" bind:value={packageStoreInstance.code}>
                                     {#if errors?.code}

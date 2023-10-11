@@ -122,7 +122,7 @@ import SchoolsTableCollapse from "$lib/modals/collapses/parent/SchoolsTableColla
 
         // Convert the canvas content to a data URL (e.g., toDataURL('image/jpeg'))
         imageDataURL = canvas.toDataURL('image/jpeg');
-
+        stopCam()
         cameraActive = false;
         captured = true;
     }
@@ -138,7 +138,7 @@ import SchoolsTableCollapse from "$lib/modals/collapses/parent/SchoolsTableColla
     }
 
     function stopCam(){
-        if (video.srcObject) {
+        if (video?.srcObject) {
             const stream = video.srcObject;
             const tracks = stream.getTracks();
             

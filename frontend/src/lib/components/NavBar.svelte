@@ -87,7 +87,7 @@ onMount(() => {
 
 
 <div class="app-menu navbar-menu">
-    <!-- LOGO -->
+                <!-- LOGO -->
     <div class="navbar-brand-box">
         <!-- Dark Logo-->
         <a href="index.html" class="logo logo-dark">

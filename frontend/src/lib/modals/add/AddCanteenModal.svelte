@@ -23,12 +23,14 @@
     async function save(){
         errors = {}
         let formData = new FormData(form)    
-        if(schoolId == null){
-            errors.school_id = ["school is required"]
-            return;
-        }
+        // if(schoolId == null){
+        //     errors.school_id = ["school is required"]
+        //     return;
+            // }
+        formData.set("school_id",schoolId)
+        
     
-        let res = await fetch(PathAddCanteen(schoolId),{
+        let res = await fetch(PathAddCanteen(schoolId,general),{
             headers:{
                 Authorization: `${localStorage.getItem("SID")}`
             },
@@ -113,7 +115,7 @@
                                     {/if}
                                 </div>
                                 {#if general}
-                                <Accordion id={"school"} title={"Student's School"}>               
+                                <Accordion id={"school"} title={"Canteens's School"}>               
                                     <SchoolsTableCollapse  on:select={(e) => schoolId = e.detail.schoolId} bind:resetSchool/>                     
                                 </Accordion>
                                 {#if errors?.school_id}

@@ -25,7 +25,7 @@ onMount(() => {
             <div class="card-header align-items-center d-flex">
                 <h4 class="card-title mb-0 flex-grow-1">Permissions Managment</h4>
                 <div class="flex-shrink-0">
-                    {#if JSON.parse(sessionStorage.getItem("permissions")).includes("parmissions.store")}
+                    {#if JSON.parse(sessionStorage.getItem("permissions")).includes("permissions.store")}
 
                     <button type="button" data-bs-toggle="modal" data-bs-target="#addPermissionModal" class="btn btn-primary waves-effect waves-light"><i class="ri-add-line align-bottom me-1"></i> Add Permission</button>
                     <AddPermissionModal />

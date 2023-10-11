@@ -136,7 +136,7 @@
 
         // Convert the canvas content to a data URL (e.g., toDataURL('image/jpeg'))
         imageDataURL = canvas.toDataURL('image/jpeg');
-
+        stopCam()
         cameraActive = false;
         captured = true;
     }
@@ -152,7 +152,7 @@
     }
 
     function stopCam(){
-        if (video.srcObject) {
+        if (video?.srcObject) {
             const stream = video.srcObject;
             const tracks = stream.getTracks();
             
@@ -187,7 +187,7 @@
         <div class="modal-dialog modal-dialog-centered modal-lg" >
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalgridLabel">Add Student</h5>
+                    <h5 class="modal-title" id="exampleModalgridLabel">Edit Student</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">

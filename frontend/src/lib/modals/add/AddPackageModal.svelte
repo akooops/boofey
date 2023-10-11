@@ -28,14 +28,11 @@
         formData.set("yearly",yearly)
         formData.set("hidden",hidden)
         formData.set("popular",popular)
+        formData.set("school_id",schoolId)
 
         // formData.append("name",packageName)
-        if(schoolId == null){
-            errors.school_id = ["school is required"]
-            return;
-        }
-    
-        let res = await fetch(PathAddPackage(schoolId),{
+        
+        let res = await fetch(PathAddPackage(schoolId,general),{
             headers:{
                 Authorization: `${localStorage.getItem("SID")}`
             },
@@ -100,6 +97,13 @@
                                     {/if}
                                 </div>
                                 <div>
+                                    <label for="productarName" class="form-label">Arabic Name</label>
+                                    <input type="text" class="form-control" id="productName" name="name_ar" dir="rtl" placeholder="ادخل اسم الباكج">
+                                    {#if errors?.name_ar}
+                                    <strong class="text-danger ms-1 my-2">{errors.name_ar[0]}</strong>
+                                    {/if}
+                                </div>
+                                <div>
                                     <label for="code" class="form-label">Package Code</label>
                                     <input type="text" name="code" class="form-control" id="firstName" placeholder="Enter package code" >
                                     {#if errors?.code}
@@ -107,7 +111,7 @@
                                     {/if}
                                 </div>
                                 {#if general}
-                                <Accordion id={"school"} title={"Student's School"}>               
+                                <Accordion id={"school"} title={"Package's School"}>               
                                     <SchoolsTableCollapse  on:select={(e) => schoolId = e.detail.schoolId} bind:resetSchool/>                     
                                 </Accordion>
                                 {#if errors?.school_id}

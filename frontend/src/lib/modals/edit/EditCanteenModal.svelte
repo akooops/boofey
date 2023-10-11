@@ -62,10 +62,25 @@
                                 {/if}
                             </div>
                             <div>
+                                <label for="productarName" class="form-label">Arabic Name</label>
+                                <input type="text" class="form-control" id="productName" name="name_ar" dir="rtl" placeholder="ادخل اسم المقصف" bind:value={$canteenStore.name_ar}>
+                                {#if errors?.name_ar}
+                                <strong class="text-danger ms-1 my-2">{errors.name_ar[0]}</strong>
+                                {/if}
+                            </div>
+                            
+                            <div>
                             <label for="exampleFormControlTextarea5" class="form-label">Canteen Address</label>
                                 <textarea class="form-control" name="address" id="exampleFormControlTextarea5" placeholder="Enter canteen address"  rows="3" bind:value={$canteenStore.address}></textarea>
                                 {#if errors?.address}
                                 <strong class="text-danger ms-1 my-2">{errors.address[0]}</strong>
+                                {/if}
+                            </div>
+                            <div>
+                                <label for="productarName" class="form-label">Arabic Address</label>
+                                <textarea class="form-control" name="address_ar" id="exampleFormControlTextarea5" dir="rtl" placeholder="ادخل عنوان المقصف"  rows="3" bind:value={$canteenStore.address_ar}></textarea>
+                                {#if errors?.address_ar}
+                                <strong class="text-danger ms-1 my-2">{errors.address_ar[0]}</strong>
                                 {/if}
                             </div>
     
