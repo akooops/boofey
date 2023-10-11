@@ -66,7 +66,7 @@ class User extends Authenticatable
 
     public function canteens()
     {
-        return $this->belongsToMany(Canteen::class, 'canteen_users', 'user_id', 'canteen_id');
+        return $this->belongsToMany(Canteen::class, 'canteen_users', 'user_id', 'canteen_id')->withPivot('id');
     }
 
     public function canteensUsers()

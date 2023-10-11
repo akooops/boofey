@@ -19,7 +19,7 @@ class CanteenUser extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function product()
+    public function canteen()
     {
         return $this->belongsTo(Canteen::class);
     }
