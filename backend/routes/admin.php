@@ -78,7 +78,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'App\Http\Controllers\Admin', 
 
     /* -------------------------------------------------------------------------------- */
     /* Canteens Users Routes */
-    Route::get('users/{user}/canteens', 'CanteenUsersController@index')->name('canteenUsers.index');
+    Route::get('getCanteens', 'CanteenUsersController@getCanteens')->name('canteens.getCanteens');
     Route::post('users/{user}/canteens', 'CanteenUsersController@store')->name('canteenUsers.store');
 
     Route::resource('canteenUsers', CanteenUsersController::class)->only(['show', 'destroy']);

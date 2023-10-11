@@ -12,6 +12,39 @@ use App\Models\User;
 
 class CanteenUsersController extends Controller
 {
+    public function getCanteens(Request $request){
+        $perPage = limitPerPage($request->query('perPage', 10));
+        $page = checkPageIfNull($request->query('page', 1));
+        $search = $request->query('search');
+
+        $canteens = Canteen::latest()->with(
+            'school:id,name,file_id',
+            'school.logo:id,current_name,path'
+        );
+
+        if ($search) {
+            $canteens->where(function ($query) use ($search) {
+                $query->where('name', 'like', '%' . $search . '%')
+                    ->orWhere('address', 'like', '%' . $search . '%');
+            })
+            ->orWhereHas('school', function ($schoolQuery) use ($search) {
+                $schoolQuery->where('name', 'like', '%' . $search . '%');
+            });        
+        }
+
+        $canteens = $canteens->paginate($perPage, ['*'], 'page', $page);
+
+        $response = [
+            'status' => 'success',
+            'data' => [
+                'canteens' => $canteens->items(),
+            ],
+            'pagination' => handlePagination($canteens),
+        ];
+
+        return response()->json($response);
+    }
+
     public function index(User $user, Request $request) 
     {
         if ($user->hasRole('parent') == true) {
