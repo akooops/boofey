@@ -45,7 +45,7 @@ class Payment extends Model
 
     public function father()
     {
-        return $this->belongsTo(father::class);
+        return $this->belongsTo(Father::class);
     }
 
     public function student()
