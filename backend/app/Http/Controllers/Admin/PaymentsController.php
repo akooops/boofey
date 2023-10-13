@@ -21,7 +21,7 @@ class PaymentsController extends Controller
 
         $payments = Payment::latest()->with([
             'coupon:id,name,code,discount',
-            'package:id,name,name_ar,sale_price,price,days,tax,popular,school_id',
+            'package:id,name,name_ar,code,sale_price,price,days,tax,popular,school_id',
             'package.school:id,name,name_ar,file_id',
             'package.school.logo:id,path,current_name',
             'billing:id,firstname,lastname,email,phone,address,country,state,zipcode',
@@ -55,7 +55,7 @@ class PaymentsController extends Controller
     {
         $payment->load([
             'coupon:id,name,code,discount',
-            'package:id,name,name_ar,sale_price,price,days,tax,popular,school_id',
+            'package:id,name,name_ar,code,sale_price,price,days,tax,popular,school_id',
             'package.school:id,name,name_ar,file_id',
             'package.school.logo:id,path,current_name',
             'billing:id,firstname,lastname,email,phone,address,country,state,zipcode',
