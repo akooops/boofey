@@ -10,6 +10,8 @@
 
     export let payment
 
+    export let packageObj
+
     let couponCode
     let error
 
@@ -53,6 +55,20 @@
             <div class="card-header border-bottom-dashed">
                 <h5 class="card-title mb-0">Order Summary</h5>
             </div>
+
+            <div class="card-header border-bottom-dashed">
+                <div class="d-flex align-items-center">
+                    <div class="flex-grow-1">
+                        <h6 class="mb-1 fw-semibold">{packageObj.name}</h6>
+                        <p class="text-muted mb-0">{packageObj.description}</p>
+                    </div>
+                    <div class="">
+                        <h5>{packageObj.currentPrice}<sup><small>SAR</small></sup> <span class="fs-13 text-muted">{packageObj.yearly ? "" : `/ ${packageObj.days} Days`}</span></h5>
+                    </div>
+                </div>
+
+            </div>
+
 
             <div class="card-header bg-light-subtle border-bottom-dashed">
                 <label for="name" class="form-label  px-1">Coupon Code</label>

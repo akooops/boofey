@@ -101,8 +101,6 @@ export let data
      end col -->
 </div>
 
-<ReceiptCard />
-
 <!-- src="https://boofey.akoops.com/uploads/schools/_5607de8d-e2d4-47e3-a808-d54851903b65.jpeg"
 <div class="d-flex gap-2 align-items-center">
     <div class="flex-shrink-0">

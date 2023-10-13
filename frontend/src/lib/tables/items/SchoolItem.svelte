@@ -64,7 +64,7 @@
             {#if JSON.parse(sessionStorage.getItem("permissions")).includes("packages.indexBySchool")}
             <span on:click={openPackages}><a bind:this={packagesToolTip} href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Packages" ><i class="ri-archive-line"></i></a></span>
             {/if}
-            {#if JSON.parse(sessionStorage.getItem("permissions")).includes("academicYearss.indexBySchool")}
+            {#if JSON.parse(sessionStorage.getItem("permissions")).includes("academicYears.indexBySchool")}
             <span on:click={openAcademicYears}><a bind:this={yearsToolTip} href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Academic Years" ><i class="ri-calendar-2-fill"></i></a></span>
             {/if}
             {#if JSON.parse(sessionStorage.getItem("permissions")).includes("schools.show")}

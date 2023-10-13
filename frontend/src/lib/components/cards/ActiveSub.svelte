@@ -24,6 +24,7 @@
         <div class="flex-shrink-0">
             {#if activeSub}
             <div class="hstack gap-3 flex-wrap">
+                <a href="/admin/payments/{activeSub.payment.id}" target="_blank" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Payment Details" ><i class="ri-file-paper-2-line"></i></a>
                 <span data-bs-toggle="modal" data-bs-target="#viewSubModal" on:click={setSub}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-title="View" ><i class="ri-eye-fill"></i></a></span>
                 {#if type != "parent"}
                 <span data-bs-toggle="modal" data-bs-target="#editSubModal" on:click={setSub}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-title="Edit" ><i class="ri-edit-2-line"></i></a></span>

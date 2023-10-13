@@ -7,7 +7,7 @@
     $:paymentMethods = data.paymentMethods
     $:customerIp = data.customerIp
     $:customerEmail = data.customerEmail
-
+    $:packageObj = data.package
     // $:productsList = data.orderResponse.data.order.order_items
 
     // let productsList = []
@@ -24,7 +24,7 @@
             <BillingCard {billings} {couponId} {paymentMethods} {customerEmail} {customerIp} paymentId={payment.id} paymentRef={payment.ref}/>
         </div>
         <!-- end col -->
-        <OrderSummary {payment} bind:couponId={couponId}/>
+        <OrderSummary {payment} {packageObj} bind:couponId={couponId}/>
         
     </div>
     

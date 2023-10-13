@@ -1,4 +1,4 @@
-import { PathGetStudent,PathGetPaymentMethods,PathInitPayment,PathGetBillings,DefaultGetQueries } from "$lib/api/paths"
+import { PathGetPackagesById,PathGetPaymentMethods,PathInitPayment,PathGetBillings,DefaultGetQueries } from "$lib/api/paths"
 
 import { redirector } from "$lib/api/auth";
 
@@ -30,17 +30,16 @@ export async function load({fetch,url,depends,params}) {
             Authorization: `${localStorage.getItem("SID")}`
         }
     })
-    redirector(res)
-
-
+    redirector(res)    
     let paymentMethodsResponse = await res.json()
 
     return {student:initPaymentResponse.data.student,
         payment:initPaymentResponse.data.payment,
+        package:initPaymentResponse.data.package,
         customerIp:initPaymentResponse.data.customer_ip,
         customerEmail:initPaymentResponse.data.customer_email,
         billings:billingsResponse.data.billings,
         paymentMethods:paymentMethodsResponse.data.paymentMethods,
-        tabTitle:"Check-Out"
+        tabTitle:"Check Out"
     }
 };

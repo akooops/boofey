@@ -38,3 +38,4 @@ export function imageDataURLToFile(dataURI) {
 
     return new File([blob], `${Date.now()}.jpeg`, { type: 'image/jpeg' });
   }
+

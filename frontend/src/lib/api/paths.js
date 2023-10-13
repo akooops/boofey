@@ -257,6 +257,14 @@ export function PathDelSub(subId){
     return `${ADMIN_DOMAIN}/subscriptions/${subId}`
 }
 
+export function PathGetPaymentDetails(paymentId,type){
+    if(type == "parent"){
+        return `${PARENT_DOMAIN}/payments/${paymentId}`
+    }
+    return `${ADMIN_DOMAIN}/payments/${paymentId}`
+
+}
+
 //////
 export function PathGetQueues(canteenId,{page,search}){
     return `${ADMIN_DOMAIN}/canteens/${canteenId}/queues?page=${page}&search=${search}`
@@ -389,6 +397,8 @@ export function PathAddPaymentMethod(fatherId){
 export function PathDelPaymentMethod(paymentMethodId){
     return `${PARENT_DOMAIN}/paymentMethods/${paymentMethodId}`
 }
+
+
 
 
 
