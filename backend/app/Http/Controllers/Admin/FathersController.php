@@ -19,7 +19,7 @@ class FathersController extends Controller
     {
         $perPage = limitPerPage($request->query('perPage', 10));
         $page = checkPageIfNull($request->query('page', 1));
-        $search = $request->query('search');
+        $search = checkIfSearchEmpty($request->query('search'));
 
         $fathers = Father::latest()->with([
             'user:id,username,email,phone', 

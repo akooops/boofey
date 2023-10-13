@@ -64,7 +64,7 @@ class CanteensController extends Controller
     {
         $perPage = limitPerPage($request->query('perPage', 10));
         $page = checkPageIfNull($request->query('page', 1));
-        $search = $request->query('search');
+        $search = checkIfSearchEmpty($request->query('search'));
 
         $user = Auth::user();
         $canteensQuery = $user->canteens();

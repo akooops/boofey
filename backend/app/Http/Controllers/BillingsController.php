@@ -33,7 +33,7 @@ class BillingsController extends Controller
             ], 404);
         }
 
-        $search = $request->query('search');
+        $search = checkIfSearchEmpty($request->query('search'));
 
         $billingsQuery = Billing::latest()->where([
             'father_id' => $father->id

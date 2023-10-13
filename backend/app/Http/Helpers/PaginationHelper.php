@@ -21,6 +21,10 @@ function checkPageIfNull($value){
     return ($value === null || !is_numeric($value)) ? 1 : $value;
 }
 
+function checkIfSearchEmpty($value){
+    return (empty($value) ? null : $value);
+}
+
 function pages($currentPage, $totalPages){
     $maxVisiblePages = 5; 
 

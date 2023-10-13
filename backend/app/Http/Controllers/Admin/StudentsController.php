@@ -66,7 +66,7 @@ class StudentsController extends Controller
     {
         $perPage = limitPerPage($request->query('perPage', 10));
         $page = checkPageIfNull($request->query('page', 1));
-        $search = $request->query('search');
+        $search = checkIfSearchEmpty($request->query('search'));
         $archived = $request->query('archived', false);
 
         $studentsQuery = Student::latest()->where('archived', false)->with([

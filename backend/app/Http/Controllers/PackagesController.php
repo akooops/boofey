@@ -16,7 +16,7 @@ class PackagesController extends Controller
     {
         $perPage = limitPerPage($request->query('perPage', 10));
         $page = checkPageIfNull($request->query('page', 1));
-        $search = $request->query('search');
+        $search = checkIfSearchEmpty($request->query('search'));
 
         $school->load([
             'logo:id,current_name,path'

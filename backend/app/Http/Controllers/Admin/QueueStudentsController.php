@@ -31,7 +31,7 @@ class QueueStudentsController extends Controller
 
         $perPage = limitPerPage($request->query('perPage', 10));
         $page = checkPageIfNull($request->query('page', 1));
-        $search = $request->query('search');
+        $search = checkIfSearchEmpty($request->query('search'));
 
         $queueStudents = QueueStudent::with([
             'student:id,firstname,lastname',

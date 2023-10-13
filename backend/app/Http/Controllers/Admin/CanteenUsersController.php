@@ -15,7 +15,7 @@ class CanteenUsersController extends Controller
     public function getCanteens(Request $request){
         $perPage = limitPerPage($request->query('perPage', 10));
         $page = checkPageIfNull($request->query('page', 1));
-        $search = $request->query('search');
+        $search = checkIfSearchEmpty($request->query('search'));
 
         $canteens = Canteen::latest()->with(
             'school:id,name,file_id',
@@ -68,7 +68,7 @@ class CanteenUsersController extends Controller
 
         $perPage = limitPerPage($request->query('perPage', 10));
         $page = checkPageIfNull($request->query('page', 1));
-        $search = $request->query('search');
+        $search = checkIfSearchEmpty($request->query('search'));
 
         if ($search) {
             $canteens->where(function ($query) use ($search) {

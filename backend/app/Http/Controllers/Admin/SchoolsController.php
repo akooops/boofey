@@ -19,7 +19,7 @@ class SchoolsController extends Controller
     {
         $perPage = limitPerPage($request->query('perPage', 10));
         $page = checkPageIfNull($request->query('page', 1));
-        $search = $request->query('search');
+        $search = checkIfSearchEmpty($request->query('search'));
 
         $schools = School::latest()->with([
             'logo:id,path,current_name', 

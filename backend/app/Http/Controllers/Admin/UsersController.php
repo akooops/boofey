@@ -19,7 +19,7 @@ class UsersController extends Controller
     {
         $perPage = limitPerPage($request->query('perPage', 10));
         $page = checkPageIfNull($request->query('page', 1));
-        $search = $request->query('search');
+        $search = checkIfSearchEmpty($request->query('search'));
 
         $users = User::latest()->with([
             'profile:id,user_id,firstname,lastname,file_id',
