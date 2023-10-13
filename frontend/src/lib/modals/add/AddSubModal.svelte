@@ -90,9 +90,9 @@
             subtotal = packageObj.currentPrice
             tax = packageObj.tax
         }
-
+        // console.log(bill({subtotal,tax,coupon}))
         [total,calculatedTax] = bill({subtotal,tax,coupon})
-
+        console.log(total,calculatedTax)
     }
 
 
@@ -193,7 +193,7 @@
                                         <table class="table table-borderless mb-0">
                                             <tbody>
                                                 <tr>
-                                                    <td>days : {days}</td>
+                                                    <td>days : </td>
                                                     <td class="text-end" id="cart-discount">{days !== "" ? days : "unset"}</td>
                                                 </tr>
                                                 <tr>
@@ -213,7 +213,7 @@
                                                 </tr>
                                                 {/if}
                                                 <tr>
-                                                    <td>Estimated Tax({tax}%) : </td>
+                                                    <td>Estimated Tax({tax == null ? 0 : tax}%) : </td>
                                                     <td class="text-end" id="cart-discount">
                                                         {#if tax !== ""}
                                                         + {parseFloat(calculatedTax).toFixed(3)} SAR

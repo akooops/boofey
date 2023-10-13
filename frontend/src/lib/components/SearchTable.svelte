@@ -6,14 +6,15 @@
     let searchQuery = ""
 
     function search(){
+        const url = new URL($page.url);
         if(searchQuery == ""){
-            const url = new URL($page.url);
             url.searchParams.delete("search")
             url.searchParams.delete("page")
-            goto(url)
-            return;
+        }else {
+            url.searchParams.delete("page")
+            url.searchParams.set("search",searchQuery)
         }
-        goto(`?search=${searchQuery}`);
+        goto(url)
     }
 
     function initSearchQuery(){

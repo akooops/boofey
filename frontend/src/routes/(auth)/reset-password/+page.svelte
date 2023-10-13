@@ -9,6 +9,10 @@
     let errors
     let step = "phone" 
     let phone 
+    let resendAvailable = true
+    let time = "01:00"
+    let timeLeft = 58
+
 
     async function sendPhone(){
         errors = {}
@@ -55,6 +59,32 @@ async function resetPassword(){
         Array.from(document.querySelectorAll("form .auth-pass-inputgroup")).forEach(function(e){Array.from(e.querySelectorAll(".password-addon")).forEach(function(r){r.addEventListener("click",function(r){var o=e.querySelector(".password-input");"password"===o.type?o.type="text":o.type="password"})})});
 })
 
+
+async function genCode(){
+        let formData = new FormData(form)
+        formData.set("phone",phone)
+        let res = await fetch(generatePasswordResetToken(),{
+            method:"POST",
+            body:formData
+        })
+
+        resendAvailable = false
+        updateTimer()
+
+}
+function updateTimer() {
+            const seconds = timeLeft % 60;
+            time = `00:${seconds < 10 ? '0' : ''}${seconds}`;
+
+            if (timeLeft === 0) {
+                // Timer has ended, you can add code to handle this event
+                resendAvailable = true
+                timeLeft = 59
+            } else {
+                timeLeft--;
+                setTimeout(updateTimer, 1000); // Update the timer every 1 second
+            }
+    }
 
 
 
@@ -157,7 +187,13 @@ async function resetPassword(){
         <!-- end card -->
 
         <div class="mt-4 text-center">
-            <p class="mb-0">Wait, I remember my password... <a href="/signin" class="fw-semibold text-primary text-decoration-underline"> Click here </a> </p>
+            {#if resendAvailable}
+            <p class="mb-0">Didn't receive the code  ? <a href="javascript:void(0);" on:click={genCode} class="fw-semibold text-primary text-decoration-underline"> Resend </a> </p>
+            {:else}
+            <p class="mb-0">You need to wait <span>{time}</span> in order to  resend again  </p>
+            
+
+            {/if}
         </div>
 
     </div>

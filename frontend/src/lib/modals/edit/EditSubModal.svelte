@@ -113,7 +113,7 @@
         subtotal = $subStore.payment.subtotal
         tax = $subStore.payment.tax
         balance = $subStore.balance
-        useCoupon = $subStore?.coupon ? true : false 
+        useCoupon = $subStore?.payment.coupon ? true : false 
         
     })
 

@@ -54,10 +54,11 @@ async function SendAdress(){
     }
 
 
+    if(addressId){
+        dispatch("proceed",{addressId})
+    }
 
 
-
-    dispatch("proceed",{addressId})
 }
 
 onMount(() => {
@@ -195,7 +196,7 @@ function setBillingObj(e){
     </div>
     {/if}
     <div class="d-flex align-items-start gap-3 mt-3">
-        <button type="button" class="btn btn-primary btn-label right ms-auto nexttab" on:click={SendAdress}>
+        <button type="button" class="btn btn-primary btn-label right ms-auto nexttab" on:click={SendAdress} disabled={!newAdress && addressId == null}>
             <i class="ri-bank-card-line label-icon align-middle fs-16 ms-2"></i>Proceed to Payment
         </button>
     </div>

@@ -105,7 +105,7 @@
                         <tbody>
                             {#if activeSub?.payment?.coupon}
                             <tr>
-                                <td>Discount <span class="text-muted">(activeSub?.payment?.coupon)</span> : </td>
+                                <td>Discount <span class="text-muted">({activeSub?.payment?.coupon})</span> : </td>
                                 <td class="text-end" id="cart-subtotal">{activeSub.payment.discount} SAR</td>
                             </tr>
                             {/if}

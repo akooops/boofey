@@ -147,7 +147,7 @@ export function PathDelParent(parentId){
 /////
 export function PathGetCanteens(schoolId,{page,search}){
     if(schoolId == null){
-        return `${ADMIN_DOMAIN}/canteens?page=${page}&search=${search}`
+        return `${ADMIN_DOMAIN}/getCanteens?page=${page}&search=${search}`
     }
     return `${ADMIN_DOMAIN}/schools/${schoolId}/canteens?page=${page}&search=${search}`
 }

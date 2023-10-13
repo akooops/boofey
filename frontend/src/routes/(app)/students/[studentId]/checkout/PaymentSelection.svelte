@@ -16,7 +16,9 @@
     }
 
     async function SendPaymentMethod(){
-        dispatch("proceed",{paymentMethodId})
+        if(paymentMethodId){
+            dispatch("proceed",{paymentMethodId})
+        }
     }
     async function back(){
         dispatch("back",{paymentMethodId})
@@ -46,5 +48,5 @@
 
 <div class="d-flex align-items-start gap-3 mt-4">
     <button type="button" class="btn btn-light btn-label previestab" on:click={back}><i class="ri-arrow-left-line label-icon align-middle fs-16 me-2" ></i>Back to Billing Info</button>
-    <button type="button" class="btn btn-primary btn-label right ms-auto nexttab" on:click={SendPaymentMethod}><i class="ri-shopping-basket-line label-icon align-middle fs-16 ms-2"></i>Complete Order</button>
+    <button type="button" class="btn btn-primary btn-label right ms-auto nexttab" on:click={SendPaymentMethod} disabled={paymentMethodId == null}><i class="ri-shopping-basket-line label-icon align-middle fs-16 ms-2"></i>Complete Order</button>
 </div>

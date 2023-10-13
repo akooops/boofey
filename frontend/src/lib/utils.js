@@ -11,7 +11,7 @@ export function bill({subtotal,tax,coupon}){
 
 
     subtotal = subtotal === "" ? 0 : subtotal
-    tax = tax === "" ? 0 : tax
+    tax = tax == null ? 0 : tax
 
     
     let discount = coupon?.id ? parseFloat(coupon.discount) : 0

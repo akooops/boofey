@@ -100,11 +100,11 @@
                             </tr>
                             <tr>
                                 <td>Discount <span class="text-muted">({discount}%)</span> : </td>
-                                <td class="text-end" id="cart-discount">{isNaN(parseFloat(discount * (subtotal / 100)).toFixed(3)) ? "unset" : parseFloat(discount * (subtotal / 100)).toFixed(3)} SAR</td>
+                                <td class="text-end" id="cart-discount">{isNaN(parseFloat(discount * (subtotal / 100))) ? "unset" : parseFloat(discount * (subtotal / 100)).toFixed(3)} SAR</td>
                             </tr>
                             <tr>
                                 <td>Estimated Tax ({tax}%) : </td>
-                                <td class="text-end" id="cart-tax">{isNaN(calculatedTax) ? "unset" : calculatedTax} SAR</td>
+                                <td class="text-end" id="cart-tax">{isNaN(calculatedTax) ? "unset" : calculatedTax.toFixed(3)} SAR</td>
                             </tr>
                             <tr class="table-active">
                                 <th>Total (SAR) :</th>
