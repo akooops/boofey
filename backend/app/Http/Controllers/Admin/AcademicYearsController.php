@@ -117,6 +117,8 @@ class AcademicYearsController extends Controller
 
         if($request->input('current') == true) {
             AcademicYear::where('school_id', $school->id)->update(['current' => false]);
+
+            $school->students->update(['archived' => true]);
         }
 
         if($school->currentAcademicYear === null){
@@ -169,6 +171,12 @@ class AcademicYearsController extends Controller
 
         if($request->input('current') == true) {
             AcademicYear::where('school_id', $academicYear->school_id)->update(['current' => false]);
+        }
+
+        if($request->input('current') == true && $academicYear->current == false) {
+            $school = School::findOrFail($academicYear->school_id);
+
+            $school->students->update(['archived' => true]);
         }
 
         if($request->input('current') == false && $academicYear->current == true) {
