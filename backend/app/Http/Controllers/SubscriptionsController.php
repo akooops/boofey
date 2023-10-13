@@ -53,7 +53,7 @@ class SubscriptionsController extends Controller
         $subscriptions = Subscription::with([
             'payment',
             'payment.coupon:id,name,code,discount',
-            'payment.package:id,name,name_ar,sale_price,price,days,tax,popular',
+            'payment.package:id,name,name_ar,sale_price,price,days,tax,popular,school_id',
             'payment.package.school:id,name,name_ar,file_id',
             'payment.package.school.logo:id,path,current_nam',
             'payment.billing:id,firstname,lastname,email,phone,address,country,state,zipcode',
@@ -66,7 +66,7 @@ class SubscriptionsController extends Controller
             ->with([
                 'payment',
                 'payment.coupon:id,name,code,discount',
-                'payment.package:id,name,name_ar,sale_price,price,days,tax,popular',
+                'payment.package:id,name,name_ar,sale_price,price,days,tax,popular,school_id',
                 'payment.package.school:id,name,name_ar,file_id',
                 'payment.package.school.logo:id,path,current_nam',
                 'payment.billing:id,firstname,lastname,email,phone,address,country,state,zipcode',
