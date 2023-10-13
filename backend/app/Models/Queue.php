@@ -9,7 +9,7 @@ class Queue extends Model
 {
     use HasFactory;
 
-    protected $appends = ["closed", 'studentsCount', 'studentsInCount', 'studentsExitedCount', 'lastSyncedAt'];
+    protected $appends = ["closed", 'studentsPlucked', 'studentsCount', 'studentsInCount', 'studentsExitedCount', 'lastSyncedAt'];
 
     protected $fillable = [
         'type',
@@ -26,6 +26,11 @@ class Queue extends Model
     public function students()
     {
         return $this->belongsToMany(Student::class, 'queue_students', 'queue_id', 'student_id');
+    }
+
+    public function getStudentsPluckedAttribute()
+    {
+        return $this->students()->pluck('students.id');
     }
 
     public function getClosedAttribute(){

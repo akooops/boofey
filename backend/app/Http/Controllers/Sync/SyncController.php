@@ -26,6 +26,40 @@ class SyncController extends Controller
     public function sync(Request $request) 
     {
         $canteen = $request->get('canteen');
+
+        return response()->json([
+            'status' => 'success',
+            'data' => [
+                'school' => [
+                    'id' => $canteen->school->id,
+                    'name' => $canteen->school->name,
+                    'name_ar' => $canteen->school->name_ar,
+                    'logo' => ($canteen->school->logo != null) ? [
+                        'id' => $canteen->school->logo->id,
+                        'full_path' => $canteen->school->logo->full_path,
+                    ] : null,
+                ],
+                'canteen' => [
+                    'id' => $canteen->id,
+                    'name' => $canteen->name,
+                    'name_ar' => $canteen->name_ar,
+                    'address' => $canteen->address,
+                    'address_ar' => $canteen->address_ar
+                ],
+                'current_queue' => ($canteen->currentQueue != null) ? [
+                    'id' => $canteen->currentQueue->id,
+                    'type' => $canteen->currentQueue->type,
+                    'started_at' => $canteen->currentQueue->started_at,
+                    'closed_at' => $canteen->currentQueue->closed_at,
+                    'students' => $canteen->currentQueue->studentsPlucked
+                ] : null,
+                'synced_at' => Carbon::now()
+            ]
+        ]);
+    }
+
+    public function syncStudents(Request $request){
+        $canteen = $request->get('canteen');
         $students = $canteen->school->students->where('onhold', false)->where('archived', false);
 
         $studentsData = [];
@@ -58,28 +92,6 @@ class SyncController extends Controller
         return response()->json([
             'status' => 'success',
             'data' => [
-                'school' => [
-                    'id' => $canteen->school->id,
-                    'name' => $canteen->school->name,
-                    'name_ar' => $canteen->school->name_ar,
-                    'logo' => ($student->school->logo != null) ? [
-                        'id' => $student->school->logo->id,
-                        'full_path' => $student->school->logo->full_path,
-                    ] : null,
-                ],
-                'canteen' => [
-                    'id' => $canteen->id,
-                    'name' => $canteen->name,
-                    'name_ar' => $canteen->name_ar,
-                    'address' => $canteen->address,
-                    'address_ar' => $canteen->address_ar
-                ],
-                'current_queue' => ($canteen->currentQueue != null) ? [
-                    'id' => $canteen->currentQueue->id,
-                    'type' => $canteen->currentQueue->type,
-                    'started_at' => $canteen->currentQueue->started_at,
-                    'closed_at' => $canteen->currentQueue->closed_at,
-                ] : null,
                 'students' => $studentsData,
                 'synced_at' => Carbon::now()
             ]
@@ -130,10 +142,12 @@ class SyncController extends Controller
         ]);
     }
 
-    public function queues($id, SyncQueueRequest $request){
-        $queue = Queue::find($id);
-        
-        if (!$queue) {
+    public function queues(SyncQueueRequest $request){
+        $canteen = $request->get('canteen');
+
+        $queue = $canteen->currentQueue;
+
+        if ($queue == null) {
             return response()->json([
                 'status' => 'error',
                 'errors' => [

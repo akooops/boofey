@@ -27,7 +27,7 @@ class SyncQueueRequest extends FormRequest
     {
         return [
             'students' => 'required|array',
-            'students.*.id' => 'required|integer',
+            'students.*.id' => 'required|exists:students,id',
             'students.*.started_at' => 'required|date_format:Y-m-d H:i:s',
         ];
     }

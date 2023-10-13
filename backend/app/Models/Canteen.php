@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Crypt;
@@ -37,7 +38,9 @@ class Canteen extends Model
     }
 
     public function currentQueue(){
-        return $this->hasOne(Queue::class, 'canteen_id', 'id')->where('started_at', '!=', NULL)->where('closed_at', NULL);
+        $today = Carbon::today();
+
+        return $this->hasOne(Queue::class, 'canteen_id', 'id')->whereDate('started_at', $today)->where('closed_at', NULL);
     }
 
     public function users()
