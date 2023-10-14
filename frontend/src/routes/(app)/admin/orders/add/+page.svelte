@@ -11,7 +11,7 @@ import { writable } from 'svelte/store';
 
 
 
-export let data
+// export let data
 
 let productsList = []
 

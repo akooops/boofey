@@ -5,6 +5,9 @@
 
 </script>
 
+<svelte:head>
+	<title>{$page.status == 404 ? "Page not Found 404" : "Internal error 500"} - boofey</title>
+</svelte:head>
 
 {#if $page.status == 404}
 <E404 />
