@@ -72,7 +72,7 @@ class SubscriptionsController extends Controller
         }
 
         $subscriptions = $subscriptions->paginate($perPage, ['*'], 'page', $page);
-        $packages = Package::select('id', 'name', 'price', 'sale_price', 'days')->where('school_id', $student->school_id)->get();
+        $packages = Package::select('id', 'name', 'price', 'sale_price', 'days', 'tax')->where('school_id', $student->school_id)->get();
 
         $response = [
             'status' => 'success',
