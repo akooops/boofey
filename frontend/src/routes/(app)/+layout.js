@@ -9,6 +9,5 @@ export async function load({fetch,cookies,url,depends}) {
 
    
     let userResponse = await ProfileData()
-    
     return {userResponse}
 };
