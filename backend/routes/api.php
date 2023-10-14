@@ -81,12 +81,12 @@ Route::group(['namespace' => 'App\Http\Controllers', 'middleware' => ['auth:sanc
 });
 
 Route::group(['namespace' => 'App\Http\Controllers', 'middleware' => ['auth:sanctum', 'convert.bool.string']], function(){ 
-    Route::post('users/generateVerificationCode', 'UsersController@generateVerificationCode')->name('parents.users.generateVerificationCode');
+    Route::post('users/generateVerificationCode', 'UsersController@generateVerificationCode')->name('parents.users.generateVerificationCode')->middleware('throttle:1,1');
     Route::post('users/verify', 'UsersController@verify')->name('parents.users.verify');
 });
 
 Route::group(['namespace' => 'App\Http\Controllers', 'middleware' => ['convert.bool.string']], function(){ 
-    Route::post('users/generatePasswordResetToken', 'UsersController@generatePasswordResetToken')->name('users.generatePasswordResetToken');
+    Route::post('users/generatePasswordResetToken', 'UsersController@generatePasswordResetToken')->name('users.generatePasswordResetToken')->middleware('throttle:1,1');
     Route::post('users/passwordReset', 'UsersController@passwordReset')->name('users.passwordReset');
 });
 
