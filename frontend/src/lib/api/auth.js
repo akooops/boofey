@@ -6,7 +6,7 @@ export function redirector(res){
     if(!res.ok){
         if(res.status == 403){
             goto("/signin")
-        }else {
+        }else if (res.status == 404 || res.status == 500){
             throw error(res.status)
         }        
     }

@@ -3,6 +3,10 @@
     import { goto } from '$app/navigation';
 	import { onMount } from "svelte";
     import {initApp} from "$lib/init/initApp.js"
+    import { navigating } from '$app/stores';
+	import Password from "$lib/components/Password.svelte";
+
+
 
     export let data;
     let form 
@@ -28,12 +32,13 @@
             }
 
 
-            if(resJson?.data?.roles[0]?.name != "parent"){
-                goto("/admin")
-            }else {
-                // console.log("not admin")
-                goto("/students")
-            }
+            // if(resJson?.data?.roles[0]?.name != "parent"){
+            //     goto("/admin")
+            // }else {
+            //     // console.log("not admin")
+            //     goto("/students")
+            // }
+            history.back()
         }else {
             if(res.status == 422){
                 errors = resJson.errors
@@ -44,8 +49,9 @@
     }
 
     onMount(() => {
-        Array.from(document.querySelectorAll("form .auth-pass-inputgroup")).forEach(function(e){Array.from(e.querySelectorAll(".password-addon")).forEach(function(r){r.addEventListener("click",function(r){var o=e.querySelector(".password-input");"password"===o.type?o.type="text":o.type="password"})})});
     })
+
+
 
 </script>
 
@@ -76,8 +82,7 @@
                                         </div>
                                         <label class="form-label" for="password-input">Password</label>
                                         <div class="position-relative auth-pass-inputgroup mb-3">
-                                            <input type="password" class="form-control pe-5 password-input" placeholder="Enter password" name="password" id="password-input">
-                                            <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon" type="button" id="password-addon"><i class="ri-eye-fill align-middle"></i></button>
+                                            <Password name={"password"} placeholder={"Enter password"}/>
                                         </div>
                                         {#if errors?.password}
                                         <strong class="text-danger ms-1 my-2">{errors.password[0]}</strong>

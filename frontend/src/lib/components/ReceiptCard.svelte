@@ -62,7 +62,7 @@
                             <!--end col-->
                             <div class="col-lg-3 col-6">
                                 <p class="text-muted mb-2 text-uppercase fw-semibold">Payment Status</p>
-                                {#if payment.status == 14}
+                                {#if payment.status == 14 || payment.status == null}
                                     <span class="badge bg-success-subtle text-success fs-11" id="payment-status">Success</span>
                                 {:else}
                                 <span class="badge bg-danger-subtle text-danger fs-11" id="payment-status">Failed</span>
@@ -88,15 +88,15 @@
                                 <p class="fw-medium mb-2" id="billing-name">{payment?.billing?.firstname} {payment?.billing?.lastname}</p>
                                 <p class="text-muted mb-1" id="billing-address-line-1">{payment?.billing?.email}</p>
                                 <p class="text-muted mb-1">{payment?.billing?.phone}</p>
-                                <p class="text-muted mb-1">{payment?.billing?.country},{payment?.billing?.state},{payment?.billing?.zipcode}</p>
+                                <p class="text-muted mb-1">{payment?.billing?.state},{payment?.billing?.city},{payment?.billing?.zipcode}</p>
                                 <p class="text-muted mb-0">{payment?.billing?.address}</p>
                             </div>
                             {/if}
                             <!--end col-->
                             <div class="col-6">
                                 <h6 class="text-muted text-uppercase fw-semibold mb-3">Student</h6>
-                                <p class="fw-medium mb-2" id="billing-name">{payment?.student.fullname}</p>
-                                <p class="text-muted mb-0" id="billing-address-line-1">Class : {payment?.student.className}</p>
+                                <p class="fw-medium mb-2" id="billing-name">{payment?.student?.fullname}</p>
+                                <p class="text-muted mb-0" id="billing-address-line-1">Class : {payment?.student?.className}</p>
                             </div>
                             <!--end col-->
                         </div>
@@ -158,6 +158,7 @@
                             </table>
                             <!--end table-->
                         </div>
+                        {#if payment?.payment_method}
                         <div class="mt-3">
                             <h6 class="text-muted text-uppercase fw-semibold mb-3">Payment Details:</h6>
                             <p class="text-muted mb-1">Payment Method: <span class="fw-medium" id="payment-method">Mastercard</span></p>
@@ -165,6 +166,7 @@
                             <p class="text-muted mb-1">Card Number: <span class="fw-medium" id="card-number">{payment.payment_method.card_number}</span></p>
                             <p class="text-muted">Total Amount: {payment.total} SAR</p>
                         </div>
+                        {/if}
                         <!-- <div class="mt-4">
                             <div class="alert alert-info">
                                 <p class="mb-0"><span class="fw-semibold">NOTES:</span>

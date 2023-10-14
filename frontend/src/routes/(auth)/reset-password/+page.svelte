@@ -3,6 +3,9 @@
     import { goto } from '$app/navigation';
 	import { onMount } from "svelte";
     import {initApp} from "$lib/init/initApp.js"
+	import Password from "$lib/components/Password.svelte";
+    import { phoneMask } from "$lib/inputMasks.js";
+
 
     export let data;
     let form 
@@ -28,7 +31,6 @@
             phone = formData.get("phone")
             step = "passwordReset"
 
-            Array.from(document.querySelectorAll("form .auth-pass-inputgroup")).forEach(function(e){Array.from(e.querySelectorAll(".password-addon")).forEach(function(r){r.addEventListener("click",function(r){var o=e.querySelector(".password-input");"password"===o.type?o.type="text":o.type="password"})})});
         }else {
             errors = res.errors
         }
@@ -56,8 +58,9 @@ async function resetPassword(){
     }
 
     onMount(() => {
-        Array.from(document.querySelectorAll("form .auth-pass-inputgroup")).forEach(function(e){Array.from(e.querySelectorAll(".password-addon")).forEach(function(r){r.addEventListener("click",function(r){var o=e.querySelector(".password-input");"password"===o.type?o.type="text":o.type="password"})})});
-})
+        phoneMask()
+
+    })
 
 
 async function genCode(){
@@ -111,7 +114,7 @@ function updateTimer() {
                     <form on:submit|preventDefault={sendPhone} bind:this={form}>
                         <div class="mb-4">
                             <label class="form-label">Phone</label>
-                            <input type="text" class="form-control" name="phone" id="cleave-phone" placeholder="Enter Phone Number">
+                            <input type="tel" class="form-control" name="phone" id="cleave-phone" placeholder="Enter Phone Number">
                         </div>
                         {#if errors?.phone}
                             <strong class="text-danger ms-1 my-2">{errors.phone[0]}</strong>
@@ -148,7 +151,8 @@ function updateTimer() {
                         <div class="mb-3">
                             <label class="form-label" for="password-input">Password</label>
                             <div class="position-relative auth-pass-inputgroup">
-                                <input type="password" class="form-control pe-5 password-input" name="password" placeholder="Enter password" id="password-input" aria-describedby="passwordInput" >
+                                
+                                <Password name={"password"} placeholder={"Enter password"}/>
                                 <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon" type="button" id="password-addon"><i class="ri-eye-fill align-middle"></i></button>
                             </div>
                             {#if errors?.password}
@@ -159,7 +163,7 @@ function updateTimer() {
                         <div class="mb-3">
                             <label class="form-label" for="confirm-password-input">Confirm Password</label>
                             <div class="position-relative auth-pass-inputgroup mb-3">
-                                <input type="password" class="form-control pe-5 password-input" name="password_confirmation"  placeholder="Confirm password"  id="confirm-password-input" >
+                                <Password name={"password_confirmation"} placeholder={"Confirm password"}/>
                                 <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon" type="button" id="confirm-password-input"><i class="ri-eye-fill align-middle"></i></button>
                             </div>
                             {#if errors?.password_confirmation}

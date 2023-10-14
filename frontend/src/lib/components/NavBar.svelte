@@ -1,7 +1,7 @@
 <script>
+import UserItem from "../tables/items/UserItem.svelte";
 import {onMount} from "svelte"
 import { page } from '$app/stores';  
-import NavItem from "./NavItem.svelte"
 
     export let user = {}
 
@@ -57,6 +57,9 @@ import NavItem from "./NavItem.svelte"
   ];
 
 
+$: {
+    menuItems = user?.roles[0]?.name != "parent" ? menuItemsAdmin : menuItemsParent 
+}
 
 function checkEmptySubMenus(){
     let userPermissions = JSON.parse(sessionStorage.getItem("permissions")) 
@@ -74,23 +77,17 @@ function checkEmptySubMenus(){
 
 
 onMount(() => {
-    console.log(user)
-    // menuItems = user?.roles[0]?.name != "parent" ? menuItemsAdmin : menuItemsParent 
-    // menuItems = menuItemsAdmin
-
     checkEmptySubMenus()
 })
-export let pathname
-// page.subscribe(() => {
-//     console.log("page changed ")
-//     pathname = $page.url.pathname
-// })
+
+
 
 </script>
 
 
+
 <div class="app-menu navbar-menu">
-                <!-- LOGO -->
+    <!-- LOGO -->
     <div class="navbar-brand-box">
         <!-- Dark Logo-->
         <a href="index.html" class="logo logo-dark">
@@ -114,13 +111,14 @@ export let pathname
             <i class="ri-record-circle-line"></i>
         </button>
     </div>
+
     <div id="scrollbar">
         <div class="container-fluid">
 
             <div id="two-column-menu">
             </div>
             <ul class="navbar-nav" id="navbar-nav">
-                {#each menuItemsAdmin as item}
+                {#each menuItems as item}
 
                     {#if item.title}
                         <li class="menu-title"><span >{item.title}</span></li>
@@ -148,7 +146,11 @@ export let pathname
                             {:else}
 
 
-                            <NavItem {submenu}/>
+                            <li class="nav-item">
+                                <a class="nav-link menu-link" class:active={$page.url.pathname.includes(submenu.route)} href="{submenu.route}"  role="button" aria-expanded="false" >
+                                    <i class="{submenu.icon}"></i> <span >{submenu.title}</span>
+                                </a>
+                            </li>
                             {/if}
                         <!-- {/if} -->
                     
