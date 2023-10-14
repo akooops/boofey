@@ -31,8 +31,8 @@ class UpdateBillingRequest extends FormRequest
             'email' => 'required|email:rfc,dns',
             'phone' => 'required|phone',
             'address' => 'required|string',
-            'country' => 'required|string|max:255',
             'state' => 'required|string|max:255',
+            'city' => 'required|string|max:255',
             'zipcode' => 'required|string|max:255',
         ];
 

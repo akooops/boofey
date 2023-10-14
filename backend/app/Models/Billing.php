@@ -15,7 +15,7 @@ class Billing extends Model
         'email',
         'phone',
         'address',
-        'country',
+        'city',
         'state',
         'zipcode',
         'father_id',
