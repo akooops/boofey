@@ -51,7 +51,13 @@ async function exitQueue(result){
     errors = {}
     await qrScanner.stop();
     loading = true 
-    result = JSON.parse(result.data)
+    try {
+        result = JSON.parse(result.data)
+    }catch(e){
+        loading = false
+        errors.json = ["Qr code isn't in the correct format"]
+        return;
+    }
     let formData = new FormData()
     formData.set("queue_id",result.queue_id)
     formData.set("student_id",result.student_id)
@@ -106,7 +112,7 @@ async function switchCamera(){
                     {/if}
                 </div>
             </div><!-- end card header -->
-            {#if noCamera || errors?.student_id || errors?.queue_id}
+            {#if noCamera || Object.keys(errors).length > 0}
             <div class="card-body">
                 <!-- Danger Alert -->
                 {#if noCamera}
@@ -115,9 +121,21 @@ async function switchCamera(){
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
                 {/if}
+                {#if errors?.json}
+                <div class="alert alert-danger alert-border-left alert-dismissible fade show" role="alert">
+                    <i class="ri-error-warning-line me-3 align-middle"></i> {errors.json[0]}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {/if}
                 {#if errors?.student_id}
                 <div class="alert alert-danger alert-border-left alert-dismissible fade show" role="alert">
                     <i class="ri-error-warning-line me-3 align-middle"></i> {errors.student_id[0]}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {/if}
+                {#if errors?.queue_student_id}
+                <div class="alert alert-danger alert-border-left alert-dismissible fade show" role="alert">
+                    <i class="ri-error-warning-line me-3 align-middle"></i> {errors.queue_student_id[0]}
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
                 {/if}
@@ -140,7 +158,7 @@ async function switchCamera(){
                 <span class="sr-only">Loading...</span>
             </div>
         </div>
-        {:else if errors?.student_id || errors?.queue_id && status != "neutral"}
+        {:else if Object.keys(errors).length > 0 && status != "neutral"}
             {#if status == "error"}
             <div class="row  text-center">
                 <i class="ri-error-warning-line text-danger fs-1 align-middle"></i>

@@ -10,6 +10,4 @@
 <E404 />
 {:else if $page.status == 500}
 <E500 />
-
-
 {/if}
