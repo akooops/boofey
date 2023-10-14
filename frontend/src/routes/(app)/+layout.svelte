@@ -28,19 +28,19 @@
     
     
     <TopBar {user}/>
-    <NavBar {user}/>
-    
-        <!-- ========== App Menu ========== -->
+    <NavBar {user} bind:pathname={$page.url.pathname}/>
+    <!-- ========== App Menu ========== -->
     <div class="vertical-overlay"></div>
     <!-- Left Sidebar End -->
     
     <!-- right content  start -->
     
-        <div class="main-content">
-            <div class="page-content">
-                <div class="container-fluid">
-                     <!-- start page title -->
-                     <BreadCrumbs />
+    <div class="main-content">
+        <div class="page-content">
+            <div class="container-fluid">
+                <!-- start page title -->
+                <BreadCrumbs />
+                {$page.url.pathname}
                     <!-- end page title -->
                     <slot /> 
                 </div>
