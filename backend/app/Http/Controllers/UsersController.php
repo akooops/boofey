@@ -34,6 +34,13 @@ class UsersController extends Controller
         
         $user->verificationCodes()->save($verificationCode);
 
+        if (config('app.debug') != true) {
+            sendSMS(
+                "Boofey - Your verification code is: {$verificationCode->code}",
+                $user->phone
+            );
+        }
+
         $response = [
             'status' => 'success',
         ];
@@ -91,7 +98,7 @@ class UsersController extends Controller
         if($passwordReset != null)
             $passwordReset->delete();
 
-        $expiration = now()->addMinutes(1);
+        $expiration = now()->addMinutes(5);
         
         $passwordReset = new PasswordReset([
             'phone' => $request->input('phone'),
@@ -100,6 +107,13 @@ class UsersController extends Controller
 
         $passwordReset->generateToken();
         $passwordReset->save();
+
+        if (config('app.debug') != true) {
+            sendSMS(
+                "Boofey - Your password reset token is: {$passwordReset->token}",
+                $request->input('phone')
+            );
+        }
 
         $response = [
             'status' => 'success',

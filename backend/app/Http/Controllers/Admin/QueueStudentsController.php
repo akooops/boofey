@@ -158,7 +158,19 @@ class QueueStudentsController extends Controller
             'queue_id' => $request->get('queue_id')
         ])->first();
 
+        if($queueStudent === null){
+            return response()->json([
+                'status' => 'error',
+                'errors' => [
+                    'queue_student_id' => [
+                        'This student is not in the givven queue'
+                    ]
+                ],
+            ], 422);
+        }
+
         $queueStudent->update(['exited_at' => Carbon::now()]);
+        
 
         return response()->json([
             'status' => 'success'

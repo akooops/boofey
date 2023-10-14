@@ -77,6 +77,13 @@ class AuthController extends Controller
         
         $user->verificationCodes()->save($verificationCode);
 
+        if (config('app.debug') != true) {
+            sendSMS(
+                "Boofey - Your verification code is: {$verificationCode->code}",
+                $user->phone
+            );
+        }
+        
         return response()->json([
             'status' => 'success',
             'data' => [
