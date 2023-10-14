@@ -4,6 +4,8 @@
 	import { onMount } from "svelte";
     import {initApp} from "$lib/init/initApp.js"
 	import Password from "$lib/components/Password.svelte";
+    import { phoneMask } from "$lib/inputMasks.js";
+
 
     export let data;
     let form 
@@ -35,7 +37,9 @@
     }
 
     onMount(() => {
-        Array.from(document.querySelectorAll("form .auth-pass-inputgroup")).forEach(function(e){Array.from(e.querySelectorAll(".password-addon")).forEach(function(r){r.addEventListener("click",function(r){var o=e.querySelector(".password-input");"password"===o.type?o.type="text":o.type="password"})})});
+        phoneMask()
+
+
     })
 
 </script>

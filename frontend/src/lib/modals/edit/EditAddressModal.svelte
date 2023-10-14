@@ -99,7 +99,7 @@
                             <div class="col-sm-6">
                                 <div class="mb-3">
                                     <label for="billinginfo-phone" class="form-label">Phone</label>
-                                    <input type="text" class="form-control" name="phone" id="billinginfo-phone" placeholder="Enter phone no."  bind:value={billingObj.phone}>
+                                    <input type="tel" class="form-control" name="phone" id="billinginfo-phone" placeholder="Enter phone no."  bind:value={billingObj.phone}>
                                     {#if errors?.phone}
                                     <strong class="text-danger ms-1 my-2">{errors.phone[0]}</strong>
                                     {/if}

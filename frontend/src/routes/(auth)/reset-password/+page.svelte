@@ -4,6 +4,8 @@
 	import { onMount } from "svelte";
     import {initApp} from "$lib/init/initApp.js"
 	import Password from "$lib/components/Password.svelte";
+    import { phoneMask } from "$lib/inputMasks.js";
+
 
     export let data;
     let form 
@@ -29,7 +31,6 @@
             phone = formData.get("phone")
             step = "passwordReset"
 
-            Array.from(document.querySelectorAll("form .auth-pass-inputgroup")).forEach(function(e){Array.from(e.querySelectorAll(".password-addon")).forEach(function(r){r.addEventListener("click",function(r){var o=e.querySelector(".password-input");"password"===o.type?o.type="text":o.type="password"})})});
         }else {
             errors = res.errors
         }
@@ -57,8 +58,9 @@ async function resetPassword(){
     }
 
     onMount(() => {
-        Array.from(document.querySelectorAll("form .auth-pass-inputgroup")).forEach(function(e){Array.from(e.querySelectorAll(".password-addon")).forEach(function(r){r.addEventListener("click",function(r){var o=e.querySelector(".password-input");"password"===o.type?o.type="text":o.type="password"})})});
-})
+        phoneMask()
+
+    })
 
 
 async function genCode(){
@@ -112,7 +114,7 @@ function updateTimer() {
                     <form on:submit|preventDefault={sendPhone} bind:this={form}>
                         <div class="mb-4">
                             <label class="form-label">Phone</label>
-                            <input type="text" class="form-control" name="phone" id="cleave-phone" placeholder="Enter Phone Number">
+                            <input type="tel" class="form-control" name="phone" id="cleave-phone" placeholder="Enter Phone Number">
                         </div>
                         {#if errors?.phone}
                             <strong class="text-danger ms-1 my-2">{errors.phone[0]}</strong>

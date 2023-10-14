@@ -1,6 +1,9 @@
 <script>    
     import OrderSummary from "./OrderSummary.svelte";
     import BillingCard from "./BillingCard.svelte";
+import { phoneMask } from "$lib/inputMasks.js";
+import { onMount } from "svelte";
+
     export let data
     $:billings = data.billings
     $:payment = data.payment
@@ -12,7 +15,9 @@
 
     // let productsList = []
         let couponId
-        
+        onMount(() => {
+            phoneMask()
+        })
 
     </script>
 

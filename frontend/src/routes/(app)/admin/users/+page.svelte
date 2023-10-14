@@ -16,7 +16,6 @@ import { phoneMask } from "$lib/inputMasks.js";
 let usersPage
 onMount(() => {
     initToolTip(usersPage)
-    console.log("hi")
     phoneMask()
 })
 
