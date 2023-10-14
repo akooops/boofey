@@ -22,7 +22,7 @@ class AuthController extends Controller
         $user = Auth::user();
 
         $user = User::with([
-            'profile:id,user_id,firstname,lastname',
+            'profile:id,user_id,firstname,lastname,file_id',
             'profile.image:id,current_name,path',
             'roles:id,name,guard_name', 
             'roles.permissions:id,name,guard_name', 
