@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Models\PasswordReset;
 use App\Models\Queue;
+use App\Models\QueueStudent;
 use Illuminate\Console\Command;
 use Carbon\Carbon;
 
@@ -25,14 +26,12 @@ class CloseQueues extends Command
         // Assuming you have a QueueItem model
         $unclosedQueues = Queue::whereNull('closed_at')
             ->where('started_at', '<', $now)
-            ->where('closed_at', NULL)
-            ->get();
+            ->update(['closed_at' => $now]);
     
-        foreach ($unclosedQueues as $unclosedQueue) {
-            $unclosedQueue->closed_at = $now;
-            $unclosedQueue->save();
-        }
+        $unexitedQueues = QueueStudent::whereNull('exited_at')
+            ->where('started_at', '<', $now)
+            ->update(['exited_at' => $now]);
 
-        $this->info(count($unclosedQueues) . ' queue items closed.');
+        $this->info("Queue items closed and unexited students exited");
     }
 }
