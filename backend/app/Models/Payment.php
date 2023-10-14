@@ -35,7 +35,7 @@ class Payment extends Model
 
     public function subscription()
     {
-        return $this->belongsTo(Subscription::class, 'id', 'payment_id');
+        return $this->belongsTo(Subscription::class);
     }
 
     public function package()
@@ -158,11 +158,11 @@ class Payment extends Model
         ]);
     }
 
-    public function generateRef(){
+    public function generateRef($prefix = 'PURCHASE'){
         $ref = null;
 
         do {
-            $ref = 'PURCHASE-'.strtoupper(Str::random(8));
+            $ref = "{$prefix}-".strtoupper(Str::random(8));
         
             $paymentWithRef = Payment::where('ref', $ref)->first();
         } while ($paymentWithRef != null);
@@ -185,12 +185,14 @@ class Payment extends Model
     }
 
     public function getDiscountCalculatedAttribute(){
-        return $this->subtotal * ($this->discount / 100);
+        $discount = $this->subtotal * ($this->discount / 100);
+        return number_format($discount, 2);
     }
 
     public function getTaxCalculatedAttribute(){
         $total = $this->subtotal - $this->subtotal * ($this->discount / 100);
+        $tax = $total * ($this->tax / 100);
 
-        return $total * ($this->tax / 100);
+        return number_format($tax, 2);
     }
 }

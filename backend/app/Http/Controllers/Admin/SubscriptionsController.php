@@ -129,6 +129,7 @@ class SubscriptionsController extends Controller
         }
 
         $payment->calculateTotal();
+        $payment->generateRef('SYSTEM');
         $payment->save();
         $payment->saveSubscriptionInfo($student, $days, $balance, $request->get('should_start_at'));
 
