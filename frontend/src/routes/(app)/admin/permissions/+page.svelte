@@ -51,4 +51,3 @@ onMount(() => {
     </div>
     <!-- end col -->
 </div>
-

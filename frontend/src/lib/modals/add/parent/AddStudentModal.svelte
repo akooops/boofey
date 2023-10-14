@@ -43,8 +43,8 @@ import SchoolsTableCollapse from "$lib/modals/collapses/parent/SchoolsTableColla
         let videoHeight = 400; 
         let scale = 1; 
 
-        videoWidth = video.offsetWidth;
-        videoHeight = video.offsetHeight;
+        videoWidth = video?.offsetWidth;
+        videoHeight = video?.offsetHeight;
 
         if (videoWidth < 400 || videoHeight < 400) {
             scale = Math.min(videoWidth / 400, videoHeight / 400); 
