@@ -4,6 +4,7 @@
     import { toast } from "$lib/components/toast.js";
     import { invalidate } from '$app/navigation';
     import { redirector } from "$lib/api/auth";
+    import Password from "$lib/components/Password.svelte"
     
     let form
     let errors
@@ -50,7 +51,7 @@
             <div class="col-lg-4">
                 <div>
                     <label for="oldpasswordInput" class="form-label">Old Password</label>
-                    <input type="password" class="form-control" id="oldpasswordInput" name="old_password" placeholder="Enter current password">
+                    <Password name={"old_password"} placeholder={"Enter current password"}/>
                     {#if errors?.old_password}
                         <strong class="text-danger ms-1 my-2">{errors.old_password[0]}</strong>
                     {/if}
@@ -60,7 +61,7 @@
             <div class="col-lg-4">
                 <div>
                     <label for="newpasswordInput" class="form-label">New Password</label>
-                    <input type="password" class="form-control" name="password" id="newpasswordInput" placeholder="Enter new password">
+                    <Password name={"password"} placeholder={"Enter new password"}/>
                     {#if errors?.password}
                         <strong class="text-danger ms-1 my-2">{errors.password[0]}</strong>
                     {/if}
@@ -70,7 +71,7 @@
             <div class="col-lg-4">
                 <div>
                     <label for="confirmpasswordInput" class="form-label">Confirm Password</label>
-                    <input type="password" class="form-control" name="password_confirmation" id="confirmpasswordInput" placeholder="Confirm password">
+                    <Password name={"password_confirmation"} placeholder={"Confirm password"}/>
                     {#if errors?.password}
                         <strong class="text-danger ms-1 my-2">{errors.password[0]}</strong>
                     {/if}

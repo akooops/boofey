@@ -3,6 +3,7 @@
     import { goto } from '$app/navigation';
 	import { onMount } from "svelte";
     import {initApp} from "$lib/init/initApp.js"
+	import Password from "$lib/components/Password.svelte";
 
     export let data;
     let form 
@@ -99,7 +100,7 @@
                                         <div class="col-xxl-6">
                                             <label for="password" class="form-label">Password</label>
                                             <div class="position-relative auth-pass-inputgroup mb-3">
-                                                <input type="password" class="form-control pe-5 password-input" placeholder="Enter password" name="password" id="password-input">
+                                                <Password name={"password"} placeholder={"Enter password"}/>
                                                 <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon" type="button" id="password-addon"><i class="ri-eye-fill align-middle"></i></button>
                                             </div>
                                             {#if errors?.password}
@@ -109,7 +110,7 @@
                                         <div class="col-xxl-6">
                                             <label for="passwordconfirm" class="form-label">Confirm Password</label>
                                             <div class="position-relative auth-pass-inputgroup mb-3">
-                                                <input type="password" class="form-control pe-5 password-input" placeholder="Confirm password" name="password_confirmation" id="password-input">
+                                                <Password name={"password_confirmation"} placeholder={"Confirm password"}/>
                                                 <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon" type="button" id="password-addon"><i class="ri-eye-fill align-middle"></i></button>
                                             </div>
                                             {#if errors?.password_confirmation}

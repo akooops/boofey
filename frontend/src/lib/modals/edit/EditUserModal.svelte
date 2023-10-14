@@ -5,7 +5,7 @@
     import { invalidate } from '$app/navigation';
     import { page } from '$app/stores';
     import { redirector } from "$lib/api/auth";
-
+    import Password from "$lib/components/Password.svelte"
     let {userStore} = getContext("userStore")
     
     let close
@@ -135,7 +135,7 @@
                                 {#if editPassword}
                                 <div class="col-xxl-6">
                                     <label for="password" class="form-label">Password</label>
-                                    <input type="password" name="password" class="form-control" id="password"  placeholder="Enter Password" bind:value={password}/>
+                                    <Password name={"password"} placeholder={"Enter Password"} bind:value={password}/>
                                     {#if errors?.password}
                                     <strong class="text-danger ms-1 my-2">{errors.password[0]}</strong>
                                     {/if}
@@ -144,7 +144,7 @@
                                 {#if editPassword}
                                 <div class="col-xxl-6">
                                     <label for="passwordconfirm" class="form-label">Confirm Password</label>
-                                    <input type="password" name="password_confirmation" class="form-control" id="passwordconfirm"  placeholder="Confirm Password" />
+                                    <Password name={"password_confirmation"} placeholder={"Confirm Password"}/>
                                     {#if errors?.password_confirmation}
                                     <strong class="text-danger ms-1 my-2">{errors.password_confirmation[0]}</strong>
                                     {/if}

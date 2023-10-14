@@ -3,6 +3,7 @@
     import { goto } from '$app/navigation';
 	import { onMount } from "svelte";
     import {initApp} from "$lib/init/initApp.js"
+	import Password from "$lib/components/Password.svelte";
 
     export let data;
     let form 
@@ -148,7 +149,8 @@ function updateTimer() {
                         <div class="mb-3">
                             <label class="form-label" for="password-input">Password</label>
                             <div class="position-relative auth-pass-inputgroup">
-                                <input type="password" class="form-control pe-5 password-input" name="password" placeholder="Enter password" id="password-input" aria-describedby="passwordInput" >
+                                
+                                <Password name={"password"} placeholder={"Enter password"}/>
                                 <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon" type="button" id="password-addon"><i class="ri-eye-fill align-middle"></i></button>
                             </div>
                             {#if errors?.password}
@@ -159,7 +161,7 @@ function updateTimer() {
                         <div class="mb-3">
                             <label class="form-label" for="confirm-password-input">Confirm Password</label>
                             <div class="position-relative auth-pass-inputgroup mb-3">
-                                <input type="password" class="form-control pe-5 password-input" name="password_confirmation"  placeholder="Confirm password"  id="confirm-password-input" >
+                                <Password name={"password_confirmation"} placeholder={"Confirm password"}/>
                                 <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon" type="button" id="confirm-password-input"><i class="ri-eye-fill align-middle"></i></button>
                             </div>
                             {#if errors?.password_confirmation}
