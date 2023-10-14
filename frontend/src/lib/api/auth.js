@@ -1,11 +1,13 @@
 import { goto} from '$app/navigation';
 import { PathRefresh,PathAuth } from "$lib/api/paths"
-
+import { error } from '@sveltejs/kit';
 
 export function redirector(res){
     if(!res.ok){
         if(res.status == 403){
             goto("/signin")
+        }else {
+            throw error(res.status)
         }        
     }
 }
