@@ -5,7 +5,7 @@
     import { toast } from "$lib/components/toast.js";
     import { invalidate } from '$app/navigation';
     import { redirector } from "$lib/api/auth";
-
+    import {states} from "$lib/env.js"
 const dispatch = createEventDispatcher();
 
 import SavedAdress from "./SavedAdress.svelte";
@@ -44,19 +44,20 @@ async function SendAdress(){
             // newAdress = false
             invalidate("billings:refresh")
             addressId = res.data.billing.id  
-
-            // reset()
-            
+            dispatch("proceed",{addressId})
         }else {
             errors = res.errors
+        }
+
+    }else {
+        
+        if(addressId){
+            dispatch("proceed",{addressId})
         }
 
     }
 
 
-    if(addressId){
-        dispatch("proceed",{addressId})
-    }
 
 
 }
@@ -150,19 +151,24 @@ function setBillingObj(e){
         <div class="row">
             <div class="col-md-4">
                 <div class="mb-3">
-                    <label for="zip" class="form-label">Country</label>
-                    <input type="text" class="form-control" id="zip"name="country" placeholder="Enter Country Name">
-                    {#if errors?.country}
-                    <strong class="text-danger ms-1 my-2">{errors.country[0]}</strong>
+                    <label for="zip" class="form-label">State</label>
+                    <select class="form-select" name="state" id="class" aria-label="Default select example">
+                        <option disabled selected value> -- select a state -- </option>
+                        {#each states as state}
+                            <option value={state.name_en}>{state.name_en}</option>
+                        {/each}
+                    </select>
+                    {#if errors?.state}
+                    <strong class="text-danger ms-1 my-2">{errors.state[0]}</strong>
                     {/if}
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="mb-3">
-                    <label for="zip" class="form-label">State</label>
-                    <input type="text" class="form-control" id="zip" name="state" placeholder="Enter State Name">
-                    {#if errors?.state}
-                    <strong class="text-danger ms-1 my-2">{errors.state[0]}</strong>
+                    <label for="zip" class="form-label">City</label>
+                    <input type="text" class="form-control" id="zip" name="city" placeholder="Enter City Name">
+                    {#if errors?.city}
+                        <strong class="text-danger ms-1 my-2">{errors.city[0]}</strong>
                     {/if}
                 </div>
             </div>

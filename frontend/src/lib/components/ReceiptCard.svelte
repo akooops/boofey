@@ -88,7 +88,7 @@
                                 <p class="fw-medium mb-2" id="billing-name">{payment?.billing?.firstname} {payment?.billing?.lastname}</p>
                                 <p class="text-muted mb-1" id="billing-address-line-1">{payment?.billing?.email}</p>
                                 <p class="text-muted mb-1">{payment?.billing?.phone}</p>
-                                <p class="text-muted mb-1">{payment?.billing?.country},{payment?.billing?.state},{payment?.billing?.zipcode}</p>
+                                <p class="text-muted mb-1">{payment?.billing?.state},{payment?.billing?.city},{payment?.billing?.zipcode}</p>
                                 <p class="text-muted mb-0">{payment?.billing?.address}</p>
                             </div>
                             {/if}

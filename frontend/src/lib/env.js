@@ -198,3 +198,58 @@ export const routes = [
       active: "Subscribe",
     },
   ];
+
+  export const states = [
+    {
+      "name_ar": "منطقة الرياض",
+      "name_en": "Riyadh",
+    },
+    {
+      "name_ar": "منطقة مكة المكرمة",
+      "name_en": "Makkah",
+    },
+    {
+      "name_ar": "منطقة المدينة المنورة",
+      "name_en": "Madinah",
+    },
+    {
+      "name_ar": "منطقة القصيم",
+      "name_en": "Qassim",
+    },
+    {
+      "name_ar": "المنطقة الشرقية",
+      "name_en": "Eastern Province",
+    },
+    {
+      "name_ar": "منطقة عسير",
+      "name_en": "Asir",
+    },
+    {
+      "name_ar": "منطقة تبوك",
+      "name_en": "Tabuk",
+    },
+    {
+      "name_ar": "منطقة حائل",
+      "name_en": "Hail",
+    },
+    {
+      "name_ar": "منطقة الحدود الشمالية",
+      "name_en": "Northern Borders",
+    },
+    {
+      "name_ar": "منطقة جازان",
+      "name_en": "Jazan",
+    },
+    {
+      "name_ar": "منطقة نجران",
+      "name_en": "Najran",
+    },
+    {
+      "name_ar": "منطقة الباحة",
+      "name_en": "Bahah",
+    },
+    {
+      "name_ar": "منطقة الجوف",
+      "name_en": "Jawf",
+    }
+  ]
