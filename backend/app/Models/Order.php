@@ -24,13 +24,13 @@ class Order extends Model
     }
 
     public function getDiscountCalculatedAttribute(){
-        return $this->subtotal * ($this->discount / 100);
+        return number_format($this->subtotal * ($this->discount / 100), 2);
     }
 
     public function getTaxCalculatedAttribute(){
         $total = $this->subtotal - $this->subtotal * ($this->discount / 100);
 
-        return $total * ($this->tax / 100);
+        return number_format($total * ($this->tax / 100), 2);
     }
 
     public function calculateTotal(){
