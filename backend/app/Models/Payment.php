@@ -137,7 +137,7 @@ class Payment extends Model
             $subscription->save();
         }
 
-        $activeSubscription = $student->currentSubscription;
+        $activeSubscription = $student->activeSubscription;
 
         if($activeSubscription === null && $student->onhold != true) {
             $subscription->update(['started_at' => now()]);

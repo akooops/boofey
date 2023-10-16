@@ -185,7 +185,7 @@ class PaymentsController extends Controller
                 'package' => $package->makeHidden(['created_at', 'updated_at']),
                 'student' => $student->makeHidden([
                     'otp', 'otp_expires_at', 'nfc_id', 
-                    'face_id', 'currentSubscription', 'subscribed', 
+                    'face_id', 'activeSubscription', 'subscribed', 
                     'tookSnackToday', 'tookMainMealToday', 'class',
                     'created_at', 'updated_at'
                 ]),

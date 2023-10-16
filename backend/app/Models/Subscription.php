@@ -11,7 +11,7 @@ class Subscription extends Model
 {
     use HasFactory;
 
-    protected $appends = ['expired', 'discountCalculated', 'taxCalculated'];
+    protected $appends = ['discountCalculated', 'taxCalculated'];
 
     protected $fillable = [
         'ref',
@@ -103,6 +103,37 @@ class Subscription extends Model
         $total = $total + $total * ($this->tax / 100);
 
         $this->total = $total;
+    }
+
+    public function activate(){
+        if($this->student_id == null) return;
+
+        $subscriptions = Subscription::where('student_id', $this->student_id)->where('status', 'active')->count();
+
+        if($subscriptions != 0) return;
+
+        $this->update([
+            'status' => 'active',
+            'started_at' => now()
+        ]);
+    }
+
+    public function generateInvoice(){
+        if($this->invoice !== null) return null;
+
+        $invoice = Invoice::create([
+            'tax' => $this->tax,
+            'discount' => $this->discount,
+            'subtotal' => $this->subtotal,
+            'total' => $this->total,
+            'generated_at' => now(),
+            'father_id' => ($this->student !== null && $this->student->father !== null) ? $this->student->father->id : null,
+            'subscription_id' => $this->id,
+        ]);
+
+        $invoice->save();
+
+        return $invoice->id;
     }
 
     /* Appends

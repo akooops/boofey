@@ -23,7 +23,7 @@ class NotifyExpiringSoonStudents extends Command
             if (config('app.debug')) break;
 
             // Check if the student has an active subscription and is not on hold
-            $activeSubscription = $student->currentSubscription;
+            $activeSubscription = $student->activeSubscription;
 
             if($activeSubscription !== null && $student->onhold != true) {
                 // Find subscriptions with balance > 0, started_at is null, and order by should_start_at

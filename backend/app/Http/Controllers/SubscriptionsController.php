@@ -101,7 +101,7 @@ class SubscriptionsController extends Controller
                 'activeSubscription' => $activeSubscription,
                 'student' => $student->makeHidden([
                     'otp', 'otp_expires_at', 'nfc_id', 
-                    'face_id', 'currentSubscription', 'subscribed', 
+                    'face_id', 'activeSubscription', 'subscribed', 
                     'tookSnackToday', 'tookMainMealToday', 'class',
                     'created_at', 'updated_at'
                 ]),

@@ -58,8 +58,16 @@ class Student extends Model
         return $this->hasMany(Subscription::class, 'student_id', 'id');
     }
 
-    public function currentSubscription(){
+    public function subscriptionsWithoutActive(){
+        return $this->hasMany(Subscription::class, 'student_id', 'id')->whereNotIn('status', ['active', 'inactive']);
+    }
+
+    public function activeSubscription(){
         return $this->hasOne(Subscription::class, 'student_id', 'id')->where('status', 'active');
+    }
+
+    public function inactiveSubscriptions(){
+        return $this->hasMany(Subscription::class, 'student_id', 'id')->where('status', 'inactive');
     }
 
     public function getTookSnackTodayAttribute()
@@ -83,7 +91,7 @@ class Student extends Model
     }
 
     function getSubscribedAttribute() {  
-        return ($this->currentSubscription === null) ? false : true;
+        return ($this->activeSubscription === null) ? false : true;
     }
 
     public function getFullnameAttribute()
@@ -92,9 +100,9 @@ class Student extends Model
     }
 
     public function getSubscribedPackageAttribute(){
-        $currentSubscription = $this->currentSubscription;
-        if($currentSubscription !== null && $currentSubscription->package !== null){
-            return $currentSubscription->package->code;
+        $activeSubscription = $this->activeSubscription;
+        if($activeSubscription !== null && $activeSubscription->package !== null){
+            return $activeSubscription->package->code;
         }
 
         return null;

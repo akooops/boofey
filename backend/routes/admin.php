@@ -107,6 +107,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'App\Http\Controllers\Admin', 
     Route::post('subscriptions/{subscription}/update', 'SubscriptionsController@update')->name('subscriptions.update');
     Route::post('subscriptions/{subscription}/enable', 'SubscriptionsController@enable')->name('subscriptions.enable');
     Route::post('subscriptions/{subscription}/disable', 'SubscriptionsController@disable')->name('subscriptions.disable');
+    Route::post('subscriptions/{subscription}/generateInvoice', 'SubscriptionsController@generateInvoice')->name('subscriptions.generateInvoice');
 
     /* -------------------------------------------------------------------------------- */
     /* Payments Routes */

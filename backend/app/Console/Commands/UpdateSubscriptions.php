@@ -22,14 +22,14 @@ class UpdateSubscriptions extends Command
 
         foreach ($students as $student) {
             // Check if the student has an active subscription and is not on hold
-            $activeSubscription = $student->currentSubscription;
+            $activeSubscription = $student->activeSubscription;
 
             if ($activeSubscription && $student->onhold != true) {
                 // Subtract a day from the balance
                 $activeSubscription->decrement('balance');
             }
 
-            $activeSubscription = $student->currentSubscription;
+            $activeSubscription = $student->activeSubscription;
 
             if($activeSubscription === null && $student->onhold != true) {
                 // Find subscriptions with balance > 0, started_at is null, and order by should_start_at
