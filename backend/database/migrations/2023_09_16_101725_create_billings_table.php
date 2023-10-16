@@ -17,12 +17,12 @@ return new class extends Migration
             $table->id();
             $table->string('firstname')->nullable();
             $table->string('lastname')->nullable();
-            $table->string('email')->nullable();
-            $table->string('phone')->nullable();
+            $table->string('email', 254)->nullable();
+            $table->string('phone', 10)->nullable();
             $table->string('address', 1000)->nullable();
-            $table->string('country')->nullable();
             $table->string('state')->nullable();
-            $table->string('zipcode')->nullable();
+            $table->string('city')->nullable();
+            $table->string('zipcode', 5)->nullable();
 
             $table->unsignedBigInteger('father_id')->nullable();
             $table->foreign('father_id')->nullable()->references('id')->on('fathers')->onDelete('cascade');
