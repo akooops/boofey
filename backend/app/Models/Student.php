@@ -59,7 +59,7 @@ class Student extends Model
     }
 
     public function subscriptionsWithoutActive(){
-        return $this->hasMany(Subscription::class, 'student_id', 'id')->whereNotIn('status', ['active', 'inactive']);
+        return $this->hasMany(Subscription::class, 'student_id', 'id')->whereNotIn('status', ['active', 'inactive', 'initiated']);
     }
 
     public function activeSubscription(){
@@ -68,6 +68,10 @@ class Student extends Model
 
     public function inactiveSubscriptions(){
         return $this->hasMany(Subscription::class, 'student_id', 'id')->where('status', 'inactive');
+    }
+
+    public function initiatedSubscriptions(){
+        return $this->hasMany(Subscription::class, 'student_id', 'id')->where('status', 'initiated');
     }
 
     public function getTookSnackTodayAttribute()

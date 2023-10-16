@@ -118,6 +118,15 @@ class Subscription extends Model
         ]);
     }
 
+    public function expire(){
+        if($this->student_id == null) return;
+
+        $this->update([
+            'status' => 'expired',
+            'expired_at' => now()
+        ]);
+    }
+
     public function generateInvoice(){
         if($this->invoice !== null) return null;
 

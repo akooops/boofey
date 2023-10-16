@@ -21,27 +21,33 @@ class UpdateSubscriptions extends Command
         $students = Student::all();
 
         foreach ($students as $student) {
-            // Check if the student has an active subscription and is not on hold
             $activeSubscription = $student->activeSubscription;
 
             if ($activeSubscription && $student->onhold != true) {
-                // Subtract a day from the balance
                 $activeSubscription->decrement('balance');
+
+
+                if($activeSubscription->balance <= 0){
+                    $activeSubscription->expire();
+                    
+                    $inactiveSubscription = $student->inactiveSubscriptions()->first();
+
+                    if ($inactiveSubscription !== null) {
+                        // Set the started_at of the first subscription to yesterday
+                        $inactiveSubscription->activate();
+                    }
+                }
+
+                continue;
             }
 
-            $activeSubscription = $student->activeSubscription;
-
-            if($activeSubscription === null && $student->onhold != true) {
+            if($student->onhold != true) {
                 // Find subscriptions with balance > 0, started_at is null, and order by should_start_at
-                $subscriptions = $student->subscriptions()->where('balance', '>', 0)
-                    ->whereNull('started_at')
-                    ->orderByRaw('ISNULL(should_start_at) DESC, should_start_at ASC')
-                    ->get();
+                $inactiveSubscription = $student->inactiveSubscriptions()->first();
 
-                if ($subscriptions->isNotEmpty()) {
+                if ($inactiveSubscription !== null) {
                     // Set the started_at of the first subscription to yesterday
-                    $firstSubscription = $subscriptions->first();
-                    $firstSubscription->update(['started_at' => now()]);
+                    $inactiveSubscription->activate();
                 }
             }
         }
