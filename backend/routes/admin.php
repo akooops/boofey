@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 |
 */
 
-Route::group(['prefix' => 'admin', 'namespace' => 'App\Http\Controllers\Admin', 'middleware' => ['auth:sanctum'/*, 'permission',*/, 'convert.bool.string', 'verified']], function(){    
+Route::group(['prefix' => 'admin', 'namespace' => 'App\Http\Controllers\Admin', 'middleware' => [/*'auth:sanctum', 'permission',, */'convert.bool.string', 'verified']], function(){    
     /* -------------------------------------------------------------------------------- */
     /* Permissions Routes */
     Route::resource('permissions', PermissionsController::class)->except(['create', 'edit', 'update']);
@@ -100,11 +100,13 @@ Route::group(['prefix' => 'admin', 'namespace' => 'App\Http\Controllers\Admin', 
 
     /* -------------------------------------------------------------------------------- */
     /* Subscriptions Routes */
-    Route::get('students/{student}/subscriptions', 'SubscriptionsController@index')->name('subscriptions.index');
-    Route::post('students/{student}/subscriptions', 'SubscriptionsController@store')->name('subscriptions.store');
+    Route::get('students/{student}/subscriptions', 'SubscriptionsController@indexByStudent')->name('subscriptions.indexByStudent');
+    Route::post('students/{student}/subscriptions', 'SubscriptionsController@storeByStudent')->name('subscriptions.storeByStudent');
 
-    Route::resource('subscriptions', SubscriptionsController::class)->only(['show', 'destroy']);
+    Route::resource('subscriptions', SubscriptionsController::class)->only(['index', 'store', 'show']);
     Route::post('subscriptions/{subscription}/update', 'SubscriptionsController@update')->name('subscriptions.update');
+    Route::post('subscriptions/{subscription}/enable', 'SubscriptionsController@enable')->name('subscriptions.enable');
+    Route::post('subscriptions/{subscription}/disable', 'SubscriptionsController@disable')->name('subscriptions.disable');
 
     /* -------------------------------------------------------------------------------- */
     /* Payments Routes */

@@ -16,16 +16,12 @@ return new class extends Migration
         Schema::create('invoices', function (Blueprint $table) {
             $table->id();
 
-            $table->string('fort_id', 20)->nullable()->default(null);
+            $table->float('tax')->nullable(false)->default(0);
+            $table->float('discount')->nullable(false)->default(0);
 
-            $table->string('status', 2)->nullable()->default(null);
-            $table->string('response_code', 5)->nullable()->default(null);
-            $table->string('response_message', 150)->nullable()->default(null);
-
-            $table->string('payment_option', 10)->nullable()->default(null);
-            $table->string('card_number', 19)->nullable()->default(null);
-            $table->string('card_holder_name')->nullable()->default(null);
-
+            $table->float('subtotal')->nullable(false)->default(0);
+            $table->float('total', 8, 3)->nullable(false)->default(0);
+            
             $table->timestamp('generated_at')->nullable()->default(null);
 
             $table->unsignedBigInteger('father_id')->nullable();

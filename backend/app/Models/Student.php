@@ -59,7 +59,7 @@ class Student extends Model
     }
 
     public function currentSubscription(){
-        return $this->hasOne(Subscription::class, 'student_id', 'id')->where('balance', '>', 0)->where('started_at', '!=', NULL);
+        return $this->hasOne(Subscription::class, 'student_id', 'id')->where('status', 'active');
     }
 
     public function getTookSnackTodayAttribute()
@@ -93,11 +93,8 @@ class Student extends Model
 
     public function getSubscribedPackageAttribute(){
         $currentSubscription = $this->currentSubscription;
-        if($currentSubscription !== null && $currentSubscription->payment !== null){
-            $payment = $this->currentSubscription->payment;
-
-            if($payment !== null && $payment->package !== null)
-                return $payment->package->code;
+        if($currentSubscription !== null && $currentSubscription->package !== null){
+            return $currentSubscription->package->code;
         }
 
         return null;

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Requests\Subscriptions\EnableSubscriptionRequest;
 use App\Models\Subscription;
 use Illuminate\Http\Request;
 use App\Http\Requests\Subscriptions\StoreSubscriptionRequest;
@@ -19,7 +20,7 @@ class SubscriptionsController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function index(Student $student, Request $request) 
+    public function indexByStudent(Student $student, Request $request) 
     {
 
         $student->load([
@@ -93,49 +94,56 @@ class SubscriptionsController extends Controller
         return response()->json($response);
     }
 
-    /**
-     * Store a newly created subscription
+
+    public function store(StoreSubscriptionRequest $request) 
+    {
+        $studentID = $request->get('student_id');
+        $student = Student::findOrFail($studentID);
+
+        $this->createSubscription($request, $student);
+    
+        return response()->json([
+            'status' => 'success'
+        ]);
+    }
+
+        /**
+     * Store a newly created academicYear
      * 
-     * @param Subscription $subscription
-     * @param StoreSubscriptionRequest $request
+     * @param AcademicYear $academicYear
+     * @param StoreAcademicYearRequest $request
      * 
      * @return \Illuminate\Http\Response
      */
-    public function store(Student $student, StoreSubscriptionRequest $request) 
+    public function storeByStudent(Student $student, StoreSubscriptionRequest $request) 
     {
-        $package = Package::find($request->get('package_id'));
-
-        $payment = Payment::create([
-            'father_id' => $student->father->id,
-        ]);
-
-        $days = 0;
-        $balance = 0;
-
-        if($request->get('use_package_info') == true){
-            $payment->saveFromPackageInfo($package);
-            $days = $package->days;
-            $balance = $package->days;
-
-        }else{
-            $payment->saveFromPackageInfo($package, false, $request->get('tax'), $request->get('subtotal'));
-            $days = $request->get('days');
-            $balance = $request->get('days');
-        }
-
-        if($request->get('apply_coupon') == true){
-            $coupon = Coupon::find($request->get('coupon_id'));
-            $payment->applyCoupon($coupon);
-        }
-
-        $payment->calculateTotal();
-        $payment->generateRef('SYSTEM');
-        $payment->save();
-        $payment->saveSubscriptionInfo($student, $days, $balance, $request->get('should_start_at'));
+        $this->createSubscription($request, $student);
 
         return response()->json([
             'status' => 'success'
         ]);
+    }
+
+    private function createSubscription($request, Student $student = null) 
+    {
+        $package = Package::findOrFail($request->get('package_id'));
+
+        $subscription = Subscription::create([
+            'initiated_at' => now(),
+            'exclude_from_calculation' => $request->get('exclude_from_calculation'),
+            'student_id' => $student->id,
+        ]);
+
+        if($request->get('apply_discount') == true && $request->get('apply_coupon') == false)
+            $subscription->applyDiscount($request->get('discount'));
+
+        if($request->get('apply_discount') == true && $request->get('apply_coupon') == true)
+            $subscription->applyCoupon($request->get('coupon_id'));
+
+        $subscription->applyTax($request->get('tax'));
+        $subscription->applyPackage($package);
+        $subscription->calculateTotal();
+        $subscription->save();
     }
 
     /**
@@ -165,48 +173,31 @@ class SubscriptionsController extends Controller
      */
     public function update(Subscription $subscription, UpdateSubscriptionRequest $request) 
     {
-        $package = Package::find($request->get('package_id'));
-
-        if($request->get('update_prices') == true){
-            
-            if($request->get('use_package_info')){
-                $subscription->payment->saveFromPackageInfo($package);
-            }else{
-                $subscription->payment->saveFromPackageInfo($package, false, $request->get('tax'), $request->get('subtotal'));
-            }
-
-            if($request->get('apply_coupon') == true){
-                $coupon = Coupon::find($request->get('coupon_id'));
-                $subscription->payment->applyCoupon($coupon);
-            }
-
-            $subscription->payment->calculateTotal();
-        }else{
-            $subscription->payment->package_id = $package->id;
-        }
-
-        $days = $request->get('days');
-        $balance = $request->get('balance');
-
-        $subscription->payment->save();
-        $subscription->payment->updateSubscriptionInfo($days, $balance, $request->get('should_start_at'));
+        $subscription->update([
+            'exclude_from_calculation' => $request->get('exclude_from_calculation'),
+        ]);
 
         return response()->json([
             'status' => 'success'
         ]);
     }
 
-    /**
-     * Delete subscription data
-     * 
-     * @param Subscription $subscription
-     * 
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Subscription $subscription) 
+    public function enable(Subscription $subscription, EnableSubscriptionRequest $request) 
     {
-        $subscription->delete();
-        $subscription->payment->delete();
+        $subscription->update([
+            'status' => 'inactive'
+        ]);
+
+        return response()->json([
+            'status' => 'success'
+        ]);
+    }
+
+    public function disable(Subscription $subscription) 
+    {
+        $subscription->update([
+            'status' => 'disabled'
+        ]);
 
         return response()->json([
             'status' => 'success'

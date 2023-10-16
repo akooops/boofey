@@ -2,10 +2,12 @@
 
 namespace App\Http\Requests\Subscriptions;
 
+use App\Rules\CanSubscribe;
 use App\Rules\UniqueUnexpiredSubscription;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Route;
 
 class StoreSubscriptionRequest extends FormRequest
 {
@@ -26,19 +28,41 @@ class StoreSubscriptionRequest extends FormRequest
      */
     public function rules()
     {
-        return [
+        $currentRoute = Route::currentRouteName();
+
+        $rules = [
             'package_id' => 'required|exists:packages,id',
-            'should_start_at' => 'required|date_format:Y-m-d|after:today',
-            'use_package_info' => 'required|boolean',
 
-            'days' => 'required_if:use_package_info,false|integer',
-            'tax' => 'required_if:use_package_info,false|numeric|min:0',
+            'tax' => 'required|numeric|min:0',
 
-            'apply_coupon' => 'required|boolean',
-            'coupon_id' => 'required_if:apply_coupon,true|exists:coupons,id',
+            'apply_discount' => 'required|boolean',
+            'apply_coupon' => 'required_if:apply_discount,true|boolean',
 
-            'subtotal' => 'required_if:use_package_info,false|numeric|min:0',
+            'discount' => 'required_if:apply_coupon,false|numeric|min:0',
+            'coupon_id' => 'required_if:apply_coupon,true|numeric|min:0',
+
+            'exclude_from_calculation' => 'required|boolean',
         ];
+
+        if ($currentRoute === 'subscriptions.store') {
+            $rules['student_id'] = [
+                'required',
+                'exists:students,id',
+                new CanSubscribe(),
+            ];
+        }else{
+            $student = $this->route('student')->id;
+
+            $this->merge([
+                'student_id' => $student
+            ]);
+
+            $rules['student_id'] = [
+                new CanSubscribe(),
+            ];
+        }
+
+        return $rules;
     }
 
     protected function failedValidation(\Illuminate\Contracts\Validation\Validator $validator)

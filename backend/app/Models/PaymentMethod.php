@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
@@ -24,16 +25,23 @@ class PaymentMethod extends Model
     {
         return $this->belongsTo(Father::class);
     }
+    
+    protected static function booted()
+    {
+        parent::booted();
 
-    public function generateRef(){
-        $ref = null;
+        static::creating(function ($paymentMethod) {
+            $prefix = 'TOKENIZATION';
+            $ref = null;
 
-        do {
-            $ref = 'TOKENIZATION-'.strtoupper(Str::random(8));
-        
-            $paymentMethodWithRef = PaymentMethod::where('ref', $ref)->first();
-        } while ($paymentMethodWithRef != null);
+            do {
+                $datePart = Carbon::now()->format('dmy');
+                $randomPart = strtoupper(Str::random(8));
+                $ref = "{$prefix}-{$datePart}{$randomPart}";
 
-        $this->ref = $ref;
+            } while (PaymentMethod::where('ref', $ref)->exists());
+
+            $paymentMethod->ref = $ref;
+        });
     }
 }
