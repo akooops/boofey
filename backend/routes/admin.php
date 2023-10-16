@@ -110,6 +110,10 @@ Route::group(['prefix' => 'admin', 'namespace' => 'App\Http\Controllers\Admin', 
     Route::post('subscriptions/{subscription}/generateInvoice', 'SubscriptionsController@generateInvoice')->name('subscriptions.generateInvoice');
 
     /* -------------------------------------------------------------------------------- */
+    /* Invoices Routes */
+    Route::resource('invoices', InvoicesController::class)->only(['index', 'show']);
+
+    /* -------------------------------------------------------------------------------- */
     /* Payments Routes */
     Route::resource('payments', PaymentsController::class)->only(['index', 'show', 'destroy']);
     

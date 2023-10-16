@@ -27,10 +27,7 @@ class NotifyExpiringSoonStudents extends Command
 
             if($activeSubscription !== null && $student->onhold != true) {
                 // Find subscriptions with balance > 0, started_at is null, and order by should_start_at
-                $subscriptions = $student->subscriptions()->where('balance', '>', 0)
-                    ->whereNull('started_at')
-                    ->orderByRaw('ISNULL(should_start_at) DESC, should_start_at ASC')
-                    ->get();
+                $subscriptions = $student->inactiveSubscriptions()->get();
 
                 if ($subscriptions->isEmpty()) {
                     if($activeSubscription->balance == 1){
