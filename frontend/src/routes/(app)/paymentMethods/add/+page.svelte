@@ -5,6 +5,7 @@ import {onMount} from "svelte"
 import { redirector } from "$lib/api/auth";
 import { returnUrl } from "$lib/api/paths";
 import { fade } from 'svelte/transition';
+// import Card from 'card-js';
 
 
 //https://sbcheckout.payfort.com/FortAPI/paymentPage
@@ -40,19 +41,48 @@ function slash(event){
 
     console.log(expiry_date[3],expiry_date[4],expiry_date[0],expiry_date[1])
 }
+let card 
 onMount(() => {
     params = new URL(document.location).searchParams;
 
+    card = new Card({
+        form: cardForm,
+        container: '.card-wrapper',
+        formSelectors: {
+            numberInput: 'input#card-number-input',
+            expiryInput: 'input#card-expiry-input',
+            cvcInput: 'input#card-cvc-input',
+            nameInput: 'input#card-name-input'
+        },
+        placeholders: {
+            number: '•••• •••• •••• ••••',
+            name: 'Full Name',
+            expiry: '••/••',
+            cvc: '•••'
+        },
+        masks: {
+            cardNumber: '•' // optional - mask card number
+        },
+    });
+
 })
 
+let cardForm
+let cardNumber = ""
+function sub(){
+    let formDate = new FormData(cardForm)
+    fetch("sdsd",{
+        method:"POST",
+        body:formDate
+    })
+}
 
 
 </script>
 
-
-<form  method="post" action="{payFort.payfort_url}"  id="payment-form" name="form1">
+<form  method="post" action="{payFort.payfort_url}"   id="payment-form" name="form1" autocomplete="off" bind:this={cardForm}>
     <div class="collapse show" id="paymentmethodCollapse" style="">
-        <div class="card p-4 border shadow-none mb-0 mt-4">
+        <!-- <div class="card p-4 border shadow-none mb-0 "> -->
 
                 <input type="hidden" name="service_command" value="TOKENIZATION" />
                 <input type="hidden" name="language" value="en" />
@@ -62,44 +92,69 @@ onMount(() => {
                 <input type="hidden" name="return_url" value="{returnUrl(fatherId)}" />
                 <input type="hidden" name="merchant_reference" id="merchant_reference" value="{payFort.merchant_reference}" />
                 <input type="hidden" name="remember_me" value="YES" />
-                <input type="hidden"name="expiry_date" value="{`${expiry_date?.[3]}${expiry_date?.[4]}${expiry_date?.[0]}${expiry_date?.[1]}`}">
+                <input type="hidden"name="expiry_date" value="{`${expiry_date?.[5]}${expiry_date?.[6]}${expiry_date?.[0]}${expiry_date?.[1]}`}">
+                <input type="hidden"name="card_number" value="{cardNumber.replace(/ /g,'')}">
+
                 {#if params?.get("status") == "fail"}
-                    <div class="row p-3">
+                    <div class="row p-3 ">
                         <!-- Danger Alert -->
-                        <div class="alert alert-danger alert-border-left alert-dismissible fade show" role="alert">
+                        <div class="alert alert-danger alert-border-left alert-dismissible fade show mb-0" role="alert">
                             <i class="ri-error-warning-line me-3 align-middle"></i> <strong>Fail</strong> - {params?.get("msg")}
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
 
                     </div>
-                {/if}
-
-                <div class="row gy-3">
-                    <div class="col-md-12">
-                        <label for="cc-name" class="form-label">Name on card</label>
-                        <input type="text" name="card_holder_name" class="form-control" id="cc-name" placeholder="Enter name">
-                        <small class="text-muted">Full name as displayed on card</small>
+                {/if}    
+        <!-- </div> -->
+        <div class="row gy-3 mt-2">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">Credit Card Details</h5>
                     </div>
-    
-                    <div class="col-md-6">
-                        <label for="cc-number" class="form-label">Credit card number</label>
-                        <input type="text" name="card_number" class="form-control" id="cc-number" placeholder="xxxx xxxx xxxx xxxx">
+                    <div class="card-body">
+                        <div class="row align-items-start d-flex gx-1">
+                            <div class="col-xl-4">
+                                <div class="card-wrapper mb-3"></div>
+                            </div>
+                
+                            <div class="form-container active col-xl-8 col-md-12">
+                                    <div class="mb-3">
+                                        <label for="card-number-input" class="form-label">Card Number</label>
+                                        <input class="form-control" name="" placeholder="Card number" type="tel" id="card-number-input" bind:value={cardNumber}>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="card-name-input" class="form-label">Card Holder</label>
+                                        <input class="form-control" name="card_holder_name" placeholder="Full name" type="text" id="card-name-input">
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="mb-0">
+                                                <label for="card-expiry-input" class="form-label">Expiry</label>
+                                                <input class="form-control"  placeholder="MM/YY" type="tel" id="card-expiry-input" bind:value={expiry_date}>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="mb-0">
+                                                <label for="card-cvc-input" class="form-label">CVC</label>
+                                                <input class="form-control" name="card_security_code"  placeholder="CVC" type="number" id="card-cvc-input">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                            </div>
+                            <div class="d-flex align-items-start gap-3 mt-4">
+                                <button type="submit" class="btn btn-primary right ms-auto">Add Card</button>
+                            </div>
                     </div>
-    
-                    <div class="col-md-3">
-                        <label for="cc-expiration" class="form-label">Expiration</label>
-                        <input type="text" class="form-control" id="cc-expiration" placeholder="MM/YY" maxlength="5" on:input={slash} bind:value={expiry_date}>
                     </div>
-    
-                    <div class="col-md-3">
-                        <label for="cc-cvv" class="form-label">CVV</label>
-                        <input type="text" name="card_security_code" class="form-control" id="cc-cvv" maxlength="3" placeholder="xxx">
-                    </div>
+                    <!-- end card-body -->
                 </div>
+                <!-- end card -->
+
         </div>
     </div>
 
-    <div class="d-flex align-items-start gap-3 mt-4">
-        <button type="submit" class="btn btn-primary right ms-auto">Add Card</button>
-    </div>
+    
 </form>
+
+
