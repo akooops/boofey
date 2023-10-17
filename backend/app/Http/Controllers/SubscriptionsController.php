@@ -171,4 +171,35 @@ class SubscriptionsController extends Controller
             ]
         ]);
     }
+
+    public function generateInvoice(Subscription $subscription, Request $request) 
+    {
+        $father = $request->get('father');
+
+        if($subscription->student->father_id != $father->id){
+            return response()->json([
+                'status' => 'error',
+                'errors' => [
+                    '403' => 'Access Denied: Please Log In to Access This Resource'
+                ]
+            ], 403);
+        }
+
+        $invoiceID = $subscription->generateInvoice();
+        if($invoiceID == null){
+            return response()->json([
+                'status' => 'error',
+                'errors' => [
+                    'invoice_id' => 'This subscription already have an invoice.'
+                ],
+            ], 422);
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'data' => [
+                'invoice_id' => $invoiceID
+            ]
+        ]);
+    }
 }
