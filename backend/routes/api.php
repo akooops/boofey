@@ -51,13 +51,6 @@ Route::group(['namespace' => 'App\Http\Controllers', 'middleware' => ['auth:sanc
     Route::post('subscriptions/init', 'SubscriptionsController@init')->name('parents.subscriptions.init');
 
     /* -------------------------------------------------------------------------------- */
-    /* Payments Routes */
-    Route::resource('payments', PaymentsController::class)->only(['index', 'show'])->names([
-        'index' => 'parent.payments.index',
-        'show' => 'parent.payments.show',
-    ]);;
-
-    /* -------------------------------------------------------------------------------- */
     /* Coupons Routes */
     Route::get('coupons/check/{code}', 'CouponsController@check')->name('parents.coupons.check');
 
@@ -68,7 +61,7 @@ Route::group(['namespace' => 'App\Http\Controllers', 'middleware' => ['auth:sanc
 
     /* -------------------------------------------------------------------------------- */
     /* Payments Routes */
-    Route::post('payments/process', 'PaymentsController@processPayment')->name('parents.payments.processPayment');
+    Route::post('payments/process', 'PaymentsController@process')->name('parents.payments.process');
     Route::get('payments/check/{ref}', 'PaymentsController@checkPayment')->name('parents.payments.check');
 
     Route::get('paymentMethods', 'PaymentMethodsController@index')->name('parents.paymentMethods.index');

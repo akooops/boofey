@@ -73,6 +73,20 @@ class Subscription extends Model
         });
     }
 
+    public function generateRef(){
+        $prefix = 'SUBSCRIPTION';
+        $ref = null;
+
+        do {
+            $datePart = Carbon::now()->format('dmy');
+            $randomPart = strtoupper(Str::random(8));
+            $ref = "{$prefix}-{$datePart}{$randomPart}";
+
+        } while (Subscription::where('ref', $ref)->exists());
+
+        $this->ref = $ref;
+    }
+
     public function applyPackage($package){
         $this->package_id = $package->id;
 
@@ -115,6 +129,12 @@ class Subscription extends Model
         $this->update([
             'status' => 'active',
             'started_at' => now()
+        ]);
+    }
+
+    public function start(){
+        $this->update([
+            'status' => 'inactive',
         ]);
     }
 

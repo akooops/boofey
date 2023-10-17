@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Invoice extends Model
 {
@@ -12,6 +14,7 @@ class Invoice extends Model
     protected $appends = ['discountCalculated', 'taxCalculated'];
 
     protected $fillable = [
+        'ref',
         'tax',
         'discount',
         'subtotal',
@@ -29,6 +32,29 @@ class Invoice extends Model
     public function subscription()
     {
         return $this->belongsTo(Subscription::class);
+    }
+
+    /* Methods
+        --------------------------------------------------------------------
+    */
+
+    protected static function booted()
+    {
+        parent::booted();
+
+        static::creating(function ($subscription) {
+            $prefix = 'INVOICE';
+            $ref = null;
+
+            do {
+                $datePart = Carbon::now()->format('dmy');
+                $randomPart = strtoupper(Str::random(8));
+                $ref = "{$prefix}-{$datePart}{$randomPart}";
+
+            } while (Subscription::where('ref', $ref)->exists());
+
+            $subscription->ref = $ref;
+        });
     }
 
     /* Appends

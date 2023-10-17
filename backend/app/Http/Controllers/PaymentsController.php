@@ -19,6 +19,7 @@ use App\Models\Payment;
 use App\Models\PaymentMethod;
 use App\Models\School;
 use App\Models\Student;
+use App\Models\Subscription;
 use Illuminate\Database\Eloquent\Scope;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -28,115 +29,21 @@ use Illuminate\Support\Facades\Log;
 
 class PaymentsController extends Controller
 {
-    public function index(Request $request) 
-    {
-        $user = Auth::user();
-        $father = Father::where('user_id', $user->id)->first();
+    public function process(ProcessPaymentRequest $request){
+        $father = $request->get('father');
 
-        if($father === null){
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Oops! Resource Not Found. The Resource you are looking for is not available or has been moved.'
-            ], 404);
-        }
-
-        $perPage = limitPerPage($request->query('perPage', 10));
-        $page = checkPageIfNull($request->query('page', 1));
-        $search = checkIfSearchEmpty($request->query('search'));
-
-        $payments = Payment::latest()->where('father_id', $father->id)->with([
-            'coupon:id,name,code,discount',
-            'package:id,name,name_ar,code,sale_price,price,days,tax,popular,school_id',
-            'package.school:id,name,name_ar,file_id',
-            'package.school.logo:id,path,current_name',
-            'billing:id,firstname,lastname,email,phone,address,city,state,zipcode',
-            'paymentMethod:id,card_number,card_holder_name',
-            'father:id,user_id',
-            'father.user:id,username,email,phone', 
-            'father.user.profile:id,user_id,firstname,lastname,file_id',
-            'father.user.profile.image', 
-            'student:id,firstname,lastname,file_id',
-            'student.image:id,path,current_name'
-        ]);
-
-        /*
-        if ($search) {
-            $payments->where('name', 'like', '%' . $search . '%');
-        }
-        */
-
-        $payments = $payments->paginate($perPage, ['*'], 'page', $page);
-
-        $response = [
-            'status' => 'success',
-            'data' => $payments->makeHidden(['student.current_subscription']), 
-            'pagination' => handlePagination($payments)
-        ];
-
-        return response()->json($response);
-    }
-
-    public function show(Payment $payment) 
-    {
-        $user = Auth::user();
-        $father = Father::where('user_id', $user->id)->first();
-
-        if($father === null){
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Oops! Resource Not Found. The Resource you are looking for is not available or has been moved.'
-            ], 404);
-        }
-
-        if($payment->father_id != $father->id){
-            return response()->json([
-                'status' => 'error',
-                'errors' => [
-                    '403' => 'Access Denied: Please Log In to Access This Resource'
-                ]
-            ], 403);
-        }
-
-        $payment->load([
-            'coupon:id,name,code,discount',
-            'package:id,name,name_ar,code,sale_price,price,days,tax,popular,school_id',
-            'package.school:id,name,name_ar,file_id',
-            'package.school.logo:id,path,current_name',
-            'billing:id,firstname,lastname,email,phone,address,city,state,zipcode',
-            'paymentMethod:id,card_number,card_holder_name',
-            'father:id,user_id',
-            'father.user:id,username,email,phone', 
-            'father.user.profile:id,user_id,firstname,lastname,file_id',
-            'father.user.profile.image', 
-            'student:id,firstname,lastname,file_id',
-            'student.image:id,path,current_name'
-        ]);
-
-        return response()->json([
-            'status' => 'success',
-            'data' => [
-                'payment' => $payment
-            ]
-        ]);
-
-        return response()->json($payment);
-    }
-
-    public function processPayment(ProcessPaymentRequest $request){
-        $payment = Payment::findOrFail($request->input('payment_id'));
+        $subscription = Subscription::findOrFail($request->input('subscription_id'));
 
         if($request->has('coupon_id') && $request->input('coupon_id') != null){
             $coupon = Coupon::findOrFail($request->get('coupon_id'));
-            $payment->applyCoupon($coupon);
+            $subscription->applyCoupon($coupon);
         }
 
-        if($payment->ref === null)
-            $payment->generateRef();
+        $billing = Billing::findOrFail($request->input('billing_id'));
 
-        $payment->calculateTotal();
-        $payment->updateBilling($request->input('billing_id'));
-        $payment->updatePaymentMethod($request->input('payment_method_id'));
-        $payment->save();
+        $subscription->calculateTotal();
+        $subscription->generateRef();
+        $subscription->save();
 
         $paymentMethod = PaymentMethod::findOrFail($request->input('payment_method_id'));
 
@@ -147,8 +54,8 @@ class PaymentsController extends Controller
             'language' => 'en',
             'access_code' => env('PAYFORT_ACCESS_CODE'),
             'merchant_identifier' => env('PAYFORT_MERCHANT_ID'),
-            'merchant_reference' => $payment->ref,  
-            'amount' => round($payment->total, 2) * 100,
+            'merchant_reference' => $subscription->ref,  
+            'amount' => round($subscription->total, 2) * 100,
             'currency' => 'SAR',
             'customer_email' => $request->input('customer_email'), 
             'customer_ip' => $request->input('customer_ip'), 
@@ -158,13 +65,13 @@ class PaymentsController extends Controller
                 'language=en',
                 'access_code='.env('PAYFORT_ACCESS_CODE'),
                 'merchant_identifier='.env('PAYFORT_MERCHANT_ID'),
-                'merchant_reference='.$payment->ref,
-                'amount='.round($payment->total, 2) * 100,
+                'merchant_reference='.$subscription->ref,
+                'amount='.round($subscription->total, 2) * 100,
                 'currency=SAR',
                 'customer_email='.$request->input('customer_email'),
                 'customer_ip='.$request->input('customer_ip'),
                 'token_name='.$paymentMethod->token_name
-            ])
+            ]),
         ];
 
         $response = Http::withHeaders([
@@ -172,6 +79,21 @@ class PaymentsController extends Controller
         ])->post($payfort_url, $payload);
 
         $responseData = $response->json();
+
+        $payment = Payment::create([
+            'fort_id' => (is_null($responseData['fort_id']) ? null : $responseData['fort_id']),
+            'status' => $responseData['status'],
+            'response_code' => $responseData['response_code'],
+            'response_message' => $responseData['response_message'],
+            'payment_option' => $responseData['payment_option'],
+            'card_number' => $responseData['card_number'],
+            'card_holder_name' => $responseData['card_holder_name'],
+            'amount' => $responseData['amount'],
+            'father_id' => $father->id,
+            'subscription_id' => $subscription->id
+        ]);
+
+        $payment->save();
 
         if($responseData['response_code'] == '20064' && $responseData['3ds_url'] ){
             return response()->json([
@@ -184,21 +106,17 @@ class PaymentsController extends Controller
         }
 
         if($responseData['status'] == 14){
-            $payment->status = $responseData['status'];
-            $payment->response_code = $responseData['response_code'];
-            $payment->response_message = $responseData['response_message'];
-            $payment->fort_id = $responseData['fort_id'];
+            $payment->update(['paid_at' => now()]);
 
-            $payment->save();
-
-            $payment->saveSubscriptionInfoAfterPayment();
+            $subscription->start();
 
             return response()->json([
                 'status' => 'success',
                 'data' => [
-                    'merchant_reference' => $responseData['merchant_reference']
+                    'merchant_reference' => $subscription->ref
                 ]
             ]);
+            
         }else{
             return response()->json([
                 'status' => 'error',
@@ -229,27 +147,34 @@ class PaymentsController extends Controller
     public function paymentReturn(Request $request){
         $responseData = $request->all();
 
-        $payment = Payment::where('ref', $responseData['merchant_reference'])->first();
+        $subscription = Subscription::where('ref', $responseData['merchant_reference'])->first();
+        if(is_null($subscription))
+            return;
+            
+        $payment = $subscription->payment;
 
-        if($payment === null){
-            return response()->json([
-                'status' => 'error',
-                'error' => [
-                    'message' => 'Payment Not found on our server, please contact the administration',
-                    'data' => $responseData
-                ]
+        if(is_null($payment)){
+            $payment = Payment::create([
+                'fort_id' => (is_null($responseData['fort_id']) ? null : $responseData['fort_id']),
+                'status' => $responseData['status'],
+                'response_code' => $responseData['response_code'],
+                'response_message' => $responseData['response_message'],
+                'payment_option' => $responseData['payment_option'],
+                'card_number' => $responseData['card_number'],
+                'card_holder_name' => $responseData['card_holder_name'],
+                'amount' => $responseData['amount'],
+                'father_id' => $subscription->student->father->id,
+                'subscription_id' => $subscription->id
             ]);
+
+            $payment->save();
         }
 
         if($responseData['status'] == 14){
-            $payment->saveSubscriptionInfoAfterPayment();
+            $payment->update(['paid_at' => now()]);
+
+            $subscription->start();
         }
-        
-        $payment->status = $responseData['status'];
-        $payment->response_code = $responseData['response_code'];
-        $payment->response_message = $responseData['response_message'];
-        $payment->fort_id = $responseData['fort_id'];
-        $payment->save();
 
         $script = "<script>window.close();</script>";
         return response($script)->header('Content-Type', 'text/html');
@@ -258,26 +183,34 @@ class PaymentsController extends Controller
     public function webhook(Request $request){
         $responseData = $request->all();
 
-        $payment = Payment::where('ref', $responseData['merchant_reference'])->first();
+        $subscription = Subscription::where('ref', $responseData['merchant_reference'])->first();
+        if(is_null($subscription))
+            return;
+        
+        $payment = $subscription->payment;
 
-        if($payment === null){
-            return response()->json([
-                'status' => 'error',
-                'error' => [
-                    'message' => 'Payment Not found on our server, please contact the administration',
-                    'data' => $responseData
-                ]
+        if(is_null($payment)){
+            $payment = Payment::create([
+                'fort_id' => (is_null($responseData['fort_id']) ? null : $responseData['fort_id']),
+                'status' => $responseData['status'],
+                'response_code' => $responseData['response_code'],
+                'response_message' => $responseData['response_message'],
+                'payment_option' => $responseData['payment_option'],
+                'card_number' => $responseData['card_number'],
+                'card_holder_name' => $responseData['card_holder_name'],
+                'amount' => $responseData['amount'],
+                'father_id' => $subscription->student->father->id,
+                'subscription_id' => $subscription->id
             ]);
+
+            $payment->save();
         }
 
         if($responseData['status'] == 14){
-            $payment->status = $responseData['status'];
-            $payment->response_code = $responseData['response_code'];
-            $payment->response_message = $responseData['response_message'];
-            $payment->save();
+            $payment->update(['paid_at' => now()]);
 
-            $payment->saveSubscriptionInfoAfterPayment();
-        } 
+            $subscription->start();
+        }
     }
 
     private function calculateSignature(array $fieldArray){

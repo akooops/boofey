@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Payments;
 
+use App\Rules\SubscriptionIsInitiated;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Http\JsonResponse;
@@ -32,7 +33,7 @@ class ProcessPaymentRequest extends FormRequest
             'payment_method_id' => 'required|exists:payment_methods,id',
             'billing_id' => 'required|exists:billings,id',
 
-            'payment_id' => 'required|exists:payments,id',
+            'subscription_id' => ['required', 'exists:subscriptions,id', new SubscriptionIsInitiated()],
             'coupon_id' => 'nullable|exists:coupons,id',
         ];
     }

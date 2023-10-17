@@ -64,8 +64,6 @@ class PaymentMethodsController extends Controller
             ]
         ));
 
-        $paymentMethod->generateRef();
-
         $paymentMethod->save();
 
         return response()->json([

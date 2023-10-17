@@ -19,6 +19,8 @@ return new class extends Migration
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
 
+            $table->string('ref')->unique()->nullable(false);
+
             $table->text('description')->nullable()->default(null);
 
             $table->string('fort_id', 20)->nullable()->default(null);

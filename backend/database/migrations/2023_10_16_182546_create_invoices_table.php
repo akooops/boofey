@@ -16,6 +16,8 @@ return new class extends Migration
         Schema::create('invoices', function (Blueprint $table) {
             $table->id();
 
+            $table->string('ref')->unique()->nullable(false);
+
             $table->float('tax')->nullable(false)->default(0);
             $table->float('discount')->nullable(false)->default(0);
 
