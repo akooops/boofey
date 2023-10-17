@@ -31,10 +31,10 @@ class PaymentsController extends Controller
 {
     public function testPayment(){
         $request = new ProcessPaymentRequest([
-            'subscription_id' => '45',
+            'subscription_id' => '46',
             'customer_email' => 'test@test.com',
             'customer_ip' => '127.0.0.1',
-            'payment_method_id' => '25',
+            'payment_method_id' => '26',
             'billing_id' => '1',
         ]);
 
@@ -96,13 +96,13 @@ class PaymentsController extends Controller
 
         if(is_null($payment)){
             $payment = Payment::create([
-                'fort_id' => (is_null($responseData['fort_id']) ? null : $responseData['fort_id']),
+                'fort_id' => key_exists('fort_id', $responseData) ? $responseData['fort_id']:  null,
                 'status' => $responseData['status'],
                 'response_code' => $responseData['response_code'],
                 'response_message' => $responseData['response_message'],
-                'payment_option' => $responseData['payment_option'],
-                'card_number' => $responseData['card_number'],
-                'card_holder_name' => $responseData['card_holder_name'],
+                'payment_option' => key_exists('payment_option', $responseData) ? $responseData['payment_option']:  null,
+                'card_number' => key_exists('card_number', $responseData) ? $responseData['card_number']:  null,
+                'card_holder_name' => key_exists('card_holder_name', $responseData) ? $responseData['card_holder_name']:  null,
                 'amount' => $responseData['amount'],
                 'father_id' => $father->id,
                 'subscription_id' => $subscription->id
@@ -176,13 +176,13 @@ class PaymentsController extends Controller
 
         if(is_null($payment)){
             $payment = Payment::create([
-                'fort_id' => (is_null($responseData['fort_id']) ? null : $responseData['fort_id']),
+                'fort_id' => key_exists('fort_id', $responseData) ? $responseData['fort_id']:  null,
                 'status' => $responseData['status'],
                 'response_code' => $responseData['response_code'],
                 'response_message' => $responseData['response_message'],
-                'payment_option' => $responseData['payment_option'],
-                'card_number' => $responseData['card_number'],
-                'card_holder_name' => $responseData['card_holder_name'],
+                'payment_option' => key_exists('payment_option', $responseData) ? $responseData['payment_option']:  null,
+                'card_number' => key_exists('card_number', $responseData) ? $responseData['card_number']:  null,
+                'card_holder_name' => key_exists('card_holder_name', $responseData) ? $responseData['card_holder_name']:  null,
                 'amount' => $responseData['amount'],
                 'father_id' => $subscription->student->father->id,
                 'subscription_id' => $subscription->id
@@ -191,7 +191,7 @@ class PaymentsController extends Controller
             $payment->save();
         }else{
             $payment->update([
-                'fort_id' => (is_null($responseData['fort_id']) ? null : $responseData['fort_id']),
+                'fort_id' => key_exists('fort_id', $responseData) ? $responseData['fort_id']:  null,
                 'status' => $responseData['status'],
                 'response_code' => $responseData['response_code'],
                 'response_message' => $responseData['response_message']
@@ -219,13 +219,13 @@ class PaymentsController extends Controller
 
         if(is_null($payment)){
             $payment = Payment::create([
-                'fort_id' => (is_null($responseData['fort_id']) ? null : $responseData['fort_id']),
+                'fort_id' => key_exists('fort_id', $responseData) ? $responseData['fort_id']:  null,
                 'status' => $responseData['status'],
                 'response_code' => $responseData['response_code'],
                 'response_message' => $responseData['response_message'],
-                'payment_option' => $responseData['payment_option'],
-                'card_number' => $responseData['card_number'],
-                'card_holder_name' => $responseData['card_holder_name'],
+                'payment_option' => key_exists('payment_option', $responseData) ? $responseData['payment_option']:  null,
+                'card_number' => key_exists('card_number', $responseData) ? $responseData['card_number']:  null,
+                'card_holder_name' => key_exists('card_holder_name', $responseData) ? $responseData['card_holder_name']:  null,
                 'amount' => $responseData['amount'],
                 'father_id' => $subscription->student->father->id,
                 'subscription_id' => $subscription->id
