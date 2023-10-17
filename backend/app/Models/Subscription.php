@@ -136,6 +136,8 @@ class Subscription extends Model
         $this->update([
             'status' => 'inactive',
         ]);
+
+        $this->generateInvoice();
     }
 
     public function expire(){
