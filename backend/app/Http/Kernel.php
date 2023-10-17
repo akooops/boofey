@@ -71,5 +71,6 @@ class Kernel extends HttpKernel
         'refresh.tokens' => \App\Http\Middleware\RefreshTokens::class,
         'convert.bool.string' => \App\Http\Middleware\ConvertBooleanStrings::class,
         'verified' => \App\Http\Middleware\VerifyUser::class,
+        'check.father' => \App\Http\Middleware\CheckFather::class,
     ];
 }

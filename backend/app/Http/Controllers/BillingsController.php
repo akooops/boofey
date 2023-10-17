@@ -23,15 +23,7 @@ class BillingsController extends Controller
      */
     public function index(Request $request)
     {
-        $user = Auth::user();
-        $father = Father::where('user_id', $user->id)->first();
-
-        if($father === null){
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Oops! Resource Not Found. The Resource you are looking for is not available or has been moved.'
-            ], 404);
-        }
+        $father = $request->get('father');
 
         $search = checkIfSearchEmpty($request->query('search'));
 
@@ -62,15 +54,7 @@ class BillingsController extends Controller
      */
     public function store(StoreBillingRequest $request) 
     {
-        $user = Auth::user();
-        $father = Father::where('user_id', $user->id)->first();
-
-        if($father === null){
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Oops! Resource Not Found. The Resource you are looking for is not available or has been moved.'
-            ], 404);
-        }
+        $father = $request->get('father');
 
         $billing = Billing::create(array_merge(
             $request->validated(),
@@ -96,17 +80,9 @@ class BillingsController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function show(Billing $billing) 
+    public function show(Billing $billing, Request $request) 
     {        
-        $user = Auth::user();
-        $father = Father::where('user_id', $user->id)->first();
-
-        if($father === null){
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Oops! Resource Not Found. The Resource you are looking for is not available or has been moved.'
-            ], 404);
-        }
+        $father = $request->get('father');
 
         if($billing->father_id != $father->id){
             return response()->json([
@@ -135,15 +111,7 @@ class BillingsController extends Controller
      */
     public function update(Billing $billing, UpdateBillingRequest $request) 
     {
-        $user = Auth::user();
-        $father = Father::where('user_id', $user->id)->first();
-
-        if($father === null){
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Oops! Resource Not Found. The Resource you are looking for is not available or has been moved.'
-            ], 404);
-        }
+        $father = $request->get('father');
 
         if($billing->father_id != $father->id){
             return response()->json([
@@ -170,17 +138,9 @@ class BillingsController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Billing $billing) 
+    public function destroy(Billing $billing, Request $request) 
     {
-        $user = Auth::user();
-        $father = Father::where('user_id', $user->id)->first();
-
-        if($father === null){
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Oops! Resource Not Found. The Resource you are looking for is not available or has been moved.'
-            ], 404);
-        }
+        $father = $request->get('father');
 
         if($billing->father_id != $father->id){
             return response()->json([

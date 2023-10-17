@@ -21,17 +21,9 @@ class SubscriptionsController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function index(Student $student, Request $request) 
+    public function indexByStudent(Student $student, Request $request) 
     {
-        $user = Auth::user();
-        $father = Father::where('user_id', $user->id)->first();
-
-        if($father === null){
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Oops! Resource Not Found. The Resource you are looking for is not available or has been moved.'
-            ], 404);
-        }
+        $father = $request->get('father');
 
         if($student->father_id != $father->id){
             return response()->json([
@@ -50,55 +42,51 @@ class SubscriptionsController extends Controller
         $page = checkPageIfNull($request->query('page', 1));
         $search = checkIfSearchEmpty($request->query('search'));
 
-        $subscriptions = Subscription::with([
-            'payment',
-            'payment.coupon:id,name,code,discount',
-            'payment.package:id,name,name_ar,sale_price,price,days,tax,popular,school_id',
-            'payment.package.school:id,name,name_ar,file_id',
-            'payment.package.school.logo:id,path,current_name',
-            'payment.billing:id,firstname,lastname,email,phone,address,city,state,zipcode',
-            'payment.paymentMethod:id,card_number,card_holder_name'
-        ])->where('student_id', $student->id)->latest();
+        $activeSubscription = $student->activeSubscription()->with([
+            'invoice:id,subscription_id',
+            'package:id,name,name_ar,sale_price,price,days,tax,popular,school_id',
+            'package.school:id,name,name_ar,file_id',
+            'package.school.logo:id,path,current_name'
+        ])->first(); 
 
-        $activeSubscription = $student->subscriptions()
-            ->where('balance', '>', 0)
-            ->where('started_at', '!=', NULL)
-            ->with([
-                'payment',
-                'payment.coupon:id,name,code,discount',
-                'payment.package:id,name,name_ar,sale_price,price,days,tax,popular,school_id',
-                'payment.package.school:id,name,name_ar,file_id',
-                'payment.package.school.logo:id,path,current_name',
-                'payment.billing:id,firstname,lastname,email,phone,address,city,state,zipcode',
-                'payment.paymentMethod:id,card_number,card_holder_name'
-            ])
-            ->first();
-                
-        if($activeSubscription)
-            $subscriptions->whereNot('id', $activeSubscription->id);
+        $inactiveSubscriptions = $student->inactiveSubscriptions()->with([
+            'invoice:id,subscription_id',
+            'package:id,name,name_ar,sale_price,price,days,tax,popular,school_id',
+            'package.school:id,name,name_ar,file_id',
+            'package.school.logo:id,path,current_name'
+        ])->latest()->get(); 
+
+        $subscriptions = $student->subscriptionsWithoutActive()->with([
+            'invoice:id,subscription_id',
+            'package:id,name,name_ar,sale_price,price,days,tax,popular,school_id',
+            'package.school:id,name,name_ar,file_id',
+            'package.school.logo:id,path,current_name'
+        ])->latest();
 
         if ($search) {
             $subscriptions->where(function ($query) use ($search) {
                 $query->where(function ($query) use ($search) {
-                    $query->whereHas('payment', function ($paymentQuery) use ($search) {
-                            $paymentQuery->whereHas('package', function ($packageQuery) use ($search) {
-                                $packageQuery->where('name', 'like', '%' . $search . '%')
-                                    ->orWhere('code', 'like', '%' . $search . '%')
-                                    ->orWhere('description', 'like', '%' . $search . '%');
-                                });
-                        });
+                    $query->whereHas('package', function ($packageQuery) use ($search) {
+                        $packageQuery->where('name', 'like', '%' . $search . '%')
+                            ->orWhere('name_ar', 'like', '%' . $search . '%')
+                            ->orWhere('code', 'like', '%' . $search . '%')
+                            ->orWhere('description', 'like', '%' . $search . '%');
+                    });
                 });
             });
         }
 
         $subscriptions = $subscriptions->paginate($perPage, ['*'], 'page', $page);
-        $packages = Package::select('id', 'name', 'price', 'sale_price', 'days', 'tax')->where('school_id', $student->school_id)->get();
+        $packages = ($student->school !== null) 
+            ? $student->school->packages()->select('id', 'name', 'price', 'sale_price', 'days', 'tax')->get()
+            : [];
 
         $response = [
             'status' => 'success',
             'data' => [
                 'subscriptions' => $subscriptions->items(), 
                 'activeSubscription' => $activeSubscription,
+                'inactiveSubscriptions' => $inactiveSubscriptions,
                 'student' => $student->makeHidden([
                     'otp', 'otp_expires_at', 'nfc_id', 
                     'face_id', 'activeSubscription', 'subscribed', 

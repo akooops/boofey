@@ -26,14 +26,10 @@ Route::group(['namespace' => 'App\Http\Controllers', 'middleware' => ['auth:sanc
     Route::post('passwordReset', 'ProfilesController@passwordReset')->name('profile.passwordReset');
 });
 
-Route::group(['namespace' => 'App\Http\Controllers', 'middleware' => ['auth:sanctum', 'convert.bool.string', 'verified']], function(){ 
+Route::group(['namespace' => 'App\Http\Controllers', 'middleware' => ['auth:sanctum', 'check.father', 'convert.bool.string', 'verified']], function(){ 
     /* -------------------------------------------------------------------------------- */
     /* Schools Routes */
     Route::get('schools', 'SchoolsController@index')->name('parents.schools.index');
-    
-    Route::get('schools/{school}/academicYears', 'AcademicYearsController@indexBySchool')->name('parents.academicYears.indexBySchool');
-    Route::get('academicYears', 'AcademicYearsController@index')->name('parents.academicYears.index');
-
     Route::get('schools/{school}/packages', 'PackagesController@indexBySchool')->name('parents.packages.indexBySchool');
     Route::get('students/{student}/packages/{package}', 'PackagesController@show')->name('parents.packages.show');
 
@@ -51,7 +47,7 @@ Route::group(['namespace' => 'App\Http\Controllers', 'middleware' => ['auth:sanc
 
     /* -------------------------------------------------------------------------------- */
     /* Subscriptions Routes */
-    Route::get('students/{student}/subscriptions', 'SubscriptionsController@index')->name('parents.subscriptions.index');
+    Route::get('students/{student}/subscriptions', 'SubscriptionsController@indexByStudent')->name('parents.subscriptions.indexByStudent');
 
     /* -------------------------------------------------------------------------------- */
     /* Payments Routes */
@@ -75,9 +71,10 @@ Route::group(['namespace' => 'App\Http\Controllers', 'middleware' => ['auth:sanc
     Route::post('payments/process', 'PaymentsController@processPayment')->name('parents.payments.processPayment');
     Route::get('payments/check/{ref}', 'PaymentsController@checkPayment')->name('parents.payments.check');
 
-    Route::get('paymentMethods', 'PaymentsController@indexPaymentMethods')->name('parents.payments.indexPaymentMethods');
-    Route::post('paymentMethods/init', 'PaymentsController@initPaymentMethodAdd')->name('parents.payments.initPaymentMethodAdd');
-    Route::delete('paymentMethods/{paymentMethod}', 'PaymentsController@deletePaymentMethod')->name('parents.payments.deletePaymentMethod');
+    Route::get('paymentMethods', 'PaymentMethodsController@index')->name('parents.paymentMethods.index');
+    Route::post('paymentMethods/init', 'PaymentMethodsController@init')->name('parents.paymentMethods.init');
+
+    Route::delete('paymentMethods/{paymentMethod}', 'PaymentMethodsController@destroy')->name('parents.paymentMethods.destroy');
 });
 
 Route::group(['namespace' => 'App\Http\Controllers', 'middleware' => ['auth:sanctum', 'convert.bool.string']], function(){ 
@@ -91,7 +88,8 @@ Route::group(['namespace' => 'App\Http\Controllers', 'middleware' => ['convert.b
 });
 
 Route::group(['namespace' => 'App\Http\Controllers', 'middleware' => ['convert.bool.string']], function(){ 
-    Route::post('paymentMethods/store/{father}', 'PaymentsController@storePaymentsMethod')->name('parents.payments.storePaymentsMethod');
+    Route::post('paymentMethods/store/{father}', 'PaymentMethodsController@store')->name('parents.paymentMethods.store');
+
     Route::post('payments/return', 'PaymentsController@paymentReturn')->name('parents.payments.paymentReturn');
     Route::post('payments/webhook', 'PaymentsController@webhook')->name('parents.payments.webhook');
 });

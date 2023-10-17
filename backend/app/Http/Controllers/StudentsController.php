@@ -23,15 +23,7 @@ class StudentsController extends Controller
      */
     public function index(Request $request)
     {
-        $user = Auth::user();
-        $father = Father::where('user_id', $user->id)->first();
-
-        if($father === null){
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Oops! Resource Not Found. The Resource you are looking for is not available or has been moved.'
-            ], 404);
-        }
+        $father = $request->get('father');
 
         $perPage = limitPerPage($request->query('perPage', 10));
         $page = checkPageIfNull($request->query('page', 1));
@@ -96,15 +88,7 @@ class StudentsController extends Controller
      */
     public function store(StoreStudentRequest $request) 
     {
-        $user = Auth::user();
-        $father = Father::where('user_id', $user->id)->first();
-
-        if($father === null){
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Oops! Resource Not Found. The Resource you are looking for is not available or has been moved.'
-            ], 404);
-        }
+        $father = $request->get('father');
 
         $schoolId = $request->get('school_id');
         $school = School::findOrFail($schoolId);
@@ -134,17 +118,9 @@ class StudentsController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function show(Student $student) 
+    public function show(Student $student, Request $request) 
     {        
-        $user = Auth::user();
-        $father = Father::where('user_id', $user->id)->first();
-
-        if($father === null){
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Oops! Resource Not Found. The Resource you are looking for is not available or has been moved.'
-            ], 404);
-        }
+        $father = $request->get('father');
 
         if($student->father_id != $father->id){
             return response()->json([
@@ -180,15 +156,7 @@ class StudentsController extends Controller
      */
     public function update(Student $student, UpdateStudentRequest $request) 
     {
-        $user = Auth::user();
-        $father = Father::where('user_id', $user->id)->first();
-
-        if($father === null){
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Oops! Resource Not Found. The Resource you are looking for is not available or has been moved.'
-            ], 404);
-        }
+        $father = $request->get('father');
 
         if($student->father_id != $father->id){
             return response()->json([
@@ -217,17 +185,9 @@ class StudentsController extends Controller
         ]);
     }
 
-    public function otp(Student $student) 
+    public function otp(Student $student, Request $request) 
     {
-        $user = Auth::user();
-        $father = Father::where('user_id', $user->id)->first();
-
-        if($father === null){
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Oops! Resource Not Found. The Resource you are looking for is not available or has been moved.'
-            ], 404);
-        }
+        $father = $request->get('father');
 
         if($student->father_id != $father->id){
             return response()->json([
@@ -265,17 +225,9 @@ class StudentsController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Student $student) 
+    public function destroy(Student $student, Request $request) 
     {
-        $user = Auth::user();
-        $father = Father::where('user_id', $user->id)->first();
-
-        if($father === null){
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Oops! Resource Not Found. The Resource you are looking for is not available or has been moved.'
-            ], 404);
-        }
+        $father = $request->get('father');
 
         if($student->father_id != $father->id){
             return response()->json([
