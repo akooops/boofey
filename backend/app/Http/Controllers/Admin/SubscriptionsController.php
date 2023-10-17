@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Requests\Subscriptions\DisableSubscriptionRequest;
 use App\Http\Requests\Subscriptions\EnableSubscriptionRequest;
 use App\Models\Subscription;
 use Illuminate\Http\Request;
@@ -192,7 +193,7 @@ class SubscriptionsController extends Controller
         ]);
     }
 
-    public function disable(Subscription $subscription) 
+    public function disable(Subscription $subscription, DisableSubscriptionRequest $request) 
     {
         $subscription->update([
             'status' => 'disabled'
