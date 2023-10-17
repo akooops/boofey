@@ -50,7 +50,7 @@ class Payment extends Model
         return $this->hasOne(Billing::class, 'id', 'billing_id');
     }
 
-        /* Methods
+    /* Methods
         --------------------------------------------------------------------
     */
 
@@ -71,5 +71,19 @@ class Payment extends Model
 
             $subscription->ref = $ref;
         });
+    }
+
+    public function applyBilling($billingID){
+        $billing = Billing::find($billingID);
+        if($billing === null) return;
+
+        $this->firstname = $billing->firstname;
+        $this->lastname = $billing->lastname;
+        $this->email = $billing->email;
+        $this->phone = $billing->phone;
+        $this->address = $billing->address;
+        $this->state = $billing->state;
+        $this->city = $billing->city;
+        $this->zipcode = $billing->zipcode;
     }
 }

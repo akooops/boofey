@@ -29,8 +29,22 @@ use Illuminate\Support\Facades\Log;
 
 class PaymentsController extends Controller
 {
+    public function testPayment(){
+        $request = new ProcessPaymentRequest([
+            'subscription_id' => '45',
+            'customer_email' => 'test@test.com',
+            'customer_ip' => '127.0.0.1',
+            'payment_method_id' => '25',
+            'billing_id' => '1',
+        ]);
+
+        // Call the processPayment method with the populated request.
+        return $this->process($request);
+    }
+
     public function process(ProcessPaymentRequest $request){
-        $father = $request->get('father');
+        //$father = $request->get('father');
+        $father = Father::find(1);
 
         $subscription = Subscription::findOrFail($request->input('subscription_id'));
 
@@ -38,8 +52,6 @@ class PaymentsController extends Controller
             $coupon = Coupon::findOrFail($request->get('coupon_id'));
             $subscription->applyCoupon($coupon);
         }
-
-        $billing = Billing::findOrFail($request->input('billing_id'));
 
         $subscription->calculateTotal();
         $subscription->generateRef();
@@ -80,19 +92,26 @@ class PaymentsController extends Controller
 
         $responseData = $response->json();
 
-        $payment = Payment::create([
-            'fort_id' => (is_null($responseData['fort_id']) ? null : $responseData['fort_id']),
-            'status' => $responseData['status'],
-            'response_code' => $responseData['response_code'],
-            'response_message' => $responseData['response_message'],
-            'payment_option' => $responseData['payment_option'],
-            'card_number' => $responseData['card_number'],
-            'card_holder_name' => $responseData['card_holder_name'],
-            'amount' => $responseData['amount'],
-            'father_id' => $father->id,
-            'subscription_id' => $subscription->id
-        ]);
+        $payment = $subscription->payment;
 
+        if(is_null($payment)){
+            $payment = Payment::create([
+                'fort_id' => (is_null($responseData['fort_id']) ? null : $responseData['fort_id']),
+                'status' => $responseData['status'],
+                'response_code' => $responseData['response_code'],
+                'response_message' => $responseData['response_message'],
+                'payment_option' => $responseData['payment_option'],
+                'card_number' => $responseData['card_number'],
+                'card_holder_name' => $responseData['card_holder_name'],
+                'amount' => $responseData['amount'],
+                'father_id' => $father->id,
+                'subscription_id' => $subscription->id
+            ]);
+
+            $payment->save();
+        }
+
+        $payment->applyBilling($request->input('billing_id'));
         $payment->save();
 
         if($responseData['response_code'] == '20064' && $responseData['3ds_url'] ){
@@ -126,12 +145,13 @@ class PaymentsController extends Controller
     }
 
     public function checkPayment($ref){
-        $payment = Payment::where('ref', $ref)->first();
-        if($payment === null){
+        $subscription = Subscription::where('ref', $ref)->first();
+
+        if($subscription === null){
             return response()->json([
                 'status' => 'error',
                 'error' => [
-                    'message' => 'Payment Not found on our server, please contact the administration',
+                    'message' => 'Subscription Not found on our server, please contact the administration',
                 ]
             ]);
         }
@@ -139,7 +159,7 @@ class PaymentsController extends Controller
         return response()->json([
             'status' => 'success',
             'data' => [
-                'payment' => $payment
+                'payment' => $subscription->payment
             ]
         ]);
     }
@@ -148,9 +168,10 @@ class PaymentsController extends Controller
         $responseData = $request->all();
 
         $subscription = Subscription::where('ref', $responseData['merchant_reference'])->first();
+
         if(is_null($subscription))
             return;
-            
+
         $payment = $subscription->payment;
 
         if(is_null($payment)){
@@ -168,6 +189,13 @@ class PaymentsController extends Controller
             ]);
 
             $payment->save();
+        }else{
+            $payment->update([
+                'fort_id' => (is_null($responseData['fort_id']) ? null : $responseData['fort_id']),
+                'status' => $responseData['status'],
+                'response_code' => $responseData['response_code'],
+                'response_message' => $responseData['response_message']
+            ]);
         }
 
         if($responseData['status'] == 14){

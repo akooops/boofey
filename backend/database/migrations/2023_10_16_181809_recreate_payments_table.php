@@ -21,8 +21,6 @@ return new class extends Migration
 
             $table->string('ref')->unique()->nullable(false);
 
-            $table->text('description')->nullable()->default(null);
-
             $table->string('fort_id', 20)->nullable()->default(null);
 
             $table->string('status', 2)->nullable()->default(null);
