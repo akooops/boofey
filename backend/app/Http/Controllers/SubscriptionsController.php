@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Subscriptions\InitSubscriptionRequest;
 use App\Models\Subscription;
 use Illuminate\Http\Request;
 use App\Http\Requests\Subscriptions\StoreSubscriptionRequest;
@@ -99,5 +100,75 @@ class SubscriptionsController extends Controller
         ];
 
         return response()->json($response);
+    }
+
+    public function init(InitSubscriptionRequest $request){
+        $father = $request->get('father');
+
+        $student = Student::findOrFail($request->get('student_id'));
+        $package = Package::findOrFail($request->get('package_id'));
+
+        if($student->father_id != $father->id){
+            return response()->json([
+                'status' => 'error',
+                'errors' => [
+                    '403' => 'Access Denied: Please Log In to Access This Resource'
+                ]
+            ], 403);
+        }
+
+        if($package->school_id != $student->school_id){
+            return response()->json([
+                'status' => 'error',
+                'errors' => [
+                    '403' => 'Access Denied: Please Log In to Access This Resource'
+                ]
+            ], 403);
+        }
+
+        if($package->hidden == true){
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Oops! Resource Not Found. The Resource you are looking for is not available or has been moved.'
+            ], 404);
+        }
+
+        Subscription::where([
+            'student_id' => $student->id,
+            'status' => 'initiated'
+        ])->delete();
+
+        $subscription = Subscription::create([
+            'status' => 'initiated',
+            'initiated_at' => now(),
+            'exclude_from_calculation' => 1,
+            'student_id' => $student->id,
+        ]);
+
+        $subscription->applyDiscount(null);
+        $subscription->applyTax($package->tax);
+        $subscription->applyPackage($package);
+        $subscription->calculateTotal();
+        $subscription->save();
+        
+        $student->load(
+            'image:id,path,current_name'
+        );
+
+        return response()->json([
+            'status' => 'success',
+            'data' => [
+                'package' => $package->makeHidden(['created_at', 'updated_at']),
+                'student' => $student->makeHidden([
+                    'otp', 'otp_expires_at', 'nfc_id', 
+                    'face_id', 'activeSubscription', 'subscribed', 
+                    'tookSnackToday', 'tookMainMealToday', 'class',
+                    'created_at', 'updated_at'
+                ]),
+                'subscription' => $subscription,
+                'customer_ip' => $request->ip(),
+                'customer_email' => $father->user->email
+            ]
+        ]);
     }
 }

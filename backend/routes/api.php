@@ -48,6 +48,7 @@ Route::group(['namespace' => 'App\Http\Controllers', 'middleware' => ['auth:sanc
     /* -------------------------------------------------------------------------------- */
     /* Subscriptions Routes */
     Route::get('students/{student}/subscriptions', 'SubscriptionsController@indexByStudent')->name('parents.subscriptions.indexByStudent');
+    Route::post('subscriptions/init', 'SubscriptionsController@init')->name('parents.subscriptions.init');
 
     /* -------------------------------------------------------------------------------- */
     /* Payments Routes */
@@ -67,7 +68,6 @@ Route::group(['namespace' => 'App\Http\Controllers', 'middleware' => ['auth:sanc
 
     /* -------------------------------------------------------------------------------- */
     /* Payments Routes */
-    Route::post('payments/init/{student}/{package}', 'PaymentsController@init')->name('parents.payments.init');
     Route::post('payments/process', 'PaymentsController@processPayment')->name('parents.payments.processPayment');
     Route::get('payments/check/{ref}', 'PaymentsController@checkPayment')->name('parents.payments.check');
 

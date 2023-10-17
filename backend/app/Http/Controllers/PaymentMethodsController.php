@@ -28,16 +28,8 @@ use Illuminate\Support\Facades\Log;
 
 class PaymentMethodsController extends Controller
 {
-    public function index(){
-        $user = Auth::user();
-        $father = Father::where('user_id', $user->id)->first();
-
-        if($father === null){
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Oops! Resource Not Found. The Resource you are looking for is not available or has been moved.'
-            ], 404);
-        }
+    public function index(Request $request){
+        $father = $request->get('father');
 
         $paymentMethods = PaymentMethod::where('father_id', $father->id)->get();
 
