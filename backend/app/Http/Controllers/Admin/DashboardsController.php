@@ -7,7 +7,9 @@ use Illuminate\Http\Request;
 use App\Http\Requests\AcademicYears\StoreAcademicYearRequest;
 use App\Http\Requests\AcademicYears\UpdateAcademicYearRequest;
 use App\Models\Canteen;
+use App\Models\Father;
 use App\Models\File;
+use App\Models\Order;
 use App\Models\Queue;
 use App\Models\School;
 use App\Models\Student;
@@ -16,15 +18,131 @@ use Carbon\Carbon;
 
 class DashboardsController extends Controller
 {
-    public function subscribersCount(Request $request){
-        $subscribersCount = Subscription::where('status', 'active')->count();
+    public function count(Request $request){
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('end_date');
+
+        if (empty($startDate) || empty($endDate)) {
+            $startDate = now()->subDays(7)->format('Y-m-d');
+            $endDate = now()->format('Y-m-d');
+
+            $previousEndDate = Carbon::parse($startDate)->subDay()->format('Y-m-d');
+            $previousStartDate = Carbon::parse($previousEndDate)->subDays(7)->format('Y-m-d');
+        }else{
+            $dateDiff = Carbon::parse($startDate)->diffInDays(Carbon::parse($endDate));
+            $previousStartDate = Carbon::parse($startDate)->subDays($dateDiff)->format('Y-m-d');
+            $previousEndDate = Carbon::parse($startDate)->subDay()->format('Y-m-d');
+        }
+
+        $subscribersCount = $this->subscribersCount($startDate, $endDate);
+        $previousSubscribersCount = $this->subscribersCount($previousStartDate, $previousEndDate);
+        $subscribersCountDiff = $this->calulcateDiff($subscribersCount, $previousSubscribersCount);
+
+        $studentsCount = $this->studentsCount($startDate, $endDate);
+        $previousstudentsCountCount = $this->studentsCount($previousStartDate, $previousEndDate);
+        $studentsCountsCountDiff = $this->calulcateDiff($studentsCount, $previousstudentsCountCount);
+
+        $fathersCount = $this->fathersCount($startDate, $endDate);
+        $previousFathersCount = $this->fathersCount($previousStartDate, $previousEndDate);
+        $fathersCountDiff = $this->calulcateDiff($fathersCount, $previousFathersCount);
+
+        $subscriptionsTotal = $this->subscriptionsTotal($startDate, $endDate);
+        $previousSubscriptionsTotal = $this->subscriptionsTotal($previousStartDate, $previousEndDate);
+        $subscriptionsTotalDiff = $this->calulcateDiff($subscriptionsTotal, $previousSubscriptionsTotal);
+
+        $ordersTotal = $this->ordersTotal($startDate, $endDate);
+        $previousOrdersTotal = $this->ordersTotal($previousStartDate, $previousEndDate);
+        $ordersTotalDiff = $this->calulcateDiff($ordersTotal, $previousOrdersTotal);
 
         return response()->json([
             'status' => 'success',
             'data' => [
-                'subscribersCount' => $subscribersCount
+                'subscribersCount' => [
+                    'value' => $subscribersCount,
+                    'percentageDiff' => $subscribersCountDiff['percentageDiff'],
+                    'increase' => $subscribersCountDiff['increase'],
+                ],
+                'studentsCount' => [
+                    'value' => $studentsCount,
+                    'percentageDiff' => $studentsCountsCountDiff['percentageDiff'],
+                    'increase' => $studentsCountsCountDiff['increase'],
+                ],
+                'fathersCount' => [
+                    'value' => $fathersCount,
+                    'percentageDiff' => $fathersCountDiff['percentageDiff'],
+                    'increase' => $fathersCountDiff['increase'],
+                ],
+                'subscriptionsTotal' => [
+                    'value' => $subscriptionsTotal,
+                    'percentageDiff' => $subscriptionsTotalDiff['percentageDiff'],
+                    'increase' => $subscriptionsTotalDiff['increase'],
+                ],
+                'ordersTotal' => [
+                    'value' => $ordersTotal,
+                    'percentageDiff' => $ordersTotalDiff['percentageDiff'],
+                    'increase' => $ordersTotalDiff['increase'],
+                ],
             ]
         ]);
+    }
+
+    private function calulcateDiff($current, $prev){
+        if ($prev === 0) {
+            return [
+                'percentageDiff' => ($current > 0) ? 100 : 0,
+                'increase' => ($current > 0) ? 'increase' : 'neutral'
+            ];
+        }
+    
+        $percentageDiff = (($current - $prev) / $prev) * 100;
+        $percentageDiff = number_format($percentageDiff, 2);
+
+        return [
+            'percentageDiff' => $percentageDiff,
+            'increase' => ($percentageDiff > 0) ? 'increase' : (($percentageDiff < 0) ? 'decrease' : 'neutral')
+        ];
+    }
+
+    private function subscribersCount($startDate, $endDate){
+        $subscribersCount = Subscription::where('status', 'active')
+        ->whereDate('created_at', '>=', $startDate)
+        ->whereDate('created_at', '<=', $endDate)
+        ->count();
+
+        return $subscribersCount;
+    }
+
+    private function studentsCount($startDate, $endDate){
+        $studentsCount = Student::whereDate('created_at', '>=', $startDate)
+        ->whereDate('created_at', '<=', $endDate)
+        ->count();
+
+        return $studentsCount;
+    }
+
+    private function fathersCount($startDate, $endDate){
+        $fathersCount = Father::whereDate('created_at', '>=', $startDate)
+        ->whereDate('created_at', '<=', $endDate)
+        ->count();
+
+        return $fathersCount;
+    }
+
+    private function subscriptionsTotal($startDate, $endDate){
+        $subscriptionsTotal = Subscription::whereNot('exclude_from_calculation', true)
+        ->whereDate('created_at', '>=', $startDate)
+        ->whereDate('created_at', '<=', $endDate)
+        ->sum('total');
+
+        return $subscriptionsTotal;
+    }
+
+    private function ordersTotal($startDate, $endDate){
+        $ordersTotal = Order::whereDate('created_at', '>=', $startDate)
+        ->whereDate('created_at', '<=', $endDate)
+        ->sum('total');
+
+        return $ordersTotal;
     }
 
     public function lastSubscribedStudents(Request $request){
