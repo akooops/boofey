@@ -217,6 +217,7 @@ class DashboardsController extends Controller
             })->count();
 
             return [
+                'status' => 'success',
                 'data' => $canteen->makeHidden(['queues']),
                 'count' => $count,
             ];
@@ -270,6 +271,7 @@ class DashboardsController extends Controller
             });
 
             return [
+                'status' => 'success',
                 'data' => $canteen->makeHidden(['queues']),
                 'average_time' => ($averageTime == null) ? 0 : $averageTime,
             ];
