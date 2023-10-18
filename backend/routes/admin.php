@@ -157,5 +157,9 @@ Route::group(['prefix' => 'admin', 'namespace' => 'App\Http\Controllers\Admin', 
 
     /* -------------------------------------------------------------------------------- */
     /* Dashboards Routes */
-    Route::get('dashboards/subscribersCount', 'DashboardsController@subscribersCount')->name('dashboards.update');
+    Route::get('dashboards/subscribersCount', 'DashboardsController@subscribersCount')->name('dashboards.subscribersCount');
+    Route::get('dashboards/lastSubscribedStudents', 'DashboardsController@lastSubscribedStudents')->name('dashboards.lastSubscribedStudents');
+    Route::get('dashboards/expiringSoonStudents', 'DashboardsController@expiringSoonStudents')->name('dashboards.expiringSoonStudents');
+    Route::get('dashboards/doneByCanteens', 'DashboardsController@doneByCanteens')->name('dashboards.doneByCanteens');
+    Route::get('dashboards/avgByCanteens', 'DashboardsController@avgByCanteens')->name('dashboards.avgByCanteens');
 });

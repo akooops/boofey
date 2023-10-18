@@ -23,6 +23,11 @@ class Queue extends Model
         return $this->belongsTo(Canteen::class);
     }
 
+    public function queueStudents()
+    {
+        return $this->hasMany(QueueStudent::class, 'queue_id', 'id');
+    }
+
     public function students()
     {
         return $this->belongsToMany(Student::class, 'queue_students', 'queue_id', 'student_id');

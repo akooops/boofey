@@ -9,6 +9,8 @@ class QueueStudent extends Model
 {
     use HasFactory;
 
+    public $dates = ['started_at', 'exited_at'];
+
     protected $fillable = [
         'started_at',
         'synced_at',

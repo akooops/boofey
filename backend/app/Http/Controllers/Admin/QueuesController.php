@@ -142,6 +142,10 @@ class QueuesController extends Controller
             ], 422);
         }
 
+        if($request->get('close') == true){
+            $queue->students()->whereNull('exited_at')->update(['exited_at' => now()]);
+        }
+
         $queue->update(array_merge(
             $request->validated(),
             ['closed_at' => $request->get('close') == true ? Carbon::now() : NULL]
