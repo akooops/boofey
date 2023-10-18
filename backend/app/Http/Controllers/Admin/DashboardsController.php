@@ -217,13 +217,17 @@ class DashboardsController extends Controller
             })->count();
 
             return [
-                'status' => 'success',
-                'data' => $canteen->makeHidden(['queues']),
+                'canteen' => $canteen->makeHidden(['queues']),
                 'count' => $count,
             ];
         });
 
-        return response()->json($result);
+        $response = [
+            'status' => 'success',
+            'data' => $result->toArray()
+        ];
+
+        return response()->json($response);
     }
 
     public function avgByCanteens(Request $request)
@@ -271,12 +275,16 @@ class DashboardsController extends Controller
             });
 
             return [
-                'status' => 'success',
                 'data' => $canteen->makeHidden(['queues']),
                 'average_time' => ($averageTime == null) ? 0 : $averageTime,
             ];
         });
 
-        return response()->json($result);
+        $response = [
+            'status' => 'success',
+            'data' => $result->toArray()
+        ];
+
+        return response()->json($response);
     }
 }
