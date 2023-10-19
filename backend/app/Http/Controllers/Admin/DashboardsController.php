@@ -287,4 +287,67 @@ class DashboardsController extends Controller
 
         return response()->json($response);
     }
+
+    public function dailyTotal(Request $request)
+    {
+        $range = $request->input('range', 'last7days');
+    
+        // Get the custom date range if 'custom' is selected
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('end_date');
+        
+        if ($range === 'custom' && (empty($startDate) || empty($endDate))) {
+            $startDate = Carbon::now()->subDays(7)->startOfDay();
+            $endDate = Carbon::now()->endOfDay();
+        }else{
+            $startDate = Carbon::parse($startDate);
+            $endDate = Carbon::parse($endDate);
+        }
+
+        if ($range !== 'custom' && empty($startDate) && empty($endDate)) {
+            if ($range === 'yesterday') {
+                $startDate = Carbon::yesterday()->startOfDay();
+                $endDate = Carbon::yesterday()->endOfDay();
+            } elseif ($range === 'last7days') {
+                $startDate = Carbon::now()->subDays(7)->startOfDay();
+                $endDate = Carbon::now()->endOfDay();
+            } elseif ($range === 'last28days') {
+                $startDate = Carbon::now()->subDays(28)->startOfDay();
+                $endDate = Carbon::now()->endOfDay();
+            }
+        } 
+        
+        // Adjust the end date to 00:00:00 of the next day
+        if ($endDate) {
+            $endDate = Carbon::parse($endDate)->endOfDay();
+        }
+
+        
+        $dailyTotals = [];
+        $currentDate = $startDate;
+
+        while ($currentDate->lte($endDate)) {
+            $subscriptions = Subscription::where('exclude_from_calculation', false)
+                ->whereDate('created_at', $currentDate->format('Y-m-d'));
+            
+            // Calculate the total for the current day
+            $total = $subscriptions->sum('total');
+            
+            $dailyTotals[] = [
+                'day' => $currentDate->format('d M'),
+                'total' => $total,
+            ];
+            
+            $currentDate->addDay();
+        }
+
+        $response = [
+            'status' => 'success',
+            'data' => $dailyTotals,
+        ];
+
+        return response()->json($response);
+    }
+
 }
+

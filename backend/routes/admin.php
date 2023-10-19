@@ -162,4 +162,5 @@ Route::group(['prefix' => 'admin', 'namespace' => 'App\Http\Controllers\Admin', 
     Route::get('dashboards/expiringSoonStudents', 'DashboardsController@expiringSoonStudents')->name('dashboards.expiringSoonStudents');
     Route::get('dashboards/doneByCanteens', 'DashboardsController@doneByCanteens')->name('dashboards.doneByCanteens');
     Route::get('dashboards/avgByCanteens', 'DashboardsController@avgByCanteens')->name('dashboards.avgByCanteens');
+    Route::get('dashboards/dailyTotal', 'DashboardsController@dailyTotal')->name('dashboards.dailyTotal');
 });
