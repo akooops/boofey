@@ -34,7 +34,7 @@ class QueueStudentsController extends Controller
         $search = checkIfSearchEmpty($request->query('search'));
 
         $queueStudents = QueueStudent::with([
-            'student:id,firstname,lastname',
+            'student:id,firstname,lastname,file_id',
             'student.image:id,current_name,path'
         ])->latest()->where([
             'queue_id' => $queue->id
