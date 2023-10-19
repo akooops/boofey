@@ -135,6 +135,7 @@ class Subscription extends Model
     public function start(){
         $this->update([
             'status' => 'inactive',
+            'exclude_from_calculation' => false
         ]);
 
         $this->generateInvoice();
