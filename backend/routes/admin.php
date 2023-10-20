@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 |
 */
 
-Route::group(['prefix' => 'admin', 'namespace' => 'App\Http\Controllers\Admin', 'middleware' => [/*'auth:sanctum', 'permission',, */'convert.bool.string', 'verified']], function(){    
+Route::group(['prefix' => 'admin', 'namespace' => 'App\Http\Controllers\Admin', 'middleware' => ['auth:sanctum', /*'permission',, */'convert.bool.string', 'verified']], function(){    
     /* -------------------------------------------------------------------------------- */
     /* Permissions Routes */
     Route::resource('permissions', PermissionsController::class)->except(['create', 'edit', 'update']);
