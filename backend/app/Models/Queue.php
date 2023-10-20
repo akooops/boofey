@@ -9,6 +9,8 @@ class Queue extends Model
 {
     use HasFactory;
 
+    public $dates = ['started_at', 'closed_at'];
+
     protected $appends = ["closed", 'studentsPlucked', 'studentsCount', 'studentsInCount', 'studentsExitedCount', 'lastSyncedAt'];
 
     protected $fillable = [

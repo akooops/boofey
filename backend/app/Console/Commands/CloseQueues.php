@@ -27,11 +27,7 @@ class CloseQueues extends Command
         $unclosedQueues = Queue::whereNull('closed_at')
             ->where('started_at', '<', $now)
             ->update(['closed_at' => $now]);
-    
-        $unexitedQueues = QueueStudent::whereNull('exited_at')
-            ->where('started_at', '<', $now)
-            ->update(['exited_at' => $now]);
 
-        $this->info("Queue items closed and unexited students exited");
+        $this->info("A current queue already exists for this canteen for today.");
     }
 }
