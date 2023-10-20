@@ -156,6 +156,41 @@ class QueuesController extends Controller
         ]);
     }
 
+    public function close(Queue $queue, UpdateQueueRequest $request) 
+    {
+        $today = Carbon::today();
+
+        if(!is_null($queue->closed_at)){
+            $activeQueues = Queue::where('canteen_id', $queue->canteen->id)
+            ->whereNotIn('id', [$queue->id])
+            ->whereDate('started_at', $today)
+            ->where('closed_at', null)
+            ->count() > 0;
+
+            if($activeQueues == true && $request->get('close') == false){
+                return response()->json([
+                    'status' => 'error',
+                    'errors' => [
+                        '422' => 'A current queue already exists for this canteen for today.'
+                    ]
+                ], 422);
+            }
+        }
+
+        if(is_null($queue->closed_at)){
+            $queue->students()->whereNull('exited_at')->update(['exited_at' => now()]);
+        }
+        
+        $queue->update(
+            ['closed_at' => is_null($queue->closed_at) ? Carbon::now() : NULL]
+        );
+
+        return response()->json([
+            'status' => 'success'
+        ]);
+    }
+
+
     /**
      * Delete queue data
      * 

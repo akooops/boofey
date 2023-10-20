@@ -124,6 +124,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'App\Http\Controllers\Admin', 
 
     Route::resource('queues', QueuesController::class)->only(['show', 'destroy']);
     Route::post('queues/{queue}/update', 'QueuesController@update')->name('queues.update');
+    Route::post('queues/{queue}/close', 'QueuesController@close')->name('queues.close');
 
     /* -------------------------------------------------------------------------------- */
     /* Queues Students Routes */
