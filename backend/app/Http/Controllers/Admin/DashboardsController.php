@@ -15,6 +15,7 @@ use App\Models\School;
 use App\Models\Student;
 use App\Models\Subscription;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardsController extends Controller
 {
@@ -146,36 +147,85 @@ class DashboardsController extends Controller
     }
 
     public function lastSubscribedStudents(Request $request){
+        $perPage = limitPerPage($request->query('perPage', 10));
+        $page = checkPageIfNull($request->query('page', 1));
+
         $students = Student::select('students.id', 'students.firstname', 'students.lastname', 'school_id')
             ->join('subscriptions', 'students.id', '=', 'subscriptions.student_id')
             ->whereIn('subscriptions.status', ['active', 'inactive'])
             ->whereNotIn('subscriptions.status', ['expired', 'initiated', 'disabled'])
-            ->orderBy('subscriptions.started_at')
-            ->limit(20)
-            ->get();
+            ->orderBy('subscriptions.started_at');
+
+        $students = $students->paginate($perPage, ['*'], 'page', $page);
 
         $response = [
             'status' => 'success',
-            'data' => $students, 
+            'data' => $students->items(), 
+            'pagination' => handlePagination($students),
         ];
 
         return response()->json($response);
     }
 
     public function expiringSoonStudents(Request $request){
+        $perPage = limitPerPage($request->query('perPage', 10));
+        $page = checkPageIfNull($request->query('page', 1));
+
         $students = Student::select('students.id', 'students.firstname', 'students.lastname', 'school_id')
             ->join('subscriptions', 'students.id', '=', 'subscriptions.student_id')
             ->where('subscriptions.status', 'active')
             ->whereNotIn('subscriptions.status', ['inactive', 'expired', 'initiated', 'disabled'])
-            ->orderBy('subscriptions.balance')
-            ->limit(20)
-            ->get();
+            ->orderBy('subscriptions.balance');
+
+        $students = $students->paginate($perPage, ['*'], 'page', $page);
 
         $response = [
             'status' => 'success',
-            'data' => $students, 
+            'data' => $students->items(), 
+            'pagination' => handlePagination($students),
+        ];
+            
+        return response()->json($response);
+    }
+
+    public function absentStudents(Request $request){
+        $perPage = limitPerPage($request->query('perPage', 10));
+        $page = checkPageIfNull($request->query('page', 1));
+        
+        $today = Carbon::today();
+
+        $absentStudents = Student::whereDoesntHave('queues', function ($query) use ($today) {
+            $query->whereDate('queues.started_at', $today);
+        });
+
+        $absentStudents = $absentStudents->paginate($perPage, ['*'], 'page', $page);
+
+        $response = [
+            'status' => 'success',
+            'data' => $absentStudents->items(), 
+            'pagination' => handlePagination($absentStudents),
         ];
 
+        return response()->json($response);
+    }
+
+    public function canteensStatus(Request $request){
+        $perPage = limitPerPage($request->query('perPage', 10));
+        $page = checkPageIfNull($request->query('page', 1));
+
+        $canteens = Canteen::with([
+            'school:id,name,file_id',
+            'school.logo:id,current_name,path'
+        ]); 
+
+        $canteens = $canteens->paginate($perPage, ['*'], 'page', $page);
+
+        $response = [
+            'status' => 'success',
+            'data' => $canteens->items(), 
+            'pagination' => handlePagination($canteens),
+        ];
+            
         return response()->json($response);
     }
 

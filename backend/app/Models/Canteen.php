@@ -12,7 +12,7 @@ class Canteen extends Model
 {
     use HasFactory;
 
-    protected $appends = ['display_name', 'display_address'];
+    protected $appends = ['display_name', 'display_address', 'status'];
 
     protected $fillable = [
         'name',
@@ -84,5 +84,9 @@ class Canteen extends Model
         }
 
         return $this->address;
+    }
+
+    public function getStatusAttribute(){
+        return (is_null($this->currentQueue)) ? 'closed': 'open';
     }
 }
