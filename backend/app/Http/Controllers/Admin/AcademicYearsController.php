@@ -115,12 +115,6 @@ class AcademicYearsController extends Controller
     {
         $current = null;
 
-        if($request->input('current') == true) {
-            AcademicYear::where('school_id', $school->id)->update(['current' => false]);
-
-            $school->students->update(['archived' => true]);
-        }
-
         if($school->currentAcademicYear === null){
             $current = true;
         }
@@ -134,6 +128,12 @@ class AcademicYearsController extends Controller
         ));
 
         $academicYear->save();
+
+        if($request->input('current') == true) {
+            AcademicYear::where('school_id', $school->id)->whereNot('id', $academicYear->id)->update(['current' => false]);
+
+            $school->students->update(['archived' => true]);
+        }
 
         if ($request->input('current') == true && $school) {
             $school->updateYearlyPackages();
@@ -170,7 +170,7 @@ class AcademicYearsController extends Controller
         $current = null;
 
         if($request->input('current') == true) {
-            AcademicYear::where('school_id', $academicYear->school_id)->update(['current' => false]);
+            AcademicYear::where('school_id', $academicYear->school_id)->whereNot('id', $academicYear->id)->update(['current' => false]);
         }
 
         if($request->input('current') == true && $academicYear->current == false) {

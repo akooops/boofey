@@ -24,6 +24,7 @@ class User extends Authenticatable
         'email',
         'phone',
         'password',
+        'phone_verified_at'
     ];
 
     protected $appends = ["verified"];

@@ -75,7 +75,7 @@ class UsersController extends Controller
     {
         $user = User::create(array_merge(
             $request->validated(),
-            ['phone_verified_at' => $request->get('verified') ? now() : NULL]
+            ['phone_verified_at' => $request->get('verified') == true ? now() : NULL]
         ));
 
         $user->save();
