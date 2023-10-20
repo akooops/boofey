@@ -27,7 +27,6 @@ class UpdateQueueRequest extends FormRequest
     {
         return [
             'type' => 'required|integer|in:0,1',
-            'close' => 'required|boolean',
         ];
     }
 
