@@ -20,6 +20,48 @@ class SubscriptionsController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
+
+     public function index(Request $request) 
+    {
+        $perPage = limitPerPage($request->query('perPage', 10));
+        $page = checkPageIfNull($request->query('page', 1));
+        $search = checkIfSearchEmpty($request->query('search'));
+
+        $subscriptions = Subscription::with([
+            'invoice:id,subscription_id',
+            'package:id,name,name_ar,sale_price,price,days,tax,popular,school_id',
+            'package.school:id,name,name_ar,file_id',
+            'package.school.logo:id,path,current_name',
+            'student:id,firstname,lastname,file_id',
+            'student.image:id,current_name,path'
+        ])->latest();
+
+        if ($search) {
+            $subscriptions->where(function ($query) use ($search) {
+                $query->where(function ($query) use ($search) {
+                    $query->whereHas('package', function ($packageQuery) use ($search) {
+                        $packageQuery->where('name', 'like', '%' . $search . '%')
+                            ->orWhere('name_ar', 'like', '%' . $search . '%')
+                            ->orWhere('code', 'like', '%' . $search . '%')
+                            ->orWhere('description', 'like', '%' . $search . '%');
+                    });
+                });
+            });
+        }
+
+        $subscriptions = $subscriptions->paginate($perPage, ['*'], 'page', $page);
+
+        $response = [
+            'status' => 'success',
+            'data' => [
+                'subscriptions' => $subscriptions->items(), 
+            ],
+            'pagination' => handlePagination($subscriptions)
+        ];
+
+        return response()->json($response);
+    }
+
     public function indexByStudent(Student $student, Request $request) 
     {
 
