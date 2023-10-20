@@ -7,7 +7,7 @@ use App\Models\Student;
 use App\Models\Subscription;
 use Carbon\Carbon;
 
-class RemoveInitiatedSubscriptions extends Command
+class DisableSubscriptions extends Command
 {
     protected $signature = 'subscriptions:disable';
     protected $description = 'Disable subscriptions which aren\'t attached to a package or student';
