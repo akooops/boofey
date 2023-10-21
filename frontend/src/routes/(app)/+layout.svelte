@@ -12,7 +12,6 @@
     $: {
         const permissionNames = user.roles[0].permissions.map(permission => permission.name);    
         sessionStorage.setItem("permissions",JSON.stringify(permissionNames))
-        console.log(JSON.parse(sessionStorage.getItem("permissions")))
         
     }
 

@@ -18,35 +18,18 @@
     <div class="card-header align-items-center d-flex">
 
         <h4 class="card-title mb-0 flex-grow-1">Active Subscription</h4>
-
-
        
         <div class="flex-shrink-0">
             {#if activeSub}
             <div class="hstack gap-3 flex-wrap">
-                <!-- <a href="/admin/payments/{activeSub.invoice.id}" target="_blank" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Payment Details" ><i class="ri-file-paper-2-line"></i></a> -->
-                {#if JSON.parse(sessionStorage.getItem("permissions")).includes("invoices.show")}
+
                 {#if activeSub?.invoice == null}
                     <span data-bs-toggle="modal" data-bs-target="#genSubInvoiceModal" on:click={setSub}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Generate Invoice" ><i class="ri-file-paper-2-line"></i></a></span>
                 {:else}
-                    <a href="/admin/invoices/{activeSub.invoice.id}" target="_blank" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Print" ><i class="ri-file-paper-2-line"></i></a>
+                    <a href="/invoices/{activeSub.invoice.id}" target="_blank" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Print" ><i class="ri-file-paper-2-line"></i></a>
                 {/if}            <!-- {/if} -->
-                {/if}
-                {#if activeSub.status == "disabled"}
-                    {#if JSON.parse(sessionStorage.getItem("permissions")).includes("subscriptions.enable")}
-                    <span data-bs-toggle="modal" data-bs-target="#toggleSubModal" on:click={setSub}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Enable" ><i class="ri-checkbox-circle-line"></i></a></span>
-                    {/if}
-                {:else}
-                    {#if JSON.parse(sessionStorage.getItem("permissions")).includes("subscriptions.disable")}
-                        <span data-bs-toggle="modal" data-bs-target="#toggleSubModal" on:click={setSub}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Disable" ><i class="ri-indeterminate-circle-line"></i></a></span>
-                    {/if}    
-                {/if}
-                {#if JSON.parse(sessionStorage.getItem("permissions")).includes("subscriptions.show")}
+
                     <span data-bs-toggle="modal" data-bs-target="#viewSubModal" on:click={setSub}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-title="View" ><i class="ri-eye-fill"></i></a></span>
-                {/if}
-                {#if type != "parent" && JSON.parse(sessionStorage.getItem("permissions")).includes("subscriptions.update")}
-                <span data-bs-toggle="modal" data-bs-target="#editSubModal" on:click={setSub}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-title="Edit" ><i class="ri-edit-2-line"></i></a></span>
-                {/if}
             </div>
             {/if}
             <!-- <AddSubModal schoolId={school.id}/> -->

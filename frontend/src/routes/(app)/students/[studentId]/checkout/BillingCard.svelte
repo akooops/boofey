@@ -47,7 +47,7 @@
 
         let formData = new FormData()
 
-        formData.set("payment_id",paymentId)
+        formData.set("subscription_id",paymentId)
         formData.set("customer_email",customerEmail)
         formData.set("customer_ip",customerIp)
         formData.set("payment_method_id",paymentMethodId)
@@ -94,9 +94,13 @@
                     res = await res.json()
     
                     if(res.status == "success") {
-                        pending = false                    
-                        let text = `Payment has been fullfilled` 
-                        toast(text,"success")
+                        if(res?.data?.payment?.status == 14){
+                            pending = false                    
+                            let text = `Payment has been fullfilled` 
+                            toast(text,"success")
+                        }else {
+                            error = res?.data?.payment?.response_message
+                        }
                     }else if (res.status == "error"){
                         error = res.error.message
                     }

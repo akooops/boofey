@@ -1,4 +1,4 @@
-import { PathGetPackagesById,PathGetPaymentMethods,PathInitPayment,PathGetBillings,DefaultGetQueries } from "$lib/api/paths"
+import { PathGetPackagesById,PathGetPaymentMethods,PathInitSubscription,PathGetBillings,DefaultGetQueries } from "$lib/api/paths"
 
 import { redirector } from "$lib/api/auth";
 
@@ -15,11 +15,15 @@ export async function load({fetch,url,depends,params}) {
     redirector(res)
     let billingsResponse = await res.json()
 
+    let formData = new FormData()
 
-    res = await fetch(PathInitPayment(params.studentId,url.searchParams.get("package")),{
+    formData.set("package_id",url.searchParams.get("package"))
+    formData.set("student_id",params.studentId)
+    res = await fetch(PathInitSubscription(),{
         headers:{
-            Authorization: `${localStorage.getItem("SID")}`
+            Authorization: `${localStorage.getItem("SID")}`,
         },
+        body:formData,
         method:"POST"
     })
     redirector(res)
@@ -34,7 +38,7 @@ export async function load({fetch,url,depends,params}) {
     let paymentMethodsResponse = await res.json()
 
     return {student:initPaymentResponse.data.student,
-        payment:initPaymentResponse.data.payment,
+        subscription:initPaymentResponse.data.subscription,
         package:initPaymentResponse.data.package,
         customerIp:initPaymentResponse.data.customer_ip,
         customerEmail:initPaymentResponse.data.customer_email,

@@ -1,4 +1,4 @@
-import { PathGetPaymentDetails } from "$lib/api/paths"
+import { PathGetInvoiceDetails } from "$lib/api/paths"
 
 import { redirector } from "$lib/api/auth";
 
@@ -6,13 +6,13 @@ export const ssr = false;
 export async function load({fetch,url,depends,params}) {
     // depends('subs:refresh');
 
-    let res = await fetch(PathGetPaymentDetails(params.paymentId),{
+    let res = await fetch(PathGetInvoiceDetails(params.invoiceId),{
         headers:{
             Authorization: `${localStorage.getItem("SID")}`
         }
     })
     redirector(res)
 
-    let paymentDetailsResponse = await res.json()
-    return {payment:paymentDetailsResponse.data.payment,tabTitle:"Payment Details"}
+    let invoiceDetailsResponse = await res.json()
+    return {invoice:invoiceDetailsResponse.data.invoice,tabTitle:"Invoice Details"}
 };

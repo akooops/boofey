@@ -12,13 +12,13 @@
     
     let close
     let form 
-    let subName = ""
     let errors
     export let student
     export let packages = []
     let shouldStartAt
-    let usePackageInfo = true
     let useCoupon = false
+    let applyDiscount = false
+    let excludeFromCalc = false
     let coupon
     let resetCoupon
     let selectPackage
@@ -28,6 +28,8 @@
     let calculatedTax = 0
     let total = 0
     let packageId
+    let discount
+
 
     async function save(){
     
@@ -38,8 +40,11 @@
         if(coupon?.id){
             formData.set("coupon_id",coupon.id)
         }
-        formData.set("use_package_info",usePackageInfo)
         formData.set("apply_coupon",useCoupon)
+        formData.set("apply_discount",applyDiscount)
+        formData.set("exclude_from_calculation",excludeFromCalc)
+
+
     
         let res = await fetch(PathAddSub(student.id),{
             headers:{
@@ -74,25 +79,30 @@
         }
         
         errors = {}
-        usePackageInfo = false
         useCoupon = false
+        applyDiscount = false
+        excludeFromCalc = false
         subtotal =0 
         tax = 0
         days = 0
         calculatedTax = 0
         total = 0
+        discount = 0
     }
 
     $: {
-        if(usePackageInfo && packageId){
+        if(packageId){
             let packageObj = packages.find(obj => obj.id === packageId);
-            days = packageObj.days
             subtotal = packageObj.currentPrice
-            tax = packageObj.tax
+            days = packageObj.days
         }
         // console.log(bill({subtotal,tax,coupon}))
-        [total,calculatedTax] = bill({subtotal,tax,coupon})
-        console.log(total,calculatedTax)
+        if(applyDiscount && !useCoupon){
+            [total,calculatedTax] = bill({subtotal,tax,coupon:{id:5,discount}})
+        }else {
+
+            [total,calculatedTax] = bill({subtotal,tax,coupon})
+        }
     }
 
 
@@ -100,6 +110,11 @@
         if(!useCoupon){
             resetCoupon()
         }
+    }
+
+    function applyTax(){
+        let packageObj = packages.find(obj => obj.id === packageId);
+        tax = packageObj.tax
     }
 
     </script>
@@ -117,7 +132,7 @@
                         <div class="row g-3">
                             <div class="col-lg-12">
                                 <label for="role" class="form-label">Package</label>
-                                <select class="form-select" name="package_id" id="role" aria-label="Default select example" bind:this={selectPackage} bind:value={packageId}>
+                                <select class="form-select" name="package_id" id="role" aria-label="Default select example" bind:this={selectPackage} bind:value={packageId} on:change={applyTax}>
                                     <option disabled selected value> -- select a package -- </option>
                                     {#each packages as packageObj}
                                     <option value={packageObj.id}>{packageObj.name}</option>
@@ -134,32 +149,7 @@
                                     <strong class="text-danger ms-1 my-2">{errors.should_start_at[0]}</strong>
                                     {/if}
                                 </div>
-
-                                <div class="row ps-3 g-3">
-                                    <!-- Switches Color -->
-                                    <div class="form-check form-switch col" >
-                                        <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck1" bind:checked={usePackageInfo}>
-                                        <label class="form-check-label" for="SwitchCheck1">Use package info</label>
-                                    </div><!-- Switches Color -->
-
-                                </div>
-                                {#if !usePackageInfo}
-                                    <div>
-                                        <label for="name" class="form-label">Days</label>
-                                        <input type="text" name="days" class="form-control" id="days" placeholder="Enter Subscription days" bind:value={days}>
-                                        {#if errors?.days}
-                                        <strong class="text-danger ms-1 my-2">{errors.days[0]}</strong>
-                                        {/if}
-                                    </div>
-
-                                    <div>
-                                        <label for="subtotal" class="form-label">Sub total</label>
-                                        <input type="text" name="subtotal" class="form-control" id="subtotal" placeholder="Enter Subscription subtotal" bind:value={subtotal}>
-                                        {#if errors?.subtotal}
-                                        <strong class="text-danger ms-1 my-2">{errors.subtotal[0]}</strong>
-                                        {/if}
-                                    </div>
-
+                
                                     <div>
                                         <label for="tax" class="form-label">Tax</label>
                                         <input type="text" name="tax" class="form-control" id="tax" placeholder="Enter Subscription tax" bind:value={tax}>
@@ -168,23 +158,58 @@
                                         {/if}
                                     </div>
 
-                                {/if}
+
                                 <div class="row ps-3 g-3">
                                     <!-- Switches Color -->
                                     <div class="form-check form-switch col" >
-                                        <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck1" bind:checked={useCoupon} on:change={checkCoupon}>
-                                        <label class="form-check-label" for="SwitchCheck1">Use coupon</label>
+                                        <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck1" bind:checked={applyDiscount}>
+                                        <label class="form-check-label" for="SwitchCheck1">Apply Discount</label>
                                     </div><!-- Switches Color -->
 
                                 </div>
-                                {#if useCoupon}
-                                <Accordion id={"coupon"} title={"Coupons"}>
-                                    <CouponTableCollapse on:select={(e) => coupon = e.detail.coupon} bind:resetCoupon/>            
-                                </Accordion>
-                                {#if errors?.coupon_id}
-                                <strong class="text-danger ms-1 my-2">{errors.coupon_id[0]}</strong>
+                                {#if applyDiscount}
+                                  
+
+
+                                    <div class="row ps-3 g-3">
+                                        <!-- Switches Color -->
+                                        <div class="form-check form-switch col" >
+                                            <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck1" bind:checked={useCoupon} on:change={checkCoupon}>
+                                            <label class="form-check-label" for="SwitchCheck1">Use coupon</label>
+                                        </div><!-- Switches Color -->
+
+                                    </div>
+
+                                    {#if !useCoupon}
+                                    <div>
+                                        <label for="tax" class="form-label">Discount (%)</label>
+                                        <input type="text" name="discount" class="form-control" id="tax" placeholder="Enter Subscription discount" bind:value={discount}>
+                                        {#if errors?.discount}
+                                        <strong class="text-danger ms-1 my-2">{errors.discount[0]}</strong>
+                                        {/if}
+                                    </div>
+                                    {/if}
+
+                                    {#if useCoupon}
+                                    <Accordion id={"coupon"} title={"Coupons"}>
+                                        <CouponTableCollapse on:select={(e) => coupon = e.detail.coupon} bind:resetCoupon/>            
+                                    </Accordion>
+                                        {#if errors?.coupon_id}
+                                        <strong class="text-danger ms-1 my-2">{errors.coupon_id[0]}</strong>
+                                        {/if}
+                                    {/if}
+
                                 {/if}
-                                {/if}
+
+                                <div class="row ps-3 g-3">
+                                    <!-- Switches Color -->
+                                    <div class="form-check form-switch col" >
+                                        <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck1" bind:checked={excludeFromCalc}>
+                                        <label class="form-check-label" for="SwitchCheck1">Exclude from calculation</label>
+                                    </div><!-- Switches Color -->
+
+                                </div>
+                               
 
 
                                 <div class="row mb-3">
@@ -200,14 +225,28 @@
                                                     <td>Sub total : </td>
                                                     <td class="text-end" id="cart-discount">{subtotal !== "" ? subtotal+" SAR" : "unset"} </td>
                                                 </tr>
-                                                {#if useCoupon && coupon?.id}
+
+                                                {#if applyDiscount && !useCoupon}
+                                                    <tr>
+                                                        <td>Discount <span class="text-muted">({discount ? discount : 0})</span> : </td>
+                                                        <td class="text-end" id="cart-subtotal">
+                                                            {#if isNaN(parseFloat(discount * (subtotal / 100)).toFixed(3))}
+                                                            unset
+                                                            {:else}
+                                                            - {parseFloat(discount * (subtotal / 100)).toFixed(3)} SAR
+                                                            {/if}
+                                                        </td>
+                                                    </tr>
+                                                {/if}
+
+                                                {#if (useCoupon && coupon?.id)}
                                                 <tr>
                                                     <td>Discount <span class="text-muted">({coupon.name})</span> : </td>
                                                     <td class="text-end" id="cart-subtotal">
                                                         {#if subtotal === ""}
                                                         unset
                                                         {:else}
-                                                        {parseFloat(coupon.discount * (subtotal / 100)).toFixed(3)} SAR
+                                                        - {parseFloat(coupon.discount * (subtotal / 100)).toFixed(3)} SAR
                                                         {/if}
                                                     </td>
                                                 </tr>
@@ -235,7 +274,9 @@
                                     </div>
                                 </div>
                                 
-
+                                {#if errors?.student_id}
+                                    <strong class="text-danger ms-1 my-2">{errors.student_id[0]}</strong>
+                                {/if}
 
     
                                 <div class="hstack gap-2 justify-content-end">

@@ -197,6 +197,18 @@ export const routes = [
       item: "Students",
       active: "Subscribe",
     },
+    {
+      path: /^\/invoices$/,
+      title: "Invoices",
+      item: "Invoices",
+      active: "List",
+    },
+    {
+      path: /^\/payments$/,
+      title: "Payments",
+      item: "Payments",
+      active: "List",
+    }
   ];
 
   export const states = [
