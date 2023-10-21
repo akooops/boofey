@@ -48,6 +48,10 @@ class Canteen extends Model
         return $this->belongsToMany(User::class, 'canteens_users');
     }
 
+    /* Methods
+        --------------------------------------------------------------------
+    */
+
     public function generateApiKey(){
         $apiKey = Str::random(64); 
 
@@ -61,6 +65,66 @@ class Canteen extends Model
     public function revokeApiKey(){
         $this->update(['api_key' => NULL]);
     }
+
+    public function countQueueStudents($type, $year, $month = null, $day = null)
+    {
+        $queues = $this->queues();
+
+        if ($type === 'year') {
+            $queues->whereYear('started_at', $year);
+        } elseif ($type === 'month') {
+            $queues->whereYear('started_at', $year)
+                ->whereMonth('started_at', $month);
+        } else {
+            $queues->whereYear('started_at', $year)
+                ->whereMonth('started_at', $month)
+                ->whereDay('started_at', $day);
+        }
+
+        $queues = $queues->get();
+
+        $count = $queues->flatMap(function ($queue) {
+            return $queue->queueStudents;
+        })->count();
+
+        return ($count === null) ? 0 : $count;
+    }
+
+    public function averageStudentTimeDifferenceInMinutes($type, $year, $month = null, $day = null)
+    {
+        $queues = $this->queues();
+
+        if ($type === 'year') {
+            $queues->whereYear('started_at', $year);
+        } elseif ($type === 'month') {
+            $queues->whereYear('started_at', $year)
+                ->whereMonth('started_at', $month);
+        } else {
+            $queues->whereYear('started_at', $year)
+                ->whereMonth('started_at', $month)
+                ->whereDay('started_at', $day);
+        }
+
+        $queues = $queues->get();
+
+        $students = $queues->flatMap(function ($queue) {
+            return $queue->queueStudents;
+        });
+
+        $students = $students->filter(function ($student) {
+            return $student->started_at && $student->exited_at;
+        });
+
+        $average = $students->avg(function ($student) {
+            return $student->started_at->diffInMinutes($student->exited_at);
+        });
+
+        return ($average === null) ? 0 : round($average, 2);
+    }
+
+    /* Appends
+        --------------------------------------------------------------------
+    */
 
     public function getDisplayNameAttribute(){
         if (session()->has('local')) {

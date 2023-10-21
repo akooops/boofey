@@ -162,8 +162,10 @@ Route::group(['prefix' => 'admin', 'namespace' => 'App\Http\Controllers\Admin', 
     Route::get('dashboards/lastSubscribedStudents', 'DashboardsController@lastSubscribedStudents')->name('dashboards.lastSubscribedStudents');
     Route::get('dashboards/absentStudents', 'DashboardsController@absentStudents')->name('dashboards.absentStudents');
     Route::get('dashboards/expiringSoonStudents', 'DashboardsController@expiringSoonStudents')->name('dashboards.expiringSoonStudents');
+    Route::get('dashboards/pendingStudents', 'DashboardsController@pendingStudents')->name('dashboards.pendingStudents');
     Route::get('dashboards/canteensStatus', 'DashboardsController@canteensStatus')->name('dashboards.canteensStatus');
-    Route::get('dashboards/doneByCanteens', 'DashboardsController@doneByCanteens')->name('dashboards.doneByCanteens');
-    Route::get('dashboards/avgByCanteens', 'DashboardsController@avgByCanteens')->name('dashboards.avgByCanteens');
     Route::get('dashboards/dailyTotal', 'DashboardsController@dailyTotal')->name('dashboards.dailyTotal');
+
+    Route::get('dashboards/doneByCanteens/{canteen}', 'DashboardsController@doneByCanteens')->name('dashboards.doneByCanteens');
+    Route::get('dashboards/avgByCanteens/{canteen}', 'DashboardsController@avgByCanteens')->name('dashboards.avgByCanteens');
 });

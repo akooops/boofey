@@ -229,110 +229,134 @@ class DashboardsController extends Controller
         return response()->json($response);
     }
 
-    public function doneByCanteens(Request $request)
-    {
-        // Get the date range from the request (e.g., 'yesterday', 'last7days', 'last28days', or 'custom')
-        $range = $request->input('range', 'last7days');
+    public function pendingStudents(Request $request){
+        $perPage = limitPerPage($request->query('perPage', 10));
+        $page = checkPageIfNull($request->query('page', 1));
         
-        // Get the custom date range if 'custom' is selected
-        $startDate = $request->input('start_date');
-        $endDate = $request->input('end_date');
-        
-        if ($endDate) {
-            $endDate = Carbon::parse($endDate)->endOfDay();
-        }
+        $today = Carbon::today();
 
-        if ($range === 'custom' && (empty($startDate) || empty($endDate))) {
-            $startDate = Carbon::now()->subDays(7)->startOfDay();
-            $endDate = Carbon::now()->endOfDay();
-        }
-
-        // Retrieve all canteens with queue student counts for the specified date range
-        $canteens = Canteen::with(['queues.students' => function ($query) use ($range, $startDate, $endDate) {
-            if ($range === 'yesterday') {
-                $query->whereDate('started_at', Carbon::yesterday());
-            } elseif ($range === 'last7days') {
-                $query->where('started_at', '>=', Carbon::now()->subDays(7));
-            } elseif ($range === 'last28days') {
-                $query->where('started_at', '>=', Carbon::now()->subDays(28));
-            } elseif ($range === 'custom' && $startDate && $endDate) {
-                $query->whereBetween('started_at', [$startDate, $endDate]);
-            }
-        }])->get();
-
-        // Calculate the counts for each canteen
-        $result = $canteens->map(function ($canteen) {
-            $count = $canteen->queues->flatMap(function ($queue) {
-                return $queue->students;
-            })->count();
-
-            return [
-                'canteen' => $canteen->makeHidden(['queues']),
-                'count' => $count,
-            ];
+        $absentStudents = Student::whereDoesntHave('queues', function ($query) use ($today) {
+            $query->whereDate('queues.started_at', $today);
         });
+
+        $absentStudents = $absentStudents->paginate($perPage, ['*'], 'page', $page);
 
         $response = [
             'status' => 'success',
-            'data' => $result->toArray()
+            'data' => $absentStudents->items(), 
+            'pagination' => handlePagination($absentStudents),
         ];
 
         return response()->json($response);
     }
 
-    public function avgByCanteens(Request $request)
+    public function doneByCanteens(Canteen $canteen, Request $request)
     {
-        // Get the date range from the request (e.g., 'yesterday', 'last7days', 'last28days', or 'custom')
-        $range = $request->input('range');
-        
-        // Get the custom date range if 'custom' is selected
+        $range = $request->input('range', 'last7days');
         $startDate = $request->input('start_date');
         $endDate = $request->input('end_date');
-        
-        // Adjust the end date to 00:00:00 of the next day
-        if ($endDate) {
-            $endDate = Carbon::parse($endDate)->endOfDay();
-        }
-        
-        // Check if the range is 'custom' and both start and end dates are missing
-        if ($range === 'custom' && empty($startDate) && empty($endDate)) {
+    
+        if ($range === 'custom' && (empty($startDate) || empty($endDate))) {
             $startDate = Carbon::now()->subDays(7)->startOfDay();
             $endDate = Carbon::now()->endOfDay();
+        } else {
+            $startDate = Carbon::parse($startDate);
+            $endDate = Carbon::parse($endDate);
         }
-        
-        // Retrieve all canteens with queue student data for the specified date range
-        $canteens = Canteen::with(['queues.students' => function ($query) use ($range, $startDate, $endDate) {
-            if ($range === 'yesterday') {
-                $query->whereDate('started_at', Carbon::yesterday());
-            } elseif ($range === 'last7days') {
-                $query->where('started_at', '>=', Carbon::now()->subDays(7));
-            } elseif ($range === 'last28days') {
-                $query->where('started_at', '>=', Carbon::now()->subDays(28));
-            } elseif ($range === 'custom' && $startDate && $endDate) {
-                $query->whereBetween('started_at', [$startDate, $endDate]);
-            }
-        }])->get();
-
-        // Calculate the average time between 'started_at' and 'exited_at' for each canteen
-        $result = $canteens->map(function ($canteen) {
-            $queueStudents = $canteen->queues->flatMap(function ($queue) {
-                return $queue->queueStudents()->whereNot('exited_at', NULL)->get();
-            });
-
-
-            $averageTime = $queueStudents->avg(function ($student) {
-                return optional($student->exited_at)->diffInMinutes($student->started_at) ?? 0;
-            });
-
-            return [
-                'data' => $canteen->makeHidden(['queues']),
-                'average_time' => ($averageTime == null) ? 0 : $averageTime,
+    
+        if ($range !== 'custom') {
+            $dateRanges = [
+                'yesterday' => [Carbon::yesterday(), Carbon::yesterday()],
+                'last7days' => [Carbon::now()->subDays(7), Carbon::now()],
+                'last28days' => [Carbon::now()->subDays(28), Carbon::now()],
             ];
-        });
+    
+            if (isset($dateRanges[$range])) {
+                list($startDate, $endDate) = $dateRanges[$range];
+            }
+        }
+    
+        $intervals = $this->generateTimeIntervals($startDate, $endDate);
+    
+        $counts = [];
+    
+        foreach ($intervals as $interval) {
+            $count = 0; 
+
+            if ($interval['type'] === 'year') {
+                $count = $canteen->countQueueStudents('year', $interval['year']);
+            } elseif ($interval['type'] === 'month') {
+                $count = $canteen->countQueueStudents('month', $interval['year'], $interval['month']);
+            }else{
+                $count = $canteen->countQueueStudents('day', $interval['year'], $interval['month'], $interval['day']);
+            }
+
+
+            $counts[] = [
+                'date' => $interval['date'],
+                'count' => $count,
+            ];
+        }
 
         $response = [
             'status' => 'success',
-            'data' => $result->toArray()
+            'data' => $counts
+        ];
+
+        return response()->json($response);
+    }
+
+    public function avgByCanteens(Canteen $canteen, Request $request)
+    {
+        $range = $request->input('range', 'last7days');
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('end_date');
+    
+        if ($range === 'custom' && (empty($startDate) || empty($endDate))) {
+            $startDate = Carbon::now()->subDays(7)->startOfDay();
+            $endDate = Carbon::now()->endOfDay();
+        } else {
+            $startDate = Carbon::parse($startDate);
+            $endDate = Carbon::parse($endDate);
+        }
+    
+        if ($range !== 'custom') {
+            $dateRanges = [
+                'yesterday' => [Carbon::yesterday(), Carbon::yesterday()],
+                'last7days' => [Carbon::now()->subDays(7), Carbon::now()],
+                'last28days' => [Carbon::now()->subDays(28), Carbon::now()],
+            ];
+    
+            if (isset($dateRanges[$range])) {
+                list($startDate, $endDate) = $dateRanges[$range];
+            }
+        }
+    
+        $intervals = $this->generateTimeIntervals($startDate, $endDate);
+    
+        $avgs = [];
+    
+        foreach ($intervals as $interval) {
+            $averageMinutes = 0; 
+
+            if ($interval['type'] === 'year') {
+                $averageMinutes = $canteen->averageStudentTimeDifferenceInMinutes('year', $interval['year']);
+            } elseif ($interval['type'] === 'month') {
+                $averageMinutes = $canteen->averageStudentTimeDifferenceInMinutes('month', $interval['year'], $interval['month']);
+            }else{
+                $averageMinutes = $canteen->averageStudentTimeDifferenceInMinutes('day', $interval['year'], $interval['month'], $interval['day']);
+            }
+
+
+            $avgs[] = [
+                'date' => $interval['date'],
+                'avg' => $averageMinutes,
+            ];
+        }
+
+        $response = [
+            'status' => 'success',
+            'data' => $avgs
         ];
 
         return response()->json($response);
@@ -341,63 +365,108 @@ class DashboardsController extends Controller
     public function dailyTotal(Request $request)
     {
         $range = $request->input('range', 'last7days');
-    
-        // Get the custom date range if 'custom' is selected
         $startDate = $request->input('start_date');
         $endDate = $request->input('end_date');
-        
+    
         if ($range === 'custom' && (empty($startDate) || empty($endDate))) {
             $startDate = Carbon::now()->subDays(7)->startOfDay();
             $endDate = Carbon::now()->endOfDay();
-        }else{
+        } else {
             $startDate = Carbon::parse($startDate);
             $endDate = Carbon::parse($endDate);
         }
-
-        if ($range !== 'custom' && empty($startDate) && empty($endDate)) {
-            if ($range === 'yesterday') {
-                $startDate = Carbon::yesterday()->startOfDay();
-                $endDate = Carbon::yesterday()->endOfDay();
-            } elseif ($range === 'last7days') {
-                $startDate = Carbon::now()->subDays(7)->startOfDay();
-                $endDate = Carbon::now()->endOfDay();
-            } elseif ($range === 'last28days') {
-                $startDate = Carbon::now()->subDays(28)->startOfDay();
-                $endDate = Carbon::now()->endOfDay();
+    
+        if ($range !== 'custom') {
+            $dateRanges = [
+                'yesterday' => [Carbon::yesterday(), Carbon::yesterday()],
+                'last7days' => [Carbon::now()->subDays(7), Carbon::now()],
+                'last28days' => [Carbon::now()->subDays(28), Carbon::now()],
+            ];
+    
+            if (isset($dateRanges[$range])) {
+                list($startDate, $endDate) = $dateRanges[$range];
             }
-        } 
-        
-        // Adjust the end date to 00:00:00 of the next day
-        if ($endDate) {
-            $endDate = Carbon::parse($endDate)->endOfDay();
         }
-
-        
-        $dailyTotals = [];
-        $currentDate = $startDate;
-
-        while ($currentDate->lte($endDate)) {
-            $subscriptions = Subscription::where('exclude_from_calculation', false)
-                ->whereDate('created_at', $currentDate->format('Y-m-d'));
-            
-            // Calculate the total for the current day
+    
+        $endDate = $endDate->endOfDay();
+    
+        $intervals = $this->generateTimeIntervals($startDate, $endDate);
+    
+        $totals = [];
+    
+        foreach ($intervals as $interval) {
+            $subscriptions = Subscription::where('exclude_from_calculation', false);
+    
+            if ($interval['type'] === 'year') {
+                $subscriptions->whereYear('created_at', $interval['year']);
+            } elseif ($interval['type'] === 'month') {
+                $subscriptions->whereYear('created_at', $interval['year'])
+                            ->whereMonth('created_at', $interval['month']);
+            } else {
+                $subscriptions->whereYear('created_at', $interval['year'])
+                            ->whereMonth('created_at', $interval['month'])
+                            ->whereDay('created_at', $interval['day']);
+            }
+    
             $total = $subscriptions->sum('total');
-            
-            $dailyTotals[] = [
-                'day' => $currentDate->format('d M'),
+    
+            $totals[] = [
+                'date' => $interval['date'],
                 'total' => $total,
             ];
-            
-            $currentDate->addDay();
         }
-
+    
         $response = [
             'status' => 'success',
-            'data' => $dailyTotals,
+            'data' => $totals,
         ];
-
+    
         return response()->json($response);
     }
 
+    private function generateTimeIntervals($startDate, $endDate)
+    {
+        $daysDiff = Carbon::parse($startDate)->diffInDays(Carbon::parse($endDate));
+
+        if ($daysDiff > 730) 
+            $interval = 'year';
+        else if($daysDiff > 90)
+            $interval = 'month';
+         else
+            $interval = 'day';
+    
+
+        $currentDate = Carbon::parse($startDate);
+        $intervals = [];
+
+        while ($currentDate->lte($endDate)) {
+            $tmp = [
+                'type' => $interval,
+            ];
+
+            if ($interval === 'year') {
+                $tmp['date'] = $currentDate->format('Y');
+                $tmp['year'] = $currentDate->format('Y');
+
+                $currentDate->addYear();
+            } else if ($interval === 'month') {
+                $tmp['date'] = $currentDate->format('Y M');
+                $tmp['year'] = $currentDate->format('Y');
+                $tmp['month'] = $currentDate->format('m');
+
+                $currentDate->addMonth();
+            } else {
+                $tmp['date'] = $currentDate->format('M d');
+                $tmp['year'] = $currentDate->format('Y');
+                $tmp['month'] = $currentDate->format('m');
+                $tmp['day'] = $currentDate->format('d');
+                $currentDate->addDay();
+            }
+
+            $intervals[] = $tmp;
+        }
+
+        return $intervals;
+    }
 }
 
