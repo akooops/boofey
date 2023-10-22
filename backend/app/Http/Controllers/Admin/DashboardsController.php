@@ -333,7 +333,7 @@ class DashboardsController extends Controller
         $response = [
             'status' => 'success',
             'data' => [
-                'canteen' => $canteen,
+                'canteen' => $canteen->makeHidden(['currentQueue']),
                 'counts' => $counts
             ]
         ];
@@ -392,7 +392,7 @@ class DashboardsController extends Controller
         $response = [
             'status' => 'success',
             'data' => [
-                'canteen' => $canteen,
+                'canteen' => $canteen->makeHidden(['currentQueue']),
                 'avgs' => $avgs
             ]
         ];
