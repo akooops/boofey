@@ -256,12 +256,34 @@ export function PathUpdateSub(subId){
 export function PathDelSub(subId){
     return `${ADMIN_DOMAIN}/subscriptions/${subId}`
 }
-
-export function PathGetPaymentDetails(paymentId,type){
+export function PathEnableSub(subId){
+    return `${ADMIN_DOMAIN}/subscriptions/${subId}/enable`
+}
+export function PathDisableSub(subId){
+    return `${ADMIN_DOMAIN}/subscriptions/${subId}/disable`
+}
+export function PathGenInvoice(subId,type){
     if(type == "parent"){
-        return `${PARENT_DOMAIN}/payments/${paymentId}`
+        return `${PARENT_DOMAIN}/subscriptions/${subId}/generateInvoice`
     }
-    return `${ADMIN_DOMAIN}/payments/${paymentId}`
+    return `${ADMIN_DOMAIN}/subscriptions/${subId}/generateInvoice`
+}
+
+export function PathGetInvoices({page,search}){
+    return `${ADMIN_DOMAIN}/invoices?page=${page}&search=${search}`
+}
+
+export function PathGetPayments({page,search}){
+    return `${ADMIN_DOMAIN}/payments?page=${page}&search=${search}`
+}
+
+
+
+export function PathGetInvoiceDetails(invoiceId,type){
+    if(type == "parent"){
+        return `${PARENT_DOMAIN}/invoices/${invoiceId}`
+    }
+    return `${ADMIN_DOMAIN}/invoices/${invoiceId}`
 
 }
 
@@ -368,8 +390,8 @@ export function PathUpdateBilling(billingId){
     return `${PARENT_DOMAIN}/billings/${billingId}/update`
 }
 ////
-export function PathInitPayment(studentId,packageId){
-    return `${PARENT_DOMAIN}/payments/init/${studentId}/${packageId}`
+export function PathInitSubscription(){
+    return `${PARENT_DOMAIN}/subscriptions/init`
 }
 
 export function PathCheckCoupon(code){
@@ -398,6 +420,22 @@ export function PathDelPaymentMethod(paymentMethodId){
     return `${PARENT_DOMAIN}/paymentMethods/${paymentMethodId}`
 }
 
+
+
+//////
+
+export function PathGetDashCount(){
+    return `${ADMIN_DOMAIN}/dashboards/count`
+}
+export function PathGetDoneByCanteens(){
+    return `${ADMIN_DOMAIN}/dashboards/doneByCanteens`
+}
+export function PathGetLastSubs(){
+    return `${ADMIN_DOMAIN}/dashboards/lastSubscribedStudents`
+}
+export function PathGetExpiringSubs(){
+    return `${ADMIN_DOMAIN}/dashboards/expiringSoonStudents`
+}
 
 
 

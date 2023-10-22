@@ -20,8 +20,8 @@
             
                 <ViewRow>
                    Package :
-                                <img src={$subStore?.payment?.package?.school?.logo?.full_path} alt="" class="avatar-xs rounded-circle" />
-                                {$subStore?.payment?.package?.school?.name} - {$subStore?.payment?.package?.name}
+                                <img src={$subStore?.package?.school?.logo?.full_path} alt="" class="avatar-xs rounded-circle" />
+                                {$subStore?.package?.school?.name} - {$subStore?.package?.name}
                             
                         
                 </ViewRow>
@@ -58,21 +58,21 @@
                         <div class="table-responsive ">
                             <table class="table table-borderless mb-0">
                                 <tbody>
-                                    {#if $subStore?.payment?.coupon}
+                                    {#if $subStore?.coupon}
                                     <tr>
-                                        <td>Discount <span class="text-muted">($subStore?.payment?.coupon)</span> : </td>
-                                        <td class="text-end" id="cart-subtotal">{$subStore.payment.discount} SAR</td>
+                                        <td>Discount <span class="text-muted">($subStore?.coupon)</span> : </td>
+                                        <td class="text-end" id="cart-subtotal">{$subStore.discount} SAR</td>
                                     </tr>
                                     {/if}
                                     <tr>
-                                        <td>Estimated Tax({$subStore.payment.tax}%) : </td>
-                                        <td class="text-end" id="cart-discount">- {$subStore.payment.taxCalculated} SAR</td>
+                                        <td>Estimated Tax({$subStore.tax}%) : </td>
+                                        <td class="text-end" id="cart-discount">- {$subStore.taxCalculated} SAR</td>
                                     </tr>
                                     <tr class="table-active">
                                         <th>Total (SAR) :</th>
                                         <td class="text-end">
                                             <span class="fw-semibold" id="cart-total">
-                                                {$subStore.payment.total} SAR
+                                                {$subStore.total} SAR
                                             </span>
                                         </td>
                                     </tr>
@@ -87,6 +87,10 @@
                             <span class="badge bg-info-subtle text-info ms-1">Scheduled</span>
                             {:else if $subStore.status == "expired"}
                             <span class="badge bg-danger-subtle text-danger ms-1">Expired</span>
+                            {:else if $subStore.status == "disabled"}
+                            <span class="badge bg-warning-subtle text-warning ms-1">Disabled</span>
+                            {:else if $subStore.status == "inactive"}
+                            <span class="badge bg-dark-subtle text-dark ms-1">Inactive</span>
                             {/if}
                 </ViewRow>
                 <ViewRow>

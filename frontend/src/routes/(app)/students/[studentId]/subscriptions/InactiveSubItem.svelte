@@ -39,26 +39,39 @@
     </td>
     <td>{sub.should_start_at == null ? "unset" : sub.should_start_at}</td>
     <td>{sub.started_at == null ? "unset" : sub.started_at}</td>
-    <td>
+    <!-- <td>
         {#if sub.status == "scheduled"}
         <span class="badge bg-info-subtle text-info ms-1">Scheduled</span>
         {:else if sub.status == "expired"}
         <span class="badge bg-danger-subtle text-danger ms-1">Expired</span>
         {:else if sub.status == "disabled"}
-        <span class="badge bg-dark-subtle text-dark ms-1">Disabled</span>
+        <span class="badge bg-warning-subtle text-warning ms-1">Disabled</span>
+        {:else if sub.status == "inactive"}
+        <span class="badge bg-dark-subtle text-dark ms-1">Inactive</span>
         {/if}
-
-    </td>
+    </td> -->
 
 
     <td>
         <div class="hstack gap-3 flex-wrap">
+            <!-- {#if JSON.parse(sessionStorage.getItem("permissions")).includes("orders.show")} -->
             {#if sub?.invoice == null}
                 <span data-bs-toggle="modal" data-bs-target="#genSubInvoiceModal" on:click={setSub}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Generate Invoice" ><i class="ri-file-paper-2-line"></i></a></span>
             {:else}
                 <a href="/invoices/{sub.invoice.id}" target="_blank" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Print" ><i class="ri-file-paper-2-line"></i></a>
             {/if}            <!-- {/if} -->
+          
             <span data-bs-toggle="modal" data-bs-target="#viewSubModal" on:click={setSub}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="View" ><i class="ri-eye-fill"></i></a></span>
+            <!-- {/if} -->
+            <!-- {#if JSON.parse(sessionStorage.getItem("permissions")).includes("subscriptions.show")}
+            <span data-bs-toggle="modal" data-bs-target="#viewSubModal" on:click={setSub}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="View" ><i class="ri-eye-fill"></i></a></span>
+            {/if}
+            {#if JSON.parse(sessionStorage.getItem("permissions")).includes("subscriptions.update")}
+            <span data-bs-toggle="modal" data-bs-target="#editSubModal" on:click={setSub}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Edit" ><i class="ri-edit-2-line"></i></a></span>
+            {/if}
+            {#if JSON.parse(sessionStorage.getItem("permissions")).includes("subscriptions.destroy")}
+            <span data-bs-toggle="modal" data-bs-target="#deleteSubModal" on:click={setSub}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Delete"><i class="ri-delete-bin-line"></i></a></span>
+            {/if} -->
         </div>
     </td>
 </tr>

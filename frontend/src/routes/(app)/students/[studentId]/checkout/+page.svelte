@@ -6,7 +6,7 @@ import { onMount } from "svelte";
 
     export let data
     $:billings = data.billings
-    $:payment = data.payment
+    $:subscription = data.subscription
     $:paymentMethods = data.paymentMethods
     $:customerIp = data.customerIp
     $:customerEmail = data.customerEmail
@@ -26,10 +26,10 @@ import { onMount } from "svelte";
     
     <div class="row mb-3">
         <div class="col-xl-8">
-            <BillingCard {billings} {couponId} {paymentMethods} {customerEmail} {customerIp} paymentId={payment.id} paymentRef={payment.ref}/>
+            <BillingCard {billings} {couponId} {paymentMethods} {customerEmail} {customerIp} paymentId={subscription.id} paymentRef={subscription.ref}/>
         </div>
         <!-- end col -->
-        <OrderSummary {payment} {packageObj} bind:couponId={couponId}/>
+        <OrderSummary payment={subscription} {packageObj} bind:couponId={couponId}/>
         
     </div>
     

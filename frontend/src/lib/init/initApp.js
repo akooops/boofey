@@ -1392,20 +1392,20 @@ function layoutSwitch(isLayoutAttributes) {
                 case "light":
                     getElementUsingTagname("data-bs-theme", "light");
                     document.documentElement.setAttribute("data-bs-theme", "light");
-                    sessionStorage.setItem("data-bs-theme", "light");
+                    localStorage.setItem("data-bs-theme", "light");
                     break;
                 case "dark":
                     getElementUsingTagname("data-bs-theme", "dark");
                     document.documentElement.setAttribute("data-bs-theme", "dark");
-                    sessionStorage.setItem("data-bs-theme", "dark");
+                    localStorage.setItem("data-bs-theme", "dark");
                     break;
                 default:
-                    if (sessionStorage.getItem("data-bs-theme") && sessionStorage.getItem("data-bs-theme") == "dark") {
-                        sessionStorage.setItem("data-bs-theme", "dark");
+                    if (localStorage.getItem("data-bs-theme") && localStorage.getItem("data-bs-theme") == "dark") {
+                        localStorage.setItem("data-bs-theme", "dark");
                         document.documentElement.setAttribute("data-bs-theme", "dark");
                         getElementUsingTagname("data-bs-theme", "dark");
                     } else {
-                        sessionStorage.setItem("data-bs-theme", "light");
+                        localStorage.setItem("data-bs-theme", "light");
                         document.documentElement.setAttribute("data-bs-theme", "light");
                         getElementUsingTagname("data-bs-theme", "light");
                     }
@@ -1853,7 +1853,7 @@ function setDefaultAttribute() {
         var isLayoutAttributes = {};
         isLayoutAttributes["data-layout"] = sessionStorage.getItem("data-layout");
         isLayoutAttributes["data-sidebar-size"] = sessionStorage.getItem("data-sidebar-size");
-        isLayoutAttributes["data-bs-theme"] = sessionStorage.getItem("data-bs-theme");
+        isLayoutAttributes["data-bs-theme"] = localStorage.getItem("data-bs-theme");
         isLayoutAttributes["data-layout-width"] = sessionStorage.getItem("data-layout-width");
         isLayoutAttributes["data-sidebar"] = sessionStorage.getItem("data-sidebar");
         isLayoutAttributes['data-sidebar-image'] = sessionStorage.getItem('data-sidebar-image');
@@ -1915,6 +1915,7 @@ function setLayoutMode(mode, modeType, modeTypeId, html) {
     if (isModeTypeId) {
         document.getElementById(modeTypeId).click();
     }
+    localStorage.setItem("data-bs-theme",modeType)
 }
 
 function initModeSetting() {

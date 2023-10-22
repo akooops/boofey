@@ -16,10 +16,14 @@
     import {initToolTip} from "$lib/init/initToolTip.js"
 	import ActiveSub from "$lib/components/cards/ActiveSub.svelte";
 	import SubsTable from "$lib/tables/SubsTable.svelte";
+	import InactiveSubsTable from "$lib/tables/InactiveSubsTable.svelte";
+
     import { setContext } from 'svelte';
     import { writable } from 'svelte/store';
     import { fade } from 'svelte/transition';
 	import ReceiptCard from "$lib/components/ReceiptCard.svelte";
+	import ToggleSubModal from "./ToggleSubModal.svelte";
+	import GenSubInvoiceModal from "./GenSubInvoiceModal.svelte";
 
 
 
@@ -31,6 +35,7 @@ export let data
     });
 
     $: subsList = data.subsResponse.data.subscriptions
+    $: inactiveSubsList = data.subsResponse.data.inactiveSubscriptions
     $: activeSub = data.subsResponse.data.activeSubscription
     $: student = data.subsResponse.data.student
     $: packages = data.subsResponse.data.packages
@@ -65,7 +70,9 @@ export let data
                     {/if}
                     <ViewSubModal />
                     <EditSubModal {student} {packages}/> 
-                    <DeleteSubModal />
+                    <ToggleSubModal />
+                    <GenSubInvoiceModal />
+
                 </div>
             </div><!-- end card header -->
         </div><!-- end card -->
@@ -91,6 +98,26 @@ export let data
                 <!-- </div> -->
             </div><!-- end card-body -->
         </div><!-- end card -->
+
+
+        <div class="card">
+            <div class="card-header align-items-center d-flex">
+                <h4 class="card-title mb-0 flex-grow-1">Inactive subscriptions</h4>
+            </div><!-- end card header -->
+        
+            <div class="card-body">
+        
+                <!-- <div class="live-preview"> -->
+                    <div class="row">
+                            <!-- Input with Icon -->
+                        <InactiveSubsTable subsList={inactiveSubsList}/>
+                        <!--end col-->
+                    </div>
+                    <!--end row-->
+                <!-- </div> -->
+            </div><!-- end card-body -->
+        </div><!-- end card -->
+        
         
        
     

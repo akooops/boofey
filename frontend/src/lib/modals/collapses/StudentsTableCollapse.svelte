@@ -19,7 +19,7 @@
     export let selected = {}
 
     async function fetchStudents(){
-        let res = await fetch(PathGetStudents({page,search:searchQuery}),{
+        let res = await fetch(PathGetStudents({page,search:searchQuery},null,false),{
             headers:{
                 Authorization: `${localStorage.getItem("SID")}`
             }

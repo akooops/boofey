@@ -40,6 +40,8 @@ import { page } from '$app/stores';
             { title: "Categories ", links: [], route:"/admin/categories",permission:"categories.index",icon:"ri-node-tree"},
             { title: "Products ", links: [], route:"/admin/products",permission:"products.index",icon:"ri-shopping-bag-line"},
             { title: "Orders ", links: [], route:"/admin/orders",permission:"orders.index",icon:"ri-survey-line"},
+            { title: "Invoices ", links: [], route:"/admin/invoices",permission:"invoices.index",icon:"ri-file-paper-2-line"},
+            { title: "Payments ", links: [], route:"/admin/payments",permission:"payments.index",icon:"ri-bank-card-line"},
         ]
     },
   ];
@@ -49,8 +51,8 @@ import { page } from '$app/stores';
     {
       title: "Pages",
       submenu: [
-        { title: "Students", links: [], route:"/students",icon:""},
-        { title: "Payment Methods", links: [], route:"/paymentMethods",icon:""},
+        { title: "Students", links: [], route:"/students",icon:"ri-user-2-line"},
+        { title: "Payment Methods", links: [], route:"/paymentMethods",icon:"ri-bank-card-line"},
 
       ],
     },
