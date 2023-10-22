@@ -209,12 +209,13 @@ class DashboardsController extends Controller
     }
 
     public function absentStudents(Request $request){
+        //get back here and check if i need to disaply only active subs
         $perPage = limitPerPage($request->query('perPage', 10));
         $page = checkPageIfNull($request->query('page', 1));
         
         $today = Carbon::today();
 
-        $absentStudents = Student::whereHas('activeSubscription')->select('id', 'firstname', 'lastname', 'class', 'father_id', 'school_id', 'file_id')
+        $absentStudents = Student::select('id', 'firstname', 'lastname', 'class', 'father_id', 'school_id', 'file_id')
         ->whereDoesntHave('queues', function ($query) use ($today) {
             $query->whereDate('queues.started_at', $today);
         })->with([
@@ -251,7 +252,7 @@ class DashboardsController extends Controller
 
         $response = [
             'status' => 'success',
-            'data' => $canteens->items(), 
+            'data' => $canteens->makeHidden(['currentQueue']), 
             'pagination' => handlePagination($canteens),
         ];
             
