@@ -78,7 +78,7 @@ class StudentsController extends Controller
             'father.user.profile.image:id,current_name,path',
         ]);
 
-        if($archived){
+        if($archived === true){
             $studentsQuery->where('archived', true);
         }
 
@@ -150,14 +150,17 @@ class StudentsController extends Controller
 
     private function createStudent($request, School $school = null) 
     {
+        $archived = is_null($school->currentAcademicYear) ? true : ($school->currentAcademicYear->id == $request->input('academic_year_id') ? false : true);
+
         $file = uploadFile($request->file('file'), 'students');
+
 
         $student = Student::create(array_merge(
             $request->validated(),
             [
                 'school_id' => $school->id,
                 'file_id' => $file->id,
-                'archived' => ($school->currentAcademicYear->id == $request->input('academic_year_id')) ? false : true
+                'archived' => $archived
             ]
         ));
 
@@ -201,11 +204,13 @@ class StudentsController extends Controller
 
         $school = School::findOrFail($student->school_id);
 
+        $archived = is_null($school->currentAcademicYear) ? true : ($school->currentAcademicYear->id == $request->input('academic_year_id') ? false : true);
+
         $student->update(array_merge(
             $request->validated(),
             [
                 'file_id' => $file->id,
-                'archived' => ($school->currentAcademicYear->id == $request->input('academic_year_id')) ? false : true
+                'archived' => $archived
             ]
         ));
 

@@ -135,7 +135,7 @@ class DashboardsController extends Controller
         ->whereDate('created_at', '<=', $endDate)
         ->sum('total');
 
-        return $subscriptionsTotal;
+        return round($subscriptionsTotal, 3);
     }
 
     private function ordersTotal($startDate, $endDate){
@@ -143,25 +143,34 @@ class DashboardsController extends Controller
         ->whereDate('created_at', '<=', $endDate)
         ->sum('total');
 
-        return $ordersTotal;
+        return round($ordersTotal, 3);
     }
 
     public function lastSubscribedStudents(Request $request){
         $perPage = limitPerPage($request->query('perPage', 10));
         $page = checkPageIfNull($request->query('page', 1));
 
-        $students = Student::select('students.id', 'students.firstname', 'students.lastname', 'school_id')
-            ->join('subscriptions', 'students.id', '=', 'subscriptions.student_id')
-            ->whereIn('subscriptions.status', ['active', 'inactive'])
-            ->whereNotIn('subscriptions.status', ['expired', 'initiated', 'disabled'])
-            ->orderBy('subscriptions.started_at');
+        $subscriptions = Subscription::whereIn('status', ['active', 'inactive'])
+            ->with([
+                'student:id,firstname,lastname,file_id',
+                'student.image:id,current_name,path',
+                'package:id,name,code,school_id',
+                'package.school:id,name,file_id',
+                'package.school.logo:id,current_name,path',
+            ])
+            ->orderBy('subscriptions.created_at');
 
-        $students = $students->paginate($perPage, ['*'], 'page', $page);
+
+        $subscriptions = $subscriptions->paginate($perPage, ['*'], 'page', $page);
+
+        $subscriptions->each(function ($subscription) {
+            $subscription->student->makeHidden('activeSubscription');
+        });
 
         $response = [
             'status' => 'success',
-            'data' => $students->items(), 
-            'pagination' => handlePagination($students),
+            'data' => $subscriptions->items(), 
+            'pagination' => handlePagination($subscriptions),
         ];
 
         return response()->json($response);
@@ -171,20 +180,31 @@ class DashboardsController extends Controller
         $perPage = limitPerPage($request->query('perPage', 10));
         $page = checkPageIfNull($request->query('page', 1));
 
-        $students = Student::select('students.id', 'students.firstname', 'students.lastname', 'school_id')
-            ->join('subscriptions', 'students.id', '=', 'subscriptions.student_id')
-            ->where('subscriptions.status', 'active')
-            ->whereNotIn('subscriptions.status', ['inactive', 'expired', 'initiated', 'disabled'])
+        $subscriptions = Subscription::whereHas('student', function ($query) {
+                $query->whereDoesntHave('subscriptionsWithoutActive');
+            })
+            ->with([
+                'student:id,firstname,lastname,file_id',
+                'student.image:id,current_name,path',
+                'package:id,name,code,school_id',
+                'package.school:id,name,file_id',
+                'package.school.logo:id,current_name,path',
+            ])
             ->orderBy('subscriptions.balance');
 
-        $students = $students->paginate($perPage, ['*'], 'page', $page);
+
+        $subscriptions = $subscriptions->paginate($perPage, ['*'], 'page', $page);
+
+        $subscriptions->each(function ($subscription) {
+            $subscription->student->makeHidden('activeSubscription');
+        });
 
         $response = [
             'status' => 'success',
-            'data' => $students->items(), 
-            'pagination' => handlePagination($students),
+            'data' => $subscriptions->items(), 
+            'pagination' => handlePagination($subscriptions),
         ];
-            
+
         return response()->json($response);
     }
 
@@ -194,15 +214,24 @@ class DashboardsController extends Controller
         
         $today = Carbon::today();
 
-        $absentStudents = Student::whereDoesntHave('queues', function ($query) use ($today) {
+        $absentStudents = Student::whereHas('activeSubscription')->select('id', 'firstname', 'lastname', 'class', 'father_id', 'school_id', 'file_id')
+        ->whereDoesntHave('queues', function ($query) use ($today) {
             $query->whereDate('queues.started_at', $today);
-        });
+        })->with([
+            'image:id,current_name,path',
+            'father:id,user_id',
+            'father.user:id,username,email,phone',
+            'father.user.profile:id,firstname,lastname,user_id,file_id',
+            'father.user.profile.image:id,current_name,path',
+            'school:id,name,file_id',
+            'school.logo:id,current_name,path',
+        ]);
 
         $absentStudents = $absentStudents->paginate($perPage, ['*'], 'page', $page);
 
         $response = [
             'status' => 'success',
-            'data' => $absentStudents->items(), 
+            'data' => $absentStudents->makeHidden(['activeSubscription']), 
             'pagination' => handlePagination($absentStudents),
         ];
 
@@ -235,16 +264,19 @@ class DashboardsController extends Controller
         
         $today = Carbon::today();
 
-        $absentStudents = Student::whereDoesntHave('queues', function ($query) use ($today) {
-            $query->whereDate('queues.started_at', $today);
-        });
+        $pendingStudents = Student::select('id', 'firstname', 'lastname', 'class', 'father_id', 'school_id', 'file_id')
+            ->whereHas('queues', function ($query) use ($today) {
+                $query->whereDate('queues.started_at', $today)->whereHas('queueStudents', function ($query) {
+                    $query->where('exited_at', NULL);
+                });
+            });
 
-        $absentStudents = $absentStudents->paginate($perPage, ['*'], 'page', $page);
+        $pendingStudents = $pendingStudents->paginate($perPage, ['*'], 'page', $page);
 
         $response = [
             'status' => 'success',
-            'data' => $absentStudents->items(), 
-            'pagination' => handlePagination($absentStudents),
+            'data' => $pendingStudents->makeHidden('activeSubscription'), 
+            'pagination' => handlePagination($pendingStudents),
         ];
 
         return response()->json($response);
