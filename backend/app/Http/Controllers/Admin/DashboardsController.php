@@ -332,7 +332,10 @@ class DashboardsController extends Controller
 
         $response = [
             'status' => 'success',
-            'data' => $counts
+            'data' => [
+                'canteen' => $canteen,
+                'counts' => $counts
+            ]
         ];
 
         return response()->json($response);
@@ -388,7 +391,10 @@ class DashboardsController extends Controller
 
         $response = [
             'status' => 'success',
-            'data' => $avgs
+            'data' => [
+                'canteen' => $canteen,
+                'avgs' => $avgs
+            ]
         ];
 
         return response()->json($response);
