@@ -1,5 +1,5 @@
-// export const DOMAIN = "https://boofey.akoops.com/"
-export const DOMAIN = "https://backend.boofey.app/"
+export const DOMAIN = "https://boofey.akoops.com/"
+// export const DOMAIN = "https://backend.boofey.app/"
 
 
 export const ADMIN_DOMAIN = `${DOMAIN}api/admin`
@@ -424,17 +424,32 @@ export function PathDelPaymentMethod(paymentMethodId){
 
 //////
 
-export function PathGetDashCount(){
-    return `${ADMIN_DOMAIN}/dashboards/count`
+export function PathGetDashCount({start_date,end_date}){
+    start_date = start_date != null  ? start_date : ""
+    end_date = end_date != null  ? end_date : ""
+
+    return `${ADMIN_DOMAIN}/dashboards/count?start_date=${start_date}&end_date=${end_date}`
 }
-export function PathGetDoneByCanteens(){
-    return `${ADMIN_DOMAIN}/dashboards/doneByCanteens`
+export function PathGetDashDailyTotal({range,start_date,end_date}){
+    return `${ADMIN_DOMAIN}/dashboards/dailyTotal?range=${range}&start_date=${start_date}&end_date=${end_date}`
 }
-export function PathGetLastSubs(){
-    return `${ADMIN_DOMAIN}/dashboards/lastSubscribedStudents`
+export function PathGetDoneByCanteens(canteenId,{range,start_date,end_date}){
+    return `${ADMIN_DOMAIN}/dashboards/doneByCanteens/${canteenId}?range=${range}&start_date=${start_date}&end_date=${end_date}`
 }
-export function PathGetExpiringSubs(){
-    return `${ADMIN_DOMAIN}/dashboards/expiringSoonStudents`
+export function PathGetAvgByCanteens(canteenId,{range,start_date,end_date}){
+    return `${ADMIN_DOMAIN}/dashboards/avgByCanteens/${canteenId}?range=${range}&start_date=${start_date}&end_date=${end_date}`
+}
+export function PathGetLastSubs({page,perPage}){
+    return `${ADMIN_DOMAIN}/dashboards/lastSubscribedStudents?page=${page}&perPage=${perPage}`
+}
+export function PathGetExpiringSubs({page,perPage}){
+    return `${ADMIN_DOMAIN}/dashboards/expiringSoonStudents?page=${page}&perPage=${perPage}`
+}
+export function PathGetCanteensStatus({page,perPage}){
+    return `${ADMIN_DOMAIN}/dashboards/canteensStatus?page=${page}&perPage=${perPage}`
+}
+export function PathGetAbsentStudents({page,perPage}){
+    return `${ADMIN_DOMAIN}/dashboards/absentStudents?page=${page}&perPage=${perPage}`
 }
 
 
