@@ -34,7 +34,7 @@ class StudentsController extends Controller
         ])->with([
             'image:id,path,current_name', 
             'academicYear:id,name,from,to,current',
-            'school:id,name,file_id',
+            'school:id,name,name_ar,file_id',
             'school.logo:id,current_name,path'
         ]);
         

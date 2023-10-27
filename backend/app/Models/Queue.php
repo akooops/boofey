@@ -37,7 +37,7 @@ class Queue extends Model
 
     public function getStudentsPluckedAttribute()
     {
-        return $this->students()->select('id');
+        return $this->students()->select('student.id');
     }
 
     public function getClosedAttribute(){

@@ -35,7 +35,7 @@ class PackagesController extends Controller
             'hidden' => false,
             'yearly' => 1
         ])->with([
-            'packageFeatures:id,name,checked,package_id',
+            'packageFeatures:id,name,name_ar,checked,package_id',
         ])->get();
 
         $response = [

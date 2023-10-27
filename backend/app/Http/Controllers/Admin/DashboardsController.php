@@ -88,7 +88,7 @@ class DashboardsController extends Controller
     }
 
     private function calulcateDiff($current, $prev){
-        if ($prev === 0) {
+        if ($prev == 0) {
             return [
                 'percentageDiff' => ($current > 0) ? 100 : 0,
                 'increase' => ($current > 0) ? 'increase' : 'neutral'
