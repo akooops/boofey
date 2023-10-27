@@ -1072,7 +1072,7 @@ function initComponents() {
 }
 
 // Counter Number
-function counter() {
+export function counter() {
     var counter = document.querySelectorAll(".counter-value");
     var speed = 250; // The lower the slower
     counter &&

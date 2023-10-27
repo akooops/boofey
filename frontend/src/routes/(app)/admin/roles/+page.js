@@ -14,6 +14,6 @@ export async function load({fetch,url,depends}) {
     redirector(res)
 
 
-    let rolesResponse = await res.json() 
+    let rolesResponse = await res.json()       
     return {rolesResponse,tabTitle:"Roles"}
 };

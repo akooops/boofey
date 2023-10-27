@@ -48,7 +48,7 @@
     })
     
 </script>
-<div class="row" in:fade={{delay:200,duration: 200 }} out:fade={{duration: 200 }} bind:this={subsPage}>
+<div class="row"  in:fade={{duration: 200 }} bind:this={subsPage}>
     <div class="col-lg-12">
         <div class="card">
             <div class="card-header align-items-center d-flex">

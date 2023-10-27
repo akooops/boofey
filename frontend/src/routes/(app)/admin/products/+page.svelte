@@ -19,7 +19,7 @@ import { fade } from 'svelte/transition';
     })
     
     </script>
-    <div class="row" in:fade={{delay:200,duration: 200 }} out:fade={{duration: 200 }} bind:this={productsPage}>
+    <div class="row"  in:fade={{duration: 200 }} bind:this={productsPage}>
         <CategoriesList {categoriesList} />
         <div class="col-xl-9 col-lg-8">
             <div class="card">

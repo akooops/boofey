@@ -31,7 +31,7 @@ import { fade } from 'svelte/transition';
 
 
     </script>
-    <div class="row" in:fade={{delay:200,duration: 200 }} out:fade={{duration: 200 }} bind:this={paymentMethodsPage}>
+    <div class="row"  in:fade={{duration: 200 }} bind:this={paymentMethodsPage}>
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header align-items-center d-flex">

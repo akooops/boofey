@@ -10,7 +10,7 @@ import { page } from '$app/stores';
      let menuItemsAdmin = [
      {
       submenu: [
-        { title: "Dashboards", links: ["Analytics", "CRM", "Ecommerce", "Crypto", "Projects", "NFT", "Job"],permission:null,icon:"ri-dashboard-line"},
+        { title: "Dashboards", links: [], route:"/admin" ,permission:null,icon:"ri-dashboard-line"},
       ],
      },
      {

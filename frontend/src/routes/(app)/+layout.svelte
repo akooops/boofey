@@ -6,6 +6,7 @@
 	import { onMount } from "svelte";
 	import BreadCrumbs from "$lib/components/BreadCrumbs.svelte";
     import { page } from '$app/stores';
+import { navigating } from '$app/stores';
     
     export let data 
     $: user = data.userResponse.data.user
@@ -41,7 +42,14 @@
                      <!-- start page title -->
                      <BreadCrumbs />
                     <!-- end page title --> 
-                    <slot /> 
+                    <div class:d-none={!($navigating == null || $navigating?.from?.route?.id == $navigating?.to?.route?.id)}>
+                        <slot /> 
+                    </div>
+                    {#if $navigating?.from?.route?.id != $navigating?.to?.route?.id  && $navigating}
+                        <div class="text-center">
+                            <lord-icon src="https://cdn.lordicon.com/xjovhxra.json" trigger="loop" colors="primary:#695eef,secondary:#73dce9" style="width:120px;height:120px"></lord-icon>
+                        </div>
+                    {/if}
                 </div>
             </div>
         </div>

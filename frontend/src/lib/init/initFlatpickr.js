@@ -93,3 +93,25 @@ export function InitFlatPickr(){
 export function loadDefaultDate(node,date){
     let fp = node._flatpickr.setDate(date)
 }
+
+export function getDatesFromRange(range){
+	let formattedStartDate
+	let formattedEndDate
+	if(range.includes("to")){
+		const dateParts = range.split(" to ");
+		
+		
+		const startDate = new Date(dateParts[0]);
+		const endDate = new Date(dateParts[1]);
+		
+		formattedStartDate = startDate.toISOString().split('T')[0];
+		formattedEndDate = endDate.toISOString().split('T')[0];
+	}else {
+		let date = new Date(range)
+		formattedStartDate = date.toISOString().split('T')[0];
+		formattedEndDate = formattedStartDate
+	}
+
+	return [formattedStartDate, formattedEndDate];
+
+}
