@@ -5,6 +5,7 @@
     import { redirector } from "$lib/api/auth";
     import { PathPay,PathCheckPaymentRef } from "$lib/api/paths";
     import { toast } from "$lib/components/toast.js";
+    import {translation} from "$lib/translation.js"
 
 
     export let billings
@@ -124,17 +125,17 @@
                 <ul class="nav nav-pills nav-justified custom-nav" >
                     <li class="nav-item" role="presentation">
                         <button class="nav-link fs-15 p-3 {states[0]}" id="pills-bill-info-tab" type="button"  aria-controls="pills-bill-info" aria-selected="true">
-                            <i class="ri-bill-line fs-16 p-2 bg-primary-subtle text-primary rounded-circle align-middle me-2"></i> Billing Info
+                            <i class="ri-bill-line fs-16 p-2 bg-primary-subtle text-primary rounded-circle align-middle me-2"></i> {translation.billingInfo[localStorage.getItem("language")]}
                         </button>
                     </li>
                     <li class="nav-item" role="presentation">
                         <button class="nav-link fs-15 p-3 {states[1]}" id="pills-payment-tab"  type="button"  aria-controls="pills-payment" aria-selected="false">
-                            <i class="ri-bank-card-line fs-16 p-2 bg-primary-subtle text-primary rounded-circle align-middle me-2"></i> Payment Info
+                            <i class="ri-bank-card-line fs-16 p-2 bg-primary-subtle text-primary rounded-circle align-middle me-2"></i> {translation.paymentInfo[localStorage.getItem("language")]}
                         </button>
                     </li>
                     <li class="nav-item" role="presentation">
                         <button class="nav-link fs-15 p-3 {states[2]}" id="pills-finish-tab"  type="button" aria-controls="pills-finish" aria-selected="false">
-                            <i class="ri-checkbox-circle-line fs-16 p-2 bg-primary-subtle text-primary rounded-circle align-middle me-2"></i> Finish
+                            <i class="ri-checkbox-circle-line fs-16 p-2 bg-primary-subtle text-primary rounded-circle align-middle me-2"></i> {translation.finish[localStorage.getItem("language")]}
                         </button>
                     </li>
                 </ul>
@@ -160,22 +161,22 @@
                                 <lord-icon src="https://cdn.lordicon.com/tdrtiskw.json" trigger="loop" colors="primary:#f06548,secondary:#f7b84b" style="width:120px;height:120px"></lord-icon>
                                 <h5 class="text-danger">Error</h5>
                                 <p class="text-muted">{error}</p>
-                                <p class="text-muted">Go back to <a href="/students" class="text-decoration-underline">students</a></p>
+                                <p class="text-muted">{translation.goBackTo[localStorage.getItem("language")]} <a href="/students" class="text-decoration-underline">{translation.students[localStorage.getItem("language")]}</a></p>
 
                             </div>
                         
                             {:else}
                             <div class="mb-4">
                                 <lord-icon src="https://cdn.lordicon.com/xjovhxra.json" trigger="loop" colors="primary:#695eef,secondary:#73dce9" style="width:120px;height:120px"></lord-icon>
-                                <h5>Proccessing Payment...</h5>
+                                <h5>{translation.proccessingPayment[localStorage.getItem("language")]}...</h5>
                             </div>
                             {/if}
                         {:else}
                         <div class="mb-4">
                             <lord-icon src="https://cdn.lordicon.com/lupuorrc.json" trigger="loop" colors="primary:#695eef,secondary:#73dce9" style="width:120px;height:120px"></lord-icon>
                         </div>
-                        <h5>Thank you ! Your Order is Completed !</h5>
-                        <p class="text-muted">Go back to <a href="/students" class="text-decoration-underline">students</a></p>
+                        <h5>{translation.orderCompleted[localStorage.getItem("language")]} !</h5>
+                        <p class="text-muted">{translation.goBackTo[localStorage.getItem("language")]} <a href="/students" class="text-decoration-underline">{translation.students[localStorage.getItem("language")]}</a></p>
                         {/if}
                     </div>
                 </div>

@@ -66,6 +66,13 @@
                                     {/if}
                                 </div>
                                 <div>
+                                    <label for="productarName" class="form-label">Arabic Name</label>
+                                    <input type="text" class="form-control" id="productName" name="name_ar" dir="rtl" placeholder="ادخل اسم المدرسة">
+                                    {#if errors?.name_ar}
+                                    <strong class="text-danger ms-1 my-2">{errors.name_ar[0]}</strong>
+                                    {/if}
+                                </div>
+                                <div>
                                     <label for="formFile" class="form-label">School Logo</label>
                                     <input class="form-control" name="file" type="file" id="formFile">
                                     {#if errors?.file}

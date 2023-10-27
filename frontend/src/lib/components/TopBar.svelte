@@ -63,6 +63,7 @@
 
         <div class="d-flex align-items-center">
             <!-- {$page.url.pathname} -->
+            {#if user?.roles[0]?.name == "parent"}
             <div class="dropdown ms-1 topbar-head-dropdown header-item">
                 <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <img id="header-lang-img" src="/assets/images/flags/us.svg" alt="Header Language" height="20" class="rounded">
@@ -82,6 +83,7 @@
                     </a>
                 </div>
             </div>
+            {/if}
 
             <!-- <div class="dropdown topbar-head-dropdown ms-1 header-item">
                 <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

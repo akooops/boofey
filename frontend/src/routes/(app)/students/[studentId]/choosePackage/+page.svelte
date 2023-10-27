@@ -1,5 +1,7 @@
 <script>
     import PricingCard from "$lib/components/cards/PricingCard.svelte"
+    import {translation} from "$lib/translation.js"
+
     export let data 
     $: console.log(data)
     $: student = data.student
@@ -13,8 +15,8 @@
     <div class="row justify-content-center mt-4">
         <div class="col-lg-5">
             <div class="text-center mb-4">
-                <h4 class="fw-semibold fs-22">Choose the plan that's right for you</h4>
-                <p class="text-muted mb-4 fs-15">Simple pricing. No hidden fees. Advanced features for you business.</p>
+                <h4 class="fw-semibold fs-22">{translation.chooseThePlan[localStorage.getItem("language")]}</h4>
+                <p class="text-muted mb-4 fs-15">{translation.simplePricingQuote[localStorage.getItem("language")]}</p>
 
             </div>
         </div>
@@ -37,10 +39,10 @@
                     <!-- <button type="button" &on:click={subscribe} class="btn btn-primary waves-effect waves-light"><i class="ri-money-dollar-circle-line align-bottom me-1"></i>Subscribe</button> -->
                     <ul class="nav nav-pills nav-custom-outline nav-primary" role="tablist">
                         <li class="nav-item waves-effect waves-light" role="presentation" on:click={() => active = "monthly"}>
-                            <a class="nav-link active" data-bs-toggle="tab" href="#border-nav-home" role="tab" aria-selected="false" tabindex="-1">Monthly</a>
+                            <a class="nav-link active" data-bs-toggle="tab" href="#border-nav-home" role="tab" aria-selected="false" tabindex="-1">{translation.monthly[localStorage.getItem("language")]}</a>
                         </li>
                         <li class="nav-item waves-effect waves-light" role="presentation" on:click={() => active = "yearly"}>
-                            <a class="nav-link" data-bs-toggle="tab" href="#border-nav-profile" role="tab" aria-selected="false" tabindex="-1">Yearly</a>
+                            <a class="nav-link" data-bs-toggle="tab" href="#border-nav-profile" role="tab" aria-selected="false" tabindex="-1">{translation.yearly[localStorage.getItem("language")]}</a>
                         </li>
                     </ul>
                 

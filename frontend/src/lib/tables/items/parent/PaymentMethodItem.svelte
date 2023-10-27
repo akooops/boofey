@@ -1,5 +1,6 @@
 <script>
     import { getContext } from "svelte"
+    import {translation} from "$lib/translation.js"
 
     export let paymentMethod
 
@@ -35,7 +36,7 @@
     {/if}
     <td>
         <div class="hstack gap-3 flex-wrap">
-            <span data-bs-toggle="modal" data-bs-target="#deletePaymentMethodModal" on:click={setPaymentMethod}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Delete"><i class="ri-delete-bin-line"></i></a></span>
+            <span data-bs-toggle="modal" data-bs-target="#deletePaymentMethodModal" on:click={setPaymentMethod}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="{translation.delete[localStorage.getItem("language")]}"><i class="ri-delete-bin-line"></i></a></span>
         </div>
     </td>
 </tr>

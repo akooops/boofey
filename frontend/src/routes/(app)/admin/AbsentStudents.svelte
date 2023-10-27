@@ -77,7 +77,7 @@
                                     <a href="" class="text-reset">{student.father.user.profile.fullname}</a>
                                 </td>
                                 <td>
-                                <img src={student.school.full_path} class="avatar-xxs rounded-circle me-1" alt="">
+                                <img src={student.school.logo.full_path} class="avatar-xxs rounded-circle me-1" alt="">
                                 <a href="" class="text-reset">{student.school.name}</a>
                                 </td>
                             </tr><!-- end tr -->

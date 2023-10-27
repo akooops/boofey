@@ -21,8 +21,14 @@ function matchPathWithPatterns(currentPath) {
 
 page.subscribe(() => {
 
-
+  if($page.url.pathname == "/admin" || "/"){
+    title = "Dashboard"
+    item = "Dashboard"
+    active = null
+    return;
+  }
     let currentPath = $page.url.pathname.replace("/admin","")
+    console.log("current", currentPath,$page.url.pathname)
 
     let matchedObject = matchPathWithPatterns(currentPath)
     if(matchedObject){

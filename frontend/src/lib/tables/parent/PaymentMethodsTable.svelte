@@ -7,7 +7,8 @@
     import { setContext } from 'svelte';
     import { navigating } from '$app/stores';
     import { writable } from 'svelte/store';
-    
+    import {translation} from "$lib/translation.js"
+
     export let paymentMethodsList
     setContext('paymentMethodStore', {
 	    paymentMethodStore: writable({})
@@ -28,11 +29,11 @@
                             <input class="form-check-input" type="checkbox" id="checkAll" value="option1">
                         </div>
                     </th>
-                    <th scope="col">ID</th>
-                    <th scope="col">Holder Name</th>
-                    <th scope="col">Number</th>
-                    <th scope="col">Expiry Date</th>
-                    <th scope="col">Action</th>
+                    <th scope="col">{translation.id[localStorage.getItem("language")]}</th>
+                    <th scope="col">{translation.holderName[localStorage.getItem("language")]}</th>
+                    <th scope="col">{translation.number[localStorage.getItem("language")]}</th>
+                    <th scope="col">{translation.expiryDate[localStorage.getItem("language")]}</th>
+                    <th scope="col">{translation.actions[localStorage.getItem("language")]}</th>
                 </tr>
              </thead>
             {#if $navigating == null || $navigating?.from?.route?.id != $navigating?.to?.route?.id}

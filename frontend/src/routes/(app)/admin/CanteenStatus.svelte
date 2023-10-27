@@ -67,7 +67,7 @@
                                 <td>{canteen.id}</td>
                                 <td>{canteen.name}</td>
                                 <td>
-                                <img src={canteen.school.full_path} class="avatar-xxs rounded-circle me-1" alt="">
+                                <img src={canteen.school.logo.full_path} class="avatar-xxs rounded-circle me-1" alt="">
                                 <a href="" class="text-reset">{canteen.school.name}</a>
                                 </td>
                                 <td>

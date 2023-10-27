@@ -1,6 +1,8 @@
 <script>
     import { getContext } from "svelte"
     import { goto } from '$app/navigation';
+    import {translation} from "$lib/translation.js"
+
 
     export let student
 
@@ -43,9 +45,9 @@
     </td>
     <td>
         {#if student.subscribed}
-        <span class="badge bg-success-subtle text-success">Subscribed</span>
+        <span class="badge bg-success-subtle text-success">{translation.subscribed[localStorage.getItem("language")]}</span>
         {:else}
-        <span class="badge bg-danger-subtle text-danger">Not Subscribed</span>
+        <span class="badge bg-danger-subtle text-danger">{translation.notSubscribed[localStorage.getItem("language")]}</span>
         {/if}
     </td>
     <td>
@@ -62,11 +64,11 @@
 
     <td>
         <div class="hstack gap-3 flex-wrap">
-            <span data-bs-toggle="modal" data-bs-target="#ViewQrStudentModal" on:click={setStudent}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Qr Code" ><i class="ri-qr-code-line"></i></a></span>
-            <span on:click={openSubs}><a bind:this={subsToolTip} href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Subscribtion" ><i class="ri-money-dollar-circle-line"></i></a></span>
-            <span data-bs-toggle="modal" data-bs-target="#viewStudentModal" on:click={setStudent}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="View" ><i class="ri-eye-fill"></i></a></span>
-            <span data-bs-toggle="modal" data-bs-target="#editStudentModal" on:click={setStudent}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Edit" ><i class="ri-edit-2-line"></i></a></span>
-            <span data-bs-toggle="modal" data-bs-target="#deleteStudentModal" on:click={setStudent}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Delete"><i class="ri-delete-bin-line"></i></a></span>
+            <span data-bs-toggle="modal" data-bs-target="#ViewQrStudentModal" on:click={setStudent}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="{translation.qrCode[localStorage.getItem("language")]}" ><i class="ri-qr-code-line"></i></a></span>
+            <span on:click={openSubs}><a bind:this={subsToolTip} href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="{translation.subscription[localStorage.getItem("language")]}" ><i class="ri-money-dollar-circle-line"></i></a></span>
+            <span data-bs-toggle="modal" data-bs-target="#viewStudentModal" on:click={setStudent}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="{translation.view[localStorage.getItem("language")]}" ><i class="ri-eye-fill"></i></a></span>
+            <span data-bs-toggle="modal" data-bs-target="#editStudentModal" on:click={setStudent}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="{translation.edit[localStorage.getItem("language")]}" ><i class="ri-edit-2-line"></i></a></span>
+            <span data-bs-toggle="modal" data-bs-target="#deleteStudentModal" on:click={setStudent}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="{translation.delete[localStorage.getItem("language")]}"><i class="ri-delete-bin-line"></i></a></span>
         </div>
     </td>
 </tr>

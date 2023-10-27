@@ -61,6 +61,7 @@ import { page } from '$app/stores';
 
 $: {
     menuItems = user?.roles[0]?.name != "parent" ? menuItemsAdmin : menuItemsParent 
+    console.log("this changed boys",menuItems)
 }
 
 function checkEmptySubMenus(){

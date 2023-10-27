@@ -15,6 +15,7 @@
     import { writable } from 'svelte/store';
     import { goto } from '$app/navigation';
     import { fade } from 'svelte/transition';
+    import {translation} from "$lib/translation.js"
 	import GenSubInvoiceModal from "./GenSubInvoiceModal.svelte";
 
 	import InactiveSubsTable from "./InactiveSubsTable.svelte";
@@ -57,12 +58,12 @@
                 <div class="flex-shrink-0">
                     <img src={student.image.full_path} alt="" class="avatar-xs rounded-circle" />
                 </div>
-                <h4 class="card-title mb-0 flex-grow-1"><span class="text-primary">{student.fullname}</span> - Subscriptions Managment</h4>
+                <h4 class="card-title mb-0 flex-grow-1"><span class="text-primary">{student.fullname}</span> - {translation.subsciptionManagement[localStorage.getItem("language")]}</h4>
             </div> 
 
                
                 <div class="flex-shrink-0">
-                    <button type="button" on:click={subscribe} class="btn btn-primary waves-effect waves-light"><i class="ri-money-dollar-circle-line align-bottom me-1"></i>Subscribe</button>
+                    <button type="button" on:click={subscribe} class="btn btn-primary waves-effect waves-light"><i class="ri-money-dollar-circle-line align-bottom me-1"></i>{translation.subscribe[localStorage.getItem("language")]}</button>
                     <ViewSubModal />
                     <GenSubInvoiceModal />
 
@@ -74,7 +75,7 @@
 
         <div class="card">
             <div class="card-header align-items-center d-flex">
-                <h4 class="card-title mb-0 flex-grow-1">Sheduled subscriptions</h4>
+                <h4 class="card-title mb-0 flex-grow-1">{translation.scheduledSubs[localStorage.getItem("language")]}</h4>
             </div><!-- end card header -->
         
             <div class="card-body">
@@ -82,7 +83,7 @@
                 <!-- <div class="live-preview"> -->
                     <div class="row">
                             <!-- Input with Icon -->
-                        <SearchTable type={"Sub"}/>
+                        <SearchTable type={translation.subscription[localStorage.getItem("language")]}/>
                         <SubsTable {subsList} />
                         <Pagination {...subsPagination} />
                         <!--end col-->
@@ -94,7 +95,7 @@
         </div><!-- end card -->
         <div class="card">
             <div class="card-header align-items-center d-flex">
-                <h4 class="card-title mb-0 flex-grow-1">Inactive subscriptions</h4>
+                <h4 class="card-title mb-0 flex-grow-1">{translation.incativeSubs[localStorage.getItem("language")]}</h4>
             </div><!-- end card header -->
         
             <div class="card-body">

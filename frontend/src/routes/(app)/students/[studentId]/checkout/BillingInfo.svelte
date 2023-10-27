@@ -6,6 +6,8 @@
     import { invalidate } from '$app/navigation';
     import { redirector } from "$lib/api/auth";
     import {states} from "$lib/env.js"
+    import {translation} from "$lib/translation.js"
+
 const dispatch = createEventDispatcher();
 
 import SavedAdress from "./SavedAdress.svelte";
@@ -80,15 +82,15 @@ function setBillingObj(e){
 
 </script>
 <div>
-    <h5 class="mb-1">Billing Information</h5>
-    <p class="text-muted mb-4">Please fill all information below</p>
+    <h5 class="mb-1">{translation.billingInfo[localStorage.getItem("language")]}</h5>
+    <p class="text-muted mb-4">{translation.pleaseFillInfo[localStorage.getItem("language")]}</p>
 </div>
 
 <div class="">
     <!-- Switches Color -->
     <div class="form-check form-switch col" >
         <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck1" bind:checked={newAdress}>
-        <label class="form-check-label" for="SwitchCheck1">Use a New Adress</label>
+        <label class="form-check-label" for="SwitchCheck1">{translation.userNewAddress[localStorage.getItem("language")]}</label>
     </div><!-- Switches Color -->
 
 </div>
@@ -99,8 +101,8 @@ function setBillingObj(e){
         <div class="row">
             <div class="col-sm-6">
                 <div class="mb-3">
-                    <label for="billinginfo-firstName" class="form-label">First Name</label>
-                    <input type="text" class="form-control" name="firstname" id="billinginfo-firstName" placeholder="Enter first name" value="">
+                    <label for="billinginfo-firstName" class="form-label">{translation.firstName[localStorage.getItem("language")]}</label>
+                    <input type="text" class="form-control" name="firstname" id="billinginfo-firstName" placeholder={translation.enterFirstName[localStorage.getItem("language")]} value="">
                     {#if errors?.firstname}
                     <strong class="text-danger ms-1 my-2">{errors.firstname[0]}</strong>
                     {/if}
@@ -109,8 +111,8 @@ function setBillingObj(e){
 
             <div class="col-sm-6">
                 <div class="mb-3">
-                    <label for="billinginfo-lastName" class="form-label">Last Name</label>
-                    <input type="text" class="form-control" name="lastname" id="billinginfo-lastName" placeholder="Enter last name" value="">
+                    <label for="billinginfo-lastName" class="form-label">{translation.lastName[localStorage.getItem("language")]}</label>
+                    <input type="text" class="form-control" name="lastname" id="billinginfo-lastName" placeholder={translation.enterLastName[localStorage.getItem("language")]} value="">
                     {#if errors?.lastname}
                     <strong class="text-danger ms-1 my-2">{errors.lastname[0]}</strong>
                     {/if}
@@ -121,8 +123,8 @@ function setBillingObj(e){
         <div class="row">
             <div class="col-sm-6">
                 <div class="mb-3">
-                    <label for="billinginfo-email" class="form-label">Email</label>
-                    <input type="email" class="form-control" name="email" id="billinginfo-email" placeholder="Enter email">
+                    <label for="billinginfo-email" class="form-label">{translation.email[localStorage.getItem("language")]}</label>
+                    <input type="email" class="form-control" name="email" id="billinginfo-email" placeholder={translation.enterEmail[localStorage.getItem("language")]}>
                     {#if errors?.email}
                     <strong class="text-danger ms-1 my-2">{errors.email[0]}</strong>
                     {/if}
@@ -131,8 +133,8 @@ function setBillingObj(e){
 
             <div class="col-sm-6">
                 <div class="mb-3">
-                    <label for="billinginfo-phone" class="form-label">Phone</label>
-                    <input type="tel" class="form-control" name="phone" id="billinginfo-phone" placeholder="Enter phone no.">
+                    <label for="billinginfo-phone" class="form-label">{translation.phone[localStorage.getItem("language")]}</label>
+                    <input type="tel" class="form-control" name="phone" id="billinginfo-phone" placeholder={translation.enterPhone[localStorage.getItem("language")]}>
                     {#if errors?.phone}
                     <strong class="text-danger ms-1 my-2">{errors.phone[0]}</strong>
                     {/if}
@@ -141,8 +143,8 @@ function setBillingObj(e){
         </div>
 
         <div class="mb-3">
-            <label for="billinginfo-address" class="form-label">Address</label>
-            <textarea class="form-control" id="billinginfo-address" name="address" placeholder="Enter address" rows="3"></textarea>
+            <label for="billinginfo-address" class="form-label">{translation.address[localStorage.getItem("language")]}</label>
+            <textarea class="form-control" id="billinginfo-address" name="address" placeholder={translation.enterAddress[localStorage.getItem("language")]} rows="3"></textarea>
             {#if errors?.address}
                 <strong class="text-danger ms-1 my-2">{errors.address[0]}</strong>
             {/if}
@@ -188,7 +190,7 @@ function setBillingObj(e){
     <div class="mt-4">
         <div class="d-flex align-items-center mb-2">
             <div class="flex-grow-1">
-                <h5 class="fs-14 mb-0">Saved Address</h5>
+                <h5 class="fs-14 mb-0">{translation.savedAddresses[localStorage.getItem("language")]}</h5>
             </div>
         </div>
         <div class="row gy-3">
@@ -203,7 +205,7 @@ function setBillingObj(e){
     {/if}
     <div class="d-flex align-items-start gap-3 mt-3">
         <button type="button" class="btn btn-primary btn-label right ms-auto nexttab" on:click={SendAdress} disabled={!newAdress && addressId == null}>
-            <i class="ri-bank-card-line label-icon align-middle fs-16 ms-2"></i>Proceed to Payment
+            <i class="ri-bank-card-line label-icon align-middle fs-16 ms-2"></i>{translation.proceedtoPayment[localStorage.getItem("language")]}
         </button>
     </div>
 </form>

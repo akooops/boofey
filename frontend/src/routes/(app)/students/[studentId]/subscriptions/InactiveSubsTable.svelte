@@ -4,7 +4,9 @@
     import InactiveSubItem from "./InactiveSubItem.svelte";
     
     import { writable } from 'svelte/store';
-    import { navigating } from '$app/stores';
+    import { navigating } from '$app/stores';    
+    import {translation} from "$lib/translation.js"
+
     
     
     export let subsList
@@ -24,13 +26,13 @@
                             <input class="form-check-input" type="checkbox" id="checkAll" value="option1">
                         </div>
                     </th>
-                    <th scope="col">ID</th>
-                    <th scope="col">Package</th>
-                    <th scope="col">Days</th>
-                    <th scope="col">Balance</th>
-                    <th scope="col">Should Start At</th>
-                    <th scope="col">Started At</th>
-                    <th scope="col">Action</th>
+                    <th scope="col">{translation.id[localStorage.getItem("language")]}</th>
+                    <th scope="col">{translation.package[localStorage.getItem("language")]}</th>
+                    <th scope="col">{translation.days[localStorage.getItem("language")]}</th>
+                    <th scope="col">{translation.balance[localStorage.getItem("language")]}</th>
+                    <th scope="col">{translation.shouldStartAt[localStorage.getItem("language")]}</th>
+                    <th scope="col">{translation.startedAt[localStorage.getItem("language")]}</th>
+                    <th scope="col">{translation.actions[localStorage.getItem("language")]}</th>
                 </tr>
             </thead>
             {#if $navigating == null || $navigating?.from?.route?.id != $navigating?.to?.route?.id}

@@ -5,6 +5,7 @@
     import {initApp} from "$lib/init/initApp.js"
 	import Password from "$lib/components/Password.svelte";
     import { phoneMask } from "$lib/inputMasks.js";
+    import {translation} from "$lib/translation.js"
 
 
     export let data;
@@ -52,8 +53,8 @@
 
                         <div class="card-body p-4">
                             <div class="text-center mt-2">
-                                <h5 class="text-primary">Welcome Back !</h5>
-                                <p class="text-muted">Sign in to continue to Boofey.</p>
+                                <h5 class="text-primary">{translation.welcomeBack[localStorage.getItem("language")]} !</h5>
+                                <p class="text-muted">{translation.signInToContinue[localStorage.getItem("language")]} Boofey.</p>
                             </div>
                             <div class="p-2 mt-4">
                                 <form on:submit|preventDefault={signup} bind:this={form}>
@@ -61,8 +62,8 @@
                                     <div class="row g-3">
     
                                         <div class="col-lg-12">
-                                            <label for="username" class="form-label" >Username</label>
-                                            <input type="text" name="username" class="form-control" id="username" placeholder="Enter Username name" >
+                                            <label for="username" class="form-label" >{translation.username[localStorage.getItem("language")]}</label>
+                                            <input type="text" name="username" class="form-control" id="username" placeholder="{translation.enterUsername[localStorage.getItem("language")]}" >
                                             {#if errors?.username}
                                             <strong class="text-danger ms-1 my-2">{errors.username[0]}</strong>
                                             {/if}
@@ -70,8 +71,8 @@
         
                                         <div class="col-xxl-6">
                                             <div>
-                                                <label for="firstName" class="form-label">First Name</label>
-                                                <input type="text" name="firstname" class="form-control" id="firstName" placeholder="Enter Firstname">
+                                                <label for="firstName" class="form-label">{translation.firstName[localStorage.getItem("language")]}</label>
+                                                <input type="text" name="firstname" class="form-control" id="firstName" placeholder="{translation.enterFirstName[localStorage.getItem("language")]}">
                                                 {#if errors?.firstname}
                                                 <strong class="text-danger ms-1 my-2">{errors.firstname[0]}</strong>
                                                 {/if}
@@ -80,31 +81,31 @@
                                         <!--end col-->
                                         <div class="col-xxl-6">
                                             <div>
-                                                <label for="lastName" class="form-label">Last Name</label>
-                                                <input type="text" name="lastname" class="form-control" id="lastName" placeholder="Enter Lastname">
+                                                <label for="lastName" class="form-label">{translation.lastName[localStorage.getItem("language")]}</label>
+                                                <input type="text" name="lastname" class="form-control" id="lastName" placeholder="{translation.enterLastName[localStorage.getItem("language")]}">
                                                 {#if errors?.lastname}
                                                 <strong class="text-danger ms-1 my-2">{errors.lastname[0]}</strong>
                                                 {/if}
                                             </div>
                                         </div>
                                         <div class="col-xxl-6">
-                                            <label for="email" class="form-label">Email</label>
-                                            <input type="email" name="email" class="form-control" id="email" placeholder="Enter your Email">
+                                            <label for="email" class="form-label">{translation.email[localStorage.getItem("language")]}</label>
+                                            <input type="email" name="email" class="form-control" id="email" placeholder="{translation.enterEmail[localStorage.getItem("language")]}">
                                             {#if errors?.email}
                                             <strong class="text-danger ms-1 my-2">{errors.email[0]}</strong>
                                             {/if}
                                         </div>
                                         <div class="col-xxl-6">
-                                            <label for="phone" class="form-label">Phone</label>
-                                            <input type="tel" name="phone" class="form-control" id="phone" placeholder="Enter your Phone no.">
+                                            <label for="phone" class="form-label">{translation.phone[localStorage.getItem("language")]}</label>
+                                            <input type="tel" name="phone" class="form-control" id="phone" placeholder="{translation.enterPhone[localStorage.getItem("language")]}">
                                             {#if errors?.phone}
                                             <strong class="text-danger ms-1 my-2">{errors.phone[0]}</strong>
                                             {/if}
                                         </div>
                                         <div class="col-xxl-6">
-                                            <label for="password" class="form-label">Password</label>
+                                            <label for="password" class="form-label">{translation.password[localStorage.getItem("language")]}</label>
                                             <div class="position-relative auth-pass-inputgroup mb-3">
-                                                <Password name={"password"} placeholder={"Enter password"}/>
+                                                <Password name={"password"} placeholder={translation.enterPassword[localStorage.getItem("language")]}/>
                                                 <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon" type="button" id="password-addon"><i class="ri-eye-fill align-middle"></i></button>
                                             </div>
                                             {#if errors?.password}
@@ -112,9 +113,9 @@
                                             {/if}
                                         </div>
                                         <div class="col-xxl-6">
-                                            <label for="passwordconfirm" class="form-label">Confirm Password</label>
+                                            <label for="passwordconfirm" class="form-label">{translation.confirmPassword[localStorage.getItem("language")]}</label>
                                             <div class="position-relative auth-pass-inputgroup mb-3">
-                                                <Password name={"password_confirmation"} placeholder={"Confirm password"}/>
+                                                <Password name={"password_confirmation"} placeholder={translation.enterPasswordConfirmation[localStorage.getItem("language")]}/>
                                                 <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon" type="button" id="password-addon"><i class="ri-eye-fill align-middle"></i></button>
                                             </div>
                                             {#if errors?.password_confirmation}
@@ -125,7 +126,7 @@
                                         <strong class="text-danger ms-1 my-2">{message}</strong>
                                         {/if}
                                     <div class="mt-4">
-                                        <button class="btn btn-info w-100" type="submit">Sign up</button>
+                                        <button class="btn btn-info w-100" type="submit">{translation.signUp[localStorage.getItem("language")]}</button>
                                     </div>
                                 </form>
                             </div>
@@ -135,7 +136,7 @@
                     <!-- end card -->
 
                     <div class="mt-4 text-center">
-                        <p class="mb-0">Already have an account ? <a href="/signin" class="fw-semibold text-primary text-decoration-underline"> Signin </a> </p>
+                        <p class="mb-0">{translation.alreadyHaveAnAcc[localStorage.getItem("language")]} {translation["?"][localStorage.getItem("language")]} <a href="/signin" class="fw-semibold text-primary text-decoration-underline"> {translation.signIn[localStorage.getItem("language")]} </a> </p>
                     </div>
 
                 </div>

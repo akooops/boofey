@@ -121,6 +121,13 @@
                                     <strong class="text-danger ms-1 my-2">{errors.description[0]}</strong>
                                     {/if}
                                 </div>
+                                <div>
+                                    <label for="productarName" class="form-label">Arabic Description</label>
+                                    <textarea class="form-control" name="description_ar" id="exampleFormControlTextarea5" dir="rtl" placeholder="ادخل وصف الباقة"  bind:value={packageStoreInstance.description_ar} rows="3"></textarea>
+                                    {#if errors?.description_ar}
+                                    <strong class="text-danger ms-1 my-2">{errors.description_ar[0]}</strong>
+                                    {/if}
+                                </div>
                                 <div class="row g-3 ps-3">
                                     <!-- Switches Color -->
                                     <div class="form-check form-switch col" >
@@ -201,6 +208,7 @@
                                         <thead class="table-light">
                                             <tr>
                                                 <th scope="col">Feature Name</th>
+                                                <th scope="col">Arabic Name</th>
                                                 <th scope="col">Checked</th>
                                                 <th scope="col">Actions</th>
                                             </tr>
@@ -211,6 +219,9 @@
                                                 <td>
                                                      <input type="text" class="form-control" id="firstName" placeholder="Enter Feature Name" bind:value={feature.name}>
                                                 </td>
+                                                <td>
+                                                    <input type="text" class="form-control" id="firstName" dir="rtl" placeholder="ادخل اسم الميزة" bind:value={feature.name_ar}>
+                                               </td>
                                                 <td>
                                                 <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck1" bind:checked={feature.checked}>
                                                 </td>

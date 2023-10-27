@@ -4,6 +4,8 @@
     import { redirector } from "$lib/api/auth";
     import { toast } from "$lib/components/toast.js";
     import {bill} from "$lib/utils.js"
+    import {translation} from "$lib/translation.js"
+
 
     const dispatch = createEventDispatcher();
 
@@ -53,7 +55,7 @@
     <div class="sticky-side-div">
         <div class="card">
             <div class="card-header border-bottom-dashed">
-                <h5 class="card-title mb-0">Order Summary</h5>
+                <h5 class="card-title mb-0">{translation.orderSummary[localStorage.getItem("language")]}</h5>
             </div>
 
             <div class="card-header border-bottom-dashed">
@@ -63,7 +65,7 @@
                         <p class="text-muted mb-0">{packageObj.description}</p>
                     </div>
                     <div class="">
-                        <h5>{packageObj.currentPrice}<sup><small>SAR</small></sup> <span class="fs-13 text-muted">{packageObj.yearly ? "" : `/ ${packageObj.days} Days`}</span></h5>
+                        <h5>{packageObj.currentPrice}<sup><small>{translation.sar[localStorage.getItem("language")]}</small></sup> <span class="fs-13 text-muted">{packageObj.yearly ? "" : `/ ${packageObj.days} ${translation.days[localStorage.getItem("language")]}`}</span></h5>
                     </div>
                 </div>
 
@@ -71,10 +73,10 @@
 
 
             <div class="card-header bg-light-subtle border-bottom-dashed">
-                <label for="name" class="form-label  px-1">Coupon Code</label>
+                <label for="name" class="form-label  px-1">{translation.couponCode[localStorage.getItem("language")]}</label>
                 <div class="hstack gap-3 px-3 mx-n3 mb-1">
-                    <input class="form-control me-auto" type="text" placeholder="Enter coupon code" aria-label="Add Promo Code here..." bind:value={couponCode}>
-                    <button type="button" class="btn btn-primary w-xs" on:click={checkCoupon}>Apply</button>
+                    <input class="form-control me-auto" type="text" placeholder={translation.enterCouponCode[localStorage.getItem("language")]} aria-label="Add Promo Code here..." bind:value={couponCode}>
+                    <button type="button" class="btn btn-primary w-xs" on:click={checkCoupon}>{translation.apply[localStorage.getItem("language")]}</button>
                 </div>
                 {#if error}
                  <strong class="text-danger ms-1 my-2 ">{error}</strong>
@@ -88,22 +90,22 @@
                     <table class="table table-borderless mb-0">
                         <tbody>
                             <tr>
-                                <td>Sub Total :</td>
-                                <td class="text-end" id="cart-subtotal">{payment?.subtotal} SAR</td>
+                                <td>{translation.subTotal[localStorage.getItem("language")]} :</td>
+                                <td class="text-end" id="cart-subtotal">{payment?.subtotal} {translation.sar[localStorage.getItem("language")]}</td>
                             </tr>
                             <tr>
-                                <td>Discount <span class="text-muted">({payment?.discount}%)</span> : </td>
-                                <td class="text-end" id="cart-discount">{payment?.discountCalculated} SAR</td>
+                                <td>{translation.discount[localStorage.getItem("language")]} <span class="text-muted">({payment?.discount}%)</span> : </td>
+                                <td class="text-end" id="cart-discount">{payment?.discountCalculated} {translation.sar[localStorage.getItem("language")]}</td>
                             </tr>
                             <tr>
-                                <td>Estimated Tax ({payment?.tax}%) : </td>
-                                <td class="text-end" id="cart-tax">{payment?.taxCalculated} SAR</td>
+                                <td>{translation.estimatedTax[localStorage.getItem("language")]} ({payment?.tax}%) : </td>
+                                <td class="text-end" id="cart-tax">{payment?.taxCalculated} {translation.sar[localStorage.getItem("language")]}</td>
                             </tr>
                             <tr class="table-active">
-                                <th>Total (SAR) :</th>
+                                <th>{translation.total[localStorage.getItem("language")]} ({translation.sar[localStorage.getItem("language")]}) :</th>
                                 <td class="text-end">
                                     <span class="fw-semibold" id="cart-total">
-                                        {payment?.total} SAR
+                                        {payment?.total} {translation.sar[localStorage.getItem("language")]}
                                     </span>
                                 </td>
                             </tr>

@@ -4,7 +4,8 @@
 	import EditStudentModal from "$lib/modals/edit/parent/EditStudentModal.svelte";
     import StudentItem from "$lib/tables/items/parent/StudentItem.svelte";
 	import Qr from "$lib/modals/view/Qr.svelte";
-    
+    import {translation} from "$lib/translation.js"
+
     import { setContext } from 'svelte';
     import { writable } from 'svelte/store';
     import { navigating } from '$app/stores';
@@ -29,12 +30,12 @@
                             <input class="form-check-input" type="checkbox" id="checkAll" value="option1">
                         </div>
                     </th>
-                    <th scope="col">ID</th>
-                    <th scope="col">Student</th>
-                    <th scope="col">Status</th>
-                    <th scope="col">School</th>
-                    <th scope="col">Class</th>
-                    <th scope="col">Action</th>
+                    <th scope="col">{translation.id[localStorage.getItem("language")]}</th>
+                    <th scope="col">{translation.student[localStorage.getItem("language")]}</th>
+                    <th scope="col">{translation.status[localStorage.getItem("language")]}</th>
+                    <th scope="col">{translation.school[localStorage.getItem("language")]}</th>
+                    <th scope="col">{translation.class[localStorage.getItem("language")]}</th>
+                    <th scope="col">{translation.actions[localStorage.getItem("language")]}</th>
                 </tr>
              </thead>
             {#if $navigating == null || $navigating?.from?.route?.id != $navigating?.to?.route?.id}

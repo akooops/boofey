@@ -4,7 +4,32 @@
 		<meta charset="utf-8" />
 		<link rel="icon" href="%sveltekit.assets%/favicon.png" />
 		<meta name="viewport" content="width=device-width" />
+
+		<script>
+			// Get a reference to the <html> tag
+			var htmlTag = document.querySelector('html');
+			// Set an attribute (e.g., data-theme) with a value
+			let dir = localStorage.getItem("language") == "ar" ? "rtl" : "ltr"
+			htmlTag.setAttribute('dir', dir);
+			
+			let link = document.createElement('link');
+			link.type = 'text/css';
+			link.rel = 'stylesheet';
+
+			link.href = `/assets/css/bootstrap${localStorage.getItem("language") == "ar" ? "-rtl" : ""}.min.css`
+
+			document.head.appendChild(link);
+
+			link = document.createElement('link');
+			link.type = 'text/css';
+			link.rel = 'stylesheet';
+			link.href = `/assets/css/app${localStorage.getItem("language") == "ar" ? "-rtl" : ""}.min.css`
+
+			document.head.appendChild(link);
+
+		</script>
  		<!-- App favicon -->
+		 
 		<link rel="shortcut icon" href="/assets/images/favicon.ico">
     	<!-- jsvectormap css -->
 		<link href="/assets/libs/jsvectormap/css/jsvectormap.min.css" rel="stylesheet" type="text/css" />
@@ -15,14 +40,15 @@
 		<!-- Layout config Js -->
 		<script src="/assets/js/layout.js"></script>
 		<!-- Bootstrap Css -->
-		<link href="/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
 		<!-- Icons Css -->
 		<link href="/assets/css/icons.min.css" rel="stylesheet" type="text/css" />
 		<!-- App Css-->
-		<link href="/assets/css/app.min.css" rel="stylesheet" type="text/css" />
 		<!-- custom Css-->
 		<link href="/assets/css/custom.min.css" rel="stylesheet" type="text/css" />
-		<link href="/global.css" rel="stylesheet" type="text/css" />
+
+		
+		
+
 		%sveltekit.head%
 	</head>
 	<body data-sveltekit-preload-data="hover">

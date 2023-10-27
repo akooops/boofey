@@ -1,6 +1,6 @@
 <script>
 import { goto } from '$app/navigation';
-
+import {translation} from "$lib/translation.js"
 
 export let packageObj
 export let studentId
@@ -16,7 +16,7 @@ function choose() {
     <div class="card pricing-box {packageObj.popular ? "ribbon-box right" : ""}">
         <div class="card-body p-4 m-2 ">
             {#if packageObj.popular}
-                <div class="ribbon-two ribbon-two-danger"><span>Popular</span></div>
+                <div class="ribbon-two ribbon-two-danger"><span>{translation.popular[localStorage.getItem("language")]}</span></div>
             {/if}
             <div class="d-flex align-items-center">
                 <div class="flex-grow-1">
@@ -25,7 +25,7 @@ function choose() {
                 </div>
             </div>
             <div class="pt-4">
-                <h2>{packageObj.currentPrice}<sup><small>SAR</small></sup> <span class="fs-13 text-muted">{packageObj.yearly ? "" : `/ ${packageObj.days} Days`}</span></h2>
+                <h2>{packageObj.currentPrice}<sup><small>{translation.sar[localStorage.getItem("language")]}</small></sup> <span class="fs-13 text-muted">{packageObj.yearly ? "" : `/ ${packageObj.days} ${translation.days[localStorage.getItem("language")]}`}</span></h2>
             </div>
             <hr class="my-4 text-muted">
             <div>
@@ -51,7 +51,7 @@ function choose() {
                     {/each}
                 </ul>
                 <div class="mt-4">
-                    <a href="javascript:void(0);" class="btn w-100 waves-effect waves-light {!packageObj.popular ? "btn-soft-info" : "btn-info"}" on:click={choose}>Choose</a>
+                    <a href="javascript:void(0);" class="btn w-100 waves-effect waves-light {!packageObj.popular ? "btn-soft-info" : "btn-info"}" on:click={choose}>{translation.select[localStorage.getItem("language")]}</a>
                 </div>
             </div>
         </div>

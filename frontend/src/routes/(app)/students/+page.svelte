@@ -8,6 +8,7 @@
     import { setContext } from 'svelte';
     import { writable } from 'svelte/store';
     import { fade } from 'svelte/transition';
+    import {translation} from "$lib/translation.js"
 
     export let data
     $: studentsList = data.studentsResponse.data.students
@@ -29,9 +30,9 @@
     <div class="col-lg-12">
         <div class="card">
             <div class="card-header align-items-center d-flex">
-                <h4 class="card-title mb-0 flex-grow-1">Students Managment</h4>
+                <h4 class="card-title mb-0 flex-grow-1">{translation.studentsManagement[localStorage.getItem("language")]}</h4>
                 <div class="flex-shrink-0">
-                    <button type="button" data-bs-toggle="modal" data-bs-target="#addStudentModal" class="btn btn-primary waves-effect waves-light"><i class="ri-add-line align-bottom me-1"></i> Add Student</button>
+                    <button type="button" data-bs-toggle="modal" data-bs-target="#addStudentModal" class="btn btn-primary waves-effect waves-light"><i class="ri-add-line align-bottom me-1"></i>{translation.addStudent[localStorage.getItem("language")]}</button>
                     <AddStudentModal/>
                 </div>
             </div>
@@ -41,7 +42,7 @@
                 <!-- <div class="live-preview"> -->
                     <div class="row">
                             <!-- Input with Icon -->
-                        <SearchTable type={"Student"}/>
+                        <SearchTable type={translation.student[localStorage.getItem("language")]}/>
                         <StudentsTable {studentsList} />
                         <Pagination {...studentsPagination} />
                         <!--end col-->
