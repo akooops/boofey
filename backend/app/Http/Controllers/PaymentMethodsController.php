@@ -149,7 +149,7 @@ class PaymentMethodsController extends Controller
         if($father === null){
             return response()->json([
                 'status' => 'error',
-                'message' => 'Oops! Resource Not Found. The Resource you are looking for is not available or has been moved.'
+                'message' => __('translations.404')
             ], 404);
         }
 
@@ -157,7 +157,7 @@ class PaymentMethodsController extends Controller
             return response()->json([
                 'status' => 'error',
                 'errors' => [
-                    '403' => 'Access Denied: Please Log In to Access This Resource'
+                    '403' => __('translations.403')
                 ]
             ], 403);
         }

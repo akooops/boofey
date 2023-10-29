@@ -24,6 +24,6 @@ class CanSubscribe implements Rule
 
     public function message()
     {
-        return 'This student already have the maximum number of subscription at a given time.';
+        return __('translations.can_subscribe');
     }
 }

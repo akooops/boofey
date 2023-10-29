@@ -126,7 +126,7 @@ class StudentsController extends Controller
             return response()->json([
                 'status' => 'error',
                 'errors' => [
-                    '403' => 'Access Denied: Please Log In to Access This Resource'
+                    '403' => __('translations.403')
                 ]
             ], 403);
         }
@@ -162,7 +162,7 @@ class StudentsController extends Controller
             return response()->json([
                 'status' => 'error',
                 'errors' => [
-                    '403' => 'Access Denied: Please Log In to Access This Resource'
+                    '403' => __('translations.403')
                 ]
             ], 403);
         }
@@ -193,7 +193,7 @@ class StudentsController extends Controller
             return response()->json([
                 'status' => 'error',
                 'errors' => [
-                    '403' => 'Access Denied: Please Log In to Access This Resource'
+                    '403' => __('translations.403')
                 ]
             ], 403);
         }
@@ -233,7 +233,7 @@ class StudentsController extends Controller
             return response()->json([
                 'status' => 'error',
                 'errors' => [
-                    '403' => 'Access Denied: Please Log In to Access This Resource'
+                    '403' => __('translations.403')
                 ]
             ], 403);
         }

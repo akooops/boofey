@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Subscriptions\GenerateInvoiceRequest;
 use App\Http\Requests\Subscriptions\InitSubscriptionRequest;
 use App\Models\Subscription;
 use Illuminate\Http\Request;
@@ -30,7 +31,7 @@ class SubscriptionsController extends Controller
             return response()->json([
                 'status' => 'error',
                 'errors' => [
-                    '403' => 'Access Denied: Please Log In to Access This Resource'
+                    '403' => __('translations.403')
                 ]
             ], 403);
         }
@@ -112,7 +113,7 @@ class SubscriptionsController extends Controller
             return response()->json([
                 'status' => 'error',
                 'errors' => [
-                    '403' => 'Access Denied: Please Log In to Access This Resource'
+                    '403' => __('translations.403')
                 ]
             ], 403);
         }
@@ -121,7 +122,7 @@ class SubscriptionsController extends Controller
             return response()->json([
                 'status' => 'error',
                 'errors' => [
-                    '403' => 'Access Denied: Please Log In to Access This Resource'
+                    '403' => __('translations.403')
                 ]
             ], 403);
         }
@@ -129,7 +130,7 @@ class SubscriptionsController extends Controller
         if($package->hidden == true){
             return response()->json([
                 'status' => 'error',
-                'message' => 'Oops! Resource Not Found. The Resource you are looking for is not available or has been moved.'
+                'message' => __('translations.404')
             ], 404);
         }
 
@@ -172,7 +173,7 @@ class SubscriptionsController extends Controller
         ]);
     }
 
-    public function generateInvoice(Subscription $subscription, Request $request) 
+    public function generateInvoice(Subscription $subscription, GenerateInvoiceRequest $request) 
     {
         $father = $request->get('father');
 
@@ -180,20 +181,12 @@ class SubscriptionsController extends Controller
             return response()->json([
                 'status' => 'error',
                 'errors' => [
-                    '403' => 'Access Denied: Please Log In to Access This Resource'
+                    '403' => __('translations.403')
                 ]
             ], 403);
         }
 
         $invoiceID = $subscription->generateInvoice();
-        if($invoiceID == null){
-            return response()->json([
-                'status' => 'error',
-                'errors' => [
-                    'invoice_id' => 'This subscription already have an invoice.'
-                ],
-            ], 422);
-        }
 
         return response()->json([
             'status' => 'success',
