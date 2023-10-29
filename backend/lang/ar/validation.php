@@ -210,6 +210,8 @@ return [
         'school_id'             => 'المدرسة',
         'package_id'            => 'الباقة',
         'student_id'            => 'الطالب',
+        'return_url'            => 'رابط الرجوع',
+        'verification_code'     => 'كود التأكيد',
     ],
 
 ];

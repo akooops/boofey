@@ -6,6 +6,7 @@ use App\Models\AcademicYear;
 use Illuminate\Http\Request;
 use App\Http\Requests\AcademicYears\StoreAcademicYearRequest;
 use App\Http\Requests\AcademicYears\UpdateAcademicYearRequest;
+use App\Http\Requests\Users\GenerateVerificationCodeRequest;
 use App\Http\Requests\Users\PasswordResetRequest;
 use App\Http\Requests\Users\PasswordResetTokenGenerateRequest;
 use App\Http\Requests\Users\VerifyUserRequest;
@@ -19,7 +20,7 @@ use Illuminate\Support\Facades\RateLimiter;
 
 class UsersController extends Controller
 {
-    public function generateVerificationCode(){
+    public function generateVerificationCode(GenerateVerificationCodeRequest $request){
         $user = Auth::user();
         $user = User::findOrFail($user->id);
         $user->verificationCodes()->delete();
