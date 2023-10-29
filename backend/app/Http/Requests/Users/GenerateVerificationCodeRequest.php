@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Users;
 
+use App\Rules\IsVerified;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Http\JsonResponse;
@@ -25,15 +26,12 @@ class GenerateVerificationCodeRequest extends FormRequest
      */
     public function rules()
     {
+        $this->merge([
+            'user_id' => null,
+        ]);
+
         return [
-            'role_id' => 'required|numeric',
-            'firstname' => 'required|string|max:500',
-            'lastname' => 'required|string|max:500',
-            'username' => 'required|username|unique:users,username',
-            'email' => 'required|email:rfc,dns|unique:users,email',
-            'phone' => 'required|phone|unique:users,phone',
-            'password' => 'required|password|confirmed',
-            'verified' => 'required|boolean'
+            'user_id' => [new IsVerified()],
         ];
     }
 

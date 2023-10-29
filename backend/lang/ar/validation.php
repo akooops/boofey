@@ -212,6 +212,7 @@ return [
         'student_id'            => 'الطالب',
         'return_url'            => 'رابط الرجوع',
         'verification_code'     => 'كود التأكيد',
+        'old_password'          => 'كلمة السر الحالية'
     ],
 
 ];

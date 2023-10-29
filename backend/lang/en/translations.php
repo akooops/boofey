@@ -6,4 +6,7 @@ return [
 
     'can_subscribe' => 'This student already have the maximum number of subscription at a given time.',
     'can_generate_invoice' => 'This subscription already have a generated invoice.',
+    'is_verified' => 'This user is already verified.',
+    'invalid_verification_code' => 'Invalid or expired verification code. Please try again.',
+    'invalid_password_reset_token' => 'Invalid or expired password reset token. Please try again.'
 ];

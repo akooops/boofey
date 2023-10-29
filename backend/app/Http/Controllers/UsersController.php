@@ -77,7 +77,7 @@ class UsersController extends Controller
                 'status' => 'error',
                 'errors' => [
                     'verification_code' => [
-                        'Invalid or expired verification code. Please try again.'
+                        __('translations.invalid_verification_code')
                     ]
                 ],
             ], 422);
@@ -162,7 +162,7 @@ class UsersController extends Controller
                 'status' => 'error',
                 'errors' => [
                     'token' => [
-                        'Invalid or expired password reset token. Please try again.'
+                        __('translations.invalid_password_reset_token')
                     ]
                 ],
             ], 422);

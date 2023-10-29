@@ -78,7 +78,7 @@ Route::group(['namespace' => 'App\Http\Controllers', 'middleware' => ['auth:sanc
 });
 
 Route::group(['namespace' => 'App\Http\Controllers', 'middleware' => ['auth:sanctum', 'convert.bool.string']], function(){ 
-    Route::post('users/generateVerificationCode', 'UsersController@generateVerificationCode')->name('parents.users.generateVerificationCode')->middleware('throttle:1,1');
+    Route::post('users/generateVerificationCode', 'UsersController@generateVerificationCode')->name('parents.users.generateVerificationCode')->middleware('throttle:20,1');
     Route::post('users/verify', 'UsersController@verify')->name('parents.users.verify');
 
     Route::get('payments/check/{ref}', 'PaymentsController@checkPayment')->name('parents.payments.check');
