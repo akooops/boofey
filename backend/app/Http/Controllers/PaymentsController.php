@@ -43,8 +43,7 @@ class PaymentsController extends Controller
     }
 
     public function process(ProcessPaymentRequest $request){
-        //$father = $request->get('father');
-        $father = Father::find(1);
+        $father = $request->get('father');
 
         $subscription = Subscription::findOrFail($request->input('subscription_id'));
 
@@ -54,7 +53,6 @@ class PaymentsController extends Controller
         }
 
         $subscription->calculateTotal();
-        $subscription->generateRef();
         $subscription->save();
 
         $paymentMethod = PaymentMethod::findOrFail($request->input('payment_method_id'));
@@ -165,6 +163,45 @@ class PaymentsController extends Controller
     }
 
     public function paymentReturn(Request $request){
+        $responseData = $request->all();
+
+        $subscription = Subscription::where('ref', $responseData['merchant_reference'])->first();
+        if(is_null($subscription))
+            return;
+        
+        $payment = $subscription->payment;
+
+        if(is_null($payment)){
+            $payment = Payment::create([
+                'fort_id' => key_exists('fort_id', $responseData) ? $responseData['fort_id']:  null,
+                'status' => $responseData['status'],
+                'response_code' => $responseData['response_code'],
+                'response_message' => $responseData['response_message'],
+                'payment_option' => key_exists('payment_option', $responseData) ? $responseData['payment_option']:  null,
+                'card_number' => key_exists('card_number', $responseData) ? $responseData['card_number']:  null,
+                'card_holder_name' => key_exists('card_holder_name', $responseData) ? $responseData['card_holder_name']:  null,
+                'amount' => $responseData['amount'],
+                'father_id' => $subscription->student->father->id,
+                'subscription_id' => $subscription->id
+            ]);
+
+            $payment->save();
+        }else{
+            $payment->update([
+                'status' => $responseData['status'],
+                'response_code' => $responseData['response_code'],
+                'response_message' => $responseData['response_message'],
+            ]);
+        }
+
+        if($responseData['status'] == 14){
+            $payment->update([
+                'paid_at' => now()
+            ]);
+
+            $subscription->start();
+        }
+        
         $script = "<script>window.close();</script>";
         return response($script)->header('Content-Type', 'text/html');
     }
@@ -193,10 +230,29 @@ class PaymentsController extends Controller
             ]);
 
             $payment->save();
+        }else{
+            $payment->update([
+                'status' => $responseData['status'],
+                'response_code' => $responseData['response_code'],
+                'response_message' => $responseData['response_message'],
+            ]);
         }
 
         if($responseData['status'] == 14){
-            $payment->update(['paid_at' => now()]);
+            $payment->update([
+                'paid_at' => now()
+            ]);
+
+            $subscription->start();
+        }
+
+        if($responseData['status'] == 14){
+            $payment->update([
+                'status' => $responseData['status'],
+                'response_code' => $responseData['response_code'],
+                'response_message' => $responseData['response_message'],
+                'paid_at' => now()
+            ]);
 
             $subscription->start();
         }

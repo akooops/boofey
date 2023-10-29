@@ -115,7 +115,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'App\Http\Controllers\Admin', 
 
     /* -------------------------------------------------------------------------------- */
     /* Payments Routes */
-    Route::resource('payments', PaymentsController::class)->only(['index']);
+    Route::resource('payments', PaymentsController::class)->only(['index', 'show']);
     
     /* -------------------------------------------------------------------------------- */
     /* Queues Routes */

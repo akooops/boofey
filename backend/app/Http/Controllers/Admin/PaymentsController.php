@@ -63,4 +63,30 @@ class PaymentsController extends Controller
 
         return response()->json($response);
     }
+
+    public function show(Payment $payment) 
+    {
+        $payment->load([
+            'subscription:id,ref,package_id,student_id,started_at,expired_at,initiated_at,days',
+            'subscription.package:id,name,code,sale_price,price,days,school_id',
+            'subscription.package.school:id,name,file_id',
+            'subscription.package.school.logo:id,path,current_name',
+            'father:id,user_id',
+            'father.user:id,username,email,phone', 
+            'father.user.profile:id,user_id,firstname,lastname,file_id',
+            'father.user.profile.image', 
+            'subscription.student:id,firstname,lastname,file_id',
+            'subscription.student.image:id,path,current_name',
+            'subscription.payment:id,subscription_id,status,payment_option,card_number,card_holder_name,firstname,lastname,email,phone,address,state,city,zipcode'
+        ]);
+
+        $response = [
+            'status' => 'success',
+            'data' => [
+                'payment' => $payment, 
+            ],
+        ];
+
+        return response()->json($response);
+    }
 }
