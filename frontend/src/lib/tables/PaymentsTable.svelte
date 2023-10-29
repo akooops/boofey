@@ -1,16 +1,15 @@
 <script>
-    // import DeleteSubModal from "$lib/modals/delete/DeleteSubModal.svelte"
-	// import EditSubModal from "$lib/modals/edit/EditSubModal.svelte";
-    import SubItem from "$lib/tables/items/parent/SubItem.svelte";
+	import ViewPaymentModal from "$lib/modals/view/ViewPaymentModal.svelte";
+    import PaymentItem from "./items/PaymentItem.svelte";
     
+    import { setContext } from 'svelte';
     import { writable } from 'svelte/store';
     import { navigating } from '$app/stores';
-    import {translation} from "$lib/translation.js"
-
     
-    export let subsList
-  
-
+    export let paymentsList
+    setContext('paymentStore', {
+	    paymentStore: writable({})
+    });
 
 </script>
 
@@ -25,24 +24,27 @@
                             <input class="form-check-input" type="checkbox" id="checkAll" value="option1">
                         </div>
                     </th>
-                    <th scope="col">{translation.id[localStorage.getItem("language")]}</th>
-                    <th scope="col">{translation.package[localStorage.getItem("language")]}</th>
-                    <th scope="col">{translation.days[localStorage.getItem("language")]}</th>
-                    <th scope="col">{translation.balance[localStorage.getItem("language")]}</th>
-                    <th scope="col">{translation.shouldStartAt[localStorage.getItem("language")]}</th>
-                    <th scope="col">{translation.startedAt[localStorage.getItem("language")]}</th>
-                    <th scope="col">{translation.status[localStorage.getItem("language")]}</th>
-                    <th scope="col">{translation.actions[localStorage.getItem("language")]}</th>
+                    <th scope="col">ID</th>
+                    <th scope="col">Payment Ref</th>
+                    <th scope="col">Subscription Ref</th>
+                    <th scope="col">Fort ID</th>
+                    <th scope="col">Parent</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Amount</th>
+                    <th scope="col">Paid At</th>
+                    <th scope="col">Action</th>
+
                 </tr>
              </thead>
             {#if $navigating == null || $navigating?.from?.route?.id != $navigating?.to?.route?.id}
             <tbody class="list">
-                {#each subsList as sub}
-                    <SubItem {sub} />
+                {#each paymentsList as payment}
+                    <PaymentItem {payment} />
                 {/each}
             </tbody>
             {/if}
         </table>
+        <ViewPaymentModal />
 
     </div>
 </div>

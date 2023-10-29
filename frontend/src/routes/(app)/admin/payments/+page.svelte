@@ -3,7 +3,6 @@
     import SearchTable from "$lib/components/SearchTable.svelte";
     
     import PaymentsTable from "$lib/tables/PaymentsTable.svelte";
-    import AddPaymentModal from "$lib/modals/add/AddPaymentModal.svelte";
     import { onMount } from "svelte";
 import { fade } from 'svelte/transition';
     import {initToolTip} from "$lib/init/initToolTip.js"
@@ -23,10 +22,6 @@ import { fade } from 'svelte/transition';
                 <div class="card-header align-items-center d-flex">
                     <h4 class="card-title mb-0 flex-grow-1">Payments Managment</h4>
                     <div class="flex-shrink-0">
-                    {#if JSON.parse(sessionStorage.getItem("permissions")).includes("payments.store")}
-                        <button type="button" data-bs-toggle="modal" data-bs-target="#addPaymentModal" class="btn btn-primary waves-effect waves-light"><i class="ri-add-line align-bottom me-1"></i>Add Payment</button>
-                        <AddPaymentModal />
-                    {/if}
                     </div>
                 </div><!-- end card header -->
                 {#if JSON.parse(sessionStorage.getItem("permissions")).includes("payments.index")}

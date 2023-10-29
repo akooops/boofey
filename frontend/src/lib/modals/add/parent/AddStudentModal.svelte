@@ -7,6 +7,7 @@
     import { redirector } from "$lib/api/auth";
     import Accordion from "$lib/components/Accordion.svelte";
 import SchoolsTableCollapse from "$lib/modals/collapses/parent/SchoolsTableCollapse.svelte";
+import {translation} from "$lib/translation.js"
 
     let close
     let studentname
@@ -163,14 +164,14 @@ import SchoolsTableCollapse from "$lib/modals/collapses/parent/SchoolsTableColla
         <div class="modal-dialog modal-dialog-centered modal-lg" >
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalgridLabel">Add Student</h5>
+                    <h5 class="modal-title" id="exampleModalgridLabel">{translation.addStudent[localStorage.getItem("language")]}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                         <div class="row g-3">
                             <!-- Base Example -->
 
-                                <Accordion id={"school"} title={"Student's School"}>               
+                                <Accordion id={"school"} title={translation.studentSchool[localStorage.getItem("language")]}>               
                                     <SchoolsTableCollapse  on:select={(e) => schoolId = e.detail.schoolId} bind:resetSchool />                     
                                 </Accordion>
                                 {#if errors?.school_id}
@@ -183,8 +184,8 @@ import SchoolsTableCollapse from "$lib/modals/collapses/parent/SchoolsTableColla
 
                                 <div class="col-xxl-6">
                                     <div>
-                                        <label for="firstName" class="form-label">First Name</label>
-                                        <input type="text" name="firstname" class="form-control" id="firstName" placeholder="Enter Firstname">
+                                        <label for="firstName" class="form-label">{translation.firstName[localStorage.getItem("language")]}</label>
+                                        <input type="text" name="firstname" class="form-control" id="firstName" placeholder={translation.enterFirstName[localStorage.getItem("language")]}>
                                         {#if errors?.firstname}
                                         <strong class="text-danger ms-1 my-2">{errors.firstname[0]}</strong>
                                         {/if}
@@ -193,8 +194,8 @@ import SchoolsTableCollapse from "$lib/modals/collapses/parent/SchoolsTableColla
                                 <!--end col-->
                                 <div class="col-xxl-6">
                                     <div>
-                                        <label for="lastName" class="form-label">Last Name</label>
-                                        <input type="text" name="lastname" class="form-control" id="lastName" placeholder="Enter Lastname">
+                                        <label for="lastName" class="form-label">{translation.lastName[localStorage.getItem("language")]}</label>
+                                        <input type="text" name="lastname" class="form-control" id="lastName" placeholder={translation.enterLastName[localStorage.getItem("language")]}>
                                         {#if errors?.lastname}
                                         <strong class="text-danger ms-1 my-2">{errors.lastname[0]}</strong>
                                         {/if}
@@ -202,22 +203,22 @@ import SchoolsTableCollapse from "$lib/modals/collapses/parent/SchoolsTableColla
                                 </div>
 
                                 <div class="col-lg-12">
-                                    <label for="class" class="form-label">Class</label>
+                                    <label for="class" class="form-label">{translation.class[localStorage.getItem("language")]}</label>
                                     <select class="form-select" name="class" id="class" aria-label="Default select example" bind:this={selectClass}>
-                                        <option disabled selected value> -- select a class -- </option>
+                                        <option disabled selected value> -- {translation.selectClass[localStorage.getItem("language")]} -- </option>
 
-                                        <option value={0}>Primary School - Grade 1</option>
-                                        <option value={1}>Primary School - Grade 2</option>
-                                        <option value={2}>Primary School - Grade 3</option>
-                                        <option value={3}>Primary School - Grade 4</option>
-                                        <option value={4}>Primary School - Grade 5</option>
-                                        <option value={5}>Primary School - Grade 6</option>
-                                        <option value={6}>Middle School - Grade 1</option>
-                                        <option value={7}>Middle School - Grade 2</option>
-                                        <option value={8}>Middle School - Grade 3</option>
-                                        <option value={9}>Secondary School - Grade 1</option>
-                                        <option value={10}>Secondary School - Grade 2</option>
-                                        <option value={11}>Secondary School - Grade 3</option>
+                                        <option value={0}>{translation.primarySchool[localStorage.getItem("language")]} - {translation.grade[localStorage.getItem("language")]} 1</option>
+                                        <option value={1}>{translation.primarySchool[localStorage.getItem("language")]} - {translation.grade[localStorage.getItem("language")]} 2</option>
+                                        <option value={2}>{translation.primarySchool[localStorage.getItem("language")]} - {translation.grade[localStorage.getItem("language")]} 3</option>
+                                        <option value={3}>{translation.primarySchool[localStorage.getItem("language")]} - {translation.grade[localStorage.getItem("language")]} 4</option>
+                                        <option value={4}>{translation.primarySchool[localStorage.getItem("language")]} - {translation.grade[localStorage.getItem("language")]} 5</option>
+                                        <option value={5}>{translation.primarySchool[localStorage.getItem("language")]} - {translation.grade[localStorage.getItem("language")]} 6</option>
+                                        <option value={6}>{translation.middleSchool[localStorage.getItem("language")]} - {translation.grade[localStorage.getItem("language")]} 1</option>
+                                        <option value={7}>{translation.middleSchool[localStorage.getItem("language")]} - {translation.grade[localStorage.getItem("language")]} 2</option>
+                                        <option value={8}>{translation.middleSchool[localStorage.getItem("language")]} - {translation.grade[localStorage.getItem("language")]} 3</option>
+                                        <option value={9}>{translation.secondarySchool[localStorage.getItem("language")]} - {translation.grade[localStorage.getItem("language")]} 1</option>
+                                        <option value={10}>{translation.secondarySchool[localStorage.getItem("language")]} - {translation.grade[localStorage.getItem("language")]} 2</option>
+                                        <option value={11}>{translation.secondarySchool[localStorage.getItem("language")]} - {translation.grade[localStorage.getItem("language")]} 3</option>
                                     
                                     </select>
                                     {#if errors?.class}
@@ -228,15 +229,15 @@ import SchoolsTableCollapse from "$lib/modals/collapses/parent/SchoolsTableColla
 
 
                                 <div class="col-lg-12">
-                                    <label for="studentname" class="form-label" >NFC ID</label>
-                                    <input type="text" name="nfc_id" class="form-control" id="nfc_id" placeholder="Enter Studentname name"  >
+                                    <label for="studentname" class="form-label" >{translation.nfcId[localStorage.getItem("language")]}</label>
+                                    <input type="text" name="nfc_id" class="form-control" id="nfc_id"  >
                                     {#if errors?.nfc_id}
                                     <strong class="text-danger ms-1 my-2">{errors.nfc_id[0]}</strong>
                                     {/if}
                                 </div>
                                 <div class="col-lg-12">
-                                    <label for="studentname" class="form-label" >Face ID</label>
-                                    <input type="text" name="face_id" class="form-control" id="face_id" placeholder="Enter Studentname name"  >
+                                    <label for="studentname" class="form-label" >{translation.faceId[localStorage.getItem("language")]}</label>
+                                    <input type="text" name="face_id" class="form-control" id="face_id"  >
                                     {#if errors?.face_id}
                                     <strong class="text-danger ms-1 my-2">{errors.face_id[0]}</strong>
                                     {/if}
@@ -245,17 +246,17 @@ import SchoolsTableCollapse from "$lib/modals/collapses/parent/SchoolsTableColla
                                     <!-- Switches Color -->
                                     <div class="form-check form-switch col" >
                                         <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck1" bind:checked={onHold}>
-                                        <label class="form-check-label" for="SwitchCheck1">On Hold</label>
+                                        <label class="form-check-label" for="SwitchCheck1">{translation.onHold[localStorage.getItem("language")]}</label>
                                     </div><!-- Switches Color -->
 
                                 </div>
                                 <div>
                                     {#if captured}
-                                    <button type="button"  class="btn btn-success waves-effect waves-light" on:click={takeAnother}>Take Another</button>
+                                    <button type="button"  class="btn btn-success waves-effect waves-light" on:click={takeAnother}>{translation.takeAnother[localStorage.getItem("language")]}</button>
                                     {:else if cameraActive}
-                                    <button type="button"  class="btn btn-danger waves-effect waves-light" on:click={stopCam}>Stop Camera</button>
+                                    <button type="button"  class="btn btn-danger waves-effect waves-light" on:click={stopCam}>{translation.stopCamera[localStorage.getItem("language")]}</button>
                                     {:else}
-                                    <button type="button" class="btn btn-primary waves-effect waves-light" on:click={openCam}>Launch Camera</button>              
+                                    <button type="button" class="btn btn-primary waves-effect waves-light" on:click={openCam}>{translation.launchCamera[localStorage.getItem("language")]}</button>              
                                     {/if}
                                 </div>
                                 {#if cameraActive}
@@ -295,8 +296,8 @@ import SchoolsTableCollapse from "$lib/modals/collapses/parent/SchoolsTableColla
 
 
                                 <div class="hstack gap-2 justify-content-end">
-                                    <button type="button" class="btn btn-light fw-light" data-bs-dismiss="modal" bind:this={close}>Close</button>
-                                    <input type="submit" class="btn btn-primary waves-effect waves-light" value="Save">
+                                    <button type="button" class="btn btn-light fw-light" data-bs-dismiss="modal" bind:this={close}>{translation.close[localStorage.getItem("language")]}</button>
+                                    <input type="submit" class="btn btn-primary waves-effect waves-light" value="{translation.save[localStorage.getItem("language")]}">
                                 </div>
                                 </div>
                             </form>

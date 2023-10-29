@@ -98,7 +98,7 @@
                                 </div>
                                 <div>
                                     <label for="productarName" class="form-label">Arabic Name</label>
-                                    <input type="text" class="form-control" id="productName" name="name_ar" dir="rtl" placeholder="ادخل اسم الباكج">
+                                    <input type="text" class="form-control" id="productName" name="name_ar" dir="rtl" placeholder="ادخل اسم الباقة">
                                     {#if errors?.name_ar}
                                     <strong class="text-danger ms-1 my-2">{errors.name_ar[0]}</strong>
                                     {/if}
@@ -125,6 +125,13 @@
                                     <textarea class="form-control" name="description" id="exampleFormControlTextarea5" placeholder="Enter package description"  rows="3"></textarea>
                                     {#if errors?.description}
                                     <strong class="text-danger ms-1 my-2">{errors.description[0]}</strong>
+                                    {/if}
+                                </div>
+                                <div>
+                                    <label for="productarName" class="form-label">Arabic Description</label>
+                                    <textarea class="form-control" name="description_ar" id="exampleFormControlTextarea5" dir="rtl" placeholder="ادخل وصف الباقة"  rows="3"></textarea>
+                                    {#if errors?.description_ar}
+                                    <strong class="text-danger ms-1 my-2">{errors.description_ar[0]}</strong>
                                     {/if}
                                 </div>
                                 <div class="row g-3 ps-3">
@@ -206,6 +213,7 @@
                                         <thead class="table-light">
                                             <tr>
                                                 <th scope="col">Feature Name</th>
+                                                <th scope="col">Arabic Name</th>
                                                 <th scope="col">Checked</th>
                                                 <th scope="col">Actions</th>
                                             </tr>
@@ -216,6 +224,9 @@
                                                 <td>
                                                      <input type="text" class="form-control" id="firstName" placeholder="Enter Feature Name" bind:value={feature.name}>
                                                 </td>
+                                                <td>
+                                                    <input type="text" class="form-control" id="firstName" dir="rtl" placeholder="ادخل اسم الميزة" bind:value={feature.name_ar}>
+                                               </td>
                                                 <td>
                                                 <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck1" bind:checked={feature.checked}>
                                                 </td>

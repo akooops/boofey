@@ -16,6 +16,7 @@ function initLanguage() {
     languages && Array.from(languages).forEach(function (dropdown) {
         dropdown.addEventListener("click", function (event) {
             setLanguage(dropdown.getAttribute("data-lang"));
+            location.reload();
         });
     });
 }
@@ -23,25 +24,15 @@ function initLanguage() {
 function setLanguage(lang) {
     if (document.getElementById("header-lang-img")) {
         if (lang == "en") {
-            document.getElementById("header-lang-img").src = "assets/images/flags/us.svg";
-        } else if (lang == "sp") {
-            document.getElementById("header-lang-img").src = "assets/images/flags/spain.svg";
-        } else if (lang == "gr") {
-            document.getElementById("header-lang-img").src = "assets/images/flags/germany.svg";
-        } else if (lang == "it") {
-            document.getElementById("header-lang-img").src = "assets/images/flags/italy.svg";
-        } else if (lang == "ru") {
-            document.getElementById("header-lang-img").src = "assets/images/flags/russia.svg";
-        } else if (lang == "ch") {
-            document.getElementById("header-lang-img").src = "assets/images/flags/china.svg";
-        } else if (lang == "fr") {
-            document.getElementById("header-lang-img").src = "assets/images/flags/french.svg";
+            document.getElementById("header-lang-img").src = "/assets/images/flags/us.svg";
         } else if (lang == "ar") {
-            document.getElementById("header-lang-img").src = "assets/images/flags/ae.svg";
+            document.getElementById("header-lang-img").src = "/assets/images/flags/ae.svg";
         }
         localStorage.setItem("language", lang);
-        language = localStorage.getItem("language");
-        getLanguage();
+        
+        // language = localStorage.getItem("language");
+
+        // getLanguage();
     }
 }
 

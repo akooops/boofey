@@ -12,7 +12,6 @@ export async function load({fetch,cookies,url,depends}) {
     })
     if(res.ok){
         let authResponse = await res.json()
-        console.log("status ")
         if(authResponse?.data?.user?.verified == true){
             if(authResponse?.data?.user?.roles[0]?.name != "parent"){
                 goto("/admin")
@@ -29,4 +28,4 @@ export async function load({fetch,cookies,url,depends}) {
 
     return {tabTitle:"Verification"}
 
-};cd
+};

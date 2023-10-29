@@ -1,4 +1,7 @@
 <script>
+
+    import {translation} from "$lib/translation.js"
+
     import { createEventDispatcher } from 'svelte';
 
     const dispatch = createEventDispatcher();
@@ -30,10 +33,10 @@
     </div>
     <div class="d-flex flex-wrap p-2 py-1 bg-light rounded-bottom border mt-n1">
         <div>
-            <a href="#" class="d-block text-body p-1 px-2" data-bs-toggle="modal" data-bs-target="#editAddressModal" on:click={setBillingObj}><i class="ri-pencil-fill text-muted align-bottom me-1"></i> Edit</a>
+            <a href="#" class="d-block text-body p-1 px-2" data-bs-toggle="modal" data-bs-target="#editAddressModal" on:click={setBillingObj}><i class="ri-pencil-fill text-muted align-bottom me-1"></i> {translation.edit[localStorage.getItem("language")]}</a>
         </div>
         <div>
-            <a href="#" class="d-block text-body p-1 px-2" data-bs-toggle="modal" data-bs-target="#deleteAddressModal" on:click={setBillingObj}><i class="ri-delete-bin-fill text-muted align-bottom me-1"></i> Remove</a>
+            <a href="#" class="d-block text-body p-1 px-2" data-bs-toggle="modal" data-bs-target="#deleteAddressModal" on:click={setBillingObj}><i class="ri-delete-bin-fill text-muted align-bottom me-1"></i> {translation.delete[localStorage.getItem("language")]}</a>
         </div>
     </div>
 </div>

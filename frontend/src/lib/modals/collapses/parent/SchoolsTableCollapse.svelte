@@ -6,6 +6,8 @@
     import {PathGetSchools} from "$lib/api/paths.js"
     import {redirector} from "$lib/api/auth.js"
     import { createEventDispatcher } from 'svelte';
+    import {translation} from "$lib/translation.js"
+
 
     const dispatch = createEventDispatcher();
 
@@ -104,15 +106,15 @@
 </div>
 {/if}
 
-<ModalSearchTable type={"School"} on:search={search}/>
+<ModalSearchTable type={translation.school[localStorage.getItem("language")]} on:search={search}/>
 <div class="row pe-0">
     <div class="table-responsive">
         <table class="table align-middle table-nowrap mb-0 border-top">
             <thead class="table-light">
                 <tr scope="row">
-                    <td scope="col">ID</td>
-                    <td scope="col">Name</td>
-                    <td scope="col">Action</td>
+                    <td scope="col">{translation.id[localStorage.getItem("language")]}</td>
+                    <td scope="col">{translation.name[localStorage.getItem("language")]}</td>
+                    <td scope="col">{translation.actions[localStorage.getItem("language")]}</td>
                 </tr>
             </thead>
             <tbody class="list">

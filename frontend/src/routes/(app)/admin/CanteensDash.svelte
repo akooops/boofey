@@ -205,7 +205,7 @@
             </div>
             <div class="modal  fade" id="selectCanteen" tabindex="-1" aria-labelledby="exampleModalgridLabel" aria-modal="true" style="display: none;" >
 
-                <div class="modal-dialog modal-dialog-bottom-right">
+                <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="exampleModalgridLabel">Select Canteen</h5>

@@ -74,7 +74,7 @@
                                     <Progress now={sub.balance} max={sub.days}/>
                                 </td>
                                 <td>
-                                <img src={sub.package.school.full_path} class="avatar-xxs rounded-circle me-1" alt="">
+                                <img src={sub.package.school.logo.full_path} class="avatar-xxs rounded-circle me-1" alt="">
                                 <a href="" class="text-reset">{sub.package.school.name} - {sub.package.name}</a>
                                 </td>
                                 <td class="text-muted">{sub.started_at}</td>

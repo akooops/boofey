@@ -2,6 +2,8 @@
 	import PaymentMethod from "./PaymentMethod.svelte";
     import { onMount, createEventDispatcher } from "svelte";
     const dispatch = createEventDispatcher();
+    import {translation} from "$lib/translation.js"
+
 
     export let paymentMethods
 
@@ -28,14 +30,14 @@
 
 
 <div>
-    <h5 class="mb-1">Payment Selection</h5>
-    <p class="text-muted mb-4">Please select a Payment Method</p>
+    <h5 class="mb-1">{translation.paymentSelection[localStorage.getItem("language")]}</h5>
+    <p class="text-muted mb-4">{translation.pleaseSelectPayment[localStorage.getItem("language")]}</p>
 </div>
 
 <div class="mt-4">
     <div class="d-flex align-items-center mb-2">
         <div class="flex-grow-1">
-            <h5 class="fs-14 mb-0">Saved Payment Methods</h5>
+            <h5 class="fs-14 mb-0">{translation.savedPaymentMethods[localStorage.getItem("language")]}</h5>
         </div>
     </div>
     <div class="row gy-3">
@@ -47,6 +49,6 @@
 </div>
 
 <div class="d-flex align-items-start gap-3 mt-4">
-    <button type="button" class="btn btn-light btn-label previestab" on:click={back}><i class="ri-arrow-left-line label-icon align-middle fs-16 me-2" ></i>Back to Billing Info</button>
-    <button type="button" class="btn btn-primary btn-label right ms-auto nexttab" on:click={SendPaymentMethod} disabled={paymentMethodId == null}><i class="ri-shopping-basket-line label-icon align-middle fs-16 ms-2"></i>Complete Order</button>
+    <button type="button" class="btn btn-light btn-label previestab" on:click={back}><i class="ri-arrow-{localStorage.getItem("language") == "ar" ? "right" : "left"}-line label-icon align-middle fs-16 me-2" ></i>{translation.backToBilling[localStorage.getItem("language")]}</button>
+    <button type="button" class="btn btn-primary btn-label right ms-auto nexttab" on:click={SendPaymentMethod} disabled={paymentMethodId == null}><i class="ri-shopping-basket-line label-icon align-middle fs-16 ms-2"></i>{translation.completeOrder[localStorage.getItem("language")]}</button>
 </div>

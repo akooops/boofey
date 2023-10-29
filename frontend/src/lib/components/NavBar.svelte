@@ -2,6 +2,8 @@
 import UserItem from "../tables/items/UserItem.svelte";
 import {onMount} from "svelte"
 import { page } from '$app/stores';  
+import {translation} from "$lib/translation.js"
+
 
     export let user = {}
 
@@ -51,8 +53,8 @@ import { page } from '$app/stores';
     {
       title: "Pages",
       submenu: [
-        { title: "Students", links: [], route:"/students",icon:"ri-user-2-line"},
-        { title: "Payment Methods", links: [], route:"/paymentMethods",icon:"ri-bank-card-line"},
+        { title: translation.students[localStorage.getItem("language")], links: [], route:"/students",icon:"ri-user-2-line"},
+        { title: translation.paymentMethods[localStorage.getItem("language")], links: [], route:"/paymentMethods",icon:"ri-bank-card-line"},
 
       ],
     },
@@ -61,6 +63,7 @@ import { page } from '$app/stores';
 
 $: {
     menuItems = user?.roles[0]?.name != "parent" ? menuItemsAdmin : menuItemsParent 
+    console.log("this changed boys",menuItems)
 }
 
 function checkEmptySubMenus(){

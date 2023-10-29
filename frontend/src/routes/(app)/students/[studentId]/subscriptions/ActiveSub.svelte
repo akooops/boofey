@@ -2,6 +2,7 @@
 <script>
     import Progress from "$lib/components/Progress.svelte"
     import { getContext } from "svelte";
+    import {translation} from "$lib/translation.js"
 
     export let activeSub
 
@@ -17,7 +18,7 @@
 <div class="card">
     <div class="card-header align-items-center d-flex">
 
-        <h4 class="card-title mb-0 flex-grow-1">Active Subscription</h4>
+        <h4 class="card-title mb-0 flex-grow-1">{translation.ativeSubs[localStorage.getItem("language")]}</h4>
        
         <div class="flex-shrink-0">
             {#if activeSub}
@@ -29,7 +30,7 @@
                     <a href="/invoices/{activeSub.invoice.id}" target="_blank" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Print" ><i class="ri-file-paper-2-line"></i></a>
                 {/if}            <!-- {/if} -->
 
-                    <span data-bs-toggle="modal" data-bs-target="#viewSubModal" on:click={setSub}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-title="View" ><i class="ri-eye-fill"></i></a></span>
+                    <span data-bs-toggle="modal" data-bs-target="#viewSubModal" on:click={setSub}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-title="{translation.view[localStorage.getItem("language")]}" ><i class="ri-eye-fill"></i></a></span>
             </div>
             {/if}
             <!-- <AddSubModal schoolId={school.id}/> -->
@@ -52,13 +53,13 @@
                                         <input class="form-check-input" type="checkbox" id="checkAll" value="option1">
                                     </div>
                                 </th>
-                                <th scope="col">ID</th>
-                                <th scope="col">Package</th>
-                                <th scope="col">Days</th>
-                                <th scope="col">Balance</th>
-                                <th scope="col">Should Start At</th>
-                                <th scope="col">Started At</th>
-                                <th scope="col" class="text-end">Sub Total</th>
+                                <th scope="col">{translation.id[localStorage.getItem("language")]}</th>
+                                <th scope="col">{translation.package[localStorage.getItem("language")]}</th>
+                                <th scope="col">{translation.days[localStorage.getItem("language")]}</th>
+                                <th scope="col">{translation.balance[localStorage.getItem("language")]}</th>
+                                <th scope="col">{translation.shouldStartAt[localStorage.getItem("language")]}</th>
+                                <th scope="col">{translation.startedAt[localStorage.getItem("language")]}</th>
+                                <th scope="col" class="text-end">{translation.subTotal[localStorage.getItem("language")]}</th>
                             </tr>
                         </thead>
                         <tbody class="list">
@@ -85,7 +86,7 @@
                                 </td>
                                 <td>{activeSub.should_start_at == null ? "unset" : activeSub.should_start_at}</td>
                                 <td>{activeSub.started_at}</td>
-                                <td class="text-end">{activeSub.total} SAR</td>
+                                <td class="text-end">{activeSub.total} {translation.sar[localStorage.getItem("language")]}</td>
 
                                 
                         </tbody>
@@ -105,19 +106,19 @@
                         <tbody>
                             {#if activeSub?.coupon}
                             <tr>
-                                <td>Discount <span class="text-muted">({activeSub?.discount})</span> : </td>
-                                <td class="text-end" id="cart-subtotal">{activeSub.discountCalculated.toFixed(3)} SAR</td>
+                                <td>{translation.discount[localStorage.getItem("language")]} <span class="text-muted">({activeSub?.discount})</span> : </td>
+                                <td class="text-end" id="cart-subtotal">{activeSub.discountCalculated.toFixed(3)} {translation.sar[localStorage.getItem("language")]}</td>
                             </tr>
                             {/if}
                             <tr>
-                                <td>Estimated Tax({activeSub.tax}%) : </td>
-                                <td class="text-end" id="cart-discount">- {activeSub.taxCalculated} SAR</td>
+                                <td>{translation.estimatedTax[localStorage.getItem("language")]} ({activeSub.tax}%) : </td>
+                                <td class="text-end" id="cart-discount">- {activeSub.taxCalculated} {translation.sar[localStorage.getItem("language")]}</td>
                             </tr>
                             <tr class="table-active">
-                                <th>Total (SAR) :</th>
+                                <th>{translation.total[localStorage.getItem("language")]} ({translation.sar[localStorage.getItem("language")]}) :</th>
                                 <td class="text-end">
                                     <span class="fw-semibold" id="cart-total">
-                                        {activeSub.total} SAR
+                                        {activeSub.total} {translation.sar[localStorage.getItem("language")]}
                                     </span>
                                 </td>
                             </tr>

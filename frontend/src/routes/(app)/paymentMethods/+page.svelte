@@ -3,6 +3,7 @@
     import PaymentMethodsTable from "$lib/tables/parent/PaymentMethodsTable.svelte";
     import SearchTable from "$lib/components/SearchTable.svelte";
     import { goto } from '$app/navigation';
+    import {translation} from "$lib/translation.js"
     
     // import PaymentMethodsTable from "$lib/tables/PaymentMethodsTable.svelte";
     // import AddPaymentMethodModal from "$lib/modals/add/AddPaymentMethodModal.svelte";
@@ -35,9 +36,9 @@ import { fade } from 'svelte/transition';
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header align-items-center d-flex">
-                    <h4 class="card-title mb-0 flex-grow-1">Payment Methods</h4>
+                    <h4 class="card-title mb-0 flex-grow-1">{translation.paymentMethods[localStorage.getItem("language")]}</h4>
                     <div class="flex-shrink-0">
-                        <button type="button" on:click={addPayment} class="btn btn-primary waves-effect waves-light"><i class="ri-add-line align-bottom me-1"></i>Add Payment Method</button>
+                        <button type="button" on:click={addPayment} class="btn btn-primary waves-effect waves-light"><i class="ri-add-line align-bottom me-1"></i>{translation.addPaymentMethods[localStorage.getItem("language")]}</button>
                         <!-- <AddPaymentMethodModal /> -->
                     </div>
                 </div><!-- end card header -->

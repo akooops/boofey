@@ -2,6 +2,7 @@
     import { getContext } from "svelte";
     import {formatTimestamp} from "$lib/utils.js"
     import ViewRow from "$lib/components/ViewRow.svelte"
+    import {translation} from "$lib/translation.js"
 
     let {studentStore} = getContext("studentStore")
     
@@ -12,42 +13,42 @@
     <div class="modal-dialog modal-dialog-centered" >
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalgridLabel">View Permission</h5>
+                <h5 class="modal-title" id="exampleModalgridLabel">{translation.viewStudent[localStorage.getItem("language")]}</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body p-4">
                 <img class="rounded avatar-xl mb-3 object-fit-cover" alt="Student image" width="200" src={$studentStore?.image?.full_path}>
             
                 <ViewRow>
-                   Name : <span class="fw-normal">{$studentStore?.fullname}</span>
+                    {translation.theName[localStorage.getItem("language")]} : <span class="fw-normal">{$studentStore?.fullname}</span>
                 </ViewRow>
                 <ViewRow>
-                    Status :         {#if $studentStore?.subscribed}
-                    <span class="badge bg-success-subtle text-success">Subscribed</span>
+                    {translation.status[localStorage.getItem("language")]} :         {#if $studentStore?.subscribed}
+                    <span class="badge bg-success-subtle text-success">{translation.subscribed[localStorage.getItem("language")]}</span>
                     {:else}
-                    <span class="badge bg-danger-subtle text-danger">Not Subscribed</span>
+                    <span class="badge bg-danger-subtle text-danger">{translation.notSubscribed[localStorage.getItem("language")]}</span>
                     {/if}
                 </ViewRow>
     
                 <ViewRow>
-                    School :      
+                    {translation.school[localStorage.getItem("language")]} :      
                             <img src={$studentStore?.school?.logo?.full_path} alt="" class="avatar-xs rounded-circle" />
                             {$studentStore?.school?.name}
                 </ViewRow>
     
                 <ViewRow>
-                    Class : <span class="fw-normal">{$studentStore.class}</span>
+                    {translation.class[localStorage.getItem("language")]} : <span class="fw-normal">{$studentStore.class}</span>
                 </ViewRow>
     
                 <ViewRow>
-                    Created at : <span class="fw-normal">{formatTimestamp($studentStore.created_at)}</span>
+                    {translation.createdAt[localStorage.getItem("language")]} : <span class="fw-normal">{formatTimestamp($studentStore.created_at)}</span>
                 </ViewRow>
                 <ViewRow>
-                    Updated at : <span class="fw-normal">{formatTimestamp($studentStore.updated_at)}</span>
+                    {translation.updatedAt[localStorage.getItem("language")]} : <span class="fw-normal">{formatTimestamp($studentStore.updated_at)}</span>
                 </ViewRow>
 
                     <div class="hstack gap-2 justify-content-end">
-                        <button type="button" class="btn btn-light fw-light" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-light fw-light" data-bs-dismiss="modal">{translation.close[localStorage.getItem("language")]}</button>
                     </div>
             </div>
         </div>

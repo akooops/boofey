@@ -71,6 +71,13 @@
                                         <strong class="text-danger ms-1 my-2">{errors.name[0]}</strong>
                                     {/if}
                                 </div>
+                                <div>
+                                    <label for="productarName" class="form-label">Arabic Name</label>
+                                    <input type="text" class="form-control" id="productName" name="name_ar" dir="rtl" placeholder="ادخل اسم المدرسة" bind:value={$schoolStore.name_ar}>
+                                    {#if errors?.name_ar}
+                                    <strong class="text-danger ms-1 my-2">{errors.name_ar[0]}</strong>
+                                    {/if}
+                                </div>
 
 
                                 <div class="mb-2 col-lg-12">
