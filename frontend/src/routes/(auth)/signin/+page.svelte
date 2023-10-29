@@ -33,13 +33,13 @@
             }
 
 
-            // if(resJson?.data?.roles[0]?.name != "parent"){
-            //     goto("/admin")
-            // }else {
-            //     // console.log("not admin")
-            //     goto("/students")
-            // }
-            history.back()
+            if(resJson?.data?.roles[0]?.name != "parent"){
+                goto("/admin")
+            }else {
+                // console.log("not admin")
+                goto("/students")
+            }
+            // history.back()
         }else {
             if(res.status == 422){
                 errors = resJson.errors

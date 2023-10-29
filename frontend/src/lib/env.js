@@ -1,3 +1,5 @@
+import {translation} from "$lib/translation.js"
+
 export const routes = [
     {
       path: /^\/academicYears\/\d+\/academicBreaks$/,
@@ -127,9 +129,9 @@ export const routes = [
     },
     {
       path: /^\/students$/,
-      title: "Students",
-      item: "Students",
-      active: "List",
+      title: translation.students[localStorage.getItem("language")],
+      item: translation.students[localStorage.getItem("language")],
+      active: translation.list[localStorage.getItem("language")],
     },
     {
       path: /^\/students\/\d+$/,
@@ -175,21 +177,21 @@ export const routes = [
     },
     {
       path: /^\/students\/\d+\/subscriptions$/,
-      title: "Subscriptions",
-      item: "Students",
-      active: "Subscriptions",
+      title: translation.subscription[localStorage.getItem("language")],
+      item: translation.students[localStorage.getItem("language")],
+      active: translation.subscription[localStorage.getItem("language")],
     },
     {
       path: /^\/students\/\d+\/choosePackage$/,
-      title: "Packages",
-      item: "Students",
-      active: "Subscribe",
+      title: translation.packages[localStorage.getItem("language")],
+      item: translation.students[localStorage.getItem("language")],
+      active: translation.subscribe[localStorage.getItem("language")],
     },
     {
       path: /^\/students\/\d+\/checkout$/,
-      title: "Checkout",
-      item: "Students",
-      active: "Subscribe",
+      title: translation.checkOut[localStorage.getItem("language")],
+      item: translation.students[localStorage.getItem("language")],
+      active: translation.subscribe[localStorage.getItem("language")],
     },
     {
       path: /^\/students\/\d+\/cart$/,

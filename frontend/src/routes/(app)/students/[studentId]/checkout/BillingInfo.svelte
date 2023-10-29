@@ -153,9 +153,9 @@ function setBillingObj(e){
         <div class="row">
             <div class="col-md-4">
                 <div class="mb-3">
-                    <label for="zip" class="form-label">State</label>
+                    <label for="zip" class="form-label">{translation.state[localStorage.getItem("language")]}</label>
                     <select class="form-select" name="state" id="class" aria-label="Default select example">
-                        <option disabled selected value> -- select a state -- </option>
+                        <option disabled selected value> -- {translation.selectState[localStorage.getItem("language")]} -- </option>
                         {#each states as state}
                             <option value={state.name_en}>{state.name_en}</option>
                         {/each}
@@ -167,8 +167,8 @@ function setBillingObj(e){
             </div>
             <div class="col-md-4">
                 <div class="mb-3">
-                    <label for="zip" class="form-label">City</label>
-                    <input type="text" class="form-control" id="zip" name="city" placeholder="Enter City Name">
+                    <label for="zip" class="form-label">{translation.city[localStorage.getItem("language")]}</label>
+                    <input type="text" class="form-control" id="zip" name="city" placeholder="{translation.enterCity[localStorage.getItem("language")]}">
                     {#if errors?.city}
                         <strong class="text-danger ms-1 my-2">{errors.city[0]}</strong>
                     {/if}
@@ -176,8 +176,8 @@ function setBillingObj(e){
             </div>
             <div class="col-md-4">
                 <div class="mb-3">
-                    <label for="zip" class="form-label">Zip Code</label>
-                    <input type="text" class="form-control" id="zip" name="zipcode" placeholder="Enter zip code">
+                    <label for="zip" class="form-label">{translation.zipCode[localStorage.getItem("language")]}</label>
+                    <input type="text" class="form-control" id="zip" name="zipcode" placeholder={translation.enterZipCode[localStorage.getItem("language")]}>
                     {#if errors?.zipcode}
                     <strong class="text-danger ms-1 my-2">{errors.zipcode[0]}</strong>
                     {/if}

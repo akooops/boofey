@@ -439,7 +439,288 @@ export let translation = {
     proceedtoPayment:{
         en:"Proceed to Payment",
         ar:"الانتقال الى الدفع"
+    },
+    state:{
+        en:"State",
+        ar:"محافظة"
+    },
+    selectState:{
+        en:"select a state",
+        ar:"اختر محافظة"
+    },
+    city:{
+        en:"City",
+        ar:"مدينة"
+    },
+    enterCity:{
+        en:"Enter City Name",
+        ar:"ادخل اسم المدينة"
+    },
+    zipCode:{
+        en:"Zip Code",
+        ar:"الرمز البريدي (Zip)"
+    },
+    enterZipCode:{
+        en:"Enter Zip Code",
+        ar:"ادخل الرمز البريدي"
+    },
+    areYouSureYouWantToDelAddress:{
+        en:"Are you Sure You want to Delete this address",
+        ar:" هل انت متاكد من انك تريد حذف هذا العنوان"
+    },
+    editBillingAddress:{
+        en:"Edit Billing Address",
+        ar:"تعديل عنوان الفوترة"
+    },
+    paymentSelection:{
+        en:"Payment Selection",
+        ar:"اختيار وسيلة الدفع"
+    },
+    pleaseSelectPayment:{
+        en:"Please select a Payment Method",
+        ar:"الرجاء اختيار طريقة الدفع"
+    },
+    savedPaymentMethods:{
+        en:"Saved Payment Methods",
+        ar:"وسائل الدفع المحفوظة"
+    },
+    backToBilling:{
+        en:"Back To Billing Info",
+        ar:"الرجوع الى معلومات الفوترة"
+    },
+    completeOrder:{
+        en:"Complete Order",
+        ar:"تاكيد الطلب"
+    },
+    error:{
+        en:"Error",
+        ar:"خطأ"
+    },
+    addStudent:{
+        en:"Add Student",
+        ar:"اضف طالب"
+    },
+    selectClass:{
+        en:"select a class",
+        ar:"اختر قسم"
+    },
+    primarySchool:{
+        en:"Primary School",
+        ar:"ابتدائية"
+    },
+    middleSchool:{
+        en:"Middle School",
+        ar:"المتوسط"
+
+    },
+    secondarySchool:{
+        en:"Secondary School",
+        ar:"الثانوية"
+    },
+    grade:{
+        en:"Grade",
+        ar:"فصل"
+    },
+    onHold:{
+        en:"On Hold",
+        ar:"مجمد"
+    },
+    save:{
+        en:"Save",
+        ar:"حفظ"
+    },
+    nfcId:{
+        en:"NFC ID",
+        ar:"معرف NFC"
+    },
+    faceId:{
+        en:"Face ID",
+        ar:"معرف الوجه"
+    },
+    launchCamera:{
+        en:"Launch Camera",
+        ar:"شغل الكاميرا"
+    },
+    stopCamera:{
+        en:"Stop Camera",
+        ar:"اوقف الكاميرا"
+    },
+    takeAnother:{
+        en:"Take Another",
+        ar:"التقط اخرى"
+    },
+    studentSchool:{
+        en:"Student's School",
+        ar:"مدرسة الطالب"
+    },
+    name:{
+        en:"name",
+        ar:"الاسم"
+        
+    },
+    editStudent:{
+        en:"Edit Student",
+        ar:"تعديل الطالب"
+    },
+    editImage:{
+        en:"Edit Image",
+        ar:"تعديل الصورة"
+    },
+    currentStudentImage:{
+        en:"Current Student image",
+        ar:"صورة الطالب الحالية"
+    },
+    profile:{
+        en:"Profile",
+        ar:"الملف الشخصي"
+    },
+    logOut:{
+        en:"Logout",
+        ar:"تسجيل الخروج"
+    },
+    info:{
+        en:"Info",
+        ar:"المعلومات"
+    },
+    editProfile:{
+        en:"Edit Profile",
+        ar:"تعديل الملف الشخصي"
+    },
+    about:{
+        en:"About",
+        ar:"حولك"
+    },
+    noDescription:{
+        en:"No Description Available",
+        ar:"لا يوجد شرح"
+    },
+    youCanAddDescription:{
+        en:"you can add a description by editing your profile",
+        ar:"يمكنك اضافة شرح عبر تعديل ملفك الشخصي"
+    },
+    personalDetails:{
+        en:"Personal Details",
+        ar:"المعلومات الشخصية"
+    },
+    changePass:{
+        en:"Change Password",
+        ar:"تغيير كلمة المرور"
+    },
+    description:{
+        en:"Description",
+        ar:"الوصف"
+    },
+    enterDescription:{
+        en:"Enter your description",
+        ar:"ادخل الوصف"
+    },
+    update:{
+        en:"Update",
+        ar:"حفظ التعديل"
+    },
+    currentPass:{
+        en:"Current Password",
+        ar:"كلمة المرور الحالية"
+    },
+    enterCurrentPass:{
+        en:"Enter Current Password",
+        ar:"ادخل كلمة المرور الحالية"
+    },
+    newPass:{
+        en:"New Password",
+        ar:"كلمة المرور الجديدة"
+    },
+    enterNewPass:{
+        en:"Enter New Password",
+        ar:"ادخل كلمة المرور الجديدة"
+    },
+    enterPhoneAndReset:{
+        en:"Enter your Phone Number and a reset code will be sent to you !",
+        ar:"ادخل رقم هاتفك وسيصلك رمز تاكيد"
+    },
+    sendResetCode:{
+        en:"Send Reset Code",
+        ar:"ارسل رمز التاكيد"
+    },
+    iRemember:{
+        en:"Wait, I remember my password",
+        ar:"لحظة, تذكرت كلمة المرور"
+    },
+    clickHere:{
+        en:"Click Here",
+        ar:"اضغط هنا"
+    },
+    createNewPass:{
+        en:"Create New Password",
+        ar:"انشاء كلمة مرور جديدة"
+    },
+    enterNewPasswordAndToken:{
+        en:"Enter a new password , and the token that has been sent to your phone",
+        ar:"أدخل كلمة المرور الجديدة ورمز التاكيد الذي تم إرساله إلى هاتفك"
+    },
+    verificationCode:{
+        en:"Verification Code",
+        ar:"رمز التاكيد"
+    },
+    enterVerificationCode:{
+        en:"Enter Verification Code",
+        ar:"ادخل رمز التايكد"
+    },
+    resetPass:{
+        en:"Reset Password",
+        ar:"تغيير كلمة المرور"
+    },
+    didntReceiveCode:{
+        en:"Didn't receive the code",
+        ar:"لم تستقبل الرمز"
+    },
+    resend:{
+        en:"Resend",
+        ar:"اعادة الارسال"
+    },
+    youNeedToWait:{
+        en:"You need to wait",
+        ar:"يجب ان تنتظر"
+    },
+    inOrderToResend:{
+        en:"in order to resend again",
+        ar:"من اجل ان ترسل مرة اخرى"
+    },
+    success:{
+        en:"Success",
+        ar:"نجاح"
+    },
+    passChangedSuccess:{
+        en:"your password has been changed successfully",
+        ar:"تم تغيير كلمة المرور بنجاح"
+    },
+    VerifyYourAcc:{
+        en:"Verify Your Account",
+        ar:"تاكيد الحساب"
+    },
+    enterSix:{
+        en:"Please enter the 6 digits code sent to your phone number",
+        ar:"يرجى ادخال الرمز المكون من 6 الارقام المنرسل الى رقم هاتفك"
+    },
+    confirm:{
+        en:"Confirm",
+        ar:"تاكيد"
+    },
+    list:{
+        en:"List",
+        ar:"قائمة"
+    },
+    packages:{
+        en:"Packages",
+        ar:"الباقات"
+    },
+    checkOut:{
+        en:"Checkout",
+        ar:"الدفع"
     }
+    
+    
+
 
     
 

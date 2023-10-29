@@ -1,6 +1,8 @@
 <script>
 import PersonalDetails from "./PersonalDetails.svelte"
 import ChangePassword from "./ChangePassword.svelte"
+import {translation} from "$lib/translation.js"
+
 
 export let data
 $: user = data.profileResponse.data.user
@@ -27,12 +29,12 @@ $: user = data.profileResponse.data.user
                     <ul class="nav nav-tabs-custom rounded card-header-tabs border-bottom-0" role="tablist">
                         <li class="nav-item">
                             <a class="nav-link active" data-bs-toggle="tab" href="#personalDetails" role="tab">
-                                <i class="fas fa-home"></i> Personal Details
+                                <i class="fas fa-home"></i> {translation.personalDetails[localStorage.getItem("language")]}
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" data-bs-toggle="tab" href="#changePassword" role="tab">
-                                <i class="far fa-user"></i> Change Password
+                                <i class="far fa-user"></i> {translation.changePass[localStorage.getItem("language")]}
                             </a>
                         </li>
                     </ul>

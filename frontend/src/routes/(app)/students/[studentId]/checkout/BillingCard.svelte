@@ -159,7 +159,7 @@
                             {#if error}
                             <div class="mb-4">
                                 <lord-icon src="https://cdn.lordicon.com/tdrtiskw.json" trigger="loop" colors="primary:#f06548,secondary:#f7b84b" style="width:120px;height:120px"></lord-icon>
-                                <h5 class="text-danger">Error</h5>
+                                <h5 class="text-danger">{translation.error[localStorage.getItem("language")]}</h5>
                                 <p class="text-muted">{error}</p>
                                 <p class="text-muted">{translation.goBackTo[localStorage.getItem("language")]} <a href="/students" class="text-decoration-underline">{translation.students[localStorage.getItem("language")]}</a></p>
 

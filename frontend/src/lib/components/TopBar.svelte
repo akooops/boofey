@@ -2,6 +2,7 @@
     import {PathLogOut} from "$lib/api/paths.js"
     import { goto } from '$app/navigation';
     import { page } from '$app/stores';
+    import {translation} from "$lib/translation.js"
 
     export let user
 
@@ -79,7 +80,7 @@
                     <!-- item-->
                     <a href="javascript:void(0);" class="dropdown-item notify-item language" data-lang="ar" title="Arabic">
                         <img src="/assets/images/flags/ae.svg" alt="user-image" class="me-2 rounded" height="18">
-                        <span class="align-middle">Arabic</span>
+                        <span class="align-middle">العربية</span>
                     </a>
                 </div>
             </div>
@@ -296,9 +297,8 @@
                 </button>
                 <div class="dropdown-menu dropdown-menu-end">
                     <!-- item-->
-                    <h6 class="dropdown-header">Welcome {user?.profile?.fullname}!</h6>
-                    <a class="dropdown-item" on:click={profile} href="javascript:void(0);"><i class="mdi mdi-account-circle text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Profile</span></a>
-                    <a class="dropdown-item" on:click={logOut} href=""><i class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i> <span class="align-middle" data-key="t-logout" >Logout</span></a>
+                    <a class="dropdown-item" on:click={profile} href="javascript:void(0);"><i class="mdi mdi-account-circle text-muted fs-16 align-middle me-1"></i> <span class="align-middle">{translation.profile[localStorage.getItem("language")]}</span></a>
+                    <a class="dropdown-item" on:click={logOut} href=""><i class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i> <span class="align-middle" data-key="t-logout" >{translation.logOut[localStorage.getItem("language")]}</span></a>
                 </div>
             </div>
         </div>

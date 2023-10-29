@@ -3,6 +3,7 @@
     import { toast } from "$lib/components/toast.js";
     import { invalidate } from '$app/navigation';
     import { redirector } from "$lib/api/auth";
+    import {translation} from "$lib/translation.js"
     
 
     export let user 
@@ -75,8 +76,8 @@
 
                 <div class="col-xxl-6">
                     <div class="mb-3">
-                        <label for="firstnameInput" class="form-label">First Name</label>
-                        <input type="text" class="form-control" id="firstnameInput" placeholder="Enter your firstname" name="firstname" bind:value={user.profile.firstname}>
+                        <label for="firstnameInput" class="form-label">{translation.firstName[localStorage.getItem("language")]}</label>
+                        <input type="text" class="form-control" id="firstnameInput" placeholder={translation.enterFirstName[localStorage.getItem("language")]} name="firstname" bind:value={user.profile.firstname}>
                         {#if errors?.firstname}
                         <strong class="text-danger ms-1 my-2">{errors.firstname[0]}</strong>
                     {/if}
@@ -85,8 +86,8 @@
                 <!--end col-->
                 <div class="col-xxl-6">
                     <div class="mb-3">
-                        <label for="lastnameInput" class="form-label">Last Name</label>
-                        <input type="text" class="form-control" id="lastnameInput" placeholder="Enter your lastname"name="lastname" bind:value={user.profile.lastname}>
+                        <label for="lastnameInput" class="form-label">{translation.lastName[localStorage.getItem("language")]}</label>
+                        <input type="text" class="form-control" id="lastnameInput" placeholder={translation.enterLastName[localStorage.getItem("language")]} name="lastname" bind:value={user.profile.lastname}>
                         {#if errors?.lastname}
                         <strong class="text-danger ms-1 my-2">{errors.lastname[0]}</strong>
                     {/if}
@@ -95,8 +96,8 @@
                 <!--end col-->
                 <div class="col-lg-12">
                     <div class="mb-3 pb-2">
-                        <label for="exampleFormControlTextarea" class="form-label">Description</label>
-                        <textarea class="form-control" id="exampleFormControlTextarea" placeholder="Enter your description" bind:value={user.profile.description} name="description" rows="4"></textarea>
+                        <label for="exampleFormControlTextarea" class="form-label">{translation.description[localStorage.getItem("language")]}</label>
+                        <textarea class="form-control" id="exampleFormControlTextarea" placeholder={translation.enterDescription[localStorage.getItem("language")]} bind:value={user.profile.description} name="description" rows="4"></textarea>
                         {#if errors?.description}
                         <strong class="text-danger ms-1 my-2">{errors.description[0]}</strong>
                     {/if}
@@ -105,7 +106,7 @@
                 <!--end col-->
                 <div class="col-lg-12">
                     <div class="hstack gap-2 justify-content-end">
-                        <button type="submit" class="btn btn-primary">Update</button>
+                        <button type="submit" class="btn btn-primary">{translation.update[localStorage.getItem("language")]}</button>
                     </div>
                 </div>
                 

@@ -4,6 +4,7 @@
     import { invalidate } from '$app/navigation';
     import { getContext } from "svelte";
     import { redirector } from "$lib/api/auth";
+    import {translation} from "$lib/translation.js"
 
 
     let close
@@ -41,8 +42,8 @@
                 </div>
                 <div class="mt-2">
                     <lord-icon src="https://cdn.lordicon.com/gsqxdxog.json" trigger="loop" colors="primary:#f7b84b,secondary:#f06548" style="width:100px;height:100px"></lord-icon>
-                    <h4 class="mb-3 mt-4">Are you Sure ?</h4>
-                    <p class="text-muted fs-15 mb-4">Are you Sure You want to Delete this Address ?</p>
+                    <h4 class="mb-3 mt-4">{translation.areYouSure[localStorage.getItem("language")]} {translation["?"][localStorage.getItem("language")]}</h4>
+                    <p class="text-muted fs-15 mb-4">{translation.areYouSureYouWantToDelAddress[localStorage.getItem("language")]} {translation["?"][localStorage.getItem("language")]}</p>
                         <div class="card-radio mb-4" >
                             <label class="form-check-label text-start">
                                 <span class="fs-14 mb-2 d-block">{billingObj?.firstname} {billingObj?.lastname}</span>
@@ -55,8 +56,8 @@
                             </label>
                         </div>
                     <div class="hstack gap-2 justify-content-center"> 
-                        <button type="button" class="btn btn-light fw-light" data-bs-dismiss="modal" bind:this={close}>Close</button>
-                        <button type="button" class="btn btn-danger waves-effect waves-light" on:click={deleteTarget}>Delete</button>
+                        <button type="button" class="btn btn-light fw-light" data-bs-dismiss="modal" bind:this={close}>{translation.close[localStorage.getItem("language")]}</button>
+                        <button type="button" class="btn btn-danger waves-effect waves-light" on:click={deleteTarget}>{translation.delete[localStorage.getItem("language")]}</button>
                     </div>
                 </div>
             </div>
