@@ -82,7 +82,7 @@ class ProfilesController extends Controller
             return response()->json([
                 'status' => 'error',
                 'errors' => [
-                    'old_password' => 'The old password is incorrect.'
+                    'old_password' => __('translations.incorrect_old_password')
                 ],
             ], 422);
         }

@@ -8,5 +8,7 @@ return [
     'can_generate_invoice' => 'This subscription already have a generated invoice.',
     'is_verified' => 'This user is already verified.',
     'invalid_verification_code' => 'Invalid or expired verification code. Please try again.',
-    'invalid_password_reset_token' => 'Invalid or expired password reset token. Please try again.'
+    'invalid_password_reset_token' => 'Invalid or expired password reset token. Please try again.',
+
+    'incorrect_old_password' => 'The old password is incorrect.'
 ];
