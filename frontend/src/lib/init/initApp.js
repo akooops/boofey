@@ -351,7 +351,7 @@ function twoColumnMenuGenerate() {
 
     if (defaultValues && (isTwoColumn == "twocolumn" || defaultValues["data-layout"] == "twocolumn")) {
         if (document.querySelector(".navbar-menu")) {
-            document.querySelector(".navbar-menu").innerHTML = navbarMenuHTML;
+            // document.querySelector(".navbar-menu").innerHTML = navbarMenuHTML;
         }
         var ul = document.createElement("ul");
         ul.innerHTML = '<a href="#" class="logo"><img src="assets/images/logo-sm.png" alt="" height="22"></a>';
@@ -590,7 +590,7 @@ function initLeftMenuCollapse() {
     if (document.documentElement.getAttribute("data-layout") == "vertical" || document.documentElement.getAttribute("data-layout") == "semibox") {
         document.getElementById("two-column-menu").innerHTML = "";
         if (document.querySelector(".navbar-menu")) {
-            document.querySelector(".navbar-menu").innerHTML = navbarMenuHTML;
+            // document.querySelector(".navbar-menu").innerHTML = navbarMenuHTML;
         }
         document.getElementById("scrollbar").setAttribute("data-simplebar", "");
         document.getElementById("navbar-nav").setAttribute("data-simplebar", "");
@@ -615,6 +615,7 @@ function initLeftMenuCollapse() {
 
 function isLoadBodyElement() {
     var verticalOverlay = document.getElementsByClassName("vertical-overlay");
+    
     if (verticalOverlay) {
         Array.from(verticalOverlay).forEach(function (element) {
             element.addEventListener("click", function () {
@@ -1097,7 +1098,7 @@ export function counter() {
 function updateHorizontalMenus() {
     document.getElementById("two-column-menu").innerHTML = "";
     if (document.querySelector(".navbar-menu")) {
-        document.querySelector(".navbar-menu").innerHTML = navbarMenuHTML;
+        // document.querySelector(".navbar-menu").innerHTML = navbarMenuHTML;
     }
     document.getElementById("scrollbar").removeAttribute("data-simplebar");
     document.getElementById("navbar-nav").removeAttribute("data-simplebar");
@@ -1137,7 +1138,7 @@ function hideShowLayoutOptions(dataLayout) {
     if (dataLayout == "vertical") {
         document.getElementById("two-column-menu").innerHTML = "";
         if (document.querySelector(".navbar-menu")) {
-            document.querySelector(".navbar-menu").innerHTML = navbarMenuHTML;
+            // document.querySelector(".navbar-menu").innerHTML = navbarMenuHTML;
         }
         if (document.getElementById("theme-settings-offcanvas")) {
             document.getElementById("sidebar-size").style.display = "block";
@@ -1185,7 +1186,7 @@ function hideShowLayoutOptions(dataLayout) {
     } else if (dataLayout == "semibox") {
         document.getElementById("two-column-menu").innerHTML = "";
         if (document.querySelector(".navbar-menu")) {
-            document.querySelector(".navbar-menu").innerHTML = navbarMenuHTML;
+            // document.querySelector(".navbar-menu").innerHTML = navbarMenuHTML;
         }
         if (document.getElementById("theme-settings-offcanvas")) {
             document.getElementById("sidebar-size").style.display = "block";
@@ -1952,6 +1953,8 @@ export function initApp() {
     initLanguage();
     isCollapseMenu();
     initMenuItemScroll();
+    isLoadBodyElement();
+
     var timeOutFunctionId;
 
     function setResize() {
