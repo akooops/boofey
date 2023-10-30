@@ -17,11 +17,14 @@
     let resendAvailable = true
     let time = "01:00"
     let timeLeft = 58
+    let loading = false
 
 
     async function sendPhone(){
+        loading = true
         errors = {}
         let formData = new FormData(form)
+        formData.set("lang",localStorage.getItem("language"))
 
         let res = await fetch(generatePasswordResetToken(),{
             method:"POST",
@@ -37,13 +40,18 @@
             errors = res.errors
         }
 
+        loading = false
+
     }
 
 
 async function resetPassword(){
+    loading = true
         errors = {}
         let formData = new FormData(form)
         formData.set("phone",phone)
+        formData.set("lang",localStorage.getItem("language"))
+
         let res = await fetch(passwordReset(),{
             method:"POST",
             body:formData
@@ -56,6 +64,7 @@ async function resetPassword(){
         }else {
             errors = res.errors
         }
+        loading = false
 
     }
 
@@ -68,6 +77,7 @@ async function resetPassword(){
 async function genCode(){
         let formData = new FormData(form)
         formData.set("phone",phone)
+        
         let res = await fetch(generatePasswordResetToken(),{
             method:"POST",
             body:formData
@@ -122,7 +132,13 @@ function updateTimer() {
                             <strong class="text-danger ms-1 my-2">{errors.phone[0]}</strong>
                         {/if}
                         <div class="text-center mt-4">
-                            <button class="btn btn-info w-100" type="submit">{translation.sendResetCode[localStorage.getItem("language")]}</button>
+                            <button class="btn btn-info w-100 btn-load" type="submit" disabled={loading}>
+                                {#if loading}
+                                <span class="spinner-border " role="status"></span>
+                                {:else}
+                                {translation.sendResetCode[localStorage.getItem("language")]}
+                                {/if}                                        
+                            </button>
                         </div>
                     </form><!-- end form -->
                 </div>
@@ -182,7 +198,13 @@ function updateTimer() {
                         </div>
 
                         <div class="mt-4">
-                            <button class="btn btn-success w-100" type="submit">{translation.resetPass[localStorage.getItem("language")]}</button>
+                            <button class="btn btn-info w-100 btn-load" type="submit" disabled={loading}>
+                                {#if loading}
+                                <span class="spinner-border " role="status"></span>
+                                {:else}
+                                {translation.resetPass[localStorage.getItem("language")]}
+                                {/if}                                        
+                            </button>
                         </div>
 
                     </form>

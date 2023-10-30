@@ -74,6 +74,7 @@
         if(editImage) formData.set("file", imageDataURLToFile(imageDataURL))    
     
         formData.set("onhold",onHold)
+        formData.set("lang",localStorage.getItem("language"))
 
         let res = await fetch(PathUpdateStudent($studentStore.id,"parent"),{
             headers:{

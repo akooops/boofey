@@ -28,7 +28,8 @@ async function SendAdress(){
     if(newAdress){
         errors = {}
         let formData = new FormData(form)
-
+        
+        formData.set("lang",localStorage.getItem("language"))
         let res = await fetch(PathAddBilling(),{
             headers:{
                 Authorization: `${localStorage.getItem("SID")}`

@@ -12,10 +12,13 @@
     let form 
     let message = ""
     let errors 
+    let loading = false
     async function signup(){
+        loading = true
         errors = {}
         message = ""
         let formData = new FormData(form)
+        formData.set("lang",localStorage.getItem("language"))
 
         let res = await fetch(PathRegister(),{
             method:"POST",
@@ -33,8 +36,8 @@
                 message = resJson.message
             }
         }
-
-
+        
+    loading = false
     }
 
     onMount(() => {
@@ -126,7 +129,14 @@
                                         <strong class="text-danger ms-1 my-2">{message}</strong>
                                         {/if}
                                     <div class="mt-4">
-                                        <button class="btn btn-info w-100" type="submit">{translation.signUp[localStorage.getItem("language")]}</button>
+                                        <button class="btn btn-info w-100 btn-load" type="submit" disabled={loading}>
+                                            {#if loading}
+                                            <span class="spinner-border " role="status"></span>
+                                            {:else}
+                                            {translation.signUp[localStorage.getItem("language")]}
+
+                                            {/if}                                        
+                                        </button>
                                     </div>
                                 </form>
                             </div>
