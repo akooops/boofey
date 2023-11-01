@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\File;
+use App\Models\PackageFeature;
 use App\Models\School;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Arr;
@@ -44,6 +45,15 @@ class PackageFactory extends Factory
     {
         return $this->afterCreating(function (\App\Models\Package $package) {
             $randomSchoolId = School::inRandomOrder()->value('id');
+
+            $packageFeature = PackageFeature::create([
+                'package_id' => $package->id,
+                'name' => fake()->text(6),
+                'name_ar' => fake()->text(6),
+                'checked' => fake()->boolean(75) ? true : false,
+            ]);
+
+            $packageFeature->save();
 
             $package->school_id = $randomSchoolId;
             $package->save();
