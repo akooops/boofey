@@ -70,6 +70,7 @@ import {translation} from "$lib/translation.js"
         
         formData.set("file",imageDataURLToFile(imageDataURL))
 
+        formData.set("lang",localStorage.getItem("language"))
         let res = await fetch(PathAddStudent("parent"),{
             headers:{
                 Authorization: `${localStorage.getItem("SID")}`

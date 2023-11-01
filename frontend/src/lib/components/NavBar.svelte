@@ -63,7 +63,6 @@ import {translation} from "$lib/translation.js"
 
 $: {
     menuItems = user?.roles[0]?.name != "parent" ? menuItemsAdmin : menuItemsParent 
-    console.log("this changed boys",menuItems)
 }
 
 function checkEmptySubMenus(){
@@ -152,9 +151,15 @@ onMount(() => {
 
 
                             <li class="nav-item">
+                                {#if submenu.route == "/admin"}
+                                <a class="nav-link menu-link" class:active={$page.url.pathname == "/admin"} href="{submenu.route}"  role="button" aria-expanded="false" >
+                                    <i class="{submenu.icon}"></i> <span >{submenu.title}</span>
+                                </a>
+                                {:else}
                                 <a class="nav-link menu-link" class:active={$page.url.pathname.includes(submenu.route)} href="{submenu.route}"  role="button" aria-expanded="false" >
                                     <i class="{submenu.icon}"></i> <span >{submenu.title}</span>
                                 </a>
+                                {/if}
                             </li>
                             {/if}
                         <!-- {/if} -->

@@ -12,7 +12,10 @@
     let time = "01:00"
     let timeLeft = 58
     let resendAvailable = true
+    let loading = false
     async function verify(){
+        loading = true
+
         errors = {}
         message = ""
         let formData = new FormData(form)
@@ -27,6 +30,7 @@
 
         formData = new FormData()
         formData.set("verification_code",allValues.join(''))
+        formData.set("lang",localStorage.getItem("language"))
 
         let res = await fetch(PathGenVerify(),{
             method:"POST",
@@ -48,6 +52,7 @@
                 errors = res.errors
         }
 
+        loading = false
 
     }
 
@@ -178,7 +183,13 @@
                                     </div>
                                 {/if}
                                 <div class="mt-3">
-                                    <button type="button" class="btn btn-info w-100">{translation.confirm[localStorage.getItem("language")]}</button>
+                                    <button class="btn btn-info w-100 btn-load" type="submit" disabled={loading}>
+                                        {#if loading}
+                                        <span class="spinner-border " role="status"></span>
+                                        {:else}
+                                        {translation.confirm[localStorage.getItem("language")]}
+                                        {/if}                                        
+                                    </button>
                                 </div>
                             </div>
                         </div>

@@ -18,6 +18,7 @@
         errors = {}
     
         let formData = new FormData(form)    
+        formData.set("lang",localStorage.getItem("language"))
         
         let res = await fetch(PathUpdateBilling(billingObj.id),{
             headers:{

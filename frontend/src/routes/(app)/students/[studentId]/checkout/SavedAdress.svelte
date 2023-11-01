@@ -26,7 +26,7 @@
             <span class="fs-14 mb-2 d-block">{billing.firstname} {billing.lastname}</span>
             <span class="text-muted fw-normal text-wrap mb-1 d-block">{billing.email}</span>
             <span class="text-muted fw-normal text-wrap mb-1 d-block">{billing.phone}</span>
-            <span class="text-muted fw-normal text-wrap mb-1 d-block">{billing.country},{billing.state},{billing.zipcode}</span>
+            <span class="text-muted fw-normal text-wrap mb-1 d-block">{billing.state},{billing.city},{billing.zipcode}</span>
             <span class="text-muted fw-normal text-wrap mb-1 d-block">{billing.address}</span>
 
         </label>
