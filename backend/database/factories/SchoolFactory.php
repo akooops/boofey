@@ -50,6 +50,7 @@ class SchoolFactory extends Factory
                 'path' => 'schools',
             ]); 
 
+            $school->createDefaulAcademicYear();
             $school->file_id = $file->id;
             $school->save();
         });

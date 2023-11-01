@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Father;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -37,6 +38,9 @@ class UserFactory extends Factory
             if ($role === 'parent') {
                 $parentRole = Role::findByName('parent');
                 $user->assignRole($parentRole);
+
+                $father = Father::create(['user_id' => $user->id]);
+                $father->save();
             }
         
             if ($role === 'admin') {
