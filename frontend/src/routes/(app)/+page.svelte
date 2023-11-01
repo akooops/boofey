@@ -7,6 +7,8 @@
     onMount(async () => {
         if(data.userResponse.data.user.roles[0].name == "admin"){
             await goto("/admin")
+        }else{
+            await goto("/students")
         }
         loaded = true
     })
