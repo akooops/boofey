@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\URL;
 
 class Profile extends Model
 {
+    use HasFactory;
+
     protected $appends = ['fullname'];
 
     protected $fillable = [
