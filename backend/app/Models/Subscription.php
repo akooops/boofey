@@ -59,12 +59,12 @@ class Subscription extends Model
         parent::booted();
 
         static::creating(function ($subscription) {
-            $prefix = 'SUBSCRIPTION';
+            $prefix = 'BS';
             $ref = null;
 
             do {
                 $datePart = Carbon::now()->format('dmy');
-                $randomPart = strtoupper(Str::random(8));
+                $randomPart = strtoupper(Str::random(6));
                 $ref = "{$prefix}-{$datePart}{$randomPart}";
 
             } while (Subscription::where('ref', $ref)->exists());
@@ -74,12 +74,12 @@ class Subscription extends Model
     }
 
     public function generateRef(){
-        $prefix = 'SUBSCRIPTION';
+        $prefix = 'BS';
         $ref = null;
 
         do {
             $datePart = Carbon::now()->format('dmy');
-            $randomPart = strtoupper(Str::random(8));
+            $randomPart = strtoupper(Str::random(6));
             $ref = "{$prefix}-{$datePart}{$randomPart}";
 
         } while (Subscription::where('ref', $ref)->exists());

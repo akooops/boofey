@@ -58,18 +58,18 @@ class Payment extends Model
     {
         parent::booted();
 
-        static::creating(function ($subscription) {
-            $prefix = 'PAYMENT';
+        static::creating(function ($payment) {
+            $prefix = 'BP';
             $ref = null;
 
             do {
                 $datePart = Carbon::now()->format('dmy');
-                $randomPart = strtoupper(Str::random(8));
+                $randomPart = strtoupper(Str::random(6));
                 $ref = "{$prefix}-{$datePart}{$randomPart}";
 
-            } while (Subscription::where('ref', $ref)->exists());
+            } while (Payment::where('ref', $ref)->exists());
 
-            $subscription->ref = $ref;
+            $payment->ref = $ref;
         });
     }
 

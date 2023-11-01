@@ -42,18 +42,18 @@ class Invoice extends Model
     {
         parent::booted();
 
-        static::creating(function ($subscription) {
-            $prefix = 'INVOICE';
+        static::creating(function ($invoice) {
+            $prefix = 'BI';
             $ref = null;
 
             do {
                 $datePart = Carbon::now()->format('dmy');
-                $randomPart = strtoupper(Str::random(8));
+                $randomPart = strtoupper(Str::random(6));
                 $ref = "{$prefix}-{$datePart}{$randomPart}";
 
-            } while (Subscription::where('ref', $ref)->exists());
+            } while (Invoice::where('ref', $ref)->exists());
 
-            $subscription->ref = $ref;
+            $invoice->ref = $ref;
         });
     }
 
