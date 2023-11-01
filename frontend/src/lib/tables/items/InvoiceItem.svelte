@@ -25,9 +25,18 @@
         </div>
     </td>
     <td>{invoice.id}</td>
-    <td>{invoice.subscription.ref}</td>
+    <td> 
+        {#if invoice?.subscription?.ref == null}
+        <span class="badge bg-danger-subtle text-danger">not found</span> 
+        {:else}
+        {invoice.subscription.ref}
+        {/if}
+    </td>
     <td>{invoice.generated_at}</td>
     <td>
+        {#if invoice?.subscription?.ref == null}
+        <span class="badge bg-danger-subtle text-danger">not found</span> 
+        {:else}
         <div class="d-flex gap-2 align-items-center">
             <div class="flex-shrink-0">
                 <img src={invoice.subscription.package.school.logo.full_path} alt="" class="avatar-xs rounded-circle" />
@@ -36,6 +45,7 @@
                 {invoice.subscription.package.school.name} - {invoice.subscription.package.name}
             </div>
         </div>
+        {/if}
     </td>
     <td>
         <div class="d-flex gap-2 align-items-center">
@@ -48,6 +58,9 @@
         </div>
     </td>
     <td>
+        {#if invoice?.subscription?.ref == null}
+        <span class="badge bg-danger-subtle text-danger">not found</span> 
+        {:else}
         <div class="d-flex gap-2 align-items-center">
             <div class="flex-shrink-0">
                 <img src={invoice.subscription.student.image.full_path} alt="" class="avatar-xs rounded-circle" />
@@ -56,6 +69,7 @@
                 {invoice.subscription.student.fullname}
             </div>
         </div>
+        {/if}
     </td>
     <td>
         <div class="hstack gap-3 flex-wrap">

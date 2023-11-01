@@ -1,7 +1,96 @@
 <script>
-
+import ThermalPrinterEncoder from 'thermal-printer-encoder';
+import WebUSBReceiptPrinter from "$lib/WebUsbPrinter.js"
+import {onMount} from "svelte"
 
     export let order
+    let receiptPrinter
+
+
+    function makeOrdersTable(){
+
+        let orderItems = []
+        orderItems.push([(encoder) => encoder.rule({ style: 'single' }),(encoder) => encoder.rule({ style: 'single' }),(encoder) => encoder.rule({ style: 'single' })])
+        
+        for(let orderItem of order.order_items){
+            let row = [
+                `${orderItem.qty}x`,
+                (encoder) => encoder.line(`${orderItem.product.name}`).size("small").text(`${orderItem.product.category.name}`).size("normal"),
+                `${orderItem.price * orderItem.qty} SAR`
+            ]
+
+            orderItems.push(row)
+
+        }
+
+        let table = {
+            columns:[
+                {  marginRight: 2, align: 'left' },
+                {  align: 'left' },
+                {  align: 'right' }
+            ],
+            rows:orderItems,
+        }
+
+
+        return table;
+    }
+
+    function makeOrderSummaryTable(){
+
+
+        let table = {
+            columns:[
+                {  align: 'left' },
+                {  align: 'right' }
+            ],
+            rows:[
+                ["Sub Total :",`${order.subtotal} SAR`],
+                [(encoder) => encoder.rule({ style: 'single' }),(encoder) => encoder.rule({ style: 'single' })],
+                [`Discount (${order.discount}%) `,`-${order.discountCalculated} SAR`],
+                [`Estimated Tax (${order.tax}%) :`,`+${order.taxCalculated} SAR`],
+                [(encoder) => encoder.rule({ style: 'single' }),(encoder) => encoder.rule({ style: 'single' })],
+                [(encoder) => encoder.bold().text("Total : ").bold(),(encoder) => encoder.bold().text(`${order.total} SAR`).bold()],
+                [(encoder) => encoder.rule({ style: 'single' }),(encoder) => encoder.rule({ style: 'single' })],
+            ],
+        }
+
+
+        return table;
+    }
+
+    function print(){
+        console.log(order)
+        let encoder = new ThermalPrinterEncoder({
+            language: 'esc-pos'
+        });
+
+        let ordersTable = makeOrdersTable()
+        let orderSummaryTable = makeOrderSummaryTable()
+
+        let result = encoder
+            .initialize()
+            .line('Boofey')
+            .line(`email: Boofey@Boofey.com`)
+            .line(`phone: 05000000`)
+            .rule({ style: 'single' })  
+            .table(ordersTable.columns,ordersTable.rows)
+            .rule({ style: 'single' })  
+            .table(orderSummaryTable.columns,orderSummaryTable.rows)
+            .align("center")
+            .line("Thank You")
+            .cut('partial')
+            .encode();
+
+        receiptPrinter.connect();
+
+
+        receiptPrinter.print(result);
+
+    }
+    onMount(() => {
+        receiptPrinter = new WebUSBReceiptPrinter();
+    })
 
 
 </script>
@@ -41,6 +130,11 @@
                             </tr>
                         </tbody>
                     </table>
+                </div>
+                <div class="row g-3 mt-2 ">
+                    <div class="hstack gap-2 justify-content-end">
+                        <button type="button" class="btn btn-primary waves-effect waves-light" on:click={print}> <i class="ri-printer-line align-bottom me-1"></i> Print Order</button>
+                    </div>
                 </div>
 
             </div>
