@@ -44,6 +44,7 @@ return [
     'dimensions' => 'الـ :attribute يحتوي على أبعاد صورة غير صالحة.',
     'distinct' => 'للحقل :attribute قيمة مُكرّرة.',
     'email' => 'يجب أن يكون :attribute عنوان بريد إلكتروني صحيح البُنية',
+    'phone' => 'يجب أن يكون :attribute رقم الهاتف صحيح البُنية',
     'ends_with' => 'الـ :attribute يجب ان ينتهي بأحد القيم التالية :value.',
     'enum' => 'حقل :attribute غير صحيح',
     'exists' => 'حقل :attribute لاغٍ',

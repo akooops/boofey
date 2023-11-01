@@ -38,7 +38,7 @@ class InvoicesController extends Controller
             'father.user:id,username,email,phone', 
             'father.user.profile:id,user_id,firstname,lastname,file_id',
             'father.user.profile.image', 
-            'subscription.student:id,firstname,lastname,file_id',
+            'subscription.student:id,firstname,lastname,class,file_id',
             'subscription.student.image:id,path,current_name',
             'subscription.payment:id,subscription_id,status,payment_option,card_number,card_holder_name,firstname,lastname,email,phone,address,state,city,zipcode'
         ]);
