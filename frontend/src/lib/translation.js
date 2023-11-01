@@ -717,6 +717,42 @@ export let translation = {
     checkOut:{
         en:"Checkout",
         ar:"الدفع"
+    },
+    genInvoice:{
+        en:"Generate Invoice",
+        ar:"توليد فاتورة"
+    },
+    print:{
+        en:"Print",
+        ar:"طباعة"
+    },
+    youAreGonnaGen:{
+        en:"You Are Gonna ",
+        ar:"سوف تقوم ب"
+    },
+    generate:{
+        en:"Generate",
+        ar:"توليد"
+    },
+    anInvoice:{
+        en:"an invoice for this subscription are you sure you want to proceed ?",
+        ar:"فاتور لهذا الاشتراك هل تريد الاستمرار ؟"
+    },
+    settings:{
+        en:"Settings",
+        ar:"الاعدادات"
+    },
+    user:{
+        en:"User",
+        ar:"المستخدم"
+    },
+    add:{
+        en:"Add",
+        ar:"أضف"
+    },
+    addPaymentMethod:{
+        en:"Add Payment Method",
+        ar:"اضف وسيلة دفع"
     }
     
     

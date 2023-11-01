@@ -23,7 +23,11 @@
                 <ViewRow>
                     {translation.package[localStorage.getItem("language")]} :
                                 <img src={$subStore?.package?.school?.logo?.full_path} alt="" class="avatar-xs rounded-circle" />
-                                {$subStore?.package?.school?.name} - {$subStore?.package?.name}
+                                {#if localStorage.getItem("language") == "ar"}
+                                    {$subStore?.package?.school?.name_ar} - {$subStore?.package?.name_ar}
+                                {:else}
+                                    {$subStore?.package?.school?.name} - {$subStore?.package?.name}
+                                {/if}
                             
                         
                 </ViewRow>

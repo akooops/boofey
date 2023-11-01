@@ -16,6 +16,7 @@
     let errors 
     let loading = false
     async function signin(){
+        localStorage.setItem("language","en")
         loading = true
         errors = {}
         message = ""
@@ -37,10 +38,12 @@
 
 
             if(resJson?.data?.roles[0]?.name != "parent"){
-                goto("/admin")
+                window.location.href = `${window.location.origin}/admin`
+                // goto("")
             }else {
                 // console.log("not admin")
-                goto("/students")
+                window.location.href = `${window.location.origin}/students`
+                // goto("/")
             }
             // history.back()
         }else {

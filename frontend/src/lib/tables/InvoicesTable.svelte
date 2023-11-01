@@ -25,6 +25,7 @@
                         </div>
                     </th>
                     <th scope="col">ID</th>
+                    <th scope="col">Invoice Reference</th>
                     <th scope="col">Subscription Reference</th>
                     <th scope="col">Generated at</th>
                     <th scope="col">Package</th>

@@ -25,6 +25,7 @@
                         </div>
                     </th>
                     <th scope="col">ID</th>
+                    <th scope="col">Order Ref</th>
                     <th scope="col">Tax</th>
                     <th scope="col">Calculated Tax</th>
                     <th scope="col">Discount</th>

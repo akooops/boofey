@@ -13,5 +13,5 @@ export async function load({fetch,url,depends,params}) {
     redirector(res)
     
     let subsResponse = await res.json()
-    return {subsResponse,tabTitle:"Subscriptions"}
+    return {subsResponse,tabTitle:"Subscriptions",arTabTitle:"الاشتراكات"}
 };

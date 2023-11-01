@@ -13,5 +13,5 @@ export async function load({fetch,url,depends,params}) {
     redirector(res)
     
     let profileResponse = await res.json()
-    return {profileResponse,tabTitle:"Profile"}
+    return {profileResponse,tabTitle:"Profile",arTabTitle:"الملف الشخصي"}
 };

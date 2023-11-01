@@ -14,5 +14,5 @@ export async function load({fetch,url,depends,params}) {
     redirector(res)
 
     let invoiceDetailsResponse = await res.json()
-    return {invoice:invoiceDetailsResponse.data.invoice,tabTitle:"Invoice Details"}
+    return {invoice:invoiceDetailsResponse.data.invoice,tabTitle:"Invoice Details",arTabTitle:"تفاصيل الفاتورة"}
 };

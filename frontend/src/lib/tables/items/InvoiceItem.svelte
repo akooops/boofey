@@ -26,6 +26,13 @@
     </td>
     <td>{invoice.id}</td>
     <td> 
+        {#if invoice?.ref == null}
+        <span class="badge bg-danger-subtle text-danger">not found</span> 
+        {:else}
+        {invoice.ref}
+        {/if}
+    </td>
+    <td> 
         {#if invoice?.subscription?.ref == null}
         <span class="badge bg-danger-subtle text-danger">not found</span> 
         {:else}

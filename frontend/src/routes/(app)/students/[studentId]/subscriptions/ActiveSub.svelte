@@ -25,9 +25,9 @@
             <div class="hstack gap-3 flex-wrap">
 
                 {#if activeSub?.invoice == null}
-                    <span data-bs-toggle="modal" data-bs-target="#genSubInvoiceModal" on:click={setSub}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Generate Invoice" ><i class="ri-file-paper-2-line"></i></a></span>
+                    <span data-bs-toggle="modal" data-bs-target="#genSubInvoiceModal" on:click={setSub}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="{translation.genInvoice[localStorage.getItem("language")]}" ><i class="ri-file-paper-2-line"></i></a></span>
                 {:else}
-                    <a href="/invoices/{activeSub.invoice.id}" target="_blank" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Print" ><i class="ri-file-paper-2-line"></i></a>
+                    <a href="/invoices/{activeSub.invoice.id}" target="_blank" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="{translation.print[localStorage.getItem("language")]}" ><i class="ri-file-paper-2-line"></i></a>
                 {/if}            <!-- {/if} -->
 
                     <span data-bs-toggle="modal" data-bs-target="#viewSubModal" on:click={setSub}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-title="{translation.view[localStorage.getItem("language")]}" ><i class="ri-eye-fill"></i></a></span>
@@ -57,7 +57,6 @@
                                 <th scope="col">{translation.package[localStorage.getItem("language")]}</th>
                                 <th scope="col">{translation.days[localStorage.getItem("language")]}</th>
                                 <th scope="col">{translation.balance[localStorage.getItem("language")]}</th>
-                                <th scope="col">{translation.shouldStartAt[localStorage.getItem("language")]}</th>
                                 <th scope="col">{translation.startedAt[localStorage.getItem("language")]}</th>
                                 <th scope="col" class="text-end">{translation.subTotal[localStorage.getItem("language")]}</th>
                             </tr>
@@ -75,16 +74,21 @@
                                         <div class="flex-shrink-0">
                                             <img src={activeSub.package.school.logo.full_path} alt="" class="avatar-xs rounded-circle" />
                                         </div>
-                                        <div class="flex-grow-1">
-                                            {activeSub.package.school.name} - {activeSub.package.name}
-                                        </div>
+                                        {#if localStorage.getItem("language") == "ar"}
+                                            <div class="flex-grow-1">
+                                                {activeSub.package.school.name_ar} - {activeSub.package.name_ar}
+                                            </div>
+                                            {:else}
+                                            <div class="flex-grow-1">
+                                                {activeSub.package.school.name} - {activeSub.package.name}
+                                            </div>
+                                        {/if}
                                     </div>
                                 </td>
                                 <td>{activeSub.days}</td>
                                 <td>
                                     <Progress now={activeSub.balance} max={activeSub.days}/>
                                 </td>
-                                <td>{activeSub.should_start_at == null ? "unset" : activeSub.should_start_at}</td>
                                 <td>{activeSub.started_at}</td>
                                 <td class="text-end">{activeSub.total} {translation.sar[localStorage.getItem("language")]}</td>
 
