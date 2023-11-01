@@ -47,7 +47,7 @@ return [
     'ends_with' => 'الـ :attribute يجب ان ينتهي بأحد القيم التالية :value.',
     'enum' => 'حقل :attribute غير صحيح',
     'exists' => 'حقل :attribute لاغٍ',
-    'file' => 'الـ :attribute يجب أن يكون من ملفا.',
+    'file' => 'حقل :attribute يجب أن يكون ملفا.',
     'filled' => 'حقل :attribute إجباري',
     'gt' => [
         'array' => 'الـ :attribute يجب ان يحتوي علي اكثر من :value عناصر/عنصر.',
@@ -212,7 +212,8 @@ return [
         'student_id'            => 'الطالب',
         'return_url'            => 'رابط الرجوع',
         'verification_code'     => 'كود التأكيد',
-        'old_password'          => 'كلمة السر الحالية'
+        'old_password'          => 'كلمة السر الحالية',
+        'login'                 => 'معلومات الدخول'
     ],
 
 ];
