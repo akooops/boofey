@@ -75,6 +75,25 @@
 
         <div class="card">
             <div class="card-header align-items-center d-flex">
+                <h4 class="card-title mb-0 flex-grow-1">{translation.incativeSubs[localStorage.getItem("language")]}</h4>
+            </div><!-- end card header -->
+        
+            <div class="card-body">
+        
+                <!-- <div class="live-preview"> -->
+                    <div class="row">
+                            <!-- Input with Icon -->
+                        <InactiveSubsTable subsList={inactiveSubsList}/>
+                        <!--end col-->
+                    </div>
+                    <!--end row-->
+                <!-- </div> -->
+            </div><!-- end card-body -->
+        </div><!-- end card -->        
+       
+
+        <div class="card">
+            <div class="card-header align-items-center d-flex">
                 <h4 class="card-title mb-0 flex-grow-1">{translation.scheduledSubs[localStorage.getItem("language")]}</h4>
             </div><!-- end card header -->
         
@@ -93,23 +112,6 @@
             </div><!-- end card-body -->
 
         </div><!-- end card -->
-        <div class="card">
-            <div class="card-header align-items-center d-flex">
-                <h4 class="card-title mb-0 flex-grow-1">{translation.incativeSubs[localStorage.getItem("language")]}</h4>
-            </div><!-- end card header -->
-        
-            <div class="card-body">
-        
-                <!-- <div class="live-preview"> -->
-                    <div class="row">
-                            <!-- Input with Icon -->
-                        <InactiveSubsTable subsList={inactiveSubsList}/>
-                        <!--end col-->
-                    </div>
-                    <!--end row-->
-                <!-- </div> -->
-            </div><!-- end card-body -->
-        </div><!-- end card -->        
        
     
     </div>

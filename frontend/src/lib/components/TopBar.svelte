@@ -14,7 +14,8 @@
             },
             method:"POST"
         }) 
-        goto("/signin")    
+        window.location.href = `${window.location.origin}/signin`
+        // goto("/signin")    
 
 
     }
@@ -165,7 +166,7 @@
             <div class="dropdown topbar-head-dropdown ms-1 header-item" id="notificationDropdown">
                 <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle" id="page-header-notifications-dropdown" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false">
                     <i class='bx bx-bell fs-22'></i>
-                    <span class="position-absolute topbar-badge fs-10 translate-middle badge rounded-pill bg-danger">3<span class="visually-hidden">unread messages</span></span>
+                    <span class="position-absolute topbar-badge fs-10 translate-middle badge rounded-pill bg-danger">0<span class="visually-hidden">unread messages</span></span>
                 </button>
                 <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0" aria-labelledby="page-header-notifications-dropdown">
 
@@ -176,7 +177,7 @@
                                     <h6 class="m-0 fs-16 fw-semibold text-white"> Notifications </h6>
                                 </div>
                                 <div class="col-auto dropdown-tabs">
-                                    <span class="badge bg-light-subtle text-body fs-13"> 4 New</span>
+                                    <span class="badge bg-light-subtle text-body fs-13"> 0 New</span>
                                 </div>
                             </div>
                         </div>
@@ -185,7 +186,7 @@
                             <ul class="nav nav-tabs dropdown-tabs nav-tabs-custom" data-dropdown-tabs="true" id="notificationItemsTab" role="tablist">
                                 <li class="nav-item waves-effect waves-light">
                                     <a class="nav-link active" data-bs-toggle="tab" href="#all-noti-tab" role="tab" aria-selected="true">
-                                        All (4)
+                                        All (0)
                                     </a>
                                 </li>
                                 <li class="nav-item waves-effect waves-light">
@@ -206,7 +207,7 @@
                     <div class="tab-content position-relative" id="notificationItemsTabContent">
                         <div class="tab-pane fade show active py-2 ps-2" id="all-noti-tab" role="tabpanel">
                             <div data-simplebar style="max-height: 300px;" class="pe-2">
-                                <div class="text-reset notification-item d-block dropdown-item position-relative">
+                                <!-- <div class="text-reset notification-item d-block dropdown-item position-relative">
                                     <div class="d-flex">
                                         <div class="avatar-xs me-3 flex-shrink-0">
                                             <span class="avatar-title bg-info-subtle text-info rounded-circle fs-16">
@@ -231,7 +232,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div> -->
 
 
                                 <div class="my-3 text-center view-all">
@@ -244,7 +245,7 @@
 
                         <div class="tab-pane fade py-2 ps-2" id="messages-tab" role="tabpanel" aria-labelledby="messages-tab">
                             <div data-simplebar style="max-height: 300px;" class="pe-2">
-                                <div class="text-reset notification-item d-block dropdown-item">
+                                <!-- <div class="text-reset notification-item d-block dropdown-item">
                                     <div class="d-flex">
                                         <img src="/assets/images/users/avatar-3.jpg" class="me-3 rounded-circle avatar-xs" alt="user-pic">
                                         <div class="flex-grow-1">
@@ -265,7 +266,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div> -->
 
 
                                 <div class="my-3 text-center view-all">

@@ -9,6 +9,9 @@
 			// Get a reference to the <html> tag
 			var htmlTag = document.querySelector('html');
 			// Set an attribute (e.g., data-theme) with a value
+			if(localStorage.getItem("language") == null){
+				localStorage.setItem("language","en")
+			}
 			let dir = localStorage.getItem("language") == "ar" ? "rtl" : "ltr"
 			htmlTag.setAttribute('dir', dir);
 			
@@ -24,13 +27,23 @@
 			link.type = 'text/css';
 			link.rel = 'stylesheet';
 			link.href = `/assets/css/app${localStorage.getItem("language") == "ar" ? "-rtl" : ""}.min.css`
-
+			
 			document.head.appendChild(link);
+
+			if(localStorage.getItem("language") == "ar"){
+				link = document.createElement('link');
+				link.type = 'text/css';
+				link.rel = 'stylesheet';
+				link.href = `/assets/css/arFonts.css`
+				
+				document.head.appendChild(link);
+			}
+
 
 		</script>
  		<!-- App favicon -->
 		 
-		<link rel="shortcut icon" href="/assets/images/favicon.ico">
+		<link rel="shortcut icon" href="/assets/images/logo.ico">
     	<!-- jsvectormap css -->
 		<link href="/assets/libs/jsvectormap/css/jsvectormap.min.css" rel="stylesheet" type="text/css" />
 

@@ -25,6 +25,7 @@
         </div>
     </td>
     <td>{order.id}</td>
+    <td><span class="badge border border-primary text-primary">{order.ref}</span></td>
     <td>+ {order.tax}%</td>
     <td>+ {order.taxCalculated}</td>
     <td>- {order.discount}%</td>

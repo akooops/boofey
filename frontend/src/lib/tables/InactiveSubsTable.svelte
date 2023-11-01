@@ -28,7 +28,6 @@
                     <th scope="col">Package</th>
                     <th scope="col">Days</th>
                     <th scope="col">Balance</th>
-                    <th scope="col">Should Start At</th>
                     <th scope="col">Started At</th>
                     <th scope="col">Action</th>
                 </tr>

@@ -79,25 +79,7 @@ export let data
         <ActiveSub {activeSub} />
     
 
-        <div class="card">
-            <div class="card-header align-items-center d-flex">
-                <h4 class="card-title mb-0 flex-grow-1">Sheduled subscriptions</h4>
-            </div><!-- end card header -->
-        
-            <div class="card-body">
-        
-                <!-- <div class="live-preview"> -->
-                    <div class="row">
-                            <!-- Input with Icon -->
-                        <SearchTable type={"Sub"}/>
-                        <SubsTable {subsList}/>
-                        <Pagination {...subsPagination} />
-                        <!--end col-->
-                    </div>
-                    <!--end row-->
-                <!-- </div> -->
-            </div><!-- end card-body -->
-        </div><!-- end card -->
+      
 
 
         <div class="card">
@@ -118,7 +100,25 @@ export let data
             </div><!-- end card-body -->
         </div><!-- end card -->
         
+        <div class="card">
+            <div class="card-header align-items-center d-flex">
+                <h4 class="card-title mb-0 flex-grow-1">Sheduled subscriptions</h4>
+            </div><!-- end card header -->
         
+            <div class="card-body">
+        
+                <!-- <div class="live-preview"> -->
+                    <div class="row">
+                            <!-- Input with Icon -->
+                        <SearchTable type={"Sub"}/>
+                        <SubsTable {subsList}/>
+                        <Pagination {...subsPagination} />
+                        <!--end col-->
+                    </div>
+                    <!--end row-->
+                <!-- </div> -->
+            </div><!-- end card-body -->
+        </div><!-- end card -->
        
     
     </div>

@@ -44,6 +44,7 @@ export async function load({fetch,url,depends,params}) {
         customerEmail:initPaymentResponse.data.customer_email,
         billings:billingsResponse.data.billings,
         paymentMethods:paymentMethodsResponse.data.paymentMethods,
-        tabTitle:"Check Out"
+        tabTitle:"Check Out",
+        arTabTitle:"الدفع"
     }
 };

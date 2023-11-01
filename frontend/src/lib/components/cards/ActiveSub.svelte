@@ -73,7 +73,6 @@
                                 <th scope="col">Package</th>
                                 <th scope="col">Days</th>
                                 <th scope="col">Balance</th>
-                                <th scope="col">Should Start At</th>
                                 <th scope="col">Started At</th>
                                 <th scope="col" class="text-end">Sub Total</th>
                             </tr>
@@ -100,7 +99,6 @@
                                 <td>
                                     <Progress now={activeSub.balance} max={activeSub.days}/>
                                 </td>
-                                <td>{activeSub.should_start_at == null ? "unset" : activeSub.should_start_at}</td>
                                 <td>{activeSub.started_at}</td>
                                 <td class="text-end">{activeSub.total} SAR</td>
 

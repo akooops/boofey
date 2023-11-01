@@ -37,7 +37,6 @@
     <td>
         <Progress now={sub.balance} max={sub.days}/>
     </td>
-    <td>{sub.should_start_at == null ? "unset" : sub.should_start_at}</td>
     <td>{sub.started_at == null ? "unset" : sub.started_at}</td>
     <!-- <td>
         {#if sub.status == "scheduled"}

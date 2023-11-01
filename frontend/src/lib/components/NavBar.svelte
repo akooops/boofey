@@ -15,35 +15,47 @@ import {translation} from "$lib/translation.js"
         { title: "Dashboards", links: [], route:"/admin" ,permission:null,icon:"ri-dashboard-line"},
       ],
      },
-     {
-      title: "Users",
-      submenu: [
-        { title: "Permissions", links: [],route:"/admin/permissions",permission:"permissions.index",icon:"ri-error-warning-line"},
-        { title: "Roles", links: [], route:"/admin/roles",permission:"roles.index",icon:"ri-briefcase-line"},
-        { title: "Users", links: [], route:"/admin/users",permission:"users.index",icon:"ri-group-line"},
-        { title: "Parents", links: [], route:"/admin/parents",permission:"fathers.index",icon:"ri-group-2-line"},
-        
-      ],
-
-    },
+   
     { title: "School",
         submenu: [
             { title: "Schools", links: [], route:"/admin/schools",permission:"schools.index",icon:"ri-building-4-line"},
             { title: "Packages", links: [], route:"/admin/packages",permission:"packages.index",icon:"ri-archive-line"},
             { title: "Canteens", links: [], route:"/admin/canteens",permission:"canteens.index",icon:"ri-restaurant-2-line"},
-            { title: "Students", links: [], route:"/admin/students",permission:"students.index",icon:"ri-user-2-line"},    
-            { title: "Qr Exit Scan ", links: [], route:"/admin/qr-exit",permission:"queueStudents.exit",icon:"ri-qr-code-line"},
+
 
         ]
     },
-    { title: "Point Of Sale (POS)",
+    { title:"Students",
+        submenu: [
+            { title: "Parents", links: [], route:"/admin/parents",permission:"fathers.index",icon:"ri-group-2-line"},
+            { title: "Students", links: [], route:"/admin/students",permission:"students.index",icon:"ri-user-2-line"},    
+            { title: "Qr Exit Scan ", links: [], route:"/admin/qr-exit",permission:"queueStudents.exit",icon:"ri-qr-code-line"},
+        ]
+
+    },
+    { title:"Subscriptions",
         submenu: [
             { title: "Coupons", links: [], route:"/admin/coupons",permission:"coupons.index",icon:"ri-coupon-2-line"},
+            { title: "Invoices ", links: [], route:"/admin/invoices",permission:"invoices.index",icon:"ri-file-paper-2-line"},
+            { title: "Payments ", links: [], route:"/admin/payments",permission:"payments.index",icon:"ri-bank-card-line"},
+        ]
+
+    },
+    {
+      title: "Users",
+      submenu: [
+          { title: "Users", links: [], route:"/admin/users",permission:"users.index",icon:"ri-group-line"},
+          { title: "Roles", links: [], route:"/admin/roles",permission:"roles.index",icon:"ri-briefcase-line"},
+        { title: "Permissions", links: [],route:"/admin/permissions",permission:"permissions.index",icon:"ri-error-warning-line"},
+        
+      ],
+
+    },
+    { title: "Point Of Sale (POS)",
+        submenu: [
             { title: "Categories ", links: [], route:"/admin/categories",permission:"categories.index",icon:"ri-node-tree"},
             { title: "Products ", links: [], route:"/admin/products",permission:"products.index",icon:"ri-shopping-bag-line"},
             { title: "Orders ", links: [], route:"/admin/orders",permission:"orders.index",icon:"ri-survey-line"},
-            { title: "Invoices ", links: [], route:"/admin/invoices",permission:"invoices.index",icon:"ri-file-paper-2-line"},
-            { title: "Payments ", links: [], route:"/admin/payments",permission:"payments.index",icon:"ri-bank-card-line"},
         ]
     },
   ];
@@ -96,19 +108,19 @@ onMount(() => {
         <!-- Dark Logo-->
         <a href="index.html" class="logo logo-dark">
             <span class="logo-sm">
-                <img src="/assets/images/logo-sm.png" alt="" height="22">
+                <img src="/assets/images/logo.png" alt="" height="22">
             </span>
             <span class="logo-lg">
-                <img src="/assets/images/logo-dark.png" alt="" height="17">
+                <img src="/assets/images/logo.png" alt="" height="50">
             </span>
         </a>
         <!-- Light Logo-->
         <a href="index.html" class="logo logo-light">
             <span class="logo-sm">
-                <img src="/assets/images/logo-sm.png" alt="" height="22">
+                <img src="/assets/images/logo.png" alt="" height="22">
             </span>
             <span class="logo-lg">
-                <img src="/assets/images/logo-light.png" alt="" height="17">
+                <img src="/assets/images/logo.png" alt="" height="50">
             </span>
         </a>
         <button type="button" class="btn btn-sm p-0 fs-20 header-item float-end btn-vertical-sm-hover" id="vertical-hover">

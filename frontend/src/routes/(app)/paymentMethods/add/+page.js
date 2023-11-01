@@ -25,5 +25,5 @@ export async function load({fetch,url,depends,params,parent}) {
     redirector(res)
     
     let paymentMethodInitResponse = await res.json()
-    return {paymentMethodInitResponse,fatherId:userResponse.data.father.id,tabTitle:"Add Payment Method"}
+    return {paymentMethodInitResponse,fatherId:userResponse.data.father.id,tabTitle:"Add Payment Method",arTabTitle:"اضف وسيلة دفع"}
 };
