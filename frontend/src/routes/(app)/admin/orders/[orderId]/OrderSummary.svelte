@@ -1,5 +1,6 @@
 <script>
-import ThermalPrinterEncoder from 'thermal-printer-encoder';
+import ThermalPrinterEncoder from '$lib/ThermalEncoder.js';
+// import ThermalPrinterEncoder from 'thermal-printer-encoder.esm.js';
 import WebUSBReceiptPrinter from "$lib/WebUsbPrinter.js"
 import {onMount} from "svelte"
 
