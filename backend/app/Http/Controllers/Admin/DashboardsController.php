@@ -149,6 +149,7 @@ class DashboardsController extends Controller
     public function lastSubscribedStudents(Request $request){
         $perPage = limitPerPage($request->query('perPage', 10));
         $page = checkPageIfNull($request->query('page', 1));
+        $search = checkIfSearchEmpty($request->query('search'));
 
         $subscriptions = Subscription::whereIn('status', ['active', 'inactive'])
             ->with([
@@ -160,6 +161,27 @@ class DashboardsController extends Controller
             ])
             ->orderBy('subscriptions.created_at');
 
+        if ($search) {
+            $subscriptions->whereHas('student', function ($studentQuery) use ($search) {
+                $studentQuery->where('firstname', 'like', '%' . $search . '%')
+                    ->orWhere('lastname', 'like', '%' . $search . '%')
+                    ->orWhere('nfc_id', 'like', '%' . $search . '%')
+                    ->orWhere('face_id', 'like', '%' . $search . '%')
+                    ->orWhereHas('father', function ($fatherQuery) use ($search) {
+                        $fatherQuery->where(function ($query) use ($search) {
+                            $query->whereHas('user', function ($userQuery) use ($search) {
+                                    $userQuery->where('username', 'like', '%' . $search . '%')
+                                        ->orWhere('email', 'like', '%' . $search . '%')
+                                        ->orWhere('phone', 'like', '%' . $search . '%')
+                                        ->orWhereHas('profile', function ($profileQuery) use ($search) {
+                                            $profileQuery->where('firstname', 'like', '%' . $search . '%')
+                                                ->orWhere('lastname', 'like', '%' . $search . '%');
+                                        });
+                                });
+                        });
+                    });
+            }); 
+        }
 
         $subscriptions = $subscriptions->paginate($perPage, ['*'], 'page', $page);
 
@@ -179,6 +201,7 @@ class DashboardsController extends Controller
     public function expiringSoonStudents(Request $request){
         $perPage = limitPerPage($request->query('perPage', 10));
         $page = checkPageIfNull($request->query('page', 1));
+        $search = checkIfSearchEmpty($request->query('search'));
 
         $subscriptions = Subscription::whereHas('student', function ($query) {
                 $query->whereDoesntHave('subscriptionsWithoutActive');
@@ -192,6 +215,27 @@ class DashboardsController extends Controller
             ])
             ->orderBy('subscriptions.balance');
 
+        if ($search) {
+            $subscriptions->whereHas('student', function ($studentQuery) use ($search) {
+                $studentQuery->where('firstname', 'like', '%' . $search . '%')
+                    ->orWhere('lastname', 'like', '%' . $search . '%')
+                    ->orWhere('nfc_id', 'like', '%' . $search . '%')
+                    ->orWhere('face_id', 'like', '%' . $search . '%')
+                    ->orWhereHas('father', function ($fatherQuery) use ($search) {
+                        $fatherQuery->where(function ($query) use ($search) {
+                            $query->whereHas('user', function ($userQuery) use ($search) {
+                                    $userQuery->where('username', 'like', '%' . $search . '%')
+                                        ->orWhere('email', 'like', '%' . $search . '%')
+                                        ->orWhere('phone', 'like', '%' . $search . '%')
+                                        ->orWhereHas('profile', function ($profileQuery) use ($search) {
+                                            $profileQuery->where('firstname', 'like', '%' . $search . '%')
+                                                ->orWhere('lastname', 'like', '%' . $search . '%');
+                                        });
+                                });
+                        });
+                    });
+            }); 
+        }    
 
         $subscriptions = $subscriptions->paginate($perPage, ['*'], 'page', $page);
 
@@ -212,7 +256,8 @@ class DashboardsController extends Controller
         //get back here and check if i need to disaply only active subs
         $perPage = limitPerPage($request->query('perPage', 10));
         $page = checkPageIfNull($request->query('page', 1));
-        
+        $search = checkIfSearchEmpty($request->query('search'));
+
         $today = Carbon::today();
 
         $absentStudents = Student::select('id', 'firstname', 'lastname', 'class', 'father_id', 'school_id', 'file_id')
@@ -228,6 +273,26 @@ class DashboardsController extends Controller
             'school.logo:id,current_name,path',
         ]);
 
+        if ($search) {
+            $absentStudents->where('firstname', 'like', '%' . $search . '%')
+                    ->orWhere('lastname', 'like', '%' . $search . '%')
+                    ->orWhere('nfc_id', 'like', '%' . $search . '%')
+                    ->orWhere('face_id', 'like', '%' . $search . '%')
+                    ->orWhereHas('father', function ($fatherQuery) use ($search) {
+                        $fatherQuery->where(function ($query) use ($search) {
+                            $query->whereHas('user', function ($userQuery) use ($search) {
+                                    $userQuery->where('username', 'like', '%' . $search . '%')
+                                        ->orWhere('email', 'like', '%' . $search . '%')
+                                        ->orWhere('phone', 'like', '%' . $search . '%')
+                                        ->orWhereHas('profile', function ($profileQuery) use ($search) {
+                                            $profileQuery->where('firstname', 'like', '%' . $search . '%')
+                                                ->orWhere('lastname', 'like', '%' . $search . '%');
+                                        });
+                                });
+                        });
+                    });
+        }   
+
         $absentStudents = $absentStudents->paginate($perPage, ['*'], 'page', $page);
 
         $response = [
@@ -242,11 +307,22 @@ class DashboardsController extends Controller
     public function canteensStatus(Request $request){
         $perPage = limitPerPage($request->query('perPage', 10));
         $page = checkPageIfNull($request->query('page', 1));
+        $search = checkIfSearchEmpty($request->query('search'));
 
         $canteens = Canteen::with([
             'school:id,name,file_id',
             'school.logo:id,current_name,path'
         ]); 
+
+        if ($search) {
+            $canteens->where(function ($query) use ($search) {
+                $query->where('name', 'like', '%' . $search . '%')
+                    ->orWhere('address', 'like', '%' . $search . '%');
+            })
+            ->orWhereHas('school', function ($schoolQuery) use ($search) {
+                $schoolQuery->where('name', 'like', '%' . $search . '%');
+            });        
+        }
 
         $canteens = $canteens->paginate($perPage, ['*'], 'page', $page);
 

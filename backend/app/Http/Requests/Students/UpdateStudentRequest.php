@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Students;
 
+use App\Rules\CanChangeSchool;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Http\JsonResponse;
@@ -37,7 +38,7 @@ class UpdateStudentRequest  extends FormRequest
             
             'onhold' => 'required|boolean',
 
-            'school_id' => 'required|exists:schools,id',
+            'school_id' => ['required', 'exists:schools,id', new CanChangeSchool($student->id)],
 
             'edit_image' => 'required|boolean',
             'file' => 'required_if:edit_image,true|file|mimes:jpeg,png'    
