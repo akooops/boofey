@@ -19,10 +19,11 @@ class CategoryFactory extends Factory
     public function definition()
     {
         $name = fake()->text(10);
+        $num = fake()->numberBetween(0, 1000);
 
         return [
-            'name' => 'Category '.$name,
-            'name_ar' => 'صنف '.$name,
+            'name' => 'Category '.$name.' '.$num,
+            'name_ar' => 'صنف '.$name.' '.$num,
         ];
     }
 }
