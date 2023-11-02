@@ -74,7 +74,10 @@ class OrdersController extends Controller
         $order->save();
 
         return response()->json([
-            'status' => 'success'
+            'status' => 'success',
+            'data' => [
+                'id' => $order->id
+            ]
         ]);
     }
 
