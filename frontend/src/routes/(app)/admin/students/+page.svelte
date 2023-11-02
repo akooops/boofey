@@ -15,7 +15,7 @@
     $: studentsList = data.studentsResponse.data.students
     $: studentsPagination = data.studentsResponse.pagination
 
-    let archived = false
+    let archived = "all"
     let studentsPage
     onMount(() => {
         initToolTip(studentsPage)
@@ -25,10 +25,15 @@
         // InitFlatPickr()
     })
 
-    function toggleArchived(e){
+    function toggleArchived(state){
             const url = new URL($page.url);
             url.searchParams.delete("page")
-            url.searchParams.set("archived",archived)
+
+            if(archived == "all"){
+                url.searchParams.delete("archived")
+            }else {
+                url.searchParams.set("archived",archived)
+            }
             goto(url)
     }
 
@@ -54,14 +59,25 @@
                     <div class="row">
                             <!-- Input with Icon -->
                         <SearchTable type={"Student"}/>
-                        <div class="row ps-4 mb-2">
-                            <!-- Switches Color -->
+
+                        <div class="col-xl-3 mb-3">
+                            <select class="form-select" name="class" id="class" aria-label="Default select example" bind:value={archived} on:change={toggleArchived}>
+                                <option value={"all"}>All</option>
+                                <option value={true}>Archived</option>
+                                <option value={false}>Not Archived</option>
+                            </select>
+                        </div>
+
+
+                       
+                        
+                        <!-- <div class="row ps-4 mb-2">
                             <div class="form-check form-switch col" >
                                 <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck1" bind:checked={archived} on:change={toggleArchived} >
                                 <label class="form-check-label" for="SwitchCheck1">Show archived</label>
-                            </div><!-- Switches Color -->
+                            </div>
 
-                        </div>
+                        </div> -->
                         <StudentsTable {studentsList}/>
                         <Pagination {...studentsPagination} />
                         <!--end col-->

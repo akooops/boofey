@@ -27,7 +27,25 @@ export async function load({fetch,url,depends,params}) {
         method:"POST"
     })
     redirector(res)
+    
+
     let initPaymentResponse = await res.json()
+
+    if(initPaymentResponse.status == "error"){
+        return {
+            status:initPaymentResponse.status,
+            errors:initPaymentResponse.errors,
+            student:null,
+            subscription:null,
+            package:null,
+            customerIp:null,
+            customerEmail:null,
+            billings:null,
+            paymentMethods:null,
+            tabTitle:"Check Out",
+            arTabTitle:"الدفع"
+        }
+    }
 
     res = await fetch(PathGetPaymentMethods(DefaultGetQueries(url)),{
         headers:{
@@ -37,7 +55,9 @@ export async function load({fetch,url,depends,params}) {
     redirector(res)    
     let paymentMethodsResponse = await res.json()
 
-    return {student:initPaymentResponse.data.student,
+    return {
+        
+        student:initPaymentResponse.data.student,
         subscription:initPaymentResponse.data.subscription,
         package:initPaymentResponse.data.package,
         customerIp:initPaymentResponse.data.customer_ip,

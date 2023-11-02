@@ -158,6 +158,14 @@ export let CanteensOptions = {
     },
 };
 
+
+
+export function Toggle(){
+
+}
+
+
+
 export let dailyTotalOptions = {
     series: [  
         {

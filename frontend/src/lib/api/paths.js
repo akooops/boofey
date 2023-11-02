@@ -439,17 +439,17 @@ export function PathGetDoneByCanteens(canteenId,{range,start_date,end_date}){
 export function PathGetAvgByCanteens(canteenId,{range,start_date,end_date}){
     return `${ADMIN_DOMAIN}/dashboards/avgByCanteens/${canteenId}?range=${range}&start_date=${start_date}&end_date=${end_date}`
 }
-export function PathGetLastSubs({page,perPage}){
-    return `${ADMIN_DOMAIN}/dashboards/lastSubscribedStudents?page=${page}&perPage=${perPage}`
+export function PathGetLastSubs({page,perPage,searchQuery}){
+    return `${ADMIN_DOMAIN}/dashboards/lastSubscribedStudents?page=${page}&perPage=${perPage}&search=${searchQuery}`
 }
-export function PathGetExpiringSubs({page,perPage}){
-    return `${ADMIN_DOMAIN}/dashboards/expiringSoonStudents?page=${page}&perPage=${perPage}`
+export function PathGetExpiringSubs({page,perPage,searchQuery}){
+    return `${ADMIN_DOMAIN}/dashboards/expiringSoonStudents?page=${page}&perPage=${perPage}&search=${searchQuery}`
 }
-export function PathGetCanteensStatus({page,perPage}){
-    return `${ADMIN_DOMAIN}/dashboards/canteensStatus?page=${page}&perPage=${perPage}`
+export function PathGetCanteensStatus({page,perPage,searchQuery}){
+    return `${ADMIN_DOMAIN}/dashboards/canteensStatus?page=${page}&perPage=${perPage}&search=${searchQuery}`
 }
-export function PathGetAbsentStudents({page,perPage}){
-    return `${ADMIN_DOMAIN}/dashboards/absentStudents?page=${page}&perPage=${perPage}`
+export function PathGetAbsentStudents({page,perPage,searchQuery}){
+    return `${ADMIN_DOMAIN}/dashboards/absentStudents?page=${page}&perPage=${perPage}&search=${searchQuery}`
 }
 
 
