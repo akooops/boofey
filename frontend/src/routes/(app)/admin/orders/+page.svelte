@@ -6,7 +6,9 @@
     import { onMount } from "svelte";
     import {initToolTip} from "$lib/init/initToolTip.js"
 import { fade } from 'svelte/transition';
-    export let data
+import { goto } from '$app/navigation';
+    
+export let data
     
     $: ordersList = data.ordersResponse.data  
     $: ordersPagination = data.ordersResponse.pagination
@@ -15,6 +17,10 @@ import { fade } from 'svelte/transition';
         initToolTip(ordersPage)
     })
     
+    function add(){
+        goto("/admin/orders/add")
+    }
+
     </script>
     <div class="row"  in:fade={{duration: 200 }} bind:this={ordersPage}>
         <div class="col-lg-12">
@@ -23,7 +29,7 @@ import { fade } from 'svelte/transition';
                     <h4 class="card-title mb-0 flex-grow-1">Orders Managment</h4>
                     <div class="flex-shrink-0">
                     {#if JSON.parse(sessionStorage.getItem("permissions")).includes("orders.store")}
-                        <a type="button" href="/admin/orders/add" target="_blank" class="btn btn-primary waves-effect waves-light"><i class="ri-add-line align-bottom me-1"></i>Add Order</a>
+                        <a type="button" on:click={add} class="btn btn-primary waves-effect waves-light"><i class="ri-add-line align-bottom me-1"></i>Add Order</a>
                     {/if}
                     </div>
                 </div><!-- end card header -->

@@ -15,6 +15,7 @@
     let start_date = ""
     let end_date = ""
     let selector
+    let pending = false
     onMount(async () => {
         chart = new ApexCharts(chartSpace,dailyTotalOptions);
         chart.render();
@@ -58,6 +59,7 @@
     }
 
     async function render(){
+        pending = true
 
 
         let res = await fetch(PathGetDashDailyTotal({range,start_date,end_date}),{
@@ -71,8 +73,10 @@
         let proccessedData = prepareDate()
         dailyTotalOptions.xaxis.categories = proccessedData.categories
         dailyTotalOptions.series[0].data = proccessedData.values
-
+        pending = false
         chart.updateOptions(dailyTotalOptions)
+
+
     }
 
     function applyRange(){
@@ -122,10 +126,15 @@
         </div><!-- end card header -->
 
 
-        <div class="card-body p-0 pb-2">
+        <div class="card-body p-3 pb-2">
             <div class="w-100">
                 <!-- <div id="customer_impression_charts" data-colors='["--vz-info", "--vz-primary", "--vz-danger"]' class="apex-charts" dir="ltr"></div> -->
-                <div bind:this={chartSpace}></div>
+                <div class:d-none={pending} bind:this={chartSpace}></div>
+                {#if pending}
+                <div class="text-center">
+                    <lord-icon src="https://cdn.lordicon.com/xjovhxra.json" trigger="loop" colors="primary:#695eef,secondary:#73dce9" style="width:120px;height:120px"></lord-icon>
+                </div>
+                {/if}
             </div>
         </div><!-- end card body -->
     </div><!-- end card -->

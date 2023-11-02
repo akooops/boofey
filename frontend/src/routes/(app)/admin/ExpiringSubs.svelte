@@ -5,11 +5,13 @@
 	import Progress from "$lib/components/Progress.svelte";
     import DashPagination from "./DashPagination.svelte"
 	import DashPerPage from "./DashPerPage.svelte";
+    import DashSearch from "./DashSearch.svelte";
 
     let expiringSubs = []
     let expiringSubsPagination
     let page = 1
     let perPage = 10
+    let searchQuery = ""
     onMount(async () => {
         getExpiringStudents()
 
@@ -28,7 +30,7 @@
     }
 
     async function getExpiringStudents(){
-        let res = await fetch(PathGetExpiringSubs({page,perPage}),{
+        let res = await fetch(PathGetExpiringSubs({page,perPage,searchQuery}),{
             headers:{
                 Authorization: `${localStorage.getItem("SID")}`
             }
@@ -37,6 +39,11 @@
         let expiringSubsResponse = await res.json() 
         expiringSubs = expiringSubsResponse.data 
         expiringSubsPagination = expiringSubsResponse.pagination 
+    }
+    async function search(e){
+        searchQuery = e.detail
+        page = 1
+        getExpiringStudents()
     }
 
 </script>
@@ -51,6 +58,8 @@
                 </div>
             </div><!-- end cardheader -->
             <div class="card-body">
+                <DashSearch type={"Last Subscribed Students"} on:search={search}/>
+
                 <div class="table-responsive table-card">
                     <table class="table table-nowrap table-centered align-middle mb-0">
                         <thead class="bg-light text-muted">

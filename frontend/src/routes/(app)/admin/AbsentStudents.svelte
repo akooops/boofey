@@ -5,10 +5,13 @@
 	import Progress from "$lib/components/Progress.svelte";
     import DashPagination from "./DashPagination.svelte"
 	import DashPerPage from "./DashPerPage.svelte";
+    import DashSearch from "./DashSearch.svelte";
+
     let absentStudents = []
     let absentStudentsPagination
     let page = 1
     let perPage = 10
+    let searchQuery = ""
 
     onMount(async () => {
      
@@ -17,7 +20,7 @@
     })
 
     async function getAbsentStudents(){
-        let res = await fetch(PathGetAbsentStudents({page,perPage}),{
+        let res = await fetch(PathGetAbsentStudents({page,perPage,searchQuery}),{
             headers:{
                 Authorization: `${localStorage.getItem("SID")}`
             }
@@ -38,7 +41,11 @@
         getAbsentStudents()
 
     }
-
+    async function search(e){
+        searchQuery = e.detail
+        page = 1
+        getAbsentStudents()
+    }
 
 </script>
 
@@ -53,6 +60,8 @@
                 </div>
             </div><!-- end cardheader -->
             <div class="card-body">
+                <DashSearch type={"Last Subscribed Students"} on:search={search}/>
+
                 <div class="table-responsive table-card">
                     <table class="table table-nowrap table-centered align-middle mb-0">
                         <thead class="bg-light text-muted">

@@ -5,10 +5,12 @@
 	import Progress from "$lib/components/Progress.svelte";
     import DashPagination from "./DashPagination.svelte"
     import DashPerPage from "./DashPerPage.svelte";
+    import DashSearch from "./DashSearch.svelte";
 
     let canteens = []
     let canteensPagination
     let page = 1
+    let searchQuery = ""
     let perPage = 10
     onMount(async () => {
         getCanteensStatus()
@@ -25,7 +27,7 @@
     }
 
     async function getCanteensStatus(){
-        let res = await fetch(PathGetCanteensStatus({page,perPage}),{
+        let res = await fetch(PathGetCanteensStatus({page,perPage,searchQuery}),{
             headers:{
                 Authorization: `${localStorage.getItem("SID")}`
             }
@@ -36,7 +38,11 @@
         canteensPagination = canteensResponse.pagination
 
     }
-
+    async function search(e){
+        searchQuery = e.detail
+        page = 1
+        getCanteensStatus()
+    }
 
 </script>
 
@@ -50,6 +56,8 @@
                 </div>
             </div><!-- end cardheader -->
             <div class="card-body">
+                <DashSearch type={"Last Subscribed Students"} on:search={search}/>
+
                 <div class="table-responsive table-card">
                     <table class="table table-nowrap table-centered align-middle mb-0">
                         <thead class="bg-light text-muted">

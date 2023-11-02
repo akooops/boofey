@@ -8,6 +8,8 @@
     import {loadDefaultDate,getDatesFromRange} from "$lib/init/initFlatpickr.js"
     import DashPagination from "./DashPagination.svelte"
     import DashPerPage from "./DashPerPage.svelte";
+import DashSearch from "./DashSearch.svelte";
+
 
     let canteensData = []
     let chartSpace
@@ -23,6 +25,8 @@
     let canteensPagination
     let page = 1 
     let perPage = 10
+    let searchQuery = ""
+    let pending = false
     onMount(async () => {
         chart = new ApexCharts(chartSpace,CanteensOptions);
         chart.render();
@@ -75,8 +79,10 @@
 
 
     async function render(){
+        pending = true
         await getDoneByCanteens()
         await getAvgByCanteens()
+        pending = false
         chart.updateOptions(CanteensOptions)
     }
 
@@ -84,7 +90,7 @@
 
     async function getCanteens(){
         
-        let res = await fetch(PathGetCanteens(null,{page:1,search:""}),{
+        let res = await fetch(PathGetCanteens(null,{page,search:searchQuery}),{
             headers:{
                 Authorization: `${localStorage.getItem("SID")}`
             }
@@ -131,7 +137,12 @@
     }
 
     function toggleChart(name){
+        if(name == "Average"){
+            CanteensOptions.yaxis[1].opposite = !CanteensOptions.yaxis[1].opposite    
+            chart.updateOptions(CanteensOptions)
+        }
         chart.toggleSeries(name)
+
     }
 
     function changePerPage(e){
@@ -143,6 +154,11 @@
         page = e.detail
         getCanteens()
 
+    }
+    async function search(e){
+        searchQuery = e.detail
+        page = 1
+        getCanteens()
     }
 
 </script>
@@ -199,9 +215,14 @@
                 </div><!-- Switches Color -->
 
             </div>
-            <div class="w-100">
+            <div class="w-100 p-1">
                 <!-- <div id="customer_impression_charts" data-colors='["--vz-info", "--vz-primary", "--vz-danger"]' class="apex-charts" dir="ltr"></div> -->
-                <div bind:this={chartSpace}></div>
+                <div class:d-none={pending} bind:this={chartSpace}></div>
+                {#if pending}
+                <div class="text-center">
+                    <lord-icon src="https://cdn.lordicon.com/xjovhxra.json" trigger="loop" colors="primary:#695eef,secondary:#73dce9" style="width:120px;height:120px"></lord-icon>
+                </div>
+                {/if}
             </div>
             <div class="modal  fade" id="selectCanteen" tabindex="-1" aria-labelledby="exampleModalgridLabel" aria-modal="true" style="display: none;" >
 
@@ -213,13 +234,11 @@
                         </div>
                       
                         <div class="modal-body">
-                          <div class="row mb-4">
-                                <div class="d-flex align-items-center mb-1">
-                                    <div class="flex-shrink-0">
-                                        <DashPerPage on:perPage={changePerPage}/>
-                                    </div>
-                                </div><!-- end cardheader -->
-                            </div>
+                          <!-- <div class="row mb-4">
+                            
+                            </div> -->
+                            <DashSearch type={"Last Subscribed Students"} on:search={search}/>
+                            
                             <div class="table-responsive table-card">
                                 <table class="table table-nowrap table-centered align-middle mb-0">
                                     <thead class="bg-light text-muted">

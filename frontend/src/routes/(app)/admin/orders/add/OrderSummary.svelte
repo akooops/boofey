@@ -3,6 +3,7 @@
     import { PathAddOrder } from "$lib/api/paths";
     import { toast } from "$lib/components/toast.js";
     import { redirector } from "$lib/api/auth";
+    import { goto } from '$app/navigation';
 
     export let productsList = []
     let subtotal = 0 
@@ -50,6 +51,7 @@
         if(res.status == "success") {
             let text = `Added a new Order` 
             toast(text,"success")
+            goto("/admin/orders")
             errors = {}
         }else {
             errors = res.errors
