@@ -26,7 +26,7 @@ class OrdersController extends Controller
             'orderItems.product:id,name,price,sale_price,category_id,file_id',
             'orderItems.product.image:id,current_name,path',
             'orderItems.product.category:id,name',
-        ])->latest();
+        ])->orderBy('id', 'DESC');
 
         $orders = $orders->paginate($perPage, ['*'], 'page', $page);
 

@@ -56,14 +56,14 @@ class SubscriptionsController extends Controller
             'package:id,name,name_ar,sale_price,price,days,tax,popular,school_id',
             'package.school:id,name,name_ar,file_id',
             'package.school.logo:id,path,current_name'
-        ])->latest()->get(); 
+        ])->orderBy('id', 'DESC')->get(); 
 
         $subscriptions = $student->subscriptionsWithoutActive()->with([
             'invoice:id,subscription_id',
             'package:id,name,name_ar,sale_price,price,days,tax,popular,school_id',
             'package.school:id,name,name_ar,file_id',
             'package.school.logo:id,path,current_name'
-        ])->latest();
+        ])->orderBy('id', 'DESC');
 
         if ($search) {
             $subscriptions->where(function ($query) use ($search) {

@@ -21,7 +21,7 @@ class UsersController extends Controller
         $page = checkPageIfNull($request->query('page', 1));
         $search = checkIfSearchEmpty($request->query('search'));
 
-        $users = User::latest()->with([
+        $users = User::orderBy('id', 'DESC')->with([
             'profile:id,user_id,firstname,lastname,file_id',
             'profile.image:id,current_name,path',
             'roles:id,name,guard_name', 

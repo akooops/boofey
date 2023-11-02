@@ -67,7 +67,7 @@ class CanteensController extends Controller
         $search = checkIfSearchEmpty($request->query('search'));
 
         $user = Auth::user();
-        $canteensQuery = $user->canteens();
+        $canteensQuery = $user->canteens()->orderBy('id', 'DESC');
 
         if ($school) {
             $canteensQuery->where('school_id', $school->id);

@@ -21,7 +21,7 @@ class FathersController extends Controller
         $page = checkPageIfNull($request->query('page', 1));
         $search = checkIfSearchEmpty($request->query('search'));
 
-        $fathers = Father::latest()->with([
+        $fathers = Father::orderBy('id', 'DESC')->with([
             'user:id,username,email,phone', 
             'user.profile:id,user_id,firstname,lastname,file_id',
             'user.profile.image', 

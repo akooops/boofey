@@ -64,7 +64,7 @@ class AcademicYearsController extends Controller
         $page = checkPageIfNull($request->query('page', 1));
         $search = checkIfSearchEmpty($request->query('search'));
 
-        $academicYearsQuery = AcademicYear::latest();
+        $academicYearsQuery = AcademicYear::orderBy('id', 'DESC');
 
         if ($school) {
             $academicYearsQuery->where('school_id', $school->id);

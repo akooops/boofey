@@ -24,7 +24,7 @@ class ProductsController extends Controller
 
         $category = $request->query('category', null);
 
-        $products = Product::latest()->with([
+        $products = Product::orderBy('id', 'DESC')->with([
             'category:id,name,name_ar',
             'image:id,path,current_name', 
         ]);

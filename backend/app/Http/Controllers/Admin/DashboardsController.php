@@ -271,7 +271,7 @@ class DashboardsController extends Controller
             'father.user.profile.image:id,current_name,path',
             'school:id,name,file_id',
             'school.logo:id,current_name,path',
-        ]);
+        ])->orderBy('id', 'DESC');
 
         if ($search) {
             $absentStudents->where('firstname', 'like', '%' . $search . '%')
@@ -312,7 +312,7 @@ class DashboardsController extends Controller
         $canteens = Canteen::with([
             'school:id,name,file_id',
             'school.logo:id,current_name,path'
-        ]); 
+        ])->orderBy('id', 'DESC'); 
 
         if ($search) {
             $canteens->where(function ($query) use ($search) {

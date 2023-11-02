@@ -20,7 +20,7 @@ class PermissionsController extends Controller
         $page = checkPageIfNull($request->query('page', 1));
         $search = checkIfSearchEmpty($request->query('search'));
 
-        $permissions = Permission::latest();
+        $permissions = Permission::orderBy('id', 'DESC');
 
         if ($search) {
             $permissions->where('name', 'like', '%' . $search . '%')

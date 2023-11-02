@@ -21,7 +21,7 @@ class CategoriesController extends Controller
         $page = checkPageIfNull($request->query('page', 1));
         $search = checkIfSearchEmpty($request->query('search'));
 
-        $categories = Category::latest();
+        $categories = Category::orderBy('id', 'DESC');
 
         if ($search) {
             $categories->where('name', 'like', '%' . $search . '%')

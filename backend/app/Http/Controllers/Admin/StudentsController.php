@@ -69,7 +69,7 @@ class StudentsController extends Controller
         $search = checkIfSearchEmpty($request->query('search'));
         $archived = $request->query('archived');
 
-        $studentsQuery = Student::latest()->with([
+        $studentsQuery = Student::orderBy('id', 'DESC')->with([
             'image:id,path,current_name', 
             'academicYear:id,name,from,to,current',
             'father:id,user_id',

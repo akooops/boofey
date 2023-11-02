@@ -17,7 +17,7 @@ class CanteenUsersController extends Controller
         $page = checkPageIfNull($request->query('page', 1));
         $search = checkIfSearchEmpty($request->query('search'));
 
-        $canteens = Canteen::latest()->with(
+        $canteens = Canteen::orderBy('id', 'DESC')->with(
             'school:id,name,file_id',
             'school.logo:id,current_name,path'
         );

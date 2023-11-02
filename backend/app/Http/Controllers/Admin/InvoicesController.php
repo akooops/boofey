@@ -27,7 +27,7 @@ class InvoicesController extends Controller
         $page = checkPageIfNull($request->query('page', 1));
         $search = checkIfSearchEmpty($request->query('search'));
 
-        $invoices = Invoice::latest()->with([
+        $invoices = Invoice::orderBy('id', 'DESC')->with([
             'subscription:id,ref,package_id,student_id,started_at,expired_at,initiated_at,days',
             'subscription.package:id,name,code,sale_price,price,days,school_id',
             'subscription.package.school:id,name,file_id',

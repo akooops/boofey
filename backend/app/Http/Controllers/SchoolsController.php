@@ -21,7 +21,7 @@ class SchoolsController extends Controller
         $page = checkPageIfNull($request->query('page', 1));
         $search = checkIfSearchEmpty($request->query('search'));
 
-        $schools = School::latest()->with([
+        $schools = School::orderBy('id', 'DESC')->with([
             'logo:id,path,current_name', 
         ]);
 

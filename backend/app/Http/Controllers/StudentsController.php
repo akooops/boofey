@@ -29,7 +29,7 @@ class StudentsController extends Controller
         $page = checkPageIfNull($request->query('page', 1));
         $search = checkIfSearchEmpty($request->query('search'));
 
-        $studentsQuery = Student::latest()->where([
+        $studentsQuery = Student::orderBy('id', 'DESC')->where([
             'father_id' => $father->id
         ])->with([
             'image:id,path,current_name', 

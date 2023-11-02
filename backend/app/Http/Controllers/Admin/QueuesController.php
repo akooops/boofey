@@ -36,7 +36,7 @@ class QueuesController extends Controller
             ->where('closed_at', null)
             ->first();
 
-        $queues = Queue::latest()->where([
+        $queues = Queue::orderBy('id', 'DESC')->where([
             'canteen_id' => $canteen->id
         ]);
 

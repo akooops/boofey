@@ -21,7 +21,7 @@ class RolesController extends Controller
         $page = checkPageIfNull($request->query('page', 1));
         $search = checkIfSearchEmpty($request->query('search'));
 
-        $roles = Role::latest()->with('permissions:id,name,guard_name');
+        $roles = Role::orderBy('id', 'DESC')->with('permissions:id,name,guard_name');
 
         if ($search) {
             $roles->where(function ($query) use ($search) {

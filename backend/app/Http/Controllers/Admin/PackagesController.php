@@ -64,7 +64,7 @@ class PackagesController extends Controller
         $page = checkPageIfNull($request->query('page', 1));
         $search = checkIfSearchEmpty($request->query('search'));
 
-        $packagesQuery = Package::latest()->with([
+        $packagesQuery = Package::orderBy('id', 'DESC')->with([
             'packageFeatures:id,name,checked,package_id',
         ]);
 

@@ -23,7 +23,7 @@ class CouponsController extends Controller
 
         $expired = $request->query('expired', true);
 
-        $coupons = Coupon::latest();
+        $coupons = Coupon::orderBy('id', 'DESC');
 
         if ($search) {
             $coupons->where('name', 'like', '%' . $search . '%')

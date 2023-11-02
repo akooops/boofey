@@ -22,7 +22,7 @@ class PackagesController extends Controller
             'logo:id,current_name,path'
         ]);
 
-        $packages = Package::latest()->where([
+        $packages = Package::orderBy('id', 'DESC')->where([
             'school_id' => $school->id,
             'hidden' => false,
             'yearly' => 0
@@ -30,7 +30,7 @@ class PackagesController extends Controller
             'packageFeatures:id,name,checked,package_id',
         ])->get();
 
-        $yearlyPackages = Package::latest()->where([
+        $yearlyPackages = Package::orderBy('id', 'DESC')->where([
             'school_id' => $school->id,
             'hidden' => false,
             'yearly' => 1
