@@ -20,7 +20,13 @@
     onMount(() => {
         initToolTip(studentsPage)
 
-        archived = $page.url.searchParams.get("archived") == "true" ? true : false 
+        let state = $page.url.searchParams.get("archived")
+        console.log(state)
+        if(state != null){
+            archived = state == "true" ? "archived" : "not archived"
+        }
+
+    
         
         // InitFlatPickr()
     })
@@ -32,7 +38,7 @@
             if(archived == "all"){
                 url.searchParams.delete("archived")
             }else {
-                url.searchParams.set("archived",archived)
+                url.searchParams.set("archived",archived == "archived")
             }
             goto(url)
     }
@@ -63,8 +69,8 @@
                         <div class="col-xl-3 mb-3">
                             <select class="form-select" name="class" id="class" aria-label="Default select example" bind:value={archived} on:change={toggleArchived}>
                                 <option value={"all"}>All</option>
-                                <option value={true}>Archived</option>
-                                <option value={false}>Not Archived</option>
+                                <option value={"archived"}>Archived</option>
+                                <option value={"not archived"}>Not Archived</option>
                             </select>
                         </div>
 

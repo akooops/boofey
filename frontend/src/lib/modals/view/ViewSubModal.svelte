@@ -45,9 +45,7 @@
                     </div>
                 </ViewRow>
     
-                <ViewRow>
-                    {translation.shouldStartAt[localStorage.getItem("language")]} : <span class="fw-normal">{$subStore?.should_start_at == null ? "unset" : $subStore?.should_start_at}</span>
-                </ViewRow>
+            
     
                 <ViewRow>
                     {translation.startedAt[localStorage.getItem("language")]} : <span class="fw-normal">{$subStore?.started_at == null ? "unset" : $subStore?.started_at}</span>

@@ -35,6 +35,7 @@
                     <th scope="col">{translation.status[localStorage.getItem("language")]}</th>
                     <th scope="col">{translation.school[localStorage.getItem("language")]}</th>
                     <th scope="col">{translation.class[localStorage.getItem("language")]}</th>
+                    <th scope="col">{translation.className[localStorage.getItem("language")]}</th>
                     <th scope="col">{translation.actions[localStorage.getItem("language")]}</th>
                 </tr>
              </thead>

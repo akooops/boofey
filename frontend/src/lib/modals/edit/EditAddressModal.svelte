@@ -155,7 +155,7 @@
 
                                 <div class="hstack gap-2 justify-content-end">
                                     <button type="button" class="btn btn-light fw-light" data-bs-dismiss="modal" bind:this={close}>{translation.close[localStorage.getItem("language")]}</button>
-                                    <input type="submit" class="btn btn-primary waves-effect waves-light" value="Save">
+                                    <input type="submit" class="btn btn-primary waves-effect waves-light" value="{translation.save[localStorage.getItem("language")]}">
                                 </div>
                             </form>
                         </div><!--end row-->

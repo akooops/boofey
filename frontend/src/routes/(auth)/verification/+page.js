@@ -26,6 +26,6 @@ export async function load({fetch,cookies,url,depends}) {
         goto("/signin")
     }
 
-    return {tabTitle:"Verification"}
+    return {tabTitle:"Verification",arTabTitle:"تاكيد الحساب"}
 
 };
