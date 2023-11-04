@@ -39,6 +39,9 @@
                 <ViewRow>
                     {translation.class[localStorage.getItem("language")]} : <span class="fw-normal">{$studentStore.class}</span>
                 </ViewRow>
+                <ViewRow>
+                    {translation.className[localStorage.getItem("language")]} : <span class="fw-normal">{localStorage.getItem("language") == "ar" ? $studentStore.classNameAr : $studentStore.className}</span>
+                </ViewRow>
     
                 <ViewRow>
                     {translation.createdAt[localStorage.getItem("language")]} : <span class="fw-normal">{formatTimestamp($studentStore.created_at)}</span>

@@ -12,5 +12,5 @@ export async function load({fetch,cookies,url,depends}) {
         goto("/profile/settings")
     }
 
-    return {tabTitle:"Reset Password"}
+    return {tabTitle:"Reset Password",arTabTitle:"تغيير كلمة المرور"}
 };

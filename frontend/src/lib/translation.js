@@ -753,6 +753,22 @@ export let translation = {
     addPaymentMethod:{
         en:"Add Payment Method",
         ar:"اضف وسيلة دفع"
+    },
+    className:{
+        en:"Class Name",
+        ar:"اسم الفصل"
+    },
+    invoiceDetails:{
+        en:"Invoice Details",
+        ar:"تفاصيل الفاتورة"
+    },
+    invoices:{
+        en:"Invoices",
+        ar:"فواتير"
+    },
+    details:{
+        en:"Details",
+        ar:"تفاصيل"
     }
     
     

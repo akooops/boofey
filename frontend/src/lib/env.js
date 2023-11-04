@@ -201,9 +201,9 @@ export const routes = [
     },
     {
       path: /^\/invoices\/\d+$/,
-      title: "Invoice Details",
-      item: "Invoices",
-      active: "Details",
+      title: translation.invoiceDetails[localStorage.getItem("language")],
+      item: translation.invoices[localStorage.getItem("language")],
+      active: translation.details[localStorage.getItem("language")],
     },
     {
       path: /^\/invoices$/,

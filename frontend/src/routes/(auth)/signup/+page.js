@@ -24,5 +24,5 @@ export async function load({fetch,cookies,url,depends}) {
 
 
 
-    return {tabTitle:"Sign Up"}
+    return {tabTitle:"Sign Up",arTabTitle:"انشاء حساب"}
 };

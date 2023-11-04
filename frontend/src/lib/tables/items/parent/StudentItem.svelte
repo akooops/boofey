@@ -61,6 +61,7 @@
         </div>
     </td>
     <td>{student.class}</td>
+    <td>{localStorage.getItem("language") == "ar" ? student.classNameAr : student.className}</td>
 
     <td>
         <div class="hstack gap-3 flex-wrap">

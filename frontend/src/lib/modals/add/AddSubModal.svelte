@@ -15,7 +15,6 @@
     let errors
     export let student
     export let packages = []
-    let shouldStartAt
     let useCoupon = false
     let applyDiscount = false
     let excludeFromCalc = false
@@ -71,7 +70,6 @@
     }
 
     function reset(){
-        loadDefaultDate(shouldStartAt,Date.now())
         form.reset()
         selectPackage.selectedIndex = 0
         if (useCoupon){
@@ -142,13 +140,6 @@
                                 <strong class="text-danger ms-1 my-2">{errors.package_id[0]}</strong>
                                 {/if}
                             </div>
-                                <div>
-                                    <label for="from" class="form-label">Should Start At</label>
-                                    <input type="text" name="should_start_at" class="form-control" data-provider="flatpickr" data-date-format="Y-m-d" id="from" bind:this={shouldStartAt}>
-                                    {#if errors?.should_start_at}
-                                    <strong class="text-danger ms-1 my-2">{errors.should_start_at[0]}</strong>
-                                    {/if}
-                                </div>
                 
                                     <div>
                                         <label for="tax" class="form-label">Tax</label>
@@ -165,7 +156,9 @@
                                         <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck1" bind:checked={applyDiscount}>
                                         <label class="form-check-label" for="SwitchCheck1">Apply Discount</label>
                                     </div><!-- Switches Color -->
-
+                                    {#if errors?.discount}
+                                    <strong class="text-danger ms-1 my-2">{errors.discount[0]}</strong>
+                                    {/if}
                                 </div>
                                 {#if applyDiscount}
                                   
