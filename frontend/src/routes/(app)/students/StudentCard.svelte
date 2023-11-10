@@ -27,7 +27,7 @@
 </script>
 
 
-<div class="col-3">
+<div class="col-xxl-2 col-xl-3  col-lg-4  col-sm-6   col-xs-12">
     <div class="card card-animate p-3 py-2"   role="button" on:click={view}>
         <div class="row g-0">
                 <div class="card-body text-center">
