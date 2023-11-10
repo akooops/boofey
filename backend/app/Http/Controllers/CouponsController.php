@@ -22,7 +22,7 @@ class CouponsController extends Controller
         if($coupon === null){
             return response()->json([
                 'status' => 'error',
-                'error' => 'Invalid Coupon Code' 
+                'error' => __('translations.invalid_coupon')
             ], 200);
         }
 

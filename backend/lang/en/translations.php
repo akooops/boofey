@@ -11,5 +11,7 @@ return [
     'invalid_verification_code' => 'Invalid or expired verification code. Please try again.',
     'invalid_password_reset_token' => 'Invalid or expired password reset token. Please try again.',
 
+    'invalid_coupon' => 'Invalid or expired coupon code. Please try another one.',
+
     'incorrect_old_password' => 'The old password is incorrect.'
 ];
