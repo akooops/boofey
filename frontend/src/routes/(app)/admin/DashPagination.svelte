@@ -29,7 +29,7 @@
     <ul class="pagination pagination-separated pagination-sm mb-0">
         <li class="page-item" class:disabled={current_page == 1}><a class="page-link ms-0" on:click={() => switchPage(current_page - 1)} href="#">←</a></li>
         {#each pages as page,i}
-            <li class="page-item" class:active={current_page == i+1}><a class="page-link" on:click={() => switchPage(page)} href="#">{page}</a></li>
+            <li class="page-item" class:active={current_page == page}><a class="page-link" on:click={() => switchPage(page)} href="#">{page}</a></li>
         {/each}
         <li class="page-item" class:disabled={current_page == last_page}><a class="page-link" on:click={() => switchPage(current_page + 1)} href="#">→</a></li>
     </ul>
