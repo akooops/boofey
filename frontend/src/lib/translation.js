@@ -173,12 +173,12 @@ export let translation = {
         ar:"تحميل"
     },
     qrExpireNote:{
-        en:"Please note that this Qr code will Expire in",
-        ar:"هذا الرمز ستنتهي صلاحيته خلال"
+        en:"This Qr code will Expire at",
+        ar:"هذا الرمز ستنتهي صلاحيته في"
     },
-    tenMins:{
-        en:"10 Minutes",
-        ar:"10 دقائق"
+    endOfDay:{
+        en:"the end of the day",
+        ar:"نهاية اليوم"
     },
     subsciptionManagement:{
         en:"Subscriptions Managment",
@@ -570,6 +570,10 @@ export let translation = {
         en:"Current Student image",
         ar:"صورة الطالب الحالية"
     },
+    studentImage:{
+        en:"Student image",
+        ar:"صورة الطالب"
+    },
     profile:{
         en:"Profile",
         ar:"الملف الشخصي"
@@ -769,14 +773,13 @@ export let translation = {
     details:{
         en:"Details",
         ar:"تفاصيل"
+    },
+    noActiveSubsNote:{
+        en:"There are no <strong>Active Subscriptions</strong> at the moment",
+        ar:"لا توجد <strong/>اشتراكات نشطة<strong> حاليا"
+    },
+    useCamera:{
+        en:"Use Camera",
+        ar:"استخدام الكاميرا"
     }
-    
-    
-
-
-    
-
-
-
-
 }
