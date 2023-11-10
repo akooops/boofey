@@ -95,7 +95,7 @@
                             <div>
                                 <!-- Warning Alert -->
                                 <div class="alert alert-warning alert-border-left alert-dismissible fade show" role="alert">
-                                    <i class="ri-alert-line me-3 align-middle"></i>{translation.qrExpireNote[localStorage.getItem("language")]} <strong>{translation.tenMins[localStorage.getItem("language")]}</strong>.
+                                    <i class="ri-alert-line me-3 align-middle"></i>{translation.qrExpireNote[localStorage.getItem("language")]} <strong>{translation.endOfDay[localStorage.getItem("language")]}</strong>.
                                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                                 </div>
 

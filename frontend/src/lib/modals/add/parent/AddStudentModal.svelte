@@ -29,6 +29,7 @@ import {translation} from "$lib/translation.js"
     let captured = false
     let front = true 
     let imageDataURL
+    let useCamera = true
 
     $: constraints = {
         video: { facingMode: front ? "user" : "environment" },
@@ -40,6 +41,8 @@ import {translation} from "$lib/translation.js"
 
     
     function sizeSquare(){
+        if(video == null) return;
+
         let videoWidth = 400; 
         let videoHeight = 400; 
         let scale = 1; 
@@ -67,9 +70,9 @@ import {translation} from "$lib/translation.js"
         }
     
         formData.set("onhold",onHold)
-        
-        formData.set("file",imageDataURLToFile(imageDataURL))
-
+        if(useCamera){
+            formData.set("file",imageDataURLToFile(imageDataURL))
+        }
         formData.set("lang",localStorage.getItem("language"))
         let res = await fetch(PathAddStudent("parent"),{
             headers:{
@@ -158,6 +161,13 @@ import {translation} from "$lib/translation.js"
         console.log(constraints)
         openCam()
     }
+
+    function picType(){
+        if(cameraActive){
+            stopCam()
+        }
+        captured = false
+    }
     </script>
     
     
@@ -229,20 +239,6 @@ import {translation} from "$lib/translation.js"
     
 
 
-                                <div class="col-lg-12">
-                                    <label for="studentname" class="form-label" >{translation.nfcId[localStorage.getItem("language")]}</label>
-                                    <input type="text" name="nfc_id" class="form-control" id="nfc_id"  >
-                                    {#if errors?.nfc_id}
-                                    <strong class="text-danger ms-1 my-2">{errors.nfc_id[0]}</strong>
-                                    {/if}
-                                </div>
-                                <div class="col-lg-12">
-                                    <label for="studentname" class="form-label" >{translation.faceId[localStorage.getItem("language")]}</label>
-                                    <input type="text" name="face_id" class="form-control" id="face_id"  >
-                                    {#if errors?.face_id}
-                                    <strong class="text-danger ms-1 my-2">{errors.face_id[0]}</strong>
-                                    {/if}
-                                </div>
                                 <div class="row ps-3 g-3">
                                     <!-- Switches Color -->
                                     <div class="form-check form-switch col" >
@@ -251,8 +247,18 @@ import {translation} from "$lib/translation.js"
                                     </div><!-- Switches Color -->
 
                                 </div>
+                                <div class="row ps-3 g-3">
+                                    <!-- Switches Color -->
+                                    <div class="form-check form-switch col" >
+                                        <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck1" on:change={picType} bind:checked={useCamera} >
+                                        <label class="form-check-label" for="SwitchCheck1">{translation.useCamera[localStorage.getItem("language")]}</label>
+                                    </div><!-- Switches Color -->
+
+                                </div>
+                                {#if useCamera}
                                 <div>
                                     {#if captured}
+                                    
                                     <button type="button"  class="btn btn-success waves-effect waves-light" on:click={takeAnother}>{translation.takeAnother[localStorage.getItem("language")]}</button>
                                     {:else if cameraActive}
                                     <button type="button"  class="btn btn-danger waves-effect waves-light" on:click={stopCam}>{translation.stopCamera[localStorage.getItem("language")]}</button>
@@ -260,6 +266,15 @@ import {translation} from "$lib/translation.js"
                                     <button type="button" class="btn btn-primary waves-effect waves-light" on:click={openCam}>{translation.launchCamera[localStorage.getItem("language")]}</button>              
                                     {/if}
                                 </div>
+                                {:else}
+                                <div>
+                                    <label for="formFile" class="form-label">{translation.studentImage[localStorage.getItem("language")]}</label>
+                                    <input class="form-control" name="file" type="file" id="formFile">
+                                    {#if errors?.file}
+                                    <strong class="text-danger ms-1 my-2">{errors.file[0]}</strong>
+                                    {/if}
+                                </div>
+                                {/if}
                                 {#if cameraActive}
                                     <div>
                                         <div id="video-container">

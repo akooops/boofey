@@ -120,13 +120,18 @@
                         <tbody>
                             {#if activeSub?.coupon}
                             <tr>
-                                <td>Discount <span class="text-muted">({activeSub?.discount})</span> : </td>
+                                <td>Discount <span class="text-muted">({activeSub?.discount}%)</span> : </td>
                                 <td class="text-end" id="cart-subtotal">{activeSub.discountCalculated.toFixed(3)} SAR</td>
+                            </tr>
+                            {:else}
+                            <tr>
+                                <td>Discount <span class="text-muted">(0%)</span> : </td>
+                                <td class="text-end" id="cart-subtotal">- 0 SAR</td>
                             </tr>
                             {/if}
                             <tr>
                                 <td>Estimated Tax({activeSub.tax}%) : </td>
-                                <td class="text-end" id="cart-discount">- {activeSub.taxCalculated} SAR</td>
+                                <td class="text-end" id="cart-discount">+ {activeSub.taxCalculated} SAR</td>
                             </tr>
                             <tr class="table-active">
                                 <th>Total (SAR) :</th>

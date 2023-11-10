@@ -61,8 +61,13 @@
             <div class="card-header border-bottom-dashed">
                 <div class="d-flex align-items-center">
                     <div class="flex-grow-1">
-                        <h6 class="mb-1 fw-semibold">{packageObj.name}</h6>
+                        {#if localStorage.getItem("language") == "en"}
+                        <h5 class="mb-1 fw-semibold">{packageObj.name}</h5>
                         <p class="text-muted mb-0">{packageObj.description}</p>
+                        {:else}
+                        <h5 class="mb-1 fw-semibold">{packageObj.name_ar}</h5>
+                        <p class="text-muted mb-0">{packageObj.description_ar}</p>
+                        {/if}
                     </div>
                     <div class="">
                         <h5>{packageObj.currentPrice}<sup><small>{translation.sar[localStorage.getItem("language")]}</small></sup> <span class="fs-13 text-muted">{packageObj.yearly ? "" : `/ ${packageObj.days} ${translation.days[localStorage.getItem("language")]}`}</span></h5>

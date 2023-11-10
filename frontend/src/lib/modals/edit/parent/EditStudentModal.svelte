@@ -33,6 +33,7 @@
     let captured = false
     let front = true 
     let imageDataURL
+    let useCamera = true
 
     $: constraints = {
         video: { facingMode: front ? "user" : "environment" },
@@ -43,6 +44,7 @@
     });
 
     function sizeSquare(){
+        if(video == null) return;
         let videoWidth = 400; 
         let videoHeight = 400; 
         let scale = 1; 
@@ -71,7 +73,7 @@
 
         formData.set("edit_image",editImage)
 
-        if(editImage) formData.set("file", imageDataURLToFile(imageDataURL))    
+        if(editImage && useCamera) formData.set("file", imageDataURLToFile(imageDataURL))    
     
         formData.set("onhold",onHold)
         formData.set("lang",localStorage.getItem("language"))
@@ -180,6 +182,13 @@
         }
     }
 
+    function picType(){
+        if(cameraActive){
+            stopCam()
+        }
+        captured = false
+    }
+
 
 
     </script>
@@ -255,21 +264,6 @@
                                 </div>
     
 
-
-                                <div class="col-lg-12">
-                                    <label for="studentname" class="form-label" >{translation.nfcId[localStorage.getItem("language")]}</label>
-                                    <input type="text" name="nfc_id" class="form-control" id="nfc_id" placeholder="Enter Studentname name"  bind:value={$studentStore.nfc_id}>
-                                    {#if errors?.nfc_id}
-                                    <strong class="text-danger ms-1 my-2">{errors.nfc_id[0]}</strong>
-                                    {/if}
-                                </div>
-                                <div class="col-lg-12">
-                                    <label for="studentname" class="form-label" >{translation.faceId[localStorage.getItem("language")]}</label>
-                                    <input type="text" name="face_id" class="form-control" id="face_id" placeholder="Enter Studentname name"  bind:value={$studentStore.face_id}>
-                                    {#if errors?.face_id}
-                                    <strong class="text-danger ms-1 my-2">{errors.face_id[0]}</strong>
-                                    {/if}
-                                </div>
                                 <div class="row ps-3 g-3">
                                     <!-- Switches Color -->
                                     <div class="form-check form-switch col" >
@@ -286,11 +280,20 @@
                                     </div><!-- Switches Color -->
 
                                 </div>
+                                <div class="row ps-3 g-3">
+                                    <!-- Switches Color -->
+                                    <div class="form-check form-switch col" >
+                                        <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck1" on:change={picType} bind:checked={useCamera} >
+                                        <label class="form-check-label" for="SwitchCheck1">{translation.useCamera[localStorage.getItem("language")]}</label>
+                                    </div><!-- Switches Color -->
 
+                                </div>
 
 
                                 
-                                    <div  class:none={!editImage}>
+
+                                    {#if useCamera}
+                                        <div class:none={!editImage}>
                                         {#if captured}
                                         <button type="button"  class="btn btn-success waves-effect waves-light" on:click={takeAnother}>{translation.takeAnother[localStorage.getItem("language")]}</button>
                                         {:else if cameraActive}
@@ -299,6 +302,15 @@
                                         <button type="button" class="btn btn-primary waves-effect waves-light" on:click={openCam}>{translation.launchCamera[localStorage.getItem("language")]}</button>              
                                         {/if}
                                     </div>
+                                    {:else}
+                                        <div class:none={!editImage}>
+                                            <label for="formFile" class="form-label">{translation.studentImage[localStorage.getItem("language")]}</label>
+                                            <input class="form-control" name="file" type="file" id="formFile">
+                                            {#if errors?.file}
+                                            <strong class="text-danger ms-1 my-2">{errors.file[0]}</strong>
+                                            {/if}
+                                        </div>
+                                    {/if}
                                     
                                     {#if cameraActive && editImage}
                                         <div>
@@ -346,6 +358,7 @@
 
                                 <div class="hstack gap-2 justify-content-end">
                                     <button type="button" class="btn btn-light fw-light" data-bs-dismiss="modal" bind:this={close}>{translation.close[localStorage.getItem("language")]}</button>
+                                    <button type="button" class="btn btn-danger waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#deleteStudentModal" data-bs-dismiss="modal">{translation.delete[localStorage.getItem("language")]}</button>
                                     <input type="submit" class="btn btn-primary waves-effect waves-light" value="{translation.save[localStorage.getItem("language")]}">
                                 </div>
                                 </div>

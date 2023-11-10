@@ -110,13 +110,18 @@
                         <tbody>
                             {#if activeSub?.coupon}
                             <tr>
-                                <td>{translation.discount[localStorage.getItem("language")]} <span class="text-muted">({activeSub?.discount})</span> : </td>
-                                <td class="text-end" id="cart-subtotal">{activeSub.discountCalculated.toFixed(3)} {translation.sar[localStorage.getItem("language")]}</td>
+                                <td>{translation.discount[localStorage.getItem("language")]} <span class="text-muted">({activeSub?.discount}%)</span> : </td>
+                                <td class="text-end" id="cart-subtotal">- {activeSub.discountCalculated.toFixed(3)} {translation.sar[localStorage.getItem("language")]}</td>
+                            </tr>
+                            {:else}
+                            <tr>
+                                <td>{translation.discount[localStorage.getItem("language")]} <span class="text-muted">(0%)</span> : </td>
+                                <td class="text-end" id="cart-subtotal">- 0 {translation.sar[localStorage.getItem("language")]}</td>
                             </tr>
                             {/if}
                             <tr>
                                 <td>{translation.estimatedTax[localStorage.getItem("language")]} ({activeSub.tax}%) : </td>
-                                <td class="text-end" id="cart-discount">- {activeSub.taxCalculated} {translation.sar[localStorage.getItem("language")]}</td>
+                                <td class="text-end" id="cart-discount">+ {activeSub.taxCalculated} {translation.sar[localStorage.getItem("language")]}</td>
                             </tr>
                             <tr class="table-active">
                                 <th>{translation.total[localStorage.getItem("language")]} ({translation.sar[localStorage.getItem("language")]}) :</th>
@@ -134,7 +139,7 @@
         {:else}
                     <!-- Info Alert -->
         <div class="alert alert-info alert-border-left alert-dismissible fade show" role="alert">
-            <i class="ri-airplay-line me-3 align-middle"></i> There are no <strong>Active Subscriptions</strong> at the moment 
+            <i class="ri-airplay-line me-3 align-middle"></i> {@html translation.noActiveSubsNote[localStorage.getItem("language")]}
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
 

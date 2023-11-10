@@ -11,10 +11,7 @@
     import { navigating } from '$app/stores';
     
     export let studentsList
-    setContext('studentStore', {
-	    studentStore: writable({})
-    });
-
+  
  
 
 </script>

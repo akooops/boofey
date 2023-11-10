@@ -3,12 +3,19 @@
     import SearchTable from "$lib/components/SearchTable.svelte";
     import StudentsTable from "$lib/tables/parent/StudentsTable.svelte";
     import AddStudentModal from "$lib/modals/add/parent/AddStudentModal.svelte";
+    import StudentCard from "./StudentCard.svelte"
 	import { onMount } from "svelte";
     import {initToolTip} from "$lib/init/initToolTip.js"
     import { setContext } from 'svelte';
     import { writable } from 'svelte/store';
     import { fade } from 'svelte/transition';
     import {translation} from "$lib/translation.js"
+
+    import DeleteStudentModal from "$lib/modals/delete/DeleteStudentModal.svelte"
+	import ViewStudentModal from "$lib/modals/view/parent/ViewStudentModal.svelte";
+	import EditStudentModal from "$lib/modals/edit/parent/EditStudentModal.svelte";
+	import Qr from "$lib/modals/view/Qr.svelte";
+
 
     export let data
     $: studentsList = data.studentsResponse.data.students
@@ -19,12 +26,14 @@
         initToolTip(studentsPage)
     })
 
+    setContext('studentStore', {
+	    studentStore: writable({})
+    });
+
+
+
     import { goto } from '$app/navigation';
 
-    function go(){
-        // goto(`/students/2/subscriptions`)
-
-    }
 </script>
 <div class="row"  in:fade={{duration: 200 }}  bind:this={studentsPage}>
     <div class="col-lg-12">
@@ -36,21 +45,30 @@
                     <AddStudentModal/>
                 </div>
             </div>
+            <Qr type={"parent"}/>
+            <ViewStudentModal /> 
+            <DeleteStudentModal />
+            <EditStudentModal />
+            <!-- <div class="card-body">
 
-            <div class="card-body" on:click={go}>
-
-                <!-- <div class="live-preview"> -->
                     <div class="row">
-                            <!-- Input with Icon -->
                         <SearchTable type={translation.student[localStorage.getItem("language")]}/>
                         <StudentsTable {studentsList} />
                         <Pagination {...studentsPagination} />
-                        <!--end col-->
+                     
+                        
+
+
+
                     </div>
-                    <!--end row-->
-                <!-- </div> -->
-            </div><!-- end card-body -->
-        </div><!-- end card -->
+            </div> -->
+
+          
+        </div>
     </div>
-    <!-- end col -->
+
+    {#each studentsList as student,_ (student.id)}
+        <StudentCard {student} />
+    {/each}
+
 </div>

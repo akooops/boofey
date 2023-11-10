@@ -20,8 +20,13 @@ function choose() {
             {/if}
             <div class="d-flex align-items-center">
                 <div class="flex-grow-1">
+                    {#if localStorage.getItem("language") == "en"}
                     <h5 class="mb-1 fw-semibold">{packageObj.name}</h5>
                     <p class="text-muted mb-0">{packageObj.description}</p>
+                    {:else}
+                    <h5 class="mb-1 fw-semibold">{packageObj.name_ar}</h5>
+                    <p class="text-muted mb-0">{packageObj.description_ar}</p>
+                    {/if}
                 </div>
             </div>
             <div class="pt-4">
@@ -44,7 +49,8 @@ function choose() {
                             {/if}
 
                             <div class="flex-grow-1">
-                               { feature.name}
+
+                               {localStorage.getItem("language") == "en" ? feature.name : feature.name_ar}
                             </div>
                         </div>
                     </li>    

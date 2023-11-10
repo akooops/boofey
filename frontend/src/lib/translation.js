@@ -25,12 +25,12 @@ export let translation = {
         ar:"ابحث"
     },
     next:{
-        en:"Next",
-        ar:"التالي"
+        en:"→",
+        ar:"←"
     },
     previous:{
-        en:"Previous",
-        ar:"السابق"
+        en:"←",
+        ar:"→"
     },
     status:{
         en:"Status",
