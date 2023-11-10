@@ -228,7 +228,7 @@ class StudentsController extends Controller
             $studentWithOtpCode = Student::where('otp', $otp)->first();
         } while ($studentWithOtpCode != null);
 
-        $otpExpiresAt = now()->addMinutes(10);
+        $otpExpiresAt = now()->endOfDay();
 
         $student->update(['otp' => $otp, 'otp_expires_at' => $otpExpiresAt]);
 

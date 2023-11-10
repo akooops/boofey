@@ -25,54 +25,21 @@ class StudentsController extends Controller
     {
         $father = $request->get('father');
 
-        $perPage = limitPerPage($request->query('perPage', 10));
-        $page = checkPageIfNull($request->query('page', 1));
-        $search = checkIfSearchEmpty($request->query('search'));
-
-        $studentsQuery = Student::orderBy('id', 'DESC')->where([
+        $students = Student::orderBy('id', 'DESC')->where([
             'father_id' => $father->id
         ])->with([
             'image:id,path,current_name', 
-            'academicYear:id,name,from,to,current',
             'school:id,name,name_ar,file_id',
             'school.logo:id,current_name,path'
-        ]);
-        
-
-        if ($search) {
-            $studentsQuery->where(function ($query) use ($search) {
-                $query->where('firstname', 'like', '%' . $search . '%')
-                    ->orWhere('lastname', 'like', '%' . $search . '%')
-                    ->orWhere('nfc_id', 'like', '%' . $search . '%')
-                    ->orWhere('face_id', 'like', '%' . $search . '%');
-            })
-            ->orWhereHas('school', function ($schoolQuery) use ($search) {
-                $schoolQuery->where('name', 'like', '%' . $search . '%');
-            })
-            ->orWhereHas('father', function ($fatherQuery) use ($search) {
-                $fatherQuery->where(function ($query) use ($search) {
-                    $query->whereHas('user', function ($userQuery) use ($search) {
-                            $userQuery->where('username', 'like', '%' . $search . '%')
-                                ->orWhere('email', 'like', '%' . $search . '%')
-                                ->orWhere('phone', 'like', '%' . $search . '%')
-                                ->orWhereHas('profile', function ($profileQuery) use ($search) {
-                                    $profileQuery->where('firstname', 'like', '%' . $search . '%')
-                                        ->orWhere('lastname', 'like', '%' . $search . '%');
-                                });
-                        });
-                });
-            });
-        }
-
-        $students = $studentsQuery->paginate($perPage, ['*'], 'page', $page);
+        ])->get();
+    
 
 
         $response = [
             'status' => 'success',
             'data' => [
-                'students' => $students->makeHidden(['otp', 'otp_expires_at']),
+                'students' => $students->makeHidden(['otp', 'otp_expires_at', 'activeSubscription']),
             ],
-            'pagination' => handlePagination($students),
         ];
 
         return response()->json($response);
@@ -206,7 +173,7 @@ class StudentsController extends Controller
             $studentWithOtpCode = Student::where('otp', $otp)->first();
         } while ($studentWithOtpCode != null);
 
-        $otpExpiresAt = now()->addMinutes(10);
+        $otpExpiresAt = now()->endOfDay();
 
         $student->update(['otp' => $otp, 'otp_expires_at' => $otpExpiresAt]);
 

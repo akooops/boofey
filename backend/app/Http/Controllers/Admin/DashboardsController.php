@@ -523,7 +523,7 @@ class DashboardsController extends Controller
                             ->whereDay('created_at', $interval['day']);
             }
     
-            $total = $subscriptions->sum('total');
+            $total = round($subscriptions->sum('total'), 3);
     
             $totals[] = [
                 'date' => $interval['date'],

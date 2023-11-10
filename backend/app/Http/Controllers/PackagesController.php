@@ -27,7 +27,7 @@ class PackagesController extends Controller
             'hidden' => false,
             'yearly' => 0
         ])->with([
-            'packageFeatures:id,name,checked,package_id',
+            'packageFeatures:id,name,name_ar,checked,package_id',
         ])->get();
 
         $yearlyPackages = Package::orderBy('id', 'DESC')->where([
