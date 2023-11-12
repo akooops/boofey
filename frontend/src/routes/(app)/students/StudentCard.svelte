@@ -35,7 +35,7 @@
                         <img src={student.image.full_path} alt="" id="candidate-img" class="avatar-md rounded-circle">
                     </div>
 
-                    <h5 id="candidate-name" class="mb-1">{student.fullname}</h5>
+                    <h5 id="candidate-name" class="mb-1 text-truncate">{student.fullname}</h5>
                     {#if student.subscribed}
                     <span class="badge bg-success-subtle text-success">{translation.subscribed[localStorage.getItem("language")]}</span>
                     {:else}
