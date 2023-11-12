@@ -28,8 +28,8 @@
         <nav class="navbar navbar-expand-lg navbar-landing fixed-top is-sticky" id="navbar">
             <div class="container">
                 <a class="navbar-brand" href="index.html">
-                    <img src="assets/images/logo-dark.png" class="card-logo card-logo-dark" alt="logo dark" height="17">
-                    <img src="assets/images/logo-light.png" class="card-logo card-logo-light" alt="logo light" height="17">
+                    <img src="assets/images/logo.png" class="card-logo card-logo-dark" alt="logo dark" height="48">
+                    <img src="assets/images/logo.png" class="card-logo card-logo-light" alt="logo light" height="48">
                 </a>
                 <button class="navbar-toggler py-0 fs-20 text-body" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <i class="mdi mdi-menu"></i>
@@ -44,7 +44,7 @@
                             <a class="nav-link fs-15" href="#services">Services</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link fs-15" href="#contact">FAQ</a>
+                            <a class="nav-link fs-15" href="#faq">FAQ</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link fs-15" href="#contact">Contact</a>
@@ -74,7 +74,7 @@
 
                             <div class="d-flex gap-2 justify-content-center mt-4">
                                 <a href="/signup" data-sveltekit-reload  class="btn btn-primary">Get Started <i class="ri-arrow-right-line align-middle ms-1"></i></a>
-                                <a href="pages-pricing.html" class="btn btn-danger">Contact <i class="ri-eye-line align-middle ms-1"></i></a>
+                                <a href="#contact" class="btn btn-danger">Contact <i class="ri-eye-line align-middle ms-1"></i></a>
                             </div>
                         </div>
 
@@ -128,9 +128,6 @@
                             <div class="flex-grow-1">
                                 <h5 class="fs-18">Awesome Support</h5>
                                 <p class="text-muted my-3 ff-secondary">Awesome Support is the most versatile and feature-rich support plugin for all version.</p>
-                                <div>
-                                    <a href="#" class="fs-14 fw-medium">Learn More <i class="ri-arrow-right-s-line align-bottom"></i></a>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -147,9 +144,6 @@
                             <div class="flex-grow-1">
                                 <h5 class="fs-18">Truly Multipurpose</h5>
                                 <p class="text-muted my-3 ff-secondary">You usually get a broad range of options to play with. This enables you to use a single theme across multiple.</p>
-                                <div>
-                                    <a href="#" class="fs-14 fw-medium">Learn More <i class="ri-arrow-right-s-line align-bottom"></i></a>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -166,9 +160,6 @@
                             <div class="flex-grow-1">
                                 <h5 class="fs-18">Easy to customize</h5>
                                 <p class="text-muted my-3 ff-secondary">Personalise your own website, no matter what theme and what customization options.</p>
-                                <div>
-                                    <a href="#" class="fs-14 fw-medium">Learn More <i class="ri-arrow-right-s-line align-bottom"></i></a>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -212,7 +203,7 @@
 
 
         <!-- start faqs -->
-        <section class="section">
+        <section class="section" id="faq">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-lg-8">
@@ -221,7 +212,7 @@
                             <p class="text-muted mb-4 ff-secondary">If you can not find answer to your question in our FAQ, you can always contact us or email us. We will answer you shortly!</p>
 
                             <div class="hstack gap-2 justify-content-center">
-                                <button type="button" class="btn btn-primary btn-label rounded-pill"><i class="ri-mail-line label-icon align-middle rounded-pill fs-16 me-2"></i> Email Us</button>
+                                <a href="#contact" class="btn btn-primary btn-label rounded-pill"><i class="ri-mail-line label-icon align-middle rounded-pill fs-16 me-2"></i> Email Us</a>
                             </div>
                         </div>
                     </div>
@@ -431,7 +422,7 @@
         <!-- end counter -->
 
         <!-- start Work Process -->
-        <section class="section">
+        <section class="section" id="contact">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-lg-8">
