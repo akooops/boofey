@@ -111,7 +111,7 @@ function updateTimer() {
 
             <div class="card-body p-4">
                 <div class="text-center mt-2">
-                    <h5 class="text-primary">{translation.forgotPassword[localStorage.getItem("language")]}{translation["?"][localStorage.getItem("language")]}</h5>
+                    <h5 class="text-primary">Forgot password ?</h5>
                     <!-- <p class="text-muted">Reset password with boofey</p> -->
 
                     <lord-icon src="https://cdn.lordicon.com/rhvddzym.json" trigger="loop" colors="primary:#0ab39c" class="avatar-xl">
@@ -120,13 +120,13 @@ function updateTimer() {
                 </div>
 
                 <div class="alert border-0 alert-warning text-center mb-2 mx-2" role="alert">
-                    {translation.enterPhoneAndReset[localStorage.getItem("language")]}
+                    Enter your Phone Number and a reset code will be sent to you !
                 </div>
                 <div class="p-2">
                     <form on:submit|preventDefault={sendPhone} bind:this={form}>
                         <div class="mb-4">
-                            <label class="form-label">{translation.phone[localStorage.getItem("language")]}</label>
-                            <input type="tel" class="form-control" name="phone" id="cleave-phone" placeholder={translation.enterPhone[localStorage.getItem("language")]}>
+                            <label class="form-label">Phone</label>
+                            <input type="tel" class="form-control" name="phone" id="cleave-phone" placeholder="Enter Phone Number">
                         </div>
                         {#if errors?.phone}
                             <strong class="text-danger ms-1 my-2">{errors.phone[0]}</strong>
@@ -136,7 +136,7 @@ function updateTimer() {
                                 {#if loading}
                                 <span class="spinner-border " role="status"></span>
                                 {:else}
-                                {translation.sendResetCode[localStorage.getItem("language")]}
+                                Send Reset Code
                                 {/if}                                        
                             </button>
                         </div>
@@ -148,7 +148,7 @@ function updateTimer() {
         <!-- end card -->
 
         <div class="mt-4 text-center">
-            <p class="mb-0">{translation.iRemember[localStorage.getItem("language")]}... <a href="/signin" class="fw-semibold text-primary text-decoration-underline"> {translation.clickHere[localStorage.getItem("language")]} </a> </p>
+            <p class="mb-0">Wait, I remember my password... <a href="/signin" class="fw-semibold text-primary text-decoration-underline"> Click Here </a> </p>
         </div>
 
     </div>
@@ -160,17 +160,17 @@ function updateTimer() {
 
             <div class="card-body p-4">
                 <div class="text-center mt-2">
-                    <h5 class="text-primary">{translation.createNewPass[localStorage.getItem("language")]}</h5>
-                    <p class="text-muted">{translation.enterNewPasswordAndToken[localStorage.getItem("language")]}.</p>
+                    <h5 class="text-primary">Create New Password</h5>
+                    <p class="text-muted">Enter a new password , and the token that has been sent to your phone.</p>
                 </div>
 
                 <div class="p-2">
                     <form on:submit|preventDefault={resetPassword} bind:this={form}>
                         <div class="mb-3">
-                            <label class="form-label" for="password-input">{translation.password[localStorage.getItem("language")]}</label>
+                            <label class="form-label" for="password-input">Password</label>
                             <div class="position-relative auth-pass-inputgroup">
                                 
-                                <Password name={"password"} placeholder={translation.enterPassword[localStorage.getItem("language")]}/>
+                                <Password name={"password"} placeholder="Enter Password"/>
                                 <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon" type="button" id="password-addon"><i class="ri-eye-fill align-middle"></i></button>
                             </div>
                             {#if errors?.password}
@@ -179,9 +179,9 @@ function updateTimer() {
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label" for="confirm-password-input">{translation.confirmPassword[localStorage.getItem("language")]}</label>
+                            <label class="form-label" for="confirm-password-input">Confirm Password</label>
                             <div class="position-relative auth-pass-inputgroup mb-3">
-                                <Password name={"password_confirmation"} placeholder={translation.enterPasswordConfirmation[localStorage.getItem("language")]}/>
+                                <Password name={"password_confirmation"} placeholder="Confirm Password"/>
                                 <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon" type="button" id="confirm-password-input"><i class="ri-eye-fill align-middle"></i></button>
                             </div>
                             {#if errors?.password_confirmation}
@@ -190,8 +190,8 @@ function updateTimer() {
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label">{translation.verificationCode[localStorage.getItem("language")]}</label>
-                            <input type="text" class="form-control" name="token" id="cleave-phone" placeholder={translation.enterVerificationCode[localStorage.getItem("language")]}>
+                            <label class="form-label">Verification Code</label>
+                            <input type="text" class="form-control" name="token" id="cleave-phone" placeholder="Enter Verification Code">
                             {#if errors?.token}
                                 <strong class="text-danger ms-1 my-2">{errors.token[0]}</strong>
                             {/if}
@@ -202,7 +202,7 @@ function updateTimer() {
                                 {#if loading}
                                 <span class="spinner-border " role="status"></span>
                                 {:else}
-                                {translation.resetPass[localStorage.getItem("language")]}
+                                Reset Password
                                 {/if}                                        
                             </button>
                         </div>
@@ -216,9 +216,9 @@ function updateTimer() {
 
         <div class="mt-4 text-center">
             {#if resendAvailable}
-            <p class="mb-0">{translation.didntReceiveCode[localStorage.getItem("language")]}  {translation["?"][localStorage.getItem("language")]} <a href="javascript:void(0);" on:click={genCode} class="fw-semibold text-primary text-decoration-underline"> {translation.resend[localStorage.getItem("language")]} </a> </p>
+            <p class="mb-0">Didn't receive the code ? <a href="javascript:void(0);" on:click={genCode} class="fw-semibold text-primary text-decoration-underline"> Resend </a> </p>
             {:else}
-            <p class="mb-0">{translation.youNeedToWait[localStorage.getItem("language")]} <span>{time}</span> {translation.inOrderToResend[localStorage.getItem("language")]}  </p>
+            <p class="mb-0">You need to wait <span>{time}</span> in order to resend again  </p>
             
 
             {/if}
@@ -238,10 +238,10 @@ function updateTimer() {
                     </div>
                 </div>
                 <div class="mt-4 pt-2">
-                    <h4>{translation.success[localStorage.getItem("language")]} !</h4>
-                    <p class="text-muted mx-4">{translation.passChangedSuccess[localStorage.getItem("language")]}</p>
+                    <h4>Success !</h4>
+                    <p class="text-muted mx-4">your password has been changed successfully</p>
                     <div class="mt-4">
-                        <a href="/signin" class="btn btn-info w-100">{translation.signIn[localStorage.getItem("language")]}</a>
+                        <a href="/signin" class="btn btn-info w-100">Sign in</a>
                     </div>
                 </div>
             </div>

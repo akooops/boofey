@@ -125,8 +125,8 @@
 
                             <div class="p-2 mt-4">
                                 <div class="text-muted text-center mb-4 mx-lg-3">
-                                    <h4>{translation.VerifyYourAcc[localStorage.getItem("language")]}</h4>
-                                    <p>{translation.enterSix[localStorage.getItem("language")]} </p>
+                                    <h4>Verify Your Account</h4>
+                                    <p>Please enter the 6 digits code sent to your phone number </p>
                                 </div>
 
                                 <form autocomplete="off" on:submit|preventDefault={verify} bind:this={form}>
@@ -187,7 +187,7 @@
                                         {#if loading}
                                         <span class="spinner-border " role="status"></span>
                                         {:else}
-                                        {translation.confirm[localStorage.getItem("language")]}
+                                        Confirm
                                         {/if}                                        
                                     </button>
                                 </div>
@@ -199,9 +199,9 @@
 
                     <div class="mt-4 text-center">
                         {#if resendAvailable}
-                        <p class="mb-0">{translation.didntReceiveCode[localStorage.getItem("language")]}  {translation["?"][localStorage.getItem("language")]} <a href="javascript:void(0);" on:click={genCode} class="fw-semibold text-primary text-decoration-underline"> {translation.resend[localStorage.getItem("language")]}  </a> </p>
+                        <p class="mb-0">Didn't receive the code ? <a href="javascript:void(0);" on:click={genCode} class="fw-semibold text-primary text-decoration-underline"> Resend  </a> </p>
                         {:else}
-                        <p class="mb-0">{translation.youNeedToWait[localStorage.getItem("language")]} <span>{time}</span> {translation.inOrderToResend[localStorage.getItem("language")]}  </p>
+                        <p class="mb-0">You need to wait <span>{time}</span> in order to resend again  </p>
                         
 
                         {/if}
