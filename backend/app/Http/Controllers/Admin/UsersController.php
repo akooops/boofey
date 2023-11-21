@@ -20,12 +20,18 @@ class UsersController extends Controller
         $perPage = limitPerPage($request->query('perPage', 10));
         $page = checkPageIfNull($request->query('page', 1));
         $search = checkIfSearchEmpty($request->query('search'));
+        $verified = $request->query('verified', null);
+
 
         $users = User::orderBy('id', 'DESC')->with([
             'profile:id,user_id,firstname,lastname,file_id',
             'profile.image:id,current_name,path',
             'roles:id,name,guard_name', 
         ]);
+
+        if(!is_null($verified)){
+            $users = ($verified == true) ? $users->whereNotNull('phone_verified_at') : $users->whereNull('phone_verified_at');
+        }
 
         if ($search) {
             $users->where(function ($query) use ($search) {
@@ -35,16 +41,13 @@ class UsersController extends Controller
             })
             ->orWhereHas('roles', function ($rolesQuery) use ($search) {
                 $rolesQuery->where('name', 'like', '%' . $search . '%')
-                    ->orWhere('guard_name', 'like', '%' . $search . '%')
                     ->orWhereHas('permissions', function ($permissionsQuery) use ($search) {
-                        $permissionsQuery->where('name', 'like', '%' . $search . '%')
-                            ->orWhere('guard_name', 'like', '%' . $search . '%');
+                        $permissionsQuery->where('name', 'like', '%' . $search . '%');
                     });
             })
             ->orWhereHas('profile', function ($profileQuery) use ($search) {
                 $profileQuery->where('firstname', 'like', '%' . $search . '%')
-                    ->orWhere('lastname', 'like', '%' . $search . '%')
-                    ->orWhere('description', 'like', '%' . $search . '%');
+                    ->orWhere('lastname', 'like', '%' . $search . '%');
             });
         }
 

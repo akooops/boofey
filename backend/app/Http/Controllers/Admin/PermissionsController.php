@@ -23,8 +23,9 @@ class PermissionsController extends Controller
         $permissions = Permission::orderBy('id', 'DESC');
 
         if ($search) {
-            $permissions->where('name', 'like', '%' . $search . '%')
-            ->orWhere('guard_name', 'like', '%' . $search . '%');
+            $permissions
+            ->where('id', $search)
+            ->orWhere('name', 'like', '%' . $search . '%');
         }
 
         $permissions = $permissions->paginate($perPage, ['*'], 'page', $page);

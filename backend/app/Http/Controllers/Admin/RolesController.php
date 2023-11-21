@@ -25,12 +25,12 @@ class RolesController extends Controller
 
         if ($search) {
             $roles->where(function ($query) use ($search) {
-                $query->where('name', 'like', '%' . $search . '%')
-                    ->orWhere('guard_name', 'like', '%' . $search . '%');
+                $query
+                    ->where('id', $search)
+                    ->orWhere('name', 'like', '%' . $search . '%');
             })
             ->orWhereHas('permissions', function ($permissionQuery) use ($search) {
-                $permissionQuery->where('name', 'like', '%' . $search . '%')
-                    ->orWhere('guard_name', 'like', '%' . $search . '%');
+                $permissionQuery->where('name', 'like', '%' . $search . '%');
             });
         }
 
