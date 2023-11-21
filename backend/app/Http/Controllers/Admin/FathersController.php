@@ -103,6 +103,13 @@ class FathersController extends Controller
     {
         $father->update($request->validated());
 
+        $father->user()->update($request->validated());
+
+        $father->user->profile()->update([
+            'firstname' => $request->get('firstname'),
+            'lastname' => $request->get('lastname'),
+        ]);
+
         return response()->json([
             'status' => 'success'
         ]);

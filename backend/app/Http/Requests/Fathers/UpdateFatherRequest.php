@@ -25,9 +25,17 @@ class UpdateFatherRequest extends FormRequest
      */
     public function rules()
     {
+        $father = request()->route('father');
+
         return [
-            'user_id' => 'required|exists:users,id',
-        ];
+            'firstname' => 'required|string|max:500',
+            'lastname' => 'required|string|max:500',
+            'username' => 'required|username|unique:users,username,'.$father->user->id,
+            'email' => 'required|email:rfc,dns|unique:users,email,'.$father->$user->id,
+            'phone' => 'required|phone|unique:users,phone,'.$father->$user->id,
+            'edit_password' => 'required|boolean',
+            'password' => 'required_if:edit_password,true|password|confirmed',
+        ]
     }
 
     protected function failedValidation(\Illuminate\Contracts\Validation\Validator $validator)
