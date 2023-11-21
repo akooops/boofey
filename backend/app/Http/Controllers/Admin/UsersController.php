@@ -35,7 +35,9 @@ class UsersController extends Controller
 
         if ($search) {
             $users->where(function ($query) use ($search) {
-                $query->where('username', 'like', '%' . $search . '%')
+                $query
+                    ->where('id', $search)
+                    ->orWhere('username', 'like', '%' . $search . '%')
                     ->orWhere('email', 'like', '%' . $search . '%')
                     ->orWhere('phone', 'like', '%' . $search . '%');
             })
@@ -47,7 +49,9 @@ class UsersController extends Controller
             })
             ->orWhereHas('profile', function ($profileQuery) use ($search) {
                 $profileQuery->where('firstname', 'like', '%' . $search . '%')
-                    ->orWhere('lastname', 'like', '%' . $search . '%');
+                    ->orWhere('lastname', 'like', '%' . $search . '%')
+                    ->orWhereRaw("CONCAT(firstname, ' ', lastname) LIKE ?", ['%' . $search . '%'])
+                    ->orWhereRaw("CONCAT(lastname, ' ', firstname) LIKE ?", ['%' . $search . '%']);
             });
         }
 

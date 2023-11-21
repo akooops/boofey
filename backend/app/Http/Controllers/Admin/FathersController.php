@@ -32,12 +32,16 @@ class FathersController extends Controller
         if ($search) {
             $fathers->where(function ($query) use ($search) {
                 $query->whereHas('user', function ($userQuery) use ($search) {
-                        $userQuery->where('username', 'like', '%' . $search . '%')
+                        $userQuery
+                            ->where('id', $search)
+                            ->orWhere('username', 'like', '%' . $search . '%')
                             ->orWhere('email', 'like', '%' . $search . '%')
                             ->orWhere('phone', 'like', '%' . $search . '%')
                             ->orWhereHas('profile', function ($profileQuery) use ($search) {
                                 $profileQuery->where('firstname', 'like', '%' . $search . '%')
-                                    ->orWhere('lastname', 'like', '%' . $search . '%');
+                                    ->orWhere('lastname', 'like', '%' . $search . '%')
+                                    ->orWhereRaw("CONCAT(firstname, ' ', lastname) LIKE ?", ['%' . $search . '%'])
+                                    ->orWhereRaw("CONCAT(lastname, ' ', firstname) LIKE ?", ['%' . $search . '%']);
                             });
                     });
             });

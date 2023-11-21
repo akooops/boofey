@@ -26,7 +26,10 @@ class SchoolsController extends Controller
         ]);
 
         if ($search) {
-            $schools->where('name', 'like', '%' . $search . '%');
+            $schools
+            ->where('id', $search)
+            ->orWhere('name', 'like', '%' . $search . '%')
+            ->orWhere('name_ar', 'like', '%' . $search . '%');
         }
 
         $schools = $schools->paginate($perPage, ['*'], 'page', $page);
