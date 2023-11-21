@@ -64,6 +64,10 @@ class PackagesController extends Controller
         $page = checkPageIfNull($request->query('page', 1));
         $search = checkIfSearchEmpty($request->query('search'));
 
+        $yearly = $request->query('yearly', null);
+        $popular = $request->query('popular', null);
+        $hidden = $request->query('hidden', null);
+
         $packagesQuery = Package::orderBy('id', 'DESC')->with([
             'packageFeatures:id,name,name_ar,checked,package_id',
         ]);
@@ -77,11 +81,27 @@ class PackagesController extends Controller
             ]); 
         }
 
+        if(!is_null($yearly)){
+            $packagesQuery->where('yearly', $yearly);
+        }
+
+        if(!is_null($popular)){
+            $packagesQuery->where('popular', $popular);
+        }
+
+        if(!is_null($hidden)){
+            $packagesQuery->where('hidden', $hidden);
+        }
+
         if ($search) {
             $packagesQuery->where(function ($query) use ($search) {
-                $query->where('name', 'like', '%' . $search . '%')
+                $query
+                    ->where('id', $search)
+                    ->orWhere('name', 'like', '%' . $search . '%')
+                    ->orWhere('name_ar', 'like', '%' . $search . '%')
                     ->orWhere('code', 'like', '%' . $search . '%')
-                    ->orWhere('description', 'like', '%' . $search . '%');
+                    ->orWhere('description', 'like', '%' . $search . '%')
+                    ->orWhere('description_ar', 'like', '%' . $search . '%');
             });
         }
 
