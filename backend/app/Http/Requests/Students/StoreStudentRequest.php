@@ -33,8 +33,6 @@ class StoreStudentRequest extends FormRequest
             'lastname' => 'required|string|max:500',
             'class' => 'required|integer',
 
-            'onhold' => 'required|boolean',
-
             'school_id' => 'required|exists:schools,id',
 
             'file' => 'required|file|mimes:jpeg,png'    
@@ -46,6 +44,7 @@ class StoreStudentRequest extends FormRequest
             $rules['father_id'] = 'required|exists:fathers,id';
             $rules['nfc_id'] = 'nullable|string|unique:students,nfc_id';
             $rules['face_id'] = 'nullable|string|unique:students,face_id';
+            $rules['onhold'] = 'required|boolean';
         }
 
         return $rules;

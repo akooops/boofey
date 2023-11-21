@@ -36,8 +36,6 @@ class UpdateStudentRequest  extends FormRequest
             'lastname' => 'required|string|max:500',
             'class' => 'required|integer',
             
-            'onhold' => 'required|boolean',
-
             'school_id' => ['required', 'exists:schools,id', new CanChangeSchool($student->id)],
 
             'edit_image' => 'required|boolean',
@@ -49,6 +47,7 @@ class UpdateStudentRequest  extends FormRequest
             $rules['father_id'] = 'required|exists:fathers,id';
             $rules['nfc_id'] = 'nullable|string|unique:students,nfc_id,'.$student->id;
             $rules['face_id'] = 'nullable|string|unique:students,face_id,'.$student->id;
+            $rules['onhold'] = 'required|boolean';
         }
 
         return $rules;
