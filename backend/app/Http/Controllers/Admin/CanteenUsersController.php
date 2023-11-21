@@ -72,11 +72,17 @@ class CanteenUsersController extends Controller
 
         if ($search) {
             $canteens->where(function ($query) use ($search) {
-                $query->where('address', 'like', '%' . $search . '%')
-                    ->orWhereHas('school', function ($schoolQuery) use ($search) {
-                        $schoolQuery->where('name', 'like', '%' . $search . '%');
-                    });
-            });
+                $query
+                    ->where('id', $search)
+                    ->where('name', 'like', '%' . $search . '%')
+                    ->orWhere('name_ar', 'like', '%' . $search . '%')
+                    ->orWhere('address', 'like', '%' . $search . '%')
+                    ->orWhere('address_ar', 'like', '%' . $search . '%');
+            })
+            ->orWhereHas('school', function ($schoolQuery) use ($search) {
+                $schoolQuery->where('name', 'like', '%' . $search . '%')
+                    ->orWhere('name_ar', 'like', '%' . $search . '%');
+            }); 
         }
 
         $canteens = $canteens->paginate($perPage, ['*'], 'page', $page);

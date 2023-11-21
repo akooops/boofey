@@ -26,7 +26,9 @@ class CouponsController extends Controller
         $coupons = Coupon::orderBy('id', 'DESC');
 
         if ($search) {
-            $coupons->where('name', 'like', '%' . $search . '%')
+            $coupons
+            ->where('id', $search)
+            ->where('name', 'like', '%' . $search . '%')
             ->orWhere('code', 'like', '%' . $search . '%');
         }
 

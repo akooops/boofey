@@ -92,13 +92,18 @@ class StudentsController extends Controller
 
         if ($search) {
             $studentsQuery->where(function ($query) use ($search) {
-                $query->where('firstname', 'like', '%' . $search . '%')
+                $query
+                    ->where('id', $search)
+                    ->orWhere('firstname', 'like', '%' . $search . '%')
                     ->orWhere('lastname', 'like', '%' . $search . '%')
+                    ->orWhereRaw("CONCAT(firstname, ' ', lastname) LIKE ?", ['%' . $search . '%'])
+                    ->orWhereRaw("CONCAT(lastname, ' ', firstname) LIKE ?", ['%' . $search . '%'])
                     ->orWhere('nfc_id', 'like', '%' . $search . '%')
                     ->orWhere('face_id', 'like', '%' . $search . '%');
             })
             ->orWhereHas('school', function ($schoolQuery) use ($search) {
-                $schoolQuery->where('name', 'like', '%' . $search . '%');
+                $schoolQuery->where('name', 'like', '%' . $search . '%')
+                ->orWhere('name_ar', 'like', '%' . $search . '%');
             })
             ->orWhereHas('father', function ($fatherQuery) use ($search) {
                 $fatherQuery->where(function ($query) use ($search) {
@@ -108,7 +113,9 @@ class StudentsController extends Controller
                                 ->orWhere('phone', 'like', '%' . $search . '%')
                                 ->orWhereHas('profile', function ($profileQuery) use ($search) {
                                     $profileQuery->where('firstname', 'like', '%' . $search . '%')
-                                        ->orWhere('lastname', 'like', '%' . $search . '%');
+                                        ->orWhere('lastname', 'like', '%' . $search . '%')                                                          
+                                        ->orWhereRaw("CONCAT(firstname, ' ', lastname) LIKE ?", ['%' . $search . '%'])
+                                        ->orWhereRaw("CONCAT(lastname, ' ', firstname) LIKE ?", ['%' . $search . '%']);
                                 });
                         });
                 });

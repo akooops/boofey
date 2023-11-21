@@ -40,6 +40,18 @@ class QueueStudentsController extends Controller
             'queue_id' => $queue->id
         ]);
 
+        if ($search) {
+            $queueStudents->whereHas('student', function ($query) use ($search) {
+                $query->where('id', $search)
+                    ->orWhere('firstname', 'like', '%' . $search . '%')
+                    ->orWhere('lastname', 'like', '%' . $search . '%')
+                    ->orWhereRaw("CONCAT(firstname, ' ', lastname) LIKE ?", ['%' . $search . '%'])
+                    ->orWhereRaw("CONCAT(lastname, ' ', firstname) LIKE ?", ['%' . $search . '%'])
+                    ->orWhere('nfc_id', 'like', '%' . $search . '%')
+                    ->orWhere('face_id', 'like', '%' . $search . '%');;
+            });
+        }
+
         $queueStudents = $queueStudents->paginate($perPage, ['*'], 'page', $page);
 
         $response = [

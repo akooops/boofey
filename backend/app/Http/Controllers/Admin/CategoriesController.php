@@ -24,7 +24,9 @@ class CategoriesController extends Controller
         $categories = Category::orderBy('id', 'DESC');
 
         if ($search) {
-            $categories->where('name', 'like', '%' . $search . '%')
+            $categories
+            ->where('id', $search)
+            ->orWhere('name', 'like', '%' . $search . '%')
             ->orWhere('name_ar', 'like', '%' . $search . '%');
         }
 

@@ -35,7 +35,10 @@ class ProductsController extends Controller
         }
 
         if ($search) {
-            $products->where('name', 'like', '%' . $search . '%');
+            $products
+                ->where('id', $search)
+                ->orWhere('name', 'like', '%' . $search . '%')
+                ->orWhere('name_ar', 'like', '%' . $search . '%');
         }
 
         $products = $products->paginate($perPage, ['*'], 'page', $page);
