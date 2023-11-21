@@ -1,6 +1,6 @@
-import { PathGetProfile } from "$lib/api/paths"
+import { PathGetProfile,PathAuth } from "$lib/api/paths"
 
-import { redirector } from "$lib/api/auth";
+import { redirector, refresher,ProfileData } from "$lib/api/auth";
 
 export const ssr = false;
 export const prerender = true;
@@ -14,5 +14,22 @@ export async function load({fetch,url,depends,params}) {
     // redirector(res)
     
     // let profileResponse = await res.json()
-    return {tabTitle:"",arTabTitle:""}
+
+    
+    await refresher()
+
+    let userResponse
+    let authRes = await fetch(PathAuth(),{
+        headers:{
+            Authorization: `${localStorage.getItem("SID")}`
+        }
+    })
+    if(authRes.ok){
+        userResponse = await authRes.json()
+    }
+    
+    
+    return {userResponse,tabTitle:"",arTabTitle:""}
 };
+
+

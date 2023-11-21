@@ -70,15 +70,15 @@
 
                         <div class="card-body p-4">
                             <div class="text-center mt-2">
-                                <h5 class="text-primary">{translation.welcomeBack[localStorage.getItem("language")]} !</h5>
-                                <p class="text-muted">{translation.signInToContinue[localStorage.getItem("language")]} Boofey.</p>
+                                <h5 class="text-primary">Welcome Back !</h5>
+                                <p class="text-muted">Sign in to continue to Boofey.</p>
                             </div>
                             <div class="p-2 mt-4">
                                 <form on:submit|preventDefault={signin} bind:this={form}>
 
                                     <div class="mb-3">
-                                        <label for="username" class="form-label">{translation.username[localStorage.getItem("language")]}</label>
-                                        <input type="text" class="form-control" id="username" name="login" placeholder="{translation.enterUsernameEmailOrPhone[localStorage.getItem("language")]}">
+                                        <label for="username" class="form-label">Username</label>
+                                        <input type="text" class="form-control" id="username" name="login" placeholder="Enter username, email or phone">
                                         {#if errors?.login}
                                             <strong class="text-danger ms-1 my-2">{errors.login[0]}</strong>
                                         {/if}
@@ -86,11 +86,11 @@
 
                                     <div class="mb-3">
                                         <div class="float-end">
-                                            <a href="/reset-password" class="text-muted">{translation.forgotPassword[localStorage.getItem("language")]} {translation["?"][localStorage.getItem("language")]}</a>
+                                            <a href="/reset-password" class="text-muted">Forgot password ?</a>
                                         </div>
-                                        <label class="form-label" for="password-input">{translation.password[localStorage.getItem("language")]}</label>
+                                        <label class="form-label" for="password-input">Password</label>
                                         <div class="position-relative auth-pass-inputgroup mb-3">
-                                            <Password name={"password"} placeholder={translation.enterPassword[localStorage.getItem("language")]}/>
+                                            <Password name={"password"} placeholder="Enter Password"/>
                                         </div>
                                         {#if errors?.password}
                                         <strong class="text-danger ms-1 my-2">{errors.password[0]}</strong>
@@ -99,7 +99,7 @@
 
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" bind:checked={keep_me_signed_in} id="auth-remember-check">
-                                        <label class="form-check-label" for="auth-remember-check">{translation.keepMeSignedIn[localStorage.getItem("language")]}</label>
+                                        <label class="form-check-label" for="auth-remember-check">Keep me signed in</label>
                                     </div>
                                     {#if message != ""}
                                     <strong class="text-danger ms-1 my-2">{message}</strong>
@@ -111,7 +111,7 @@
                                             {#if loading}
                                             <span class="spinner-border " role="status"></span>
                                             {:else}
-                                                {translation.signIn[localStorage.getItem("language")]}
+                                            Sign In
 
                                             {/if}                                        
                                         </button>
@@ -124,7 +124,7 @@
                     <!-- end card -->
 
                     <div class="mt-4 text-center">
-                        <p class="mb-0">{translation.dontHaveAnAcc[localStorage.getItem("language")]} {translation["?"][localStorage.getItem("language")]} <a href="/signup" class="fw-semibold text-primary text-decoration-underline"> {translation.signUp[localStorage.getItem("language")]} </a> </p>
+                        <p class="mb-0">Don't have an account ? <a href="/signup" class="fw-semibold text-primary text-decoration-underline"> Sign Up </a> </p>
                     </div>
 
                 </div>

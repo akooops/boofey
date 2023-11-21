@@ -6,7 +6,7 @@
 
     // let loaded = true
     // onMount(async () => {
-    //     if(data.userResponse.data.user.roles[0].name == "admin"){
+    //     if(data.userResponse.data.user.roles[0].name.name == "admin"){
     //         await goto("/admin")
     //     }else{
     //         await goto("/students")
@@ -14,8 +14,10 @@
     //     loaded = true
     // })
 
-
-
+    
+        $:userResponse = data.userResponse
+        $:user = userResponse?.data?.user
+        $:console.log(user)
 
 </script>
 <!-- {#if loaded}
@@ -28,8 +30,8 @@
         <nav class="navbar navbar-expand-lg navbar-landing fixed-top is-sticky" id="navbar">
             <div class="container">
                 <a class="navbar-brand" href="index.html">
-                    <img src="assets/images/logo.png" class="card-logo card-logo-dark" alt="logo dark" height="48">
-                    <img src="assets/images/logo.png" class="card-logo card-logo-light" alt="logo light" height="48">
+                    <img src="assets/images/logo-dark.png" class="card-logo card-logo-dark" alt="logo dark" height="17">
+                    <img src="assets/images/logo-light.png" class="card-logo card-logo-light" alt="logo light" height="17">
                 </a>
                 <button class="navbar-toggler py-0 fs-20 text-body" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <i class="mdi mdi-menu"></i>
@@ -44,7 +46,7 @@
                             <a class="nav-link fs-15" href="#services">Services</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link fs-15" href="#faq">FAQ</a>
+                            <a class="nav-link fs-15" href="#contact">FAQ</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link fs-15" href="#contact">Contact</a>
@@ -52,8 +54,12 @@
                     </ul>
 
                     <div class="">
+                        {#if userResponse}
+                            <a href="{user.roles[0].name == "parent" ? "/students" : "/admin"}" data-sveltekit-reload  class="btn btn-primary">Go To Control Panel</a>
+                        {:else}
                         <a href="/signin"  data-sveltekit-reload class="btn btn-link fw-medium text-decoration-none text-body">Sign in</a>
                         <a href="/signup" data-sveltekit-reload  class="btn btn-primary">Sign Up</a>
+                        {/if}
                     </div>
                 </div>
 
@@ -73,8 +79,12 @@
                             <p class="lead text-muted lh-base">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
 
                             <div class="d-flex gap-2 justify-content-center mt-4">
+                                {#if userResponse}
+                                <a href="{user.roles[0].name == "parent" ? "/students" : "/admin"}" data-sveltekit-reload  class="btn btn-primary">Go To Control Panel <i class="ri-arrow-right-line align-middle ms-1"></i></a>
+                                {:else}
                                 <a href="/signup" data-sveltekit-reload  class="btn btn-primary">Get Started <i class="ri-arrow-right-line align-middle ms-1"></i></a>
-                                <a href="#contact" class="btn btn-danger">Contact <i class="ri-eye-line align-middle ms-1"></i></a>
+                                {/if}
+                                <a href="pages-pricing.html" class="btn btn-danger">Contact <i class="ri-eye-line align-middle ms-1"></i></a>
                             </div>
                         </div>
 
@@ -128,6 +138,9 @@
                             <div class="flex-grow-1">
                                 <h5 class="fs-18">Awesome Support</h5>
                                 <p class="text-muted my-3 ff-secondary">Awesome Support is the most versatile and feature-rich support plugin for all version.</p>
+                                <div>
+                                    <a href="#" class="fs-14 fw-medium">Learn More <i class="ri-arrow-right-s-line align-bottom"></i></a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -144,6 +157,9 @@
                             <div class="flex-grow-1">
                                 <h5 class="fs-18">Truly Multipurpose</h5>
                                 <p class="text-muted my-3 ff-secondary">You usually get a broad range of options to play with. This enables you to use a single theme across multiple.</p>
+                                <div>
+                                    <a href="#" class="fs-14 fw-medium">Learn More <i class="ri-arrow-right-s-line align-bottom"></i></a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -160,6 +176,9 @@
                             <div class="flex-grow-1">
                                 <h5 class="fs-18">Easy to customize</h5>
                                 <p class="text-muted my-3 ff-secondary">Personalise your own website, no matter what theme and what customization options.</p>
+                                <div>
+                                    <a href="#" class="fs-14 fw-medium">Learn More <i class="ri-arrow-right-s-line align-bottom"></i></a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -188,7 +207,12 @@
                     <!-- end col -->
                     <div class="col-sm-auto">
                         <div>
+                            {#if userResponse}
+                            <a href="{user.roles[0].name == "parent" ? "/students" : "/admin"}" data-sveltekit-reload class="btn bg-gradient btn-danger"><i class="ri-arrow-right-line align-middle me-1"></i> Go To Control Panel</a>
+
+                            {:else}
                             <a href="/signup" data-sveltekit-reload class="btn bg-gradient btn-danger"><i class="ri-arrow-right-line align-middle me-1"></i> Get Started</a>
+                            {/if}
                         </div>
                     </div>
                     <!-- end col -->
@@ -203,7 +227,7 @@
 
 
         <!-- start faqs -->
-        <section class="section" id="faq">
+        <section class="section">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-lg-8">
@@ -212,7 +236,7 @@
                             <p class="text-muted mb-4 ff-secondary">If you can not find answer to your question in our FAQ, you can always contact us or email us. We will answer you shortly!</p>
 
                             <div class="hstack gap-2 justify-content-center">
-                                <a href="#contact" class="btn btn-primary btn-label rounded-pill"><i class="ri-mail-line label-icon align-middle rounded-pill fs-16 me-2"></i> Email Us</a>
+                                <button type="button" class="btn btn-primary btn-label rounded-pill"><i class="ri-mail-line label-icon align-middle rounded-pill fs-16 me-2"></i> Email Us</button>
                             </div>
                         </div>
                     </div>
@@ -422,7 +446,7 @@
         <!-- end counter -->
 
         <!-- start Work Process -->
-        <section class="section" id="contact">
+        <section class="section">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-lg-8">
@@ -504,7 +528,12 @@
                     <!-- end col -->
                     <div class="col-sm-auto">
                         <div>
+                            {#if userResponse}
+                            <a href="{user.roles[0].name == "parent" ? "/students" : "/admin"}" data-sveltekit-reload class="btn bg-gradient btn-danger"><i class="ri-arrow-right-line align-middle me-1"></i> Go To Control Panel</a>
+
+                            {:else}
                             <a href="/signup" data-sveltekit-reload class="btn bg-gradient btn-danger"><i class="ri-arrow-right-line align-middle me-1"></i> Get Started</a>
+                            {/if}
                         </div>
                     </div>
                     <!-- end col -->
