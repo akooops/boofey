@@ -205,6 +205,15 @@ class StudentsController extends Controller
             ], 403);
         }
 
+        if($student->subscribed){
+            return response()->json([
+                'status' => 'error',
+                'errors' => [
+                    '200' => __('translations.student_is_subscribed_on_delete')
+                ]
+            ], 200);
+        }
+
         $file = File::find($student->file_id);
 
         $student->delete();

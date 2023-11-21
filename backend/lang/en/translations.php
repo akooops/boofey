@@ -11,6 +11,7 @@ return [
     'invalid_verification_code' => 'Invalid or expired verification code. Please try again.',
     'invalid_password_reset_token' => 'Invalid or expired password reset token. Please try again.',
 
+    'student_is_subscribed_on_delete' => 'Can\'t delete this student since he has an active subscribtion for the moment.',
     'invalid_coupon' => 'Invalid or expired coupon code. Please try another one.',
 
     'incorrect_old_password' => 'The old password is incorrect.'
