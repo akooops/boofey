@@ -101,11 +101,12 @@ class CanteensController extends Controller
      */
     public function store(StoreCanteenRequest $request) 
     {
+
         $schoolId = $request->get('school_id');
         $school = School::findOrFail($schoolId);
 
         $apiKey = $this->createCanteen($request, $school);
-    
+
         return response()->json([
             'status' => 'success',
             'data' => [
@@ -136,6 +137,8 @@ class CanteensController extends Controller
 
     public function createCanteen($request, School $school = null) 
     {
+        $user = auth()->user();
+
         $canteen = Canteen::create(array_merge(
             $request->validated(),
             [
@@ -145,6 +148,10 @@ class CanteensController extends Controller
 
         $canteen->save();
         $canteen->generateApiKey();
+
+        $user->canteensUsers()->create([
+            'canteen_id' => $canteen->id
+        ]);
 
         return $canteen->getDecryptedKey();
     }

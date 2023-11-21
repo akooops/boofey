@@ -35,7 +35,7 @@ class RolesController extends Controller
         }
 
         $roles = $roles->paginate($perPage, ['*'], 'page', $page);
-        $permissions = Permission::select('id', 'name', 'guard_name')->get();
+        $permissions = Permission::orderBy('id', 'DESC')->select('id', 'name', 'guard_name')->get();
 
         $response = [
             'status' => 'success',

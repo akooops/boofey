@@ -65,7 +65,7 @@ class PackagesController extends Controller
         $search = checkIfSearchEmpty($request->query('search'));
 
         $packagesQuery = Package::orderBy('id', 'DESC')->with([
-            'packageFeatures:id,name,checked,package_id',
+            'packageFeatures:id,name,name_ar,checked,package_id',
         ]);
 
         if ($school) {

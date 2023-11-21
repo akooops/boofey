@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Subscriptions;
 
 use App\Rules\CanSubscribe;
+use App\Rules\DiscountRule;
 use App\Rules\UniqueUnexpiredSubscription;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\ValidationException;
@@ -38,8 +39,8 @@ class StoreSubscriptionRequest extends FormRequest
             'apply_discount' => 'required|boolean',
             'apply_coupon' => 'required_if:apply_discount,true|boolean',
 
-            'discount' => 'required_if:apply_coupon,false|numeric|min:0',
-            'coupon_id' => 'required_if:apply_coupon,true|numeric|min:0',
+            'discount' => ['numeric', 'min:0', new DiscountRule],
+            'coupon_id' => ['numeric', 'min:0', new DiscountRule],            
 
             'exclude_from_calculation' => 'required|boolean',
         ];
