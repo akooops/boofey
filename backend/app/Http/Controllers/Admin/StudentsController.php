@@ -67,7 +67,8 @@ class StudentsController extends Controller
         $perPage = limitPerPage($request->query('perPage', 10));
         $page = checkPageIfNull($request->query('page', 1));
         $search = checkIfSearchEmpty($request->query('search'));
-        $archived = $request->query('archived');
+        $archived = $request->query('archived', null);
+        $subscribed = $request->query('subscribed', null);
 
         $studentsQuery = Student::orderBy('id', 'DESC')->with([
             'image:id,path,current_name', 
@@ -78,8 +79,13 @@ class StudentsController extends Controller
             'father.user.profile.image:id,current_name,path',
         ]);
 
-        if(is_null($archived)) 
+        if(!is_null($archived)){
             $studentsQuery->where('archived', $archived);
+        }
+
+        if(!is_null($subscribed)){
+            $studentsQuery = ($subscribed == true) ? $studentsQuery->whereHas('activeSubscription') : $studentsQuery->whereDoesntHave('activeSubscription');
+        }
 
         if ($school) {
             $studentsQuery->where('school_id', $school->id);
