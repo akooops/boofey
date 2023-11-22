@@ -29,6 +29,87 @@ use Illuminate\Support\Facades\Log;
 
 class PaymentsController extends Controller
 {
+    public function index(Request $request) 
+    {
+        $father = $request->get('father');
+
+        $perPage = limitPerPage($request->query('perPage', 10));
+        $page = checkPageIfNull($request->query('page', 1));
+        $search = checkIfSearchEmpty($request->query('search'));
+
+        $payments = Payment::orderBy('id', 'DESC')->where('father_id', $father->id)->with([
+            'subscription:id,ref,package_id,student_id,started_at,expired_at,initiated_at,days',
+            'subscription.package:id,name,code,sale_price,price,days,school_id',
+            'subscription.package.school:id,name,file_id',
+            'subscription.package.school.logo:id,path,current_name',
+            'subscription.student:id,firstname,lastname,file_id',
+            'subscription.student.image:id,path,current_name',
+            'subscription.payment:id,subscription_id,status,payment_option,card_number,card_holder_name,firstname,lastname,email,phone,address,state,city,zipcode'
+        ]);
+
+        if ($search) {
+            $payments->where(function ($query) use ($search) {
+                $query->whereHas('subscription', function ($subscriptionQuery) use ($search) {
+                        $subscriptionQuery->where('ref', 'like', '%' . $search . '%')
+                            ->orWhereHas('package', function ($packageQuery) use ($search) {
+                                $packageQuery->where('name', 'like', '%' . $search . '%')
+                                    ->where('name_ar', 'like', '%' . $search . '%')
+                                    ->orWhere('code', 'like', '%' . $search . '%');
+                            })
+                            ->orWhereHas('student', function ($studentQuery) use ($search) {
+                                $studentQuery->where('firstname', 'like', '%' . $search . '%')
+                                    ->orWhere('lastname', 'like', '%' . $search . '%');
+                            });
+                    });
+            });
+        }
+
+        $payments = $payments->paginate($perPage, ['*'], 'page', $page);
+
+        $response = [
+            'status' => 'success',
+            'data' => [
+                'payments' => $payments->items(), 
+            ],
+            'pagination' => handlePagination($payments)
+        ];
+
+        return response()->json($response);
+    }
+
+    public function show(Payment $payment, Request $request) 
+    {
+        $father = $request->get('father');
+
+        if($payment->father_id != $father->id){
+            return response()->json([
+                'status' => 'error',
+                'errors' => [
+                    '403' => __('translations.403')
+                ]
+            ], 403);
+        }
+
+        $payment->load([
+            'subscription:id,ref,package_id,student_id,started_at,expired_at,initiated_at,days',
+            'subscription.package:id,name,code,sale_price,price,days,school_id',
+            'subscription.package.school:id,name,file_id',
+            'subscription.package.school.logo:id,path,current_name',
+            'subscription.student:id,firstname,lastname,file_id',
+            'subscription.student.image:id,path,current_name',
+            'subscription.payment:id,subscription_id,status,payment_option,card_number,card_holder_name,firstname,lastname,email,phone,address,state,city,zipcode'
+        ]);
+
+        $response = [
+            'status' => 'success',
+            'data' => [
+                'payment' => $payment, 
+            ],
+        ];
+
+        return response()->json($response);
+    }
+
     public function testPayment(){
         $request = new ProcessPaymentRequest([
             'subscription_id' => '46',

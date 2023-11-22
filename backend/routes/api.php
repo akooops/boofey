@@ -69,6 +69,11 @@ Route::group(['namespace' => 'App\Http\Controllers', 'middleware' => ['auth:sanc
 
     /* -------------------------------------------------------------------------------- */
     /* Payments Routes */
+    Route::resource('payments', PaymentsController::class)->only(['index', 'show'])->names([
+        'index' => 'parent.payments.index',
+        'show' => 'parent.payments.show',
+    ]);;
+
     Route::post('payments/process', 'PaymentsController@process')->name('parents.payments.process');
 
     Route::get('paymentMethods', 'PaymentMethodsController@index')->name('parents.paymentMethods.index');
