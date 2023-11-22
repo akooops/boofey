@@ -7,6 +7,7 @@
     import {PathGetAcademicYears} from "$lib/api/paths.js"
     import {redirector} from "$lib/api/auth.js"
     import { createEventDispatcher } from 'svelte';
+    import Accordion from "$lib/components/Accordion.svelte";
 
     const dispatch = createEventDispatcher();
 
@@ -20,7 +21,10 @@
     let searchQuery = ""
     export let selected = {}
     export let type 
+    export let collapse
+    export let title 
 
+    let openCollapse
 
     async function fetchYears(){
         console.log(page,searchQuery)
@@ -51,6 +55,7 @@
     function unSelectYear(){
         selected = {}
         dispatch("select",{yearId:""})
+        openCollapse()
 
     }  
 
@@ -76,80 +81,87 @@
 
 </script>
 
-{#if schoolId}
 
+    {#if selected?.id && schoolId}
+    <label for="productarName" class="form-label">{title}</label>
 
-{#if selected?.id}
-
-<div class="row pe-0 mb-3">
-    <div class="table-responsive">
-        <table class="table align-middle table-nowrap mb-0 border-top">
-            <tbody class="list align-middle">
-                <tr class="bg-secondary-subtle">
-                    <th scope="col">{selected.id}</th>
-                    <th>{selected.name}
-                    {#if selected.current}
-                    <span class="badge bg-success-subtle text-success ms-1">Current</span>
-                    {/if}
-                    </th>
-                    <th>{selected.from}</th>
-                    <th>{selected.to}</th>
-                    <th scope="col">
-                        <div class="hstack gap-3 flex-wrap">
-                            <a href="javascript:void(0);" on:click={unSelectYear} class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Select" ><i class="ri-close-line"></i></a>
-                        </div>
-                    </th>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-</div>
-{/if}
-
-<ModalSearchTable type={"Year"} on:search={search}/>
-<div class="row pe-0">
-    <div class="table-responsive">
-        <table class="table align-middle table-nowrap mb-0 border-top">
-            <thead class="table-light">
-                <tr scope="row">
-                    <td scope="col">ID</td>
-                    <td scope="col">Name</td>
-                    <td scope="col">From</td>
-                    <td scope="col">To</td>
-                    <td scope="col">Action</td>
-                </tr>
-            </thead>
-            <tbody class="list">
-                {#each yearsList as year}
-                <tr scope="row" class:bg-secondary-subtle={year.id == selected?.id}>
-                    <td>{year.id}</td>
-                    <td>{year.name}
-                    {#if year.current}
-                    <!-- <span class="badge bg-warning">Current</span> -->
-                    <span class="badge bg-success-subtle text-success ms-1">Current</span>
-
-                    {/if}
-                    </td>
-                    <td>{year.from}</td>
-                    <td>{year.to}</td>
-                    <td>
-                        <div class="hstack gap-3 flex-wrap">
-                            <a href="javascript:void(0);" on:click={() => selectYear(year)} class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Select" ><i class="ri-check-line"></i></a>
-                        </div>
-                    </td>
+    <div class="table-responsive mt-0">
+        <div class="table-responsive">
+            <table class="table align-middle table-nowrap mb-0 border-top">
+                <tbody class="list align-middle">
+                    <tr class="bg-secondary-subtle">
+                        <th scope="col">{selected.id}</th>
+                        <th>{selected.name}
+                        {#if selected.current}
+                        <span class="badge bg-success-subtle text-success ms-1">Current</span>
+                        {/if}
+                        </th>
+                        <th>{selected.from}</th>
+                        <th>{selected.to}</th>
+                        <th scope="col">
+                            <div class="hstack gap-3 flex-wrap">
+                                <a href="javascript:void(0);" on:click={unSelectYear} class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Select" ><i class="ri-close-line"></i></a>
+                            </div>
+                        </th>
                     </tr>
-                {/each}
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        </div>
     </div>
-</div>
-<ModalPagination {...yearsPagination} on:switchPage={switchPage}/>
+    {/if}
+    <div class:d-none={selected?.id != null && (schoolId != null && schoolId != "")}>
+      
+        {#if collapse}
+            <Accordion id={"year"} {title} bind:openCollapse>        
+                {#if schoolId}
 
-{:else}
-<!-- Warning Alert -->
-<div class="alert alert-warning alert-border-left alert-dismissible fade show" role="alert">
-    <i class="ri-alert-line me-3 align-middle"></i> <strong>Warning</strong> - Please select a school first 
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-</div>
+                <ModalSearchTable type={"Year"} on:search={search}/>
+                <div class="row pe-0">
+                    <div class="table-responsive">
+                        <table class="table align-middle table-nowrap mb-0 border-top">
+                            <thead class="table-light">
+                                <tr scope="row">
+                                    <td scope="col">ID</td>
+                                    <td scope="col">Name</td>
+                                    <td scope="col">From</td>
+                                    <td scope="col">To</td>
+                                    <td scope="col">Action</td>
+                                </tr>
+                            </thead>
+                            <tbody class="list">
+                                {#each yearsList as year}
+                                <tr scope="row" class:bg-secondary-subtle={year.id == selected?.id}>
+                                    <td>{year.id}</td>
+                                    <td>{year.name}
+                                    {#if year.current}
+                                    <!-- <span class="badge bg-warning">Current</span> -->
+                                    <span class="badge bg-success-subtle text-success ms-1">Current</span>
 
-{/if}
+                                    {/if}
+                                    </td>
+                                    <td>{year.from}</td>
+                                    <td>{year.to}</td>
+                                    <td>
+                                        <div class="hstack gap-3 flex-wrap">
+                                            <a href="javascript:void(0);" on:click={() => selectYear(year)} class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Select" ><i class="ri-check-line"></i></a>
+                                        </div>
+                                    </td>
+                                    </tr>
+                                {/each}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <ModalPagination {...yearsPagination} on:switchPage={switchPage}/>
+                {:else}
+                <!-- Warning Alert -->
+                <div class="alert alert-warning alert-border-left alert-dismissible fade show" role="alert">
+                    <i class="ri-alert-line me-3 align-middle"></i> <strong>Warning</strong> - Please select a school first 
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+
+                {/if}
+            </Accordion>
+          
+        {/if}
+    </div>

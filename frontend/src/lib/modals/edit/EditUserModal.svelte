@@ -65,7 +65,10 @@
     }) 
 
     function reset(){
+        editPassword = false;
+        form.reset()
         errors = {}
+
     }
 
     </script>

@@ -6,6 +6,7 @@
     import {PathGetCanteens} from "$lib/api/paths.js"
     import {redirector} from "$lib/api/auth.js"
     import { createEventDispatcher } from 'svelte';
+    import Accordion from "$lib/components/Accordion.svelte";
 
     const dispatch = createEventDispatcher();
 
@@ -17,6 +18,10 @@
     let page = 1 
     let searchQuery = ""
     export let selected = {}
+    export let title 
+    export let collapse
+    let openCollapse
+
 
     async function fetchCanteenUsers(){
         let res = await fetch(`${PathGetCanteens(null,{page,search:searchQuery})}`,{
@@ -39,6 +44,10 @@
     function selectCanteenUser(canteenUser){
         selected = canteenUser
         dispatch("select",{canteenUser:selected})
+        if(openCollapse){
+            openCollapse()
+        }
+
     }
 
     function unSelectCanteenUser(){
@@ -96,45 +105,92 @@
     </div>
 </div>
 {/if}
-
-<ModalSearchTable type={"CanteenUser"} on:search={search}/>
-<div class="row pe-0">
-    <div class="table-responsive">
-        <table class="table align-middle table-nowrap mb-0 border-top">
-            <thead class="table-light">
-                <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">School</th>
-                    <th scope="col">Address</th>
-                    <th scope="col">Action</th>
-                </tr>
-            </thead>
-            <tbody class="list">
-                {#each canteenUsersList as canteenUser}
-                <tr scope="row" class:bg-secondary-subtle={canteenUser.id == selected?.id}>
-                    <td>{canteenUser.id}</td>
-                    <td>{canteenUser.name}</td>
-                    <td>
-                        <div class="d-flex gap-2 align-items-center">
-                            <div class="flex-shrink-0">
-                                <img src={canteenUser.school.logo.full_path} alt="" class="avatar-xs rounded-circle" />
-                            </div>
-                            <div class="flex-grow-1">
-                                {canteenUser.school.name}
-                            </div>
-                        </div>
-                    </td>
-                    <td>{canteenUser.address}</td>
-                    <td>
-                        <div class="hstack gap-3 flex-wrap">
-                            <a href="javascript:void(0);" on:click={() => selectCanteenUser(canteenUser)} class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Select" ><i class="ri-check-line"></i></a>
-                        </div>
-                    </td>
-                    </tr>
-                {/each}
-            </tbody>
-        </table>
-    </div>
+<div class:d-none={selected?.id != null}>
+    {#if collapse}
+        <Accordion id={"canteen"} {title} bind:openCollapse>      
+            <ModalSearchTable type={"CanteenUser"} on:search={search}/>
+            <div class="row pe-0">
+                <div class="table-responsive">
+                    <table class="table align-middle table-nowrap mb-0 border-top">
+                        <thead class="table-light">
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">School</th>
+                                <th scope="col">Address</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody class="list">
+                            {#each canteenUsersList as canteenUser}
+                            <tr scope="row" class:bg-secondary-subtle={canteenUser.id == selected?.id}>
+                                <td>{canteenUser.id}</td>
+                                <td>{canteenUser.name}</td>
+                                <td>
+                                    <div class="d-flex gap-2 align-items-center">
+                                        <div class="flex-shrink-0">
+                                            <img src={canteenUser.school.logo.full_path} alt="" class="avatar-xs rounded-circle" />
+                                        </div>
+                                        <div class="flex-grow-1">
+                                            {canteenUser.school.name}
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>{canteenUser.address}</td>
+                                <td>
+                                    <div class="hstack gap-3 flex-wrap">
+                                        <a href="javascript:void(0);" on:click={() => selectCanteenUser(canteenUser)} class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Select" ><i class="ri-check-line"></i></a>
+                                    </div>
+                                </td>
+                                </tr>
+                            {/each}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <ModalPagination {...canteenUsersPagination} on:switchPage={switchPage}/>
+        </Accordion>
+    {:else}
+        <ModalSearchTable type={"CanteenUser"} on:search={search}/>
+        <div class="row pe-0">
+            <div class="table-responsive">
+                <table class="table align-middle table-nowrap mb-0 border-top">
+                    <thead class="table-light">
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">School</th>
+                            <th scope="col">Address</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody class="list">
+                        {#each canteenUsersList as canteenUser}
+                        <tr scope="row" class:bg-secondary-subtle={canteenUser.id == selected?.id}>
+                            <td>{canteenUser.id}</td>
+                            <td>{canteenUser.name}</td>
+                            <td>
+                                <div class="d-flex gap-2 align-items-center">
+                                    <div class="flex-shrink-0">
+                                        <img src={canteenUser.school.logo.full_path} alt="" class="avatar-xs rounded-circle" />
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        {canteenUser.school.name}
+                                    </div>
+                                </div>
+                            </td>
+                            <td>{canteenUser.address}</td>
+                            <td>
+                                <div class="hstack gap-3 flex-wrap">
+                                    <a href="javascript:void(0);" on:click={() => selectCanteenUser(canteenUser)} class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Select" ><i class="ri-check-line"></i></a>
+                                </div>
+                            </td>
+                            </tr>
+                        {/each}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <ModalPagination {...canteenUsersPagination} on:switchPage={switchPage}/>
+    {/if}
 </div>
-<ModalPagination {...canteenUsersPagination} on:switchPage={switchPage}/>

@@ -2,16 +2,22 @@ import {translation} from "$lib/translation.js"
 
 export const routes = [
     {
-      path: /^\/academicYears\/\d+\/academicBreaks$/,
+      path: /^\/schools\/\d+\/academicYears\/\d+\/academicBreaks$/,
       title: "AcademicBreaks",
       item: "AcademicYears",
       active: "AcademicBreaks",
+      itemHref:(pathName) => {
+        let parts = pathName.replace("/admin","").split("/")
+
+        return `/schools/${parts[2]}/academicYears`
+      } 
     },
     {
       path: /^\/canteens\/\d+\/queues$/,
       title: "Queues",
       item: "Canteens",
       active: "Queues",
+      itemHref:() => "/canteens"
     },
     {
       path: /^\/canteens$/,
@@ -42,18 +48,22 @@ export const routes = [
       title: "Add",
       item: "Orders",
       active: "Add",
+      itemHref:() => "/orders"
+
     },
     {
       path: /^\/orders\/\d+\/edit$/,
       title: "Edit",
       item: "Orders",
       active: "Edit",
+      itemHref:() => "/orders"
     },
     {
       path: /^\/orders\/\d+$/,
       title: "Orders",
       item: "Orders",
       active: "View",
+      itemHref:() => "/orders"
     },
     {
       path: /^\/payments\/\d+$/,
@@ -96,6 +106,8 @@ export const routes = [
       title: "QueueStudents",
       item: "Queues",
       active: "Students",
+      itemHref:() => "/queues"
+
     },
     {
       path: /^\/roles$/,
@@ -114,18 +126,22 @@ export const routes = [
       title: "AcademicYears",
       item: "Schools",
       active: "AcademicYears",
+      itemHref:() => "/schools"
     },
     {
       path: /^\/schools\/\d+\/canteens$/,
       title: "Canteens",
       item: "Schools",
       active: "Canteens",
+      itemHref:() => "/schools"
     },
     {
       path: /^\/schools\/\d+\/packages$/,
       title: "Packages",
       item: "Schools",
       active: "Packages",
+      itemHref:() => "/schools"
+
     },
     {
       path: /^\/students$/,
@@ -138,6 +154,7 @@ export const routes = [
       title: "Students",
       item: "Students",
       active: null,
+      itemHref:() => "/students"
     },
     {
       path: /^\/users$/,
@@ -150,6 +167,8 @@ export const routes = [
       title: "User's Canteens",
       item: "Users",
       active: "Canteens",
+      itemHref:() => "/users"
+
     },
     {
       path: /^\/paymentMethods$/,
@@ -162,6 +181,7 @@ export const routes = [
       title: translation.addPaymentMethod[localStorage.getItem("language")],
       item: translation.paymentMethods[localStorage.getItem("language")],
       active: translation.add[localStorage.getItem("language")],
+      itemHref:() => "/paymentMethods"
     },
     {
       path: /^\/profile$/,
@@ -174,30 +194,36 @@ export const routes = [
       title: translation.settings[localStorage.getItem("language")],
       item: translation.profile[localStorage.getItem("language")],
       active: translation.settings[localStorage.getItem("language")],
+      itemHref:() => "/profile"
     },
     {
       path: /^\/students\/\d+\/subscriptions$/,
       title: translation.subscription[localStorage.getItem("language")],
       item: translation.students[localStorage.getItem("language")],
       active: translation.subscription[localStorage.getItem("language")],
+      itemHref:() => "/students",
     },
     {
       path: /^\/students\/\d+\/choosePackage$/,
       title: translation.packages[localStorage.getItem("language")],
       item: translation.students[localStorage.getItem("language")],
       active: translation.subscribe[localStorage.getItem("language")],
+      itemHref:() => "/students"
     },
     {
       path: /^\/students\/\d+\/checkout$/,
       title: translation.checkOut[localStorage.getItem("language")],
       item: translation.students[localStorage.getItem("language")],
       active: translation.subscribe[localStorage.getItem("language")],
+      itemHref:() => "/students"
     },
     {
       path: /^\/students\/\d+\/cart$/,
       title: "Cart",
       item: "Students",
       active: "Subscribe",
+      itemHref:() => "/students"
+
     },
     {
       path: /^\/invoices\/\d+$/,

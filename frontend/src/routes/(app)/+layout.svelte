@@ -40,7 +40,7 @@ import { navigating } from '$app/stores';
             <div class="page-content">
                 <div class="container-fluid">
                      <!-- start page title -->
-                     <BreadCrumbs />
+                     <BreadCrumbs {data}/>
                     <!-- end page title --> 
                     <div class:d-none={!($navigating == null || $navigating?.from?.route?.id == $navigating?.to?.route?.id)}>
                         <slot /> 

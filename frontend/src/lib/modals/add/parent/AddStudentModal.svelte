@@ -14,7 +14,6 @@ import {translation} from "$lib/translation.js"
     let form 
     let selectClass
     let errors 
-    let onHold = false;
     let parentId = ""
     let schoolId = ""
     let resetSchool
@@ -69,7 +68,6 @@ import {translation} from "$lib/translation.js"
             formData.set("school_id",schoolId)
         }
     
-        formData.set("onhold",onHold)
         if(useCamera){
             formData.set("file",imageDataURLToFile(imageDataURL))
         }
@@ -100,7 +98,6 @@ import {translation} from "$lib/translation.js"
         selectClass.selectedIndex = 0
         errors = {}
         resetSchool()
-        onHold = false
         schoolId = ""
         stopCam()
         captured = false;
@@ -182,9 +179,7 @@ import {translation} from "$lib/translation.js"
                         <div class="row g-3">
                             <!-- Base Example -->
 
-                                <Accordion id={"school"} title={translation.studentSchool[localStorage.getItem("language")]}>               
-                                    <SchoolsTableCollapse  on:select={(e) => schoolId = e.detail.schoolId} bind:resetSchool />                     
-                                </Accordion>
+                                <SchoolsTableCollapse collapse={true} on:select={(e) => schoolId = e.detail.schoolId} bind:resetSchool title={translation.studentSchool[localStorage.getItem("language")]}/>                     
                                 {#if errors?.school_id}
                                 <strong class="text-danger ms-1 my-2">{errors.school_id[0]}</strong>
                                 {/if}
@@ -239,14 +234,7 @@ import {translation} from "$lib/translation.js"
     
 
 
-                                <div class="row ps-3 g-3">
-                                    <!-- Switches Color -->
-                                    <div class="form-check form-switch col" >
-                                        <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck1" bind:checked={onHold}>
-                                        <label class="form-check-label" for="SwitchCheck1">{translation.onHold[localStorage.getItem("language")]}</label>
-                                    </div><!-- Switches Color -->
-
-                                </div>
+                            
                                 <div class="row ps-3 g-3">
                                     <!-- Switches Color -->
                                     <div class="form-check form-switch col" >

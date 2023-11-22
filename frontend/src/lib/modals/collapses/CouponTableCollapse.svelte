@@ -6,6 +6,7 @@
     import {PathGetCoupons} from "$lib/api/paths.js"
     import {redirector} from "$lib/api/auth.js"
     import { createEventDispatcher } from 'svelte';
+    import Accordion from "$lib/components/Accordion.svelte";
 
     const dispatch = createEventDispatcher();
 
@@ -17,6 +18,9 @@
     let page = 1 
     let searchQuery = ""
     export let selected = {}
+    export let title 
+    export let collapse
+    let openCollapse
 
     async function fetchCoupons(){
         console.log(page,searchQuery)
@@ -45,6 +49,7 @@
     function unSelectCoupon(){
         selected = {}
         dispatch("select",{coupon:selected})
+        openCollapse()
 
     }  
 
@@ -68,7 +73,8 @@
 </script>
 
 {#if selected?.id}
-<div class="row pe-0 mb-3">
+<label for="productarName" class="form-label">{title}</label>
+<div class="table-responsive mt-0">
     <div class="table-responsive">
         <table class="table align-middle table-nowrap mb-0 border-top">
             <tbody class="list align-middle">
@@ -89,38 +95,82 @@
     </div>
 </div>
 {/if}
+<div class:d-none={selected?.id != null}>
+    {#if collapse}
+        <Accordion id={"coupon"} {title} bind:openCollapse>      
+            <ModalSearchTable type={"Coupon"} on:search={search}/>
 
-<ModalSearchTable type={"Coupon"} on:search={search}/>
-<div class="row pe-0">
-    <div class="table-responsive">
-        <table class="table align-middle table-nowrap mb-0 border-top">
-            <thead class="table-light">
-                <tr scope="row">
-                    <td scope="col">ID</td>
-                    <td scope="col">Name</td>
-                    <td scope="col">Code</td>
-                    <td scope="col">Discount</td>
-                    <td scope="col">Used</td>
-                    <td scope="col">Action</td>
-                </tr>
-            </thead>
-            <tbody class="list">
-                {#each couponsList as coupon}
-                <tr scope="row" class:bg-secondary-subtle={coupon.id == selected?.id}>
-                    <td>{coupon.id}</td>
-                    <td>{coupon.name}</td>
-                    <td><span class="badge border border-primary text-primary">{coupon.code}</span></td>
-                    <td>{coupon.discount}%</td>
-                    <td>{coupon.used}</td>
-                    <td>
-                        <div class="hstack gap-3 flex-wrap">
-                            <a href="javascript:void(0);" on:click={() => selectCoupon(coupon)} class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Select" ><i class="ri-check-line"></i></a>
-                        </div>
-                    </td>
-                    </tr>
-                {/each}
-            </tbody>
-        </table>
-    </div>
+            <div class="row pe-0">
+                <div class="table-responsive">
+                    <table class="table align-middle table-nowrap mb-0 border-top">
+                        <thead class="table-light">
+                            <tr scope="row">
+                                <td scope="col">ID</td>
+                                <td scope="col">Name</td>
+                                <td scope="col">Code</td>
+                                <td scope="col">Discount</td>
+                                <td scope="col">Used</td>
+                                <td scope="col">Action</td>
+                            </tr>
+                        </thead>
+                        <tbody class="list">
+                            {#each couponsList as coupon}
+                            <tr scope="row" class:bg-secondary-subtle={coupon.id == selected?.id}>
+                                <td>{coupon.id}</td>
+                                <td>{coupon.name}</td>
+                                <td><span class="badge border border-primary text-primary">{coupon.code}</span></td>
+                                <td>{coupon.discount}%</td>
+                                <td>{coupon.used}</td>
+                                <td>
+                                    <div class="hstack gap-3 flex-wrap">
+                                        <a href="javascript:void(0);" on:click={() => selectCoupon(coupon)} class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Select" ><i class="ri-check-line"></i></a>
+                                    </div>
+                                </td>
+                                </tr>
+                            {/each}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <ModalPagination {...couponsPagination} on:switchPage={switchPage}/>
+        </Accordion>
+        {:else}
+        <ModalSearchTable type={"Coupon"} on:search={search}/>
+
+        <div class="row pe-0">
+            <div class="table-responsive">
+                <table class="table align-middle table-nowrap mb-0 border-top">
+                    <thead class="table-light">
+                        <tr scope="row">
+                            <td scope="col">ID</td>
+                            <td scope="col">Name</td>
+                            <td scope="col">Code</td>
+                            <td scope="col">Discount</td>
+                            <td scope="col">Used</td>
+                            <td scope="col">Action</td>
+                        </tr>
+                    </thead>
+                    <tbody class="list">
+                        {#each couponsList as coupon}
+                        <tr scope="row" class:bg-secondary-subtle={coupon.id == selected?.id}>
+                            <td>{coupon.id}</td>
+                            <td>{coupon.name}</td>
+                            <td><span class="badge border border-primary text-primary">{coupon.code}</span></td>
+                            <td>{coupon.discount}%</td>
+                            <td>{coupon.used}</td>
+                            <td>
+                                <div class="hstack gap-3 flex-wrap">
+                                    <a href="javascript:void(0);" on:click={() => selectCoupon(coupon)} class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Select" ><i class="ri-check-line"></i></a>
+                                </div>
+                            </td>
+                            </tr>
+                        {/each}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <ModalPagination {...couponsPagination} on:switchPage={switchPage}/>
+        {/if}
 </div>
-<ModalPagination {...couponsPagination} on:switchPage={switchPage}/>

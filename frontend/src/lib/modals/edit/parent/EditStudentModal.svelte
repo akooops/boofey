@@ -16,7 +16,6 @@
     let form 
     let selectClass
     let errors 
-    let onHold = false;
     let parentId = ""
     let schoolId = ""
     let resetSchool
@@ -75,7 +74,6 @@
 
         if(editImage && useCamera) formData.set("file", imageDataURLToFile(imageDataURL))    
     
-        formData.set("onhold",onHold)
         formData.set("lang",localStorage.getItem("language"))
 
         let res = await fetch(PathUpdateStudent($studentStore.id,"parent"),{
@@ -114,7 +112,6 @@
         selectClass.selectedIndex = 0
         errors = {}
         resetSchool()
-        onHold = false
         parentId = schoolId = ""
         stopCam()
         captured = false;
@@ -205,12 +202,7 @@
                         <div class="row g-3">
 
                             <!-- Base Example -->
-
-                              
-
-                                <Accordion id={"school"} title={translation.studentSchool[localStorage.getItem("language")]}>               
-                                    <SchoolsTableCollapse  on:select={(e) => schoolId = e.detail.schoolId} selected={$studentStore.school} bind:resetSchool />                     
-                                </Accordion>
+                                <SchoolsTableCollapse collapse={true} on:select={(e) => schoolId = e.detail.schoolId} selected={$studentStore.school} bind:resetSchool title={translation.studentSchool[localStorage.getItem("language")]}/>                     
                                 {#if errors?.school_id}
                                 <strong class="text-danger ms-1 my-2">{errors.school_id[0]}</strong>
                                 {/if}
@@ -264,14 +256,7 @@
                                 </div>
     
 
-                                <div class="row ps-3 g-3">
-                                    <!-- Switches Color -->
-                                    <div class="form-check form-switch col" >
-                                        <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck1" bind:checked={$studentStore.onhold}>
-                                        <label class="form-check-label" for="SwitchCheck1">{translation.onHold[localStorage.getItem("language")]}</label>
-                                    </div><!-- Switches Color -->
-
-                                </div>
+                           
                                 <div class="row ps-3 g-3">
                                     <!-- Switches Color -->
                                     <div class="form-check form-switch col" >
@@ -358,7 +343,9 @@
 
                                 <div class="hstack gap-2 justify-content-end">
                                     <button type="button" class="btn btn-light fw-light" data-bs-dismiss="modal" bind:this={close}>{translation.close[localStorage.getItem("language")]}</button>
+                                    {#if !$studentStore.subscribed}
                                     <button type="button" class="btn btn-danger waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#deleteStudentModal" data-bs-dismiss="modal">{translation.delete[localStorage.getItem("language")]}</button>
+                                    {/if}
                                     <input type="submit" class="btn btn-primary waves-effect waves-light" value="{translation.save[localStorage.getItem("language")]}">
                                 </div>
                                 </div>

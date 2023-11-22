@@ -7,7 +7,10 @@ export async function load({fetch,url,depends,params}) {
     depends('students:refresh');
     let archived =  url.searchParams.get("archived")
     archived = archived == "true" ? "true" : "false"
-    let res = await fetch(PathGetStudents(DefaultGetQueries(url),null,archived),{
+    let subscribed =  url.searchParams.get("subscribed")
+    subscribed = subscribed == "true" ? "true" : "false"
+    
+    let res = await fetch(PathGetStudents(DefaultGetQueries(url),null,{archived,subscribed}),{
         headers:{
             Authorization: `${localStorage.getItem("SID")}`
         }

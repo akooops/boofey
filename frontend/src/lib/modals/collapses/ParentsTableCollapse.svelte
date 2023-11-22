@@ -6,6 +6,7 @@
     import {PathGetParents} from "$lib/api/paths.js"
     import {redirector} from "$lib/api/auth.js"
     import { createEventDispatcher } from 'svelte';
+    import Accordion from "$lib/components/Accordion.svelte";
 
     const dispatch = createEventDispatcher();
 
@@ -17,6 +18,9 @@
     let page = 1 
     let searchQuery = ""
     export let selected = {}
+    export let title 
+    export let collapse
+    let openCollapse
 
     async function fetchParents(){
         console.log(page,searchQuery)
@@ -45,6 +49,7 @@
     function unSelectParent(){
         selected = {}
         dispatch("select",{parentId:""})
+        openCollapse()
 
     }  
 
@@ -70,7 +75,8 @@
 </script>
 
 {#if selected?.id}
-<div class="row pe-0 mb-3">
+<label for="productarName" class="form-label">{title}</label>
+<div class="table-responsive mt-0">
     <div class="table-responsive">
         <table class="table align-middle table-nowrap mb-0 border-top">
             <tbody class="list align-middle">
@@ -99,45 +105,92 @@
     </div>
 </div>
 {/if}
-
-<ModalSearchTable type={"Parent"} on:search={search}/>
-<div class="row pe-0">
-    <div class="table-responsive">
-        <table class="table align-middle table-nowrap mb-0 border-top">
-            <thead class="table-light">
-                <tr scope="row">
-                    <td scope="col">ID</td>
-                    <td scope="col">Username</td>
-                    <td scope="col">Email</td>
-                    <td scope="col">Phone</td>
-                    <td scope="col">Action</td>
-                </tr>
-            </thead>
-            <tbody class="list">
-                {#each parentsList as parent}
-                <tr scope="row" class:bg-secondary-subtle={parent.id == selected?.id}>
-                    <td>{parent.id}</td>
-                    <td>
-                    <div class="d-flex gap-2 align-items-center">
-                        <div class="flex-shrink-0">
-                            <img src={parent.user.profile.image.full_path} alt="" class="avatar-xs rounded-circle" />
-                        </div>
-                        <div class="flex-grow-1">
-                            {parent.user.username}
-                        </div>
-                    </div>
-                    </td>
-                    <td>{parent.user.email}</td>
-                    <td>{parent.user.phone}</td>
-                    <td>
-                        <div class="hstack gap-3 flex-wrap">
-                            <a href="javascript:void(0);" on:click={() => selectParent(parent)} class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Select" ><i class="ri-check-line"></i></a>
-                        </div>
-                    </td>
+<div class:d-none={selected?.id != null}>
+    {#if collapse}
+        <Accordion id={"parent"} {title} bind:openCollapse>      
+            <ModalSearchTable type={"Parent"} on:search={search}/>
+            <div class="row pe-0">
+                <div class="table-responsive">
+                    <table class="table align-middle table-nowrap mb-0 border-top">
+                        <thead class="table-light">
+                            <tr scope="row">
+                                <td scope="col">ID</td>
+                                <td scope="col">Username</td>
+                                <td scope="col">Email</td>
+                                <td scope="col">Phone</td>
+                                <td scope="col">Action</td>
+                            </tr>
+                        </thead>
+                        <tbody class="list">
+                            {#each parentsList as parent}
+                            <tr scope="row" class:bg-secondary-subtle={parent.id == selected?.id}>
+                                <td>{parent.id}</td>
+                                <td>
+                                <div class="d-flex gap-2 align-items-center">
+                                    <div class="flex-shrink-0">
+                                        <img src={parent.user.profile.image.full_path} alt="" class="avatar-xs rounded-circle" />
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        {parent.user.username}
+                                    </div>
+                                </div>
+                                </td>
+                                <td>{parent.user.email}</td>
+                                <td>{parent.user.phone}</td>
+                                <td>
+                                    <div class="hstack gap-3 flex-wrap">
+                                        <a href="javascript:void(0);" on:click={() => selectParent(parent)} class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Select" ><i class="ri-check-line"></i></a>
+                                    </div>
+                                </td>
+                                </tr>
+                            {/each}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <ModalPagination {...parentsPagination} on:switchPage={switchPage}/>
+        </Accordion>
+    {:else}
+    <ModalSearchTable type={"Parent"} on:search={search}/>
+    <div class="row pe-0">
+        <div class="table-responsive">
+            <table class="table align-middle table-nowrap mb-0 border-top">
+                <thead class="table-light">
+                    <tr scope="row">
+                        <td scope="col">ID</td>
+                        <td scope="col">Username</td>
+                        <td scope="col">Email</td>
+                        <td scope="col">Phone</td>
+                        <td scope="col">Action</td>
                     </tr>
-                {/each}
-            </tbody>
-        </table>
+                </thead>
+                <tbody class="list">
+                    {#each parentsList as parent}
+                    <tr scope="row" class:bg-secondary-subtle={parent.id == selected?.id}>
+                        <td>{parent.id}</td>
+                        <td>
+                        <div class="d-flex gap-2 align-items-center">
+                            <div class="flex-shrink-0">
+                                <img src={parent.user.profile.image.full_path} alt="" class="avatar-xs rounded-circle" />
+                            </div>
+                            <div class="flex-grow-1">
+                                {parent.user.username}
+                            </div>
+                        </div>
+                        </td>
+                        <td>{parent.user.email}</td>
+                        <td>{parent.user.phone}</td>
+                        <td>
+                            <div class="hstack gap-3 flex-wrap">
+                                <a href="javascript:void(0);" on:click={() => selectParent(parent)} class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Select" ><i class="ri-check-line"></i></a>
+                            </div>
+                        </td>
+                        </tr>
+                    {/each}
+                </tbody>
+            </table>
+        </div>
     </div>
+    <ModalPagination {...parentsPagination} on:switchPage={switchPage}/>
+{/if}
 </div>
-<ModalPagination {...parentsPagination} on:switchPage={switchPage}/>

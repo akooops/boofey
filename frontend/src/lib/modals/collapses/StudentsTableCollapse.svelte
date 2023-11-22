@@ -6,6 +6,8 @@
     import {PathGetStudents} from "$lib/api/paths.js"
     import {redirector} from "$lib/api/auth.js"
     import { createEventDispatcher } from 'svelte';
+    import Accordion from "$lib/components/Accordion.svelte";
+
 
     const dispatch = createEventDispatcher();
 
@@ -17,6 +19,12 @@
     let page = 1 
     let searchQuery = ""
     export let selected = {}
+    export let collapse
+    export let title 
+
+    let openCollapse
+
+
 
     async function fetchStudents(){
         let res = await fetch(PathGetStudents({page,search:searchQuery},null,false),{
@@ -44,6 +52,8 @@
     function unSelectStudent(){
         selected = {}
         dispatch("select",{studentId:""})
+        openCollapse()
+
 
     }  
 
@@ -67,68 +77,111 @@
 </script>
 
 {#if selected?.id}
-<div class="row pe-0 mb-3">
-    <div class="table-responsive">
-        <table class="table align-middle table-nowrap mb-0 border-top">
-            <tbody class="list align-middle">
-                <tr class="bg-secondary-subtle">
-                    <th>{selected.id}</th>
-                    <th>
-                    <div class="d-flex gap-2 align-items-center">
-                        <div class="flex-shrink-0">
-                            <img src={selected.image.full_path} alt="" class="avatar-xs rounded-circle" />
-                        </div>
-                        <div class="flex-grow-1">
-                            {selected.fullname}
-                        </div>
+<label for="productarName" class="form-label">{title}</label>
+
+<div class="table-responsive mt-0">
+    <table class="table align-middle table-nowrap mb-0 border-top">
+        <tbody class="list align-middle">
+            <tr class="bg-secondary-subtle">
+                <th>{selected.id}</th>
+                <th>
+                <div class="d-flex gap-2 align-items-center">
+                    <div class="flex-shrink-0">
+                        <img src={selected.image.full_path} alt="" class="avatar-xs rounded-circle" />
                     </div>
-                    </th>
-                    <th scope="col">
-                        <div class="hstack gap-3 flex-wrap">
-                            <a href="javascript:void(0);" on:click={unSelectStudent} class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Select" ><i class="ri-close-line"></i></a>
-                        </div>
-                    </th>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+                    <div class="flex-grow-1">
+                        {selected.fullname}
+                    </div>
+                </div>
+                </th>
+                <th scope="col">
+                    <div class="hstack gap-3 flex-wrap">
+                        <a href="javascript:void(0);" on:click={unSelectStudent} class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Select" ><i class="ri-close-line"></i></a>
+                    </div>
+                </th>
+            </tr>
+        </tbody>
+    </table>
 </div>
 {/if}
-
-<ModalSearchTable type={"Student"} on:search={search}/>
-<div class="row pe-0">
-    <div class="table-responsive">
-        <table class="table align-middle table-nowrap mb-0 border-top">
-            <thead class="table-light">
-                <tr scope="row">
-                    <td scope="col">ID</td>
-                    <td scope="col">Full Name</td>
-                    <td scope="col">Action</td>
-                </tr>
-            </thead>
-            <tbody class="list">
-                {#each studentsList as student}
-                <tr scope="row" class:bg-secondary-subtle={student.id == selected?.id}>
-                    <td>{student.id}</td>
-                    <td>
-                    <div class="d-flex gap-2 align-items-center">
-                        <div class="flex-shrink-0">
-                            <img src={student.image.full_path} alt="" class="avatar-xs rounded-circle" />
-                        </div>
-                        <div class="flex-grow-1">
-                            {student.fullname}
-                        </div>
-                    </div>
-                    </td>
-                    <td>
-                        <div class="hstack gap-3 flex-wrap">
-                            <a href="javascript:void(0);" on:click={() => selectStudent(student)} class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Select" ><i class="ri-check-line"></i></a>
-                        </div>
-                    </td>
+<div class:d-none={selected?.id != null}>
+    {#if collapse}
+        <Accordion id={"student"} {title} bind:openCollapse>        
+            <ModalSearchTable type={"Student"} on:search={search}/>
+            <div class="row pe-0">
+                <div class="table-responsive">
+                    <table class="table align-middle table-nowrap mb-0 border-top">
+                        <thead class="table-light">
+                            <tr scope="row">
+                                <td scope="col">ID</td>
+                                <td scope="col">Full Name</td>
+                                <td scope="col">Action</td>
+                            </tr>
+                        </thead>
+                        <tbody class="list">
+                            {#each studentsList as student}
+                            <tr scope="row" class:bg-secondary-subtle={student.id == selected?.id}>
+                                <td>{student.id}</td>
+                                <td>
+                                <div class="d-flex gap-2 align-items-center">
+                                    <div class="flex-shrink-0">
+                                        <img src={student.image.full_path} alt="" class="avatar-xs rounded-circle" />
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        {student.fullname}
+                                    </div>
+                                </div>
+                                </td>
+                                <td>
+                                    <div class="hstack gap-3 flex-wrap">
+                                        <a href="javascript:void(0);" on:click={() => selectStudent(student)} class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Select" ><i class="ri-check-line"></i></a>
+                                    </div>
+                                </td>
+                                </tr>
+                            {/each}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <ModalPagination {...studentsPagination} on:switchPage={switchPage}/>
+        </Accordion>
+    {:else}
+    <ModalSearchTable type={"Student"} on:search={search}/>
+    <div class="row pe-0">
+        <div class="table-responsive">
+            <table class="table align-middle table-nowrap mb-0 border-top">
+                <thead class="table-light">
+                    <tr scope="row">
+                        <td scope="col">ID</td>
+                        <td scope="col">Full Name</td>
+                        <td scope="col">Action</td>
                     </tr>
-                {/each}
-            </tbody>
-        </table>
+                </thead>
+                <tbody class="list">
+                    {#each studentsList as student}
+                    <tr scope="row" class:bg-secondary-subtle={student.id == selected?.id}>
+                        <td>{student.id}</td>
+                        <td>
+                        <div class="d-flex gap-2 align-items-center">
+                            <div class="flex-shrink-0">
+                                <img src={student.image.full_path} alt="" class="avatar-xs rounded-circle" />
+                            </div>
+                            <div class="flex-grow-1">
+                                {student.fullname}
+                            </div>
+                        </div>
+                        </td>
+                        <td>
+                            <div class="hstack gap-3 flex-wrap">
+                                <a href="javascript:void(0);" on:click={() => selectStudent(student)} class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Select" ><i class="ri-check-line"></i></a>
+                            </div>
+                        </td>
+                        </tr>
+                    {/each}
+                </tbody>
+            </table>
+        </div>
     </div>
+    <ModalPagination {...studentsPagination} on:switchPage={switchPage}/>
+    {/if}
 </div>
-<ModalPagination {...studentsPagination} on:switchPage={switchPage}/>

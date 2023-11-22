@@ -184,9 +184,7 @@
                                     {/if}
 
                                     {#if useCoupon}
-                                    <Accordion id={"coupon"} title={"Coupons"}>
-                                        <CouponTableCollapse on:select={(e) => coupon = e.detail.coupon} bind:resetCoupon/>            
-                                    </Accordion>
+                                        <CouponTableCollapse collapse={true} on:select={(e) => coupon = e.detail.coupon} bind:resetCoupon title={"Coupons"}/>            
                                         {#if errors?.coupon_id}
                                         <strong class="text-danger ms-1 my-2">{errors.coupon_id[0]}</strong>
                                         {/if}

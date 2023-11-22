@@ -1,5 +1,5 @@
-export const DOMAIN = "https://boofey.akoops.com/"
-// export const DOMAIN = "https://backend.boofey.app/"
+// export const DOMAIN = "https://boofey.akoops.com/"
+export const DOMAIN = "https://backend.boofey.app/"
 
 
 export const ADMIN_DOMAIN = `${DOMAIN}api/admin`
@@ -38,8 +38,8 @@ export function PathUpdateRole(id){
 }
 
 /////////
-export function PathGetUsers({page,search}){
-    return `${ADMIN_DOMAIN}/users?page=${page}&search=${search}`
+export function PathGetUsers({page,search},verified){
+    return `${ADMIN_DOMAIN}/users?page=${page}&verified=${verified}`
 
 }
 export function PathAddUser(){
@@ -105,10 +105,11 @@ export function PathDelAcademicBreak(breakId){
 }
 
 /////////
-export function PathGetPackages(schoolId,{page,search}){
+export function PathGetPackages(schoolId,{page,search},{popular=undefined,yearly=undefined,hidden=undefined} = {}){
     if(schoolId == null){
-        return `${ADMIN_DOMAIN}/packages?page=${page}&search=${search}`
+        return `${ADMIN_DOMAIN}/packages?page=${page}&search=${search}&yearly=${yearly}&popular=${popular}&hidden=${hidden}`
     }
+
     return `${ADMIN_DOMAIN}/schools/${schoolId}/packages?page=${page}&search=${search}`
 }
 export function PathGetPackagesById(packageId){
@@ -137,6 +138,10 @@ export function PathDelPackage(packageId){
 ////////
 export function PathGetParents({page,search}){
     return `${ADMIN_DOMAIN}/fathers?page=${page}&search=${search}`
+
+}
+export function PathUpdateParent(parentId){
+    return `${ADMIN_DOMAIN}/fathers/${parentId}/update`
 
 }
 export function PathDelParent(parentId){
@@ -187,11 +192,11 @@ export function PathDelCanteenUser(canteenUserId){
 
 
 ////
-export function PathGetStudents({page,search},type,archived){
+export function PathGetStudents({page,search},type,{archived=undefined,subscribed=undefined} =  {}){
     if(type == "parent"){
         return `${PARENT_DOMAIN}/students?page=${page}&search=${search}`
     }
-    return `${ADMIN_DOMAIN}/students?page=${page}&search=${search}&archived=${archived}`
+    return `${ADMIN_DOMAIN}/students?page=${page}&search=${search}&archived=${archived}$subscribed=${subscribed}`
 }
 export function PathGetStudent(studentId){
     return `${PARENT_DOMAIN}/students/${studentId}`

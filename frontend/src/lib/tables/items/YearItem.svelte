@@ -10,6 +10,7 @@
         
         function setYear(){
             $yearStore = JSON.parse(JSON.stringify(year));
+            console.log($yearStore)
         }
     
     </script>
@@ -34,7 +35,7 @@
         <td>
             <div class="hstack gap-3 flex-wrap">
                 {#if JSON.parse(sessionStorage.getItem("permissions")).includes("academicBreaks.index")}
-                <span on:click={openAcademicBreaks}><a href="/admin/academicYears/{year.id}/academicBreaks"  target="_blank"  class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Academic Breaks" ><i class="ri-calendar-2-fill"></i></a></span>
+                <span on:click={openAcademicBreaks}><a href="/admin/schools/{year.school_id}/academicYears/{year.id}/academicBreaks"  target="_blank"  class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Academic Breaks" ><i class="ri-calendar-2-fill"></i></a></span>
                 {/if}
                 {#if JSON.parse(sessionStorage.getItem("permissions")).includes("academicYears.show")}
                 <span data-bs-toggle="modal" data-bs-target="#viewYearModal" on:click={setYear}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="View" ><i class="ri-eye-fill"></i></a></span>

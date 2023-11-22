@@ -75,9 +75,7 @@
                 <div class="modal-body">
                         <div class="row g-3">
                             <!-- Base Example -->
-                                <Accordion id={"parent"} title={"Student"}>
-                                    <StudentsTableCollapse on:select={(e) => studentId = e.detail.studentId} bind:resetStudent/>            
-                                </Accordion>
+                                    <StudentsTableCollapse collapse={true} on:select={(e) => studentId = e.detail.studentId} title={"Students"} bind:resetStudent/>            
                                 {#if errors?.student_id}
                                 <strong class="text-danger ms-1 my-2">{errors.student_id[0]}</strong>
                                 {/if}

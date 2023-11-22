@@ -16,14 +16,19 @@
     $: studentsPagination = data.studentsResponse.pagination
 
     let archived = "all"
+    let subscribed = "all"
+
     let studentsPage
     onMount(() => {
         initToolTip(studentsPage)
 
         let state = $page.url.searchParams.get("archived")
-        console.log(state)
         if(state != null){
             archived = state == "true" ? "archived" : "not archived"
+        }
+        state = $page.url.searchParams.get("subscribed")
+        if(state != null){
+            subscribed = state == "true" ? "subscribed" : "not subscribed"
         }
 
     
@@ -31,7 +36,7 @@
         // InitFlatPickr()
     })
 
-    function toggleArchived(state){
+    function toggleFilters(state){
             const url = new URL($page.url);
             url.searchParams.delete("page")
 
@@ -40,6 +45,12 @@
             }else {
                 url.searchParams.set("archived",archived == "archived")
             }
+            if(subscribed == "all"){
+                url.searchParams.delete("subscribed")
+            }else {
+                url.searchParams.set("subscribed",subscribed == "subscribed")
+            }
+            
             goto(url)
     }
 
@@ -67,10 +78,17 @@
                         <SearchTable type={"Student"}/>
 
                         <div class="col-xl-3 mb-3">
-                            <select class="form-select" name="class" id="class" aria-label="Default select example" bind:value={archived} on:change={toggleArchived}>
+                            <select class="form-select" name="class" id="class" aria-label="Default select example" bind:value={archived} on:change={toggleFilters}>
                                 <option value={"all"}>All</option>
                                 <option value={"archived"}>Archived</option>
                                 <option value={"not archived"}>Not Archived</option>
+                            </select>
+                        </div>
+                        <div class="col-xl-3 mb-3">
+                            <select class="form-select" name="class" id="class" aria-label="Default select example" bind:value={subscribed} on:change={toggleFilters}>
+                                <option value={"all"}>All</option>
+                                <option value={"subscribed"}>Subscribed</option>
+                                <option value={"not subscribed"}>Not Subscribed</option>
                             </select>
                         </div>
 

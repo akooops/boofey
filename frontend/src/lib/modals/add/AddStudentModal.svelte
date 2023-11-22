@@ -93,21 +93,17 @@ import YearsTableCollapse from "../collapses/YearsTableCollapse.svelte";
                         <div class="row g-3">
                             <!-- Base Example -->
 
-                                <Accordion id={"parent"} title={"Student's Parent"}>
-                                    <ParentsTableCollapse on:select={(e) => parentId = e.detail.parentId} bind:resetParent/>            
-                                </Accordion>
+                                <ParentsTableCollapse collapse={true} on:select={(e) => parentId = e.detail.parentId} bind:resetParent title={"Student's Parent"}/>            
                                 {#if errors?.father_id}
                                 <strong class="text-danger ms-1 my-2">{errors.father_id[0]}</strong>
                                 {/if}
-                                <Accordion id={"school"} title={"Student's School"}>               
-                                    <SchoolsTableCollapse  on:select={(e) => schoolId = e.detail.schoolId} bind:resetSchool />                     
-                                </Accordion>
+                                               
+                                    <SchoolsTableCollapse collapse={true} on:select={(e) => schoolId = e.detail.schoolId} bind:resetSchool title={"Student's School"}/>                     
                                 {#if errors?.school_id}
                                 <strong class="text-danger ms-1 my-2">{errors.school_id[0]}</strong>
                                 {/if}
-                                <Accordion id={"year"} title={"Student's Academic Year"}>
-                                    <YearsTableCollapse {schoolId} on:select={(e) => yearId = e.detail.yearId} bind:resetYear />
-                                </Accordion>
+                                
+                                <YearsTableCollapse collapse={true} {schoolId} on:select={(e) => yearId = e.detail.yearId} bind:resetYear  title={"Student's Academic Year"}/>
                                 {#if errors?.academic_year_id}
                                 <strong class="text-danger ms-1 my-2">{errors.academic_year_id[0]}</strong>
                                 {/if}

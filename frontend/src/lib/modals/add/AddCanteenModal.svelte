@@ -115,9 +115,8 @@
                                     {/if}
                                 </div>
                                 {#if general}
-                                <Accordion id={"school"} title={"Canteens's School"}>               
-                                    <SchoolsTableCollapse  on:select={(e) => schoolId = e.detail.schoolId} bind:resetSchool/>                     
-                                </Accordion>
+                                
+                                        <SchoolsTableCollapse collapse={true} on:select={(e) => schoolId = e.detail.schoolId} bind:resetSchool title={"Canteens's School"}/>                     
                                 {#if errors?.school_id}
                                 <strong class="text-danger ms-1 my-2">{errors.school_id[0]}</strong>
                                 {/if}

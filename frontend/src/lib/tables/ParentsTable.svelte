@@ -2,6 +2,7 @@
     import ParentItem from "./items/ParentItem.svelte";
     import DeleteParentModal from "$lib/modals/delete/DeleteParentModal.svelte"
     import ViewParentModal from "$lib/modals/view/ViewParentModal.svelte"
+    import EditParentModal from "$lib/modals/edit/EditParentModal.svelte"
     
     import { setContext } from 'svelte';
     import { navigating } from '$app/stores';
@@ -46,6 +47,7 @@
             </table>
             <DeleteParentModal />
             <ViewParentModal />
+            <EditParentModal />
     
     
         </div>

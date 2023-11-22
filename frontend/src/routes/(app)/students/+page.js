@@ -6,7 +6,7 @@ export const ssr = false;
 export async function load({fetch,url,depends}) {
     depends('students:refresh');
 
-    let res = await fetch(PathGetStudents(DefaultGetQueries(url),"parent"),{
+    let res = await fetch(PathGetStudents(DefaultGetQueries(url),"parent",{}),{
         headers:{
             Authorization: `${localStorage.getItem("SID")}`
         }

@@ -5,8 +5,17 @@ import { redirector } from "$lib/api/auth";
 export const ssr = false;
 export async function load({fetch,url,depends}) {
     depends('packages:refresh');
+    let popular =  url.searchParams.get("popular")
+    popular = popular == "true" ? "true" : "false"
 
-    let res = await fetch(PathGetPackages(null,DefaultGetQueries(url)),{
+    let hidden =  url.searchParams.get("hidden")
+    hidden = hidden == "true" ? "true" : "false"
+
+    let yearly =  url.searchParams.get("yearly")
+    yearly = yearly == "true" ? "true" : "false"
+
+
+    let res = await fetch(PathGetPackages(null,DefaultGetQueries(url),{popular,hidden,yearly}),{
         headers:{
             Authorization: `${localStorage.getItem("SID")}`
         }

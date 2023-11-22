@@ -4,15 +4,15 @@ import {routes} from "$lib/env.js"
 let title 
 let item 
 let active 
-
-
+let itemHref
+export let data
 
 
 function matchPathWithPatterns(currentPath) {
   for (const route of routes) {
-    const { path, title, item, active } = route;
+    const { path, title, item, active, itemHref } = route;
     if (currentPath.match(path)) {
-      return { title, item, active };
+      return { title, item, active , itemHref};
     }
   }
   return null; // Return null if no match is found
@@ -35,9 +35,12 @@ page.subscribe(() => {
     title = matchedObject.title
     item = matchedObject.item
     active = matchedObject.active
+    itemHref = matchedObject?.itemHref
 }
 
 })
+
+$:console.log(data)
 
 
 </script>
@@ -49,7 +52,7 @@ page.subscribe(() => {
 
             <div class="page-title-right">
                 <ol class="breadcrumb m-0">
-                    <li class="breadcrumb-item"><a href="javascript: void(0);">{item}</a></li>
+                    <li class="breadcrumb-item"><a href="{$page.url.pathname.includes("/admin") && itemHref ? "/admin" : ""}{itemHref ? itemHref($page.url.pathname) : ""}">{item}</a></li>
                     {#if active}
                     <li class="breadcrumb-item active">{active}</li>
                     {/if}
