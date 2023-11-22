@@ -24,7 +24,7 @@ class RefreshTokens
                     // Check if the token has expired within the last 4 hours
 
                     if ($accessToken->expires_at && now()->diffInHours($accessToken->expires_at) <= 4) {
-                        $expiration = ($accessToken->name === 'long-lived-token') ? now()->addDays(2) : now()->addMinutes(5);
+                        $expiration = ($accessToken->name === 'long-lived-token') ? now()->addDays(3) : now()->addHour();
                         $tokenName = ($accessToken->name === 'long-lived-token') ? 'long-lived-token' : 'short-lived-token';
 
                         // Refresh the token
