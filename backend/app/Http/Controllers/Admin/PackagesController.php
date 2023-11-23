@@ -81,18 +81,6 @@ class PackagesController extends Controller
             ]); 
         }
 
-        if(!is_null($yearly)){
-            $packagesQuery->where('yearly', $yearly);
-        }
-
-        if(!is_null($popular)){
-            $packagesQuery->where('popular', $popular);
-        }
-
-        if(!is_null($hidden)){
-            $packagesQuery->where('hidden', $hidden);
-        }
-
         if ($search) {
             $packagesQuery->where(function ($query) use ($search) {
                 $query
@@ -105,6 +93,18 @@ class PackagesController extends Controller
             });
         }
 
+        if(!is_null($yearly)){
+            $packagesQuery->where('yearly', $yearly);
+        }
+
+        if(!is_null($popular)){
+            $packagesQuery->where('popular', $popular);
+        }
+
+        if(!is_null($hidden)){
+            $packagesQuery->where('hidden', $hidden);
+        }
+        
         return $packagesQuery->paginate($perPage, ['*'], 'page', $page);
     }
 

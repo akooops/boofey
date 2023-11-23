@@ -79,14 +79,6 @@ class StudentsController extends Controller
             'father.user.profile.image:id,current_name,path',
         ]);
 
-        if(!is_null($archived)){
-            $studentsQuery->where('archived', $archived);
-        }
-
-        if(!is_null($subscribed)){
-            $studentsQuery = ($subscribed == true) ? $studentsQuery->whereHas('activeSubscription') : $studentsQuery->whereDoesntHave('activeSubscription');
-        }
-
         if ($school) {
             $studentsQuery->where('school_id', $school->id);
         }else{
@@ -128,6 +120,14 @@ class StudentsController extends Controller
             });
         }
 
+        if(!is_null($archived)){
+            $studentsQuery->where('archived', $archived);
+        }
+
+        if(!is_null($subscribed)){
+            $studentsQuery = ($subscribed == true) ? $studentsQuery->whereHas('activeSubscription') : $studentsQuery->whereDoesntHave('activeSubscription');
+        }
+        
         return $studentsQuery->paginate($perPage, ['*'], 'page', $page);
     }
 

@@ -194,7 +194,7 @@ loading = true
     </script>
     
     
-    <div class="modal  fade" id="editStudentModal" tabindex="-1" aria-labelledby="exampleModalgridLabel" aria-modal="true"  on:hidden.bs.modal={reset}>
+    <div class="modal fade" id="editStudentModal" tabindex="-1" aria-labelledby="exampleModalgridLabel" aria-modal="true"  on:hidden.bs.modal={reset}>
         <div class="modal-dialog modal-dialog-centered modal-lg" >
             <div class="modal-content">
                 <div class="modal-header">
@@ -363,6 +363,7 @@ loading = true
                 </div>
             </div>
         </div>
+    </div>
     </div>
 
     <style>
