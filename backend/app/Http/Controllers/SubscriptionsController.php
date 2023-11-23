@@ -23,6 +23,66 @@ class SubscriptionsController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
+    public function index(Request $request) 
+    {
+        $father = $request->get('father');
+
+        $perPage = limitPerPage($request->query('perPage', 10));
+        $page = checkPageIfNull($request->query('page', 1));
+
+        $activeSubscriptions = Subscription::whereIn('student_id', $father->students->pluck('id'))
+        ->where('status', 'active')
+        ->with([
+            'student:id,firstname,lastname,file_id',
+            'student.image:id,current_name,path',
+            'invoice:id,subscription_id',
+            'package:id,name,name_ar,sale_price,price,days,tax,popular,school_id',
+            'package.school:id,name,name_ar,file_id',
+            'package.school.logo:id,path,current_name'
+        ])
+        ->orderBy('student_id', 'DESC')
+        ->get();
+
+        $inactiveSubscriptions = Subscription::whereIn('student_id', $father->students->pluck('id'))
+        ->where('status', 'inactive')
+        ->with([
+            'student:id,firstname,lastname,file_id',
+            'student.image:id,current_name,path',
+            'invoice:id,subscription_id',
+            'package:id,name,name_ar,sale_price,price,days,tax,popular,school_id',
+            'package.school:id,name,name_ar,file_id',
+            'package.school.logo:id,path,current_name'
+        ])
+        ->orderBy('student_id', 'DESC')
+        ->get();
+
+        $subscriptions = Subscription::whereIn('student_id', $father->students->pluck('id'))
+        ->whereNotIn('status', ['active', 'inactive', 'initiated'])
+        ->with([
+            'student:id,firstname,lastname,file_id',
+            'student.image:id,current_name,path',
+            'invoice:id,subscription_id',
+            'package:id,name,name_ar,sale_price,price,days,tax,popular,school_id',
+            'package.school:id,name,name_ar,file_id',
+            'package.school.logo:id,path,current_name'
+        ])
+        ->orderBy('student_id', 'DESC');
+
+        $subscriptions = $subscriptions->paginate($perPage, ['*'], 'page', $page);
+
+        $response = [
+            'status' => 'success',
+            'data' => [
+                'subscriptions' => $subscriptions->items(), 
+                'activeSubscriptions' => $activeSubscriptions,
+                'inactiveSubscriptions' => $inactiveSubscriptions,
+            ],
+            'pagination' => handlePagination($subscriptions)
+        ];
+
+        return response()->json($response);
+    }
+
     public function indexByStudent(Student $student, Request $request) 
     {
         $father = $request->get('father');

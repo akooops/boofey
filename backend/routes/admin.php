@@ -41,7 +41,6 @@ Route::group(['prefix' => 'admin', 'namespace' => 'App\Http\Controllers\Admin', 
     Route::resource('schools', SchoolsController::class)->except(['create', 'edit', 'update']);
     Route::post('schools/{school}/update', 'SchoolsController@update')->name('schools.update');
 
-
     /* -------------------------------------------------------------------------------- */
     /* Acedmic Years Routes */
     Route::get('schools/{school}/academicYears', 'AcademicYearsController@indexBySchool')->name('academicYears.indexBySchool');

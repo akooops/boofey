@@ -47,6 +47,11 @@ Route::group(['namespace' => 'App\Http\Controllers', 'middleware' => ['auth:sanc
 
     /* -------------------------------------------------------------------------------- */
     /* Subscriptions Routes */
+    Route::resource('subscriptions', SubscriptionsController::class)->only(['index', 'show'])->names([
+        'index' => 'parent.subscriptions.index',
+        'show' => 'parent.subscriptions.show',
+    ]);
+
     Route::get('students/{student}/subscriptions', 'SubscriptionsController@indexByStudent')->name('parents.subscriptions.indexByStudent');
     Route::post('subscriptions/init', 'SubscriptionsController@init')->name('parents.subscriptions.init');
     Route::post('subscriptions/{subscription}/generateInvoice', 'SubscriptionsController@generateInvoice')->name('parents.subscriptions.generateInvoice');
