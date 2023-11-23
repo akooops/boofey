@@ -28,7 +28,7 @@ class ProcessPaymentRequest extends FormRequest
     {
         return [
             'customer_ip' => 'required|ip',
-            'customer_email' => 'required|email:rfc,dns',
+            'customer_email' => 'required|email',
 
             'payment_method_id' => 'required|exists:payment_methods,id',
             'billing_id' => 'required|exists:billings,id',

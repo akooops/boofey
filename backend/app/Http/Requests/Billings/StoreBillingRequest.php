@@ -29,7 +29,7 @@ class StoreBillingRequest extends FormRequest
         $rules = [
             'firstname' => 'required|string|max:255',
             'lastname' => 'required|string|max:255',
-            'email' => 'required|email:rfc,dns|max:254',
+            'email' => 'required|email|max:254',
             'phone' => 'required|phone',
             'address' => 'required|string|max:1000',
             'state' => 'required|string|max:255',

@@ -30,7 +30,7 @@ class StoreUserRequest extends FormRequest
             'firstname' => 'required|string|max:500',
             'lastname' => 'required|string|max:500',
             'username' => 'required|username|unique:users,username',
-            'email' => 'required|email:rfc,dns|unique:users,email',
+            'email' => 'required|email|unique:users,email',
             'phone' => 'required|phone|unique:users,phone',
             'password' => 'required|password|confirmed',
             'verified' => 'required|boolean'

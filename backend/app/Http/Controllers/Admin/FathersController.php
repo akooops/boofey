@@ -105,9 +105,16 @@ class FathersController extends Controller
      */
     public function update(Father $father, UpdateFatherRequest $request) 
     {
-        $father->update($request->validated());
+        $father->user()->update([
+            'username' => $request->get('username'),
+            'email' => $request->get('email'),
+            'phone' => $request->get('phone'),
+        ]);
 
-        $father->user()->update($request->validated());
+        if($request->get('edit_password') == true){
+            $father->user->setPasswordAttribute($request->get('password'));
+            $father->user->save();
+        }
 
         $father->user->profile()->update([
             'firstname' => $request->get('firstname'),
