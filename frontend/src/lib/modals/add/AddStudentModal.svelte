@@ -13,7 +13,8 @@ import YearsTableCollapse from "../collapses/YearsTableCollapse.svelte";
     let studentname
     let form 
     let selectClass
-    let errors 
+    let errors
+let loading = false 
     let onHold = false;
     let parentId = ""
     let schoolId = ""
@@ -25,6 +26,7 @@ import YearsTableCollapse from "../collapses/YearsTableCollapse.svelte";
 
 
     async function save(){
+loading = true
         errors = {}
         let formData = new FormData(form)
         console.log(parentId)
@@ -51,6 +53,7 @@ import YearsTableCollapse from "../collapses/YearsTableCollapse.svelte";
         redirector(res)
 
         res = await res.json()
+        loading = false
         if(res.status == "success") {
             close.click()
             let text = `Added ${studentname} as a new student` 
@@ -89,8 +92,14 @@ import YearsTableCollapse from "../collapses/YearsTableCollapse.svelte";
                     <h5 class="modal-title" id="exampleModalgridLabel">Add Student</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
-                        <div class="row g-3">
+                <div class="modal-body" >
+                    {#if loading }
+                    <div class="text-center">
+                        <lord-icon src="https://cdn.lordicon.com/xjovhxra.json" trigger="loop" colors="primary:#695eef,secondary:#73dce9" style="width:120px;height:120px"></lord-icon>
+                    </div>
+                    {/if}
+    
+                        <div class="row g-3" class:d-none={loading}>
                             <!-- Base Example -->
 
                                 <ParentsTableCollapse collapse={true} on:select={(e) => parentId = e.detail.parentId} bind:resetParent title={"Student's Parent"}/>            

@@ -10,6 +10,7 @@
     let fileinput
     let form
     let errors
+let loading = false
 
     function selectImage(e){
         user.profile.image.full_path = URL.createObjectURL(fileinput.files[0]);
@@ -17,6 +18,7 @@
 
    
     async function save(){
+loading = true
         errors = {}
     
         let formData = new FormData(form)    

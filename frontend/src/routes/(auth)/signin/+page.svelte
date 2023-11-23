@@ -13,7 +13,7 @@
     let form 
     let keep_me_signed_in = false
     let message = ""
-    let errors 
+    let errors
     let loading = false
     async function signin(){
         localStorage.setItem("language","en")

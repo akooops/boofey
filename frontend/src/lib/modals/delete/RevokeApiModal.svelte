@@ -7,11 +7,11 @@
 
 
     let close
-    
+    let loading = false
     let {canteenStore} = getContext("canteenStore")
 
     async function revokeTarget(){
-        
+        loading = true
         let res = await fetch(PathRevokeAPi($canteenStore.id),{
             headers:{
                 Authorization: `${localStorage.getItem("SID")}`
@@ -21,7 +21,7 @@
         redirector(res)
 
         res = await res.json()
-
+        loading = false
         if(res.status == "success"){
             close.click()
             let text = `Revoked ${$canteenStore.name} #${$canteenStore.id} API` 
@@ -38,10 +38,20 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-body text-center p-5">
-                <div class="text-end">
+        <div class="text-end">
                     <button type="button" class="btn-close text-end" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
+                {#if loading }
                 <div class="mt-2">
+                    <div class="text-center">
+                        <lord-icon src="https://cdn.lordicon.com/xjovhxra.json" trigger="loop" colors="primary:#695eef,secondary:#73dce9" style="width:120px;height:120px"></lord-icon>
+                    </div>
+                </div>
+                {/if}
+
+                <div class="mt-2" class:d-none={loading}>
+                    <form  on:submit|preventDefault={revokeTarget}  class:d-none={loading}>
+                
                     <lord-icon src="https://cdn.lordicon.com/tdrtiskw.json" trigger="loop" colors="primary:#f7b84b,secondary:#f06548" style="width:100px;height:100px"></lord-icon>
                     <h4 class="mb-3 mt-4">Are you Sure ?</h4>
                     <p class="text-muted fs-15 mb-4">Are you Sure You want to Revoke the Api of <span class="text-primary">{`${$canteenStore.name} #${$canteenStore.id}`}</span> ?</p>

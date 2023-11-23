@@ -196,7 +196,7 @@ export function PathGetStudents({page,search},type,{archived=undefined,subscribe
     if(type == "parent"){
         return `${PARENT_DOMAIN}/students?page=${page}&search=${search}`
     }
-    return `${ADMIN_DOMAIN}/students?page=${page}&search=${search}&archived=${archived}$subscribed=${subscribed}`
+    return `${ADMIN_DOMAIN}/students?page=${page}&search=${search}&archived=${archived}&subscribed=${subscribed}`
 }
 export function PathGetStudent(studentId){
     return `${PARENT_DOMAIN}/students/${studentId}`
@@ -278,7 +278,10 @@ export function PathGetInvoices({page,search}){
     return `${ADMIN_DOMAIN}/invoices?page=${page}&search=${search}`
 }
 
-export function PathGetPayments({page,search}){
+export function PathGetPayments({page,search},type){
+    if(type == "parent"){
+        return `${PARENT_DOMAIN}/payments?page=${page}&search=${search}`
+    }
     return `${ADMIN_DOMAIN}/payments?page=${page}&search=${search}`
 }
 

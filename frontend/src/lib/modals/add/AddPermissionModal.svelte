@@ -8,12 +8,14 @@ import { redirector } from "$lib/api/auth";
 let permissionName
 let close
 let errors
+let loading = false
+let form
 
 async function save(){
+    loading = true 
     errors = {}
 
-    let formData = new FormData()
-    formData.append("name",permissionName)
+    let formData = new FormData(form)    
 
     let res = await fetch(PathAddPermission(),{
         headers:{
@@ -26,6 +28,7 @@ async function save(){
 
     res = await res.json()
 
+    loading = false
     if(res.status == "success") {
         close.click()
         let text = `Added ${permissionName} as a new permission` 
@@ -53,13 +56,19 @@ function reset(){
                 <h5 class="modal-title" id="exampleModalgridLabel">Add Permission</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-                <form  on:submit={save}>
+            <div class="modal-body" >
+                {#if loading }
+                <div class="text-center">
+                    <lord-icon src="https://cdn.lordicon.com/xjovhxra.json" trigger="loop" colors="primary:#695eef,secondary:#73dce9" style="width:120px;height:120px"></lord-icon>
+                </div>
+                {/if}
+
+                <form  on:submit={save} bind:this={form} class:d-none={loading}>
                     <div class="row g-3">
 
                             <div>
                                 <label for="firstName" class="form-label">Permission Name</label>
-                                <input type="text" class="form-control" id="firstName" placeholder="Enter Permission name" bind:value={permissionName}>
+                                <input type="text" name="name" class="form-control" id="firstName" placeholder="Enter Permission name" bind:value={permissionName}>
                             </div>
                             {#if errors?.name}
                             <strong class="text-danger ms-1 my-2">{errors.name[0]}</strong>

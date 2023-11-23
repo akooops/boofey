@@ -67,6 +67,7 @@ import {translation} from "$lib/translation.js"
       submenu: [
         { title: translation.students[localStorage.getItem("language")], links: [], route:"/students",icon:"ri-user-2-line"},
         { title: translation.paymentMethods[localStorage.getItem("language")], links: [], route:"/paymentMethods",icon:"ri-bank-card-line"},
+        { title: translation.payments[localStorage.getItem("language")], links: [], route:"/payments",icon:"ri-money-dollar-circle-line"},
 
       ],
     },

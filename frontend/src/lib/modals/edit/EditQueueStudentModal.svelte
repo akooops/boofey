@@ -10,7 +10,8 @@
 
     let close
     let form 
-    let errors 
+    let errors
+let loading = false 
     let startedAt
     let exitedAt
     let exited = true
@@ -23,6 +24,7 @@
     export let queue
 
     async function save(){
+loading = true
         errors = {}
         let formData = new FormData(form)
         formData.set("exited",exited)
@@ -40,6 +42,7 @@
         redirector(res)
 
         res = await res.json()
+        loading = false
         if(res.status == "success") {
             close.click()
             let text = `Successfuly Edited` 
@@ -93,7 +96,12 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                        <div class="row g-3">
+                    {#if loading }
+                    <div class="text-center">
+                        <lord-icon src="https://cdn.lordicon.com/xjovhxra.json" trigger="loop" colors="primary:#695eef,secondary:#73dce9" style="width:120px;height:120px"></lord-icon>
+                    </div>
+                    {/if}
+                        <div class="row g-3" class:d-none={loading}>
                             <!-- Base Example -->
                                     <StudentsTableCollapse collapse={true} on:select={(e) => studentId = e.detail.studentId} selected={$queueStudentStore?.student} title={"Students"} bind:resetStudent/>            
 

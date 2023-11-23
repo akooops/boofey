@@ -15,7 +15,8 @@
     let studentname
     let form 
     let selectClass
-    let errors 
+    let errors
+let loading = false 
     let parentId = ""
     let schoolId = ""
     let resetSchool
@@ -63,6 +64,7 @@
     }
 
     async function save(){
+loading = true
         errors = {}
         let formData = new FormData(form)
         
@@ -86,6 +88,7 @@
         redirector(res)
 
         res = await res.json()
+        loading = false
         if(res.status == "success") {
             close.click()
             let text = `Edit ${$studentStore.fullname} ` 
@@ -199,7 +202,13 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                        <div class="row g-3">
+                    <div class="modal-body" >
+                        {#if loading }
+                        <div class="text-center">
+                            <lord-icon src="https://cdn.lordicon.com/xjovhxra.json" trigger="loop" colors="primary:#695eef,secondary:#73dce9" style="width:120px;height:120px"></lord-icon>
+                        </div>
+                        {/if}
+                        <div class="row g-3" class:d-none={loading}>
 
                             <!-- Base Example -->
                                 <SchoolsTableCollapse collapse={true} on:select={(e) => schoolId = e.detail.schoolId} selected={$studentStore.school} bind:resetSchool title={translation.studentSchool[localStorage.getItem("language")]}/>                     
