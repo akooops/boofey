@@ -10,8 +10,10 @@
     let form
     let onHold = false
     let errors
+let loading = false
 
     async function save(){
+loading = true
         errors = {}
     
         let formData = new FormData(form)    
@@ -27,7 +29,7 @@
         redirector(res)
 
         res = await res.json()
-    
+        loading = false
         if(res.status == "success") {
             close.click()
             let text = `Added ${couponName} as a new coupon` 
@@ -60,8 +62,14 @@
                     <h5 class="modal-title" id="exampleModalgridLabel">Add Coupon</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
-                    <form   on:submit|preventDefault={save} bind:this={form}>
+                            <div class="modal-body" >
+                {#if loading }
+                <div class="text-center">
+                    <lord-icon src="https://cdn.lordicon.com/xjovhxra.json" trigger="loop" colors="primary:#695eef,secondary:#73dce9" style="width:120px;height:120px"></lord-icon>
+                </div>
+                {/if}
+
+                <form  on:submit={save} bind:this={form} class:d-none={loading}>
                         <div class="row g-3">
     
                                 <div>

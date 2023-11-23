@@ -33,7 +33,6 @@
 		"apexcharts": "^3.44.0",
 		"card-js": "^1.0.13",
 		"cleave.js": "^1.6.0",
-		"crypto-js": "^4.1.1",
 		"dotenv": "^16.3.1",
 		"esc-pos-encoder": "^2.0.1",
 		"fullcalendar": "^6.1.8",

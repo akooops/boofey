@@ -781,5 +781,9 @@ export let translation = {
     useCamera:{
         en:"Use Camera",
         ar:"استخدام الكاميرا"
+    },
+    payments:{
+        en:"Payments",
+        ar:"سجل الدفع"
     }
 }

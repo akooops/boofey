@@ -21,7 +21,8 @@ let addressId
 let billingObj
 
 let form
-let errors = {}
+let errors
+let loading = false = {}
 
 async function SendAdress(){
 

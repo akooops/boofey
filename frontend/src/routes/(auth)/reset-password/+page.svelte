@@ -12,12 +12,12 @@
     export let data;
     let form 
     let errors
+    let loading = false
     let step = "phone" 
     let phone 
     let resendAvailable = true
     let time = "01:00"
     let timeLeft = 58
-    let loading = false
 
 
     async function sendPhone(){

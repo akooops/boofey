@@ -250,7 +250,7 @@ export let dailyTotalOptions = {
             barHeight: "70%",
         },
     },
-    colors: linechartcustomerColors,
+    // colors: linechartcustomerColors,
     tooltip: {
         shared: true,
         y: [{

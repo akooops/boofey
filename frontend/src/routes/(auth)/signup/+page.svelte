@@ -11,7 +11,7 @@
     export let data;
     let form 
     let message = ""
-    let errors 
+    let errors
     let loading = false
     async function signup(){
         loading = true

@@ -9,8 +9,10 @@
 
     let form
     let errors
+let loading = false
 
     async function save(){
+loading = true
         errors = {}
     
         let formData = new FormData(form)    

@@ -8,11 +8,11 @@
     export let data;
     let form 
     let message = ""
-    let errors 
+    let errors
+    let loading = false 
     let time = "01:00"
     let timeLeft = 58
     let resendAvailable = true
-    let loading = false
     async function verify(){
         loading = true
 
