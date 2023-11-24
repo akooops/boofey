@@ -20,7 +20,7 @@ class Authenticate extends Middleware
                 'errors' => [
                     'unauthorized' => 'Access Denied: Please Log In to Access This Resource'
                 ]
-            ], 403));
+            ], 401));
         }
     }
 }
