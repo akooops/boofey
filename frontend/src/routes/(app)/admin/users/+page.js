@@ -6,8 +6,9 @@ export const ssr = false;
 export async function load({fetch,url,depends}) {
     depends('users:refresh');
     let verified =  url.searchParams.get("verified")
-    verified = verified == "true" ? "true" : "false"
-    
+    if(verified){
+        verified = verified == "true" ? "true" : "false"
+    }
     let res = await fetch(PathGetUsers(DefaultGetQueries(url),verified),{
         headers:{
             Authorization: `${localStorage.getItem("SID")}`

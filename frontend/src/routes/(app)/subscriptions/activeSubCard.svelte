@@ -29,7 +29,7 @@
     <!-- card -->
 <div class="col-xl-3 col-md-6 swiper-slide">
 
-    <div class="card card-animate" style="filter: drop-shadow(-4px 0px 0px var(--vz-{state}));" role="button" on:click={setSub}  data-bs-toggle="modal" data-bs-target="#viewSubModal">
+    <div class="card card-animate" style="filter: drop-shadow( {localStorage.getItem("language") == "en" ? "-4px" : "4px"} 0px 0px var(--vz-{state}));" role="button" on:click={setSub}  data-bs-toggle="modal" data-bs-target="#viewSubModal">
         <div class="card-body">
             <div class="d-flex flex-column h-100">
                 <div class="d-flex mb-2">

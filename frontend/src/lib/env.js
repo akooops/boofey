@@ -78,6 +78,12 @@ export const routes = [
       active: "List",
     },
     {
+      path: /^\/subscriptions$/,
+      title: translation.subs[localStorage.getItem("language")],
+      item: translation.subs[localStorage.getItem("language")],
+      active: translation.list[localStorage.getItem("language")],
+    },
+    {
       path: /^\/parents$/,
       title: "Parents",
       item: "Parents",
@@ -233,15 +239,15 @@ export const routes = [
     },
     {
       path: /^\/invoices$/,
-      title: "Invoices",
-      item: "Invoices",
+      title: translation.invoices[localStorage.getItem("language")],
+      item: translation.invoices[localStorage.getItem("language")],
       active: "List",
     },
     {
       path: /^\/payments$/,
-      title: "Payments",
-      item: "Payments",
-      active: "List",
+      title: translation.payments[localStorage.getItem("language")],
+      item: translation.payments[localStorage.getItem("language")],
+      active: translation.list[localStorage.getItem("language")],
     }
   ];
 

@@ -18,14 +18,12 @@ export async function load({fetch,cookies,url,depends}) {
             }else{
                 goto("/students")
             }
-        }
-
-        return {user:authResponse.data.user}
+        }        
+        return {user:authResponse.data.user,tabTitle:"Verification",arTabTitle:"تاكيد الحساب"};
             
     }else {
         goto("/signin")
     }
-
-    return {tabTitle:"Verification",arTabTitle:"تاكيد الحساب"}
+    
 
 };

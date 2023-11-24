@@ -13,5 +13,5 @@ export async function load({fetch,url,depends}) {
 
 
     let invoicesResponse = await res.json() 
-    return {invoicesResponse,tabTitle:"Invoices"}
+    return {invoicesResponse,tabTitle:"Invoices",arTabTitle:"فواتير"}
 };

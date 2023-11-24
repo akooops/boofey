@@ -84,16 +84,22 @@ import Swiper from 'swiper';
 <ViewSubModal />
 <div class="row"  in:fade={{duration: 200 }} bind:this={subsPage}>
     <h4 class="card-title mb-3  flex-grow-1 col-lg-12">{translation.ativeSubs[localStorage.getItem("language")]}</h4>
-    
-    <div class="row swiper" bind:this={slider}>
-        <div class="swiper-wrapper p-2">
-       
-        {#each activeSubs as activeSub}
-
-            <ActiveSubCard {activeSub}/>
-        {/each}
+    {#if activeSubs.length < 1}
+    <div class="col-lg-l2">
+        <div class="alert alert-info alert-border-left alert-dismissible fade show" role="alert">
+            <i class="ri-airplay-line me-3 align-middle"></i> {@html translation.noActiveSubsNote[localStorage.getItem("language")]}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     </div>
+    {:else}
+    <div class="row swiper" bind:this={slider}>
+        <div class="swiper-wrapper p-2">
+            {#each activeSubs as activeSub}
+                <ActiveSubCard {activeSub}/>
+            {/each}    
+            </div>
+        </div>
+    {/if}
         
 
         <div class="card">

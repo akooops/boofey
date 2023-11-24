@@ -103,7 +103,6 @@
                 setTimeout(updateTimer, 1000); // Update the timer every 1 second
             }
     }
-
   
 
 </script>
@@ -134,40 +133,40 @@
                                         <div class="col-2">
                                             <div class="mb-3">
                                                 <label for="digit1-input" class="visually-hidden">Digit 1</label>
-                                                <input type="text" name="1" class="form-control form-control-lg bg-light border-light text-center"  on:keyup={event => moveToNext(1, event)} maxLength="1" id="digit1-input">
+                                                <input type="text" name="1" class="form-control form-control-lg bg-light border-light text-center p-0 p-0"  on:keyup={event => moveToNext(1, event)} maxLength="1" id="digit1-input">
                                             </div>
                                         </div><!-- end col -->
                                 
                                         <div class="col-2">
                                             <div class="mb-3">
                                                 <label for="digit2-input" class="visually-hidden">Digit 2</label>
-                                                <input type="text" name="2" class="form-control form-control-lg bg-light border-light text-center" on:keyup={event => moveToNext(2, event)} maxLength="1" id="digit2-input">
+                                                <input type="text" name="2" class="form-control form-control-lg bg-light border-light text-center p-0" on:keyup={event => moveToNext(2, event)} maxLength="1" id="digit2-input">
                                             </div>
                                         </div><!-- end col -->
                                 
                                         <div class="col-2">
                                             <div class="mb-3">
                                                 <label for="digit3-input" class="visually-hidden">Digit 3</label>
-                                                <input type="text" name="3" class="form-control form-control-lg bg-light border-light text-center"  on:keyup={event => moveToNext(3, event)} maxLength="1" id="digit3-input">
+                                                <input type="text" name="3" class="form-control form-control-lg bg-light border-light text-center p-0"  on:keyup={event => moveToNext(3, event)} maxLength="1" id="digit3-input">
                                             </div>
                                         </div><!-- end col -->
                                 
                                         <div class="col-2">
                                             <div class="mb-3">
                                                 <label for="digit4-input" class="visually-hidden">Digit 4</label>
-                                                <input type="text" name="4" class="form-control form-control-lg bg-light border-light text-center"  on:keyup={event => moveToNext(4, event)} maxLength="1" id="digit4-input">
+                                                <input type="text" name="4" class="form-control form-control-lg bg-light border-light text-center p-0"  on:keyup={event => moveToNext(4, event)} maxLength="1" id="digit4-input">
                                             </div>
                                         </div><!-- end col -->
                                         <div class="col-2">
                                             <div class="mb-3">
                                                 <label for="digit5-input" class="visually-hidden">Digit 5</label>
-                                                <input type="text" name="5" class="form-control form-control-lg bg-light border-light text-center"  on:keyup={event => moveToNext(5, event)} maxLength="1" id="digit5-input">
+                                                <input type="text" name="5" class="form-control form-control-lg bg-light border-light text-center p-0"  on:keyup={event => moveToNext(5, event)} maxLength="1" id="digit5-input">
                                             </div>
                                         </div><!-- end col -->
                                         <div class="col-2">
                                             <div class="mb-3">
                                                 <label for="digit6-input" class="visually-hidden">Digit 6</label>
-                                                <input type="text" name="6" class="form-control form-control-lg bg-light border-light text-center"  on:keyup={event => moveToNext(6, event)} maxLength="1" id="digit6-input">
+                                                <input type="text" name="6" class="form-control form-control-lg bg-light border-light text-center p-0"  on:keyup={event => moveToNext(6, event)} maxLength="1" id="digit6-input">
                                             </div>
                                         </div><!-- end col -->
                                     </div>

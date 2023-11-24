@@ -21,7 +21,7 @@
     $: [date , time] = formatDateShortMonth()
 </script>
 
-<div class="row justify-content-center">
+<div class="row justify-content-center" dir="ltr">
     <div class="col-xxl-9">
         <div class="card" id="demo">
             <div class="row">

@@ -28,7 +28,7 @@
         </div>
     </div>
     <div class="flex-shrink-0">
-        <span class="{color} counter-value" data-target={now}>{now}</span>/{max}
+        <span class="{color}">{now}</span>/{max}
     </div>
 
 </div>

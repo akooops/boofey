@@ -2,11 +2,14 @@ import { goto} from '$app/navigation';
 import { PathRefresh,PathAuth } from "$lib/api/paths"
 import { error } from '@sveltejs/kit';
 
-export function redirector(res){
+export async function redirector(res){
     if(!res.ok){
-        if(res.status == 403){
-            goto("/signin")
-        }else if (res.status == 404 || res.status == 500){
+        if(res.status == 403){    
+                goto("/verification")
+        }else if (res.status == 401){
+                goto("/signin")
+        }
+        else if (res.status == 404 || res.status == 500){
             throw error(res.status)
         }        
     }
@@ -38,9 +41,9 @@ export async function ProfileData(){
         let authResponse = await authRes.json()
         if(authResponse?.data?.user?.verified == false){
             goto("/verification")   
+            return;
         }
         if(authResponse?.data?.user?.roles[0]?.name == "parent" && window.location.href.includes("admin")){
-            
             goto("/",{ replaceState: true })
             return;
         }
