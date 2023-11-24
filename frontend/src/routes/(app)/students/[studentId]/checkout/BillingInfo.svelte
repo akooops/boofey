@@ -45,7 +45,7 @@ async function SendAdress(){
             let text = `Added a new Billing Address` 
             toast(text,"success")
             // newAdress = false
-            invalidate("billings:refresh")
+            invalidate("checkOut:refresh")
             addressId = res.data.billing.id  
             dispatch("proceed",{addressId})
         }else {

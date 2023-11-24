@@ -26,7 +26,7 @@
             close.click()
             let text = `Billing Address Deleted Successfully` 
             toast(text,"success")
-            invalidate("billings:refresh")
+            invalidate("checkOut:refresh")
         }
 
     }

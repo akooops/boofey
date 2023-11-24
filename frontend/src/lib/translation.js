@@ -96,7 +96,7 @@ export let translation = {
         en:"Payment Methods",
         ar:"وسائل الدفع"
     },
-    addPaymentMethods:{
+    addPaymentMethod:{
         en:"Add Payment Method",
         ar:"أضف وسيلة دفع"
     },
@@ -788,5 +788,17 @@ export let translation = {
     payments:{
         en:"Payments",
         ar:"سجل الدفع"
+    },
+    refresh:{
+        en:"Refresh",
+        ar:"تحديث"
+    },
+    or:{
+        en:"Or",
+        ar:"أو"
+    },
+    oopsNoPaymentMthods:{
+        en:"oops, it seems that there isn't any payment method added yet",
+        ar:"اوبس, يبدو انه لا توجد اي طرق دفع بعد"
     }
 }

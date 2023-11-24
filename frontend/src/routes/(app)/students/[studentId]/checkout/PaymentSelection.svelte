@@ -3,10 +3,11 @@
     import { onMount, createEventDispatcher } from "svelte";
     const dispatch = createEventDispatcher();
     import {translation} from "$lib/translation.js"
+    import { invalidate } from '$app/navigation';
 
 
     export let paymentMethods
-
+    let loading = false
     let paymentMethodId
     onMount(() => {
         if(paymentMethods[0]){
@@ -26,6 +27,12 @@
         dispatch("back",{paymentMethodId})
     }
 
+    async function refresh(){
+        loading = true 
+        await invalidate("checkOut:refresh")
+        loading = false
+    }
+
 </script>
 
 
@@ -38,6 +45,18 @@
     <div class="d-flex align-items-center mb-2">
         <div class="flex-grow-1">
             <h5 class="fs-14 mb-0">{translation.savedPaymentMethods[localStorage.getItem("language")]}</h5>
+            {#if loading }
+                <div class="text-center">
+                    <lord-icon src="https://cdn.lordicon.com/xjovhxra.json" trigger="loop" colors="primary:#695eef,secondary:#73dce9" style="width:120px;height:120px"></lord-icon>
+                </div>
+            
+            {:else}
+                {#if paymentMethods.length < 1}
+                    <p class="text-muted ">{translation.oopsNoPaymentMthods[localStorage.getItem("language")]}</p>
+                    <a role="button" class="btn btn-primary waves-effect waves-light" href="/paymentMethods" target="_blank">{translation.addPaymentMethod[localStorage.getItem("language")]}</a><span class="text-muted mx-1"> {translation.or[localStorage.getItem("language")]} </span>
+                    <button type="button" class="btn btn-secondary waves-effect waves-light" on:click={refresh}>{translation.refresh[localStorage.getItem("language")]}</button>
+                {/if}
+            {/if}
         </div>
     </div>
     <div class="row gy-3">

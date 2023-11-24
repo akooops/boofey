@@ -38,7 +38,7 @@ import { fade } from 'svelte/transition';
                 <div class="card-header align-items-center d-flex">
                     <h4 class="card-title mb-0 flex-grow-1">{translation.paymentMethods[localStorage.getItem("language")]}</h4>
                     <div class="flex-shrink-0">
-                        <button type="button" on:click={addPayment} class="btn btn-primary waves-effect waves-light"><i class="ri-add-line align-bottom me-1"></i>{translation.addPaymentMethods[localStorage.getItem("language")]}</button>
+                        <button type="button" on:click={addPayment} class="btn btn-primary waves-effect waves-light"><i class="ri-add-line align-bottom me-1"></i>{translation.addPaymentMethod[localStorage.getItem("language")]}</button>
                         <!-- <AddPaymentMethodModal /> -->
                     </div>
                 </div><!-- end card header -->

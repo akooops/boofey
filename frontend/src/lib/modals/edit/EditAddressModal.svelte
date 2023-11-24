@@ -37,7 +37,7 @@ loading = true
             close.click()
             let text = `Edited Billing address successfully ` 
             toast(text,"success")
-            invalidate("billings:refresh")
+            invalidate("checkOut:refresh")
             reset()
             
         }else {
