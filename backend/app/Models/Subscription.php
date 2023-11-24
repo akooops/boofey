@@ -138,7 +138,7 @@ class Subscription extends Model
             'exclude_from_calculation' => false
         ]);
 
-        $this->student()->update('archived', false);
+        $this->student()->update(['archived' => false]);
         $this->generateInvoice();
     }
 
