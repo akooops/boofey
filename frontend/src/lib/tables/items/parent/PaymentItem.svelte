@@ -34,10 +34,9 @@
         {payment.subscription.ref}
         {/if}
     </td>
-    <td>{payment.fort_id}</td>
     <td>             
-        <img src={payment.subscription.student.image.full_path} class="avatar-xxs rounded-circle me-1" alt="">
-        <a href="" class="text-reset">{payment.subscription.student.fullname}</a>
+        <img src={payment?.subscription?.student?.image?.full_path} class="avatar-xxs rounded-circle me-1" alt="">
+        <a href="" class="text-reset">{payment?.subscription?.student?.fullname}</a>
     </td>
     <td>
         {#if payment.status == 14 || payment.status == null}

@@ -29,7 +29,6 @@
                     <th scope="col">Subscription Reference</th>
                     <th scope="col">Generated at</th>
                     <th scope="col">Package</th>
-                    <th scope="col">Father</th>
                     <th scope="col">Student</th>
                     <th scope="col">Action</th>
 

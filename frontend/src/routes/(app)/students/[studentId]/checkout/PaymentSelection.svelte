@@ -53,7 +53,7 @@
             {:else}
                 {#if paymentMethods.length < 1}
                     <p class="text-muted ">{translation.oopsNoPaymentMthods[localStorage.getItem("language")]}</p>
-                    <a role="button" class="btn btn-primary waves-effect waves-light" href="/paymentMethods" target="_blank">{translation.addPaymentMethod[localStorage.getItem("language")]}</a><span class="text-muted mx-1"> {translation.or[localStorage.getItem("language")]} </span>
+                    <a role="button" class="btn btn-primary waves-effect waves-light" href="/paymentMethods/add" target="_blank">{translation.addPaymentMethod[localStorage.getItem("language")]}</a><span class="text-muted mx-1"> {translation.or[localStorage.getItem("language")]} </span>
                     <button type="button" class="btn btn-secondary waves-effect waves-light" on:click={refresh}>{translation.refresh[localStorage.getItem("language")]}</button>
                 {/if}
             {/if}

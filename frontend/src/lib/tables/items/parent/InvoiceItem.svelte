@@ -54,16 +54,7 @@
         </div>
         {/if}
     </td>
-    <td>
-        <div class="d-flex gap-2 align-items-center">
-            <div class="flex-shrink-0">
-                <img src={invoice.father.user.profile.image.full_path} alt="" class="avatar-xs rounded-circle" />
-            </div>
-            <div class="flex-grow-1">
-                {invoice.father.user.profile.fullname}
-            </div>
-        </div>
-    </td>
+
     <td>
         {#if invoice?.subscription?.ref == null}
         <span class="badge bg-danger-subtle text-danger">not found</span> 

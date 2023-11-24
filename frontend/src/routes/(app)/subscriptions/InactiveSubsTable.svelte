@@ -27,6 +27,7 @@
                         </div>
                     </th>
                     <th scope="col">{translation.id[localStorage.getItem("language")]}</th>
+                    <th scope="col">{translation.student[localStorage.getItem("language")]}</th>
                     <th scope="col">{translation.package[localStorage.getItem("language")]}</th>
                     <th scope="col">{translation.days[localStorage.getItem("language")]}</th>
                     <th scope="col">{translation.balance[localStorage.getItem("language")]}</th>

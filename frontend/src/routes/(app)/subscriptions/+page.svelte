@@ -10,7 +10,7 @@
 	import { onMount } from "svelte";
     import {initToolTip} from "$lib/init/initToolTip.js"
 	import ActiveSubs from "./ActiveSubs.svelte";
-	import SubsTable from "$lib/tables/parent/SubsTable.svelte";
+	import SubsTable from "./SubsTable.svelte";
     import { setContext } from 'svelte';
     import { writable } from 'svelte/store';
     import { goto } from '$app/navigation';
@@ -117,7 +117,7 @@ import Swiper from 'swiper';
 
         <div class="card">
             <div class="card-header align-items-center d-flex">
-                <h4 class="card-title mb-0 flex-grow-1">{translation.scheduledSubs[localStorage.getItem("language")]}</h4>
+                <h4 class="card-title mb-0 flex-grow-1">{translation.allSubs[localStorage.getItem("language")]}</h4>
             </div><!-- end card header -->
         
             <div class="card-body">

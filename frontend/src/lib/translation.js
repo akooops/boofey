@@ -196,9 +196,9 @@ export let translation = {
       en:"Subscriptions",
       ar:"الاشتراكات"  
     },
-    scheduledSubs:{
-        en:"Sheduled Subscriptions",
-        ar:"الاشتراكات المجدولة"
+    allSubs:{
+        en:"All Subscriptions",
+        ar:"جميع الاشتراكات"
     },
     incativeSubs:{
         en:"Inactive Subscriptions",
