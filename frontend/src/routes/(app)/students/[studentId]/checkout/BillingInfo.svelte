@@ -21,8 +21,7 @@ let addressId
 let billingObj
 
 let form
-let errors
-let loading = false = {}
+let errors = {}
 
 async function SendAdress(){
 
@@ -98,8 +97,7 @@ function setBillingObj(e){
 </div>
 
 <form  on:submit|preventDefault={SendAdress} bind:this={form}>
-    {#if newAdress}
-    <div class="mt-4">
+    <div class="mt-4" class:d-none={!newAdress}>
         <div class="row">
             <div class="col-sm-6">
                 <div class="mb-3">
@@ -188,8 +186,7 @@ function setBillingObj(e){
         </div>
 
     </div>
-    {:else}
-    <div class="mt-4">
+    <div class="mt-4" class:d-none={newAdress}>
         <div class="d-flex align-items-center mb-2">
             <div class="flex-grow-1">
                 <h5 class="fs-14 mb-0">{translation.savedAddresses[localStorage.getItem("language")]}</h5>
@@ -204,7 +201,6 @@ function setBillingObj(e){
         <EditAddressModal {billingObj}/>
 
     </div>
-    {/if}
     <div class="d-flex align-items-start gap-3 mt-3">
         <button type="button" class="btn btn-primary btn-label right ms-auto nexttab" on:click={SendAdress} disabled={!newAdress && addressId == null}>
             <i class="ri-bank-card-line label-icon align-middle fs-16 ms-2"></i>{translation.proceedtoPayment[localStorage.getItem("language")]}

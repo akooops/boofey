@@ -246,7 +246,10 @@ export function PathDelCoupon(couponId){
 
 
 //// 
-export function PathGetSubscriptions(studentId,{page,search},type){
+export function PathGetSubscriptions(){
+    return `${PARENT_DOMAIN}/subscriptions`
+}
+export function PathGetSubscriptionsByStudent(studentId,{page,search},type){
     if(type == "parent"){
         return `${PARENT_DOMAIN}/students/${studentId}/subscriptions?page=${page}&search=${search}`
     }
@@ -274,7 +277,10 @@ export function PathGenInvoice(subId,type){
     return `${ADMIN_DOMAIN}/subscriptions/${subId}/generateInvoice`
 }
 
-export function PathGetInvoices({page,search}){
+export function PathGetInvoices({page,search},type){
+    if(type == "parent"){
+        return `${PARENT_DOMAIN}/invoices?page=${page}&search=${search}`
+    }
     return `${ADMIN_DOMAIN}/invoices?page=${page}&search=${search}`
 }
 

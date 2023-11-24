@@ -101,7 +101,7 @@ loading = true
                     </div>
                     {/if}
     
-                    <form  on:submit={save} class:d-none={loading}>
+                    <form  on:submit|preventDefault={save} class:d-none={loading}>
                         <div class="row g-3">
     
                                 <div>
