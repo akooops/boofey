@@ -14,7 +14,7 @@ class VerifyUser
             return response()->json([
                 'status' => 'error',
                 'errors' => [
-                    '403' => 'Your phone number is not verified. Please verify your phone number to continue.'
+                    'verification' => 'Your phone number is not verified. Please verify your phone number to continue.',
                 ]
             ], 403);
         }
