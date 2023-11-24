@@ -49,7 +49,7 @@ function updateCount() {
 
 
 </script>
-<div class="col-xl-3 col-md-6 swiper-slide">
+<div class="col-auto swiper-slide">
     <!-- card -->
     <div class="card card-animate">
         <div class="card-body">

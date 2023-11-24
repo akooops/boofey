@@ -246,7 +246,10 @@ export function PathDelCoupon(couponId){
 
 
 //// 
-export function PathGetSubscriptions(studentId,{page,search},type){
+export function PathGetSubscriptions(){
+    return `${PARENT_DOMAIN}/subscriptions`
+}
+export function PathGetSubscriptionsByStudent(studentId,{page,search},type){
     if(type == "parent"){
         return `${PARENT_DOMAIN}/students/${studentId}/subscriptions?page=${page}&search=${search}`
     }

@@ -19,7 +19,16 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body p-4">
-            
+                {#if $subStore?.student}
+                <ViewRow>
+                    {translation.student[localStorage.getItem("language")]} : 
+                                <img src={$subStore?.student?.image?.full_path} alt="" class="avatar-xs rounded-circle" />
+                                {$subStore?.student?.fullname} 
+                            
+                        
+                </ViewRow>
+                {/if}
+
                 <ViewRow>
                     {translation.package[localStorage.getItem("language")]} :
                                 <img src={$subStore?.package?.school?.logo?.full_path} alt="" class="avatar-xs rounded-circle" />

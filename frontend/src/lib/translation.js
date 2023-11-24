@@ -192,7 +192,10 @@ export let translation = {
         en:"Actions",
         ar:"خيارات"
     },
-    
+    subs:{
+      en:"Subscriptions",
+      ar:"الاشتراكات"  
+    },
     scheduledSubs:{
         en:"Sheduled Subscriptions",
         ar:"الاشتراكات المجدولة"

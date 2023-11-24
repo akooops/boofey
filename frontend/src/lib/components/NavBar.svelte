@@ -68,6 +68,7 @@ import {translation} from "$lib/translation.js"
         { title: translation.students[localStorage.getItem("language")], links: [], route:"/students",icon:"ri-user-2-line"},
         { title: translation.paymentMethods[localStorage.getItem("language")], links: [], route:"/paymentMethods",icon:"ri-bank-card-line"},
         { title: translation.payments[localStorage.getItem("language")], links: [], route:"/payments",icon:"ri-money-dollar-circle-line"},
+        { title: translation.subs[localStorage.getItem("language")], links: [], route:"/subscriptions",icon:"ri-refund-2-line"},
 
       ],
     },

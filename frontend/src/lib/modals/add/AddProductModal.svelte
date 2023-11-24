@@ -67,7 +67,7 @@ loading = true
                 </div>
                 {/if}
 
-                <form  on:submit={save} bind:this={form} class:d-none={loading}>
+                <form  on:submit|preventDefault={save} bind:this={form} class:d-none={loading}>
                         <div class="row g-3">
     
                                 <div>

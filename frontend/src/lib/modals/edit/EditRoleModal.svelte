@@ -109,7 +109,7 @@ loading = true
                         <lord-icon src="https://cdn.lordicon.com/xjovhxra.json" trigger="loop" colors="primary:#695eef,secondary:#73dce9" style="width:120px;height:120px"></lord-icon>
                     </div>
                     {/if}
-                    <form  on:submit={save} class:d-none={loading}>
+                    <form  on:submit|preventDefault={save} class:d-none={loading}>
                         <div class="row g-3">
     
                                 <div>
