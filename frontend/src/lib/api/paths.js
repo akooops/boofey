@@ -277,7 +277,10 @@ export function PathGenInvoice(subId,type){
     return `${ADMIN_DOMAIN}/subscriptions/${subId}/generateInvoice`
 }
 
-export function PathGetInvoices({page,search}){
+export function PathGetInvoices({page,search},type){
+    if(type == "parent"){
+        return `${PARENT_DOMAIN}/invoices?page=${page}&search=${search}`
+    }
     return `${ADMIN_DOMAIN}/invoices?page=${page}&search=${search}`
 }
 

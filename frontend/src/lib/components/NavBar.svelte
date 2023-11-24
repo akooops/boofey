@@ -56,6 +56,7 @@ import {translation} from "$lib/translation.js"
             { title: "Categories ", links: [], route:"/admin/categories",permission:"categories.index",icon:"ri-node-tree"},
             { title: "Products ", links: [], route:"/admin/products",permission:"products.index",icon:"ri-shopping-bag-line"},
             { title: "Orders ", links: [], route:"/admin/orders",permission:"orders.index",icon:"ri-survey-line"},
+            
         ]
     },
   ];
@@ -69,7 +70,7 @@ import {translation} from "$lib/translation.js"
         { title: translation.paymentMethods[localStorage.getItem("language")], links: [], route:"/paymentMethods",icon:"ri-bank-card-line"},
         { title: translation.payments[localStorage.getItem("language")], links: [], route:"/payments",icon:"ri-money-dollar-circle-line"},
         { title: translation.subs[localStorage.getItem("language")], links: [], route:"/subscriptions",icon:"ri-refund-2-line"},
-
+        { title: "Invoices ", links: [], route:"/invoices",permission:"invoices.index",icon:"ri-file-paper-2-line"},
       ],
     },
   ];

@@ -2,7 +2,7 @@
     import Pagination from "$lib/components/Pagination.svelte";
     import SearchTable from "$lib/components/SearchTable.svelte";
     
-    import InvoicesTable from "$lib/tables/InvoicesTable.svelte";
+    import InvoicesTable from "$lib/tables/parent/InvoicesTable.svelte";
     import { onMount } from "svelte";
 import { fade } from 'svelte/transition';
     import {initToolTip} from "$lib/init/initToolTip.js"
@@ -24,7 +24,6 @@ import { fade } from 'svelte/transition';
                     <div class="flex-shrink-0">
                     </div>
                 </div><!-- end card header -->
-                {#if JSON.parse(sessionStorage.getItem("permissions")).includes("invoices.index")}
                 <div class="card-body">
     
                     <!-- <div class="live-preview"> -->
@@ -38,7 +37,6 @@ import { fade } from 'svelte/transition';
                         <!--end row-->
                     <!-- </div> -->
                 </div><!-- end card-body -->
-                {/if}
             </div><!-- end card -->
         </div>
         <!-- end col -->
