@@ -19,7 +19,7 @@ class IsVerified implements Rule
     {
         $user = Auth::user();
 
-        return is_null($user->phone_verified_at) ? false : true;
+        return is_null($user->phone_verified_at) ? true : false;
     }
 
     public function message()

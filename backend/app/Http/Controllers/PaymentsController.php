@@ -92,8 +92,8 @@ class PaymentsController extends Controller
 
         $payment->load([
             'subscription:id,ref,package_id,student_id,started_at,expired_at,initiated_at,days',
-            'subscription.package:id,name,code,sale_price,price,days,school_id',
-            'subscription.package.school:id,name,file_id',
+            'subscription.package:id,name,name_ar,code,sale_price,price,days,school_id',
+            'subscription.package.school:id,name,name_ar,file_id',
             'subscription.package.school.logo:id,path,current_name',
             'subscription.student:id,firstname,lastname,file_id',
             'subscription.student.image:id,path,current_name',
