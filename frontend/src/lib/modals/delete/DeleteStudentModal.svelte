@@ -11,7 +11,7 @@
     let {studentStore} = getContext("studentStore")
 
     async function deleteTarget(){
-loading = true
+    loading = true
         
         let res = await fetch(PathDelStudent($studentStore.id),{
             headers:{
