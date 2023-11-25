@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -58,5 +59,10 @@ class Queue extends Model
 
     public function getLastSyncedAtAttribute(){
         return $this->students()->max('synced_at');
+    }
+
+    public function getStartedAtAttribute()
+    {
+        return Carbon::parse($this->started_at)->format('Y-m-d H:i:s');
     }
 }
