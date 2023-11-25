@@ -12,6 +12,11 @@ class Queue extends Model
 
     public $dates = ['started_at', 'closed_at'];
 
+    protected $casts = [
+        'started_at' => 'datetime:Y-m-d H:i:s',
+        'closed_at' => 'datetime:Y-m-d H:i:s',
+    ];
+
     protected $appends = ["closed", 'studentsPlucked', 'studentsCount', 'studentsInCount', 'studentsExitedCount', 'lastSyncedAt'];
 
     protected $fillable = [
@@ -59,10 +64,5 @@ class Queue extends Model
 
     public function getLastSyncedAtAttribute(){
         return $this->students()->max('synced_at');
-    }
-
-    public function getStartedAtAttribute()
-    {
-        return $this->started_at->format('Y-m-d H:i:s');
     }
 }

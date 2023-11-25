@@ -19,6 +19,10 @@ class PermissionMiddleware
      */
     public function handle($request, Closure $next, $permission = null, $guard = null)
     {
+        if(env('ENABLE_PERMISSIONS') == false){
+            return $next($request);
+        }
+
         $authGuard = app('auth')->guard($guard);
 
         if ($authGuard->guest()) {
