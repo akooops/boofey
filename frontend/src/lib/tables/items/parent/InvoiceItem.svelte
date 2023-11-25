@@ -1,6 +1,7 @@
 <script>
     import { getContext } from "svelte"
     import { goto } from '$app/navigation';
+    import {translation} from "$lib/translation.js"
 
     export let invoice
 
@@ -48,9 +49,15 @@
             <div class="flex-shrink-0">
                 <img src={invoice.subscription.package.school.logo.full_path} alt="" class="avatar-xs rounded-circle" />
             </div>
+            {#if localStorage.getItem("language") == "ar"}
+            <div class="flex-grow-1">
+                {invoice.subscription.package.school.name_ar} - {invoice.subscription.package.name_ar}
+            </div>
+            {:else}
             <div class="flex-grow-1">
                 {invoice.subscription.package.school.name} - {invoice.subscription.package.name}
             </div>
+            {/if}
         </div>
         {/if}
     </td>
@@ -72,7 +79,7 @@
     <td>
         <div class="hstack gap-3 flex-wrap">
             
-            <a href="/invoices/{invoice.id}" target="_blank" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Print" ><i class="ri-printer-line"></i></a>
+            <a href="/invoices/{invoice.id}" target="_blank" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="{translation.print[localStorage.getItem("language")]}" ><i class="ri-printer-line"></i></a>
         </div>
     </td>
 </tr>

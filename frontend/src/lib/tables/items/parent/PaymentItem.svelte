@@ -1,6 +1,7 @@
 <script>
     import { getContext } from "svelte"
     import { goto } from '$app/navigation';
+    import {translation} from "$lib/translation.js"
 
     export let payment
 
@@ -29,7 +30,7 @@
     <td><span class="badge border border-primary text-primary">{payment.ref}</span></td>
     <td>
         {#if payment?.subscription?.ref == null}
-        <span class="badge bg-danger-subtle text-danger">not found</span> 
+        <span class="badge bg-danger-subtle text-danger">{translation.notFound[localStorage.getItem("language")]}</span> 
         {:else}
         {payment.subscription.ref}
         {/if}
@@ -40,12 +41,12 @@
     </td>
     <td>
         {#if payment.status == 14 || payment.status == null}
-            <span class="badge bg-success-subtle text-success" id="invoice-status">Success</span>
+            <span class="badge bg-success-subtle text-success" id="invoice-status">{translation.success[localStorage.getItem("language")]}</span>
         {:else}
-        <span class="badge bg-danger-subtle text-danger" id="invoice-status">Failed</span>
+        <span class="badge bg-danger-subtle text-danger" id="invoice-status">{translation.failed[localStorage.getItem("language")]}</span>
         {/if}
     </td>
-    <td>{payment.amount} SAR</td>
+    <td>{payment.amount} {translation.sar[localStorage.getItem("language")]}</td>
     <td>{payment.paid_at}</td>
 
     <td>

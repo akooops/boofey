@@ -2,6 +2,7 @@
     import { getContext } from "svelte";
     import {formatTimestamp} from "$lib/utils.js"
     import ViewRow from "$lib/components/ViewRow.svelte"
+    import {translation} from "$lib/translation.js"
 
     let {paymentStore} = getContext("paymentStore")
 
@@ -13,87 +14,81 @@
     <div class="modal-dialog modal-dialog-centered" >
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalgridLabel">View Payment</h5>
+                <h5 class="modal-title" id="exampleModalgridLabel">{translation.viewPayment[localStorage.getItem("language")]}</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body p-4">
              
             <ViewRow>
-               Payment Ref :<span class="badge border border-primary text-primary">{$paymentStore?.ref}</span>
+                {translation.payRef[localStorage.getItem("language")]} :<span class="badge border border-primary text-primary">{$paymentStore?.ref}</span>
             </ViewRow>
 
             <ViewRow>
-               Subscription Ref : <span class="badge border border-primary text-primary">{$paymentStore?.subscription?.ref == null ? "not found" : $paymentStore.subscription.ref}</span>
+                {translation.subRef[localStorage.getItem("language")]} : <span class="badge border border-primary text-primary">{$paymentStore?.subscription?.ref == null ? "not found" : $paymentStore.subscription.ref}</span>
             </ViewRow>
 
              <ViewRow>
-                Status : {#if $paymentStore?.status == 14 || $paymentStore?.status == null}
-                            <span class="badge bg-success-subtle text-success" id="invoice-status">Success</span>
+                {translation.status[localStorage.getItem("language")]} : {#if $paymentStore?.status == 14 || $paymentStore?.status == null}
+                            <span class="badge bg-success-subtle text-success" id="invoice-status">{translation.success[localStorage.getItem("language")]}</span>
                         {:else}
-                        <span class="badge bg-danger-subtle text-danger" id="invoice-status">Failed</span>
+                        <span class="badge bg-danger-subtle text-danger" id="invoice-status">{translation.failed[localStorage.getItem("language")]}</span>
                         {/if}
              </ViewRow>
 
              <ViewRow>
-                Amount : <span class="fw-normal">{$paymentStore?.amount} SAR</span>
+                {translation.amount[localStorage.getItem("language")]} : <span class="fw-normal">{$paymentStore?.amount} {translation.sar[localStorage.getItem("language")]}</span>
              </ViewRow>
 
              <ViewRow>
-                Paid At : <span class="fw-normal">{$paymentStore?.paid_at} </span>
+                {translation.paidAt[localStorage.getItem("language")]} : <span class="fw-normal">{$paymentStore?.paid_at} </span>
              </ViewRow>
-             <ViewRow>
-                Response Code : <span class="fw-normal">{$paymentStore?.response_code}</span>
+            <ViewRow>
+                {translation.paymentOption[localStorage.getItem("language")]} : <span class="fw-normal">{$paymentStore?.payment_option}</span>
             </ViewRow>
             <ViewRow>
-                Response Message : <span class="fw-normal">{$paymentStore?.response_message}</span>
+                {translation.cardNumber[localStorage.getItem("language")]} : <span class="fw-normal">{$paymentStore?.card_number}</span>
             </ViewRow>
             <ViewRow>
-                Payment Option : <span class="fw-normal">{$paymentStore?.payment_option}</span>
+                {translation.holderName[localStorage.getItem("language")]} : <span class="fw-normal">{$paymentStore?.card_holder_name}</span>
             </ViewRow>
             <ViewRow>
-                Card Number : <span class="fw-normal">{$paymentStore?.card_number}</span>
-            </ViewRow>
-            <ViewRow>
-                Card Holder Name : <span class="fw-normal">{$paymentStore?.card_holder_name}</span>
-            </ViewRow>
-            <ViewRow>
-            Billing : 
+                {translation.billing[localStorage.getItem("language")]} : 
             </ViewRow>
             <div class="ps-3">
             <ViewRow>
-                First Name : <span class="fw-normal">{$paymentStore?.firstname}</span>
+                {translation.firstName[localStorage.getItem("language")]} : <span class="fw-normal">{$paymentStore?.firstname}</span>
             </ViewRow>
             <ViewRow>
-                Last Name : <span class="fw-normal">{$paymentStore?.lastname}</span>
+                {translation.lastName[localStorage.getItem("language")]} : <span class="fw-normal">{$paymentStore?.lastname}</span>
             </ViewRow>
             <ViewRow>
-                Email : <span class="fw-normal">{$paymentStore?.email}</span>
+                {translation.email[localStorage.getItem("language")]} : <span class="fw-normal">{$paymentStore?.email}</span>
             </ViewRow>
             <ViewRow>
-                Phone : <span class="fw-normal">{$paymentStore?.phone}</span>
+                {translation.phone[localStorage.getItem("language")]} : <span class="fw-normal">{$paymentStore?.phone}</span>
             </ViewRow>
             <ViewRow>
-                Address : <span class="fw-normal">{$paymentStore?.address}</span>
+                {translation.address[localStorage.getItem("language")]} : <span class="fw-normal">{$paymentStore?.address}</span>
             </ViewRow>
             <ViewRow>
-                State : <span class="fw-normal">{$paymentStore?.state}</span>
+                {translation.state[localStorage.getItem("language")]} : <span class="fw-normal">{$paymentStore?.state}</span>
             </ViewRow>
             <ViewRow>
-                City : <span class="fw-normal">{$paymentStore?.city}</span>
+                {translation.city[localStorage.getItem("language")]} : <span class="fw-normal">{$paymentStore?.city}</span>
             </ViewRow>
             <ViewRow>
-                Zip code : <span class="fw-normal">{$paymentStore?.zipcode}</span>
+                {translation.zipCode[localStorage.getItem("language")]} : <span class="fw-normal">{$paymentStore?.zipcode}</span>
             </ViewRow>
             </div>
             <ViewRow>
-                Created at : <span class="fw-normal">{formatTimestamp($paymentStore?.created_at)}</span>
+                {translation.createdAt[localStorage.getItem("language")]} : <span class="fw-normal">{formatTimestamp($paymentStore?.created_at)}</span>
             </ViewRow>
             <ViewRow>
-                Updated at : <span class="fw-normal">{formatTimestamp($paymentStore?.updated_at)}</span>
+                {translation.updatedAt[localStorage.getItem("language")]} : <span class="fw-normal">{formatTimestamp($paymentStore?.updated_at)}</span>
             </ViewRow>
 
                     <div class="hstack gap-2 justify-content-end">
-                        <button type="button" class="btn btn-light fw-light" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-light fw-light" data-bs-dismiss="modal">{translation.close[localStorage.getItem("language")]}</button>
                     </div>
             </div>
         </div>

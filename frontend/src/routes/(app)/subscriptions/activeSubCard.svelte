@@ -43,7 +43,11 @@
                     </div>
                     <div class="flex-grow-1">
                         <h5 class="mb-1 fs-16"><a href="apps-projects-overview.html" class="text-body">{activeSub.student.fullname}</a></h5>
-                        <p class="text-muted text-truncate-two-lines">Package: {activeSub.package.name}</p>
+                        <p class="text-muted text-truncate-two-lines">{translation.package[localStorage.getItem("language")]}: {#if localStorage.getItem("language") == "ar"}
+                                {activeSub.package.school.name_ar} - {activeSub.package.name_ar}
+                            {:else}
+                                {activeSub.package.school.name} - {activeSub.package.name}
+                            {/if}</p>
                     </div>
                 </div>
                 <div class="mt-auto">
