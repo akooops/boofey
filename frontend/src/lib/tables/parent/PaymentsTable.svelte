@@ -1,6 +1,7 @@
 <script>
 	import ViewPaymentModal from "$lib/modals/view/parent/ViewPaymentModal.svelte";
     import PaymentItem from "$lib/tables/items/parent/PaymentItem.svelte";
+import {translation} from "$lib/translation.js"
     
     import { setContext } from 'svelte';
     import { writable } from 'svelte/store';
@@ -24,14 +25,14 @@
                             <input class="form-check-input" type="checkbox" id="checkAll" value="option1">
                         </div>
                     </th>
-                    <th scope="col">ID</th>
-                    <th scope="col">Payment Ref</th>
-                    <th scope="col">Subscription Ref</th>
-                    <th scope="col">Student</th>
-                    <th scope="col">Status</th>
-                    <th scope="col">Amount</th>
-                    <th scope="col">Paid At</th>
-                    <th scope="col">Action</th>
+                    <th scope="col">{translation.id[localStorage.getItem("language")]}</th>
+                    <th scope="col">{translation.payRef[localStorage.getItem("language")]}</th>
+                    <th scope="col">{translation.subRef[localStorage.getItem("language")]}</th>
+                    <th scope="col">{translation.student[localStorage.getItem("language")]}</th>
+                    <th scope="col">{translation.status[localStorage.getItem("language")]}</th>
+                    <th scope="col">{translation.amount[localStorage.getItem("language")]}</th>
+                    <th scope="col">{translation.paidAt[localStorage.getItem("language")]}</th>
+                    <th scope="col">{translation.actions[localStorage.getItem("language")]}</th>
 
                 </tr>
              </thead>

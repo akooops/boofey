@@ -56,6 +56,14 @@ export let translation = {
         en:"Not Subscribed",
         ar:"غير مشترك"
     },
+    notFound:{
+        en:"not found",
+        ar:"غير موجود"
+    },
+    failed:{
+        en:"Failed",
+        ar:"فشل"
+    },
     view:{
         en:"View",
         ar:"عرض"
@@ -108,6 +116,11 @@ export let translation = {
         en:"Number",
         ar:"رقم"
     },
+    amount:{
+        en:"Amount",
+        ar:"القيمة"
+    },
+
     expiryDate:{
         en:"Expiry Date",
         ar:"تاريخ انتهاء الصلاحية"
@@ -184,6 +197,54 @@ export let translation = {
         en:"Subscriptions Managment",
         ar:"ادارة الاشتراكات"
     },
+    invoice:{
+        en:"Invoice",
+        ar:"فاتورة"
+    },
+    invoiceManagement:{
+        en:"Invoices Management",
+        ar:"ادارة الفواتير"
+    },
+    invoiceRef:{
+        en:"Invoice Reference",
+        ar:"معرف الفاتورة"
+    },
+    paymentManagement:{
+        en:"Payments Management",
+        ar:"ادارة المدفوعات"
+    },
+    billing:{
+        en:"Billing",
+        ar:"الفوترة"
+    },
+    paymentOption:{
+        en:"Payment Option",
+        ar:"وسيلة الدفع"
+    },
+    viewPayment:{
+        en:"View Payment",
+        ar:"عرض الدفع"
+    },
+    payRef:{
+        en:"Payment Reference",
+        ar:"معرف الدقع"
+    },
+    paidAt:{
+        en:"Paid At",
+        ar:"دفع في"
+    },
+    payment:{
+        en:"Payment",
+        ar:"دفع"
+    },
+    subRef:{
+        en:"Subscription Reference",
+        ar:"معرف الاشتراك"
+    },
+    genAt:{
+        en:"Generated at",
+        ar:"ولدت في"
+    },
     subscribe:{
         en:"Subscribe",
         ar:"إشترك"
@@ -212,7 +273,7 @@ export let translation = {
     },
     package:{
         en:"Package",
-        ar:"باقة"
+        ar:"الباقة"
     },
     days:{
         en:"Days",
