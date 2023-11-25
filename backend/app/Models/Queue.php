@@ -63,6 +63,6 @@ class Queue extends Model
 
     public function getStartedAtAttribute()
     {
-        return Carbon::parse($this->started_at)->format('Y-m-d H:i:s');
+        return $this->started_at->format('Y-m-d H:i:s');
     }
 }
