@@ -41,7 +41,7 @@ class Canteen extends Model
 
     public function users()
     {
-        return $this->belongsToMany(User::class, 'canteens_users');
+        return $this->belongsToMany(User::class, 'canteen_users');
     }
 
     /* Methods

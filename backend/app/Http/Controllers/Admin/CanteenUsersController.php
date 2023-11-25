@@ -51,9 +51,9 @@ class CanteenUsersController extends Controller
             return response()->json([
                 'status' => 'error',
                 'errors' => [
-                    '400' => 'This user is a parent which can not hancle canteens'
+                    'permissions' => 'User does not have the right permissions.'
                 ]
-            ], 400);
+            ], 403);
         }
 
         $user->load([
@@ -68,22 +68,6 @@ class CanteenUsersController extends Controller
 
         $perPage = limitPerPage($request->query('perPage', 10));
         $page = checkPageIfNull($request->query('page', 1));
-        $search = checkIfSearchEmpty($request->query('search'));
-
-        if ($search) {
-            $canteens->where(function ($query) use ($search) {
-                $query
-                    ->where('id', $search)
-                    ->where('name', 'like', '%' . $search . '%')
-                    ->orWhere('name_ar', 'like', '%' . $search . '%')
-                    ->orWhere('address', 'like', '%' . $search . '%')
-                    ->orWhere('address_ar', 'like', '%' . $search . '%');
-            })
-            ->orWhereHas('school', function ($schoolQuery) use ($search) {
-                $schoolQuery->where('name', 'like', '%' . $search . '%')
-                    ->orWhere('name_ar', 'like', '%' . $search . '%');
-            }); 
-        }
 
         $canteens = $canteens->paginate($perPage, ['*'], 'page', $page);
 
@@ -113,9 +97,9 @@ class CanteenUsersController extends Controller
             return response()->json([
                 'status' => 'error',
                 'errors' => [
-                    '400' => 'This user is a parent which can not hancle canteens'
+                    'permissions' => 'User does not have the right permissions.'
                 ]
-            ], 400);
+            ], 403);
         }
 
         $canteenUser = $user->canteensUsers()->where('canteen_id', $request->input('canteen_id'))->first();

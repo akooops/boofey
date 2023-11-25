@@ -59,7 +59,7 @@ class PermissionMiddleware
         return response()->json([
             'status' => 'error',
             'errors' => [
-                '403' => 'User does not have the right permissions.'
+                'permissions' => 'User does not have the right permissions.'
             ]
         ], 403);   
     }

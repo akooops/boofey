@@ -27,7 +27,7 @@ class User extends Authenticatable
         'phone_verified_at'
     ];
 
-    protected $appends = ["verified"];
+    protected $appends = ['role', 'verified'];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -82,5 +82,11 @@ class User extends Authenticatable
 
     public function getVerifiedAttribute(){
         return ($this->phone_verified_at === null) ? false : true;
+    }
+
+    public function getRoleAttribute(){
+        $roles = $this->getRoleNames();
+
+        return count($roles) > 0 ? $roles[0] : null;
     }
 }
