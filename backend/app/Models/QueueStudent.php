@@ -11,6 +11,11 @@ class QueueStudent extends Model
 
     public $dates = ['started_at', 'exited_at'];
 
+    protected $casts = [
+        'started_at' => 'datetime:Y-m-d H:i:s',
+        'exited_at' => 'datetime:Y-m-d H:i:s',
+    ];
+
     protected $fillable = [
         'started_at',
         'synced_at',
