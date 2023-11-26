@@ -20,6 +20,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'App\Http\Controllers\Admin', 
     /* Permissions Routes */
     Route::resource('permissions', PermissionsController::class)->except(['create', 'edit', 'update']);
     Route::post('permissions/{permission}/update', 'PermissionsController@update')->name('permissions.update');
+    Route::delete('permissions/destroyMultiple', 'PermissionsController@destroyMultiple')->name('permissions.destroyMultiple');
 
     /* -------------------------------------------------------------------------------- */
     /* Roles Routes */
