@@ -8,6 +8,8 @@ export async function load({fetch,url,depends}) {
     let verified =  url.searchParams.get("verified")
     if(verified){
         verified = verified == "true" ? "true" : "false"
+    }else{
+        verified = ""
     }
     let res = await fetch(PathGetUsers(DefaultGetQueries(url),verified),{
         headers:{

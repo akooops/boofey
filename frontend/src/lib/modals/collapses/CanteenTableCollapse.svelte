@@ -3,7 +3,7 @@
 
     import ModalSearchTable from "$lib/components/ModalSearchTable.svelte";
     import ModalPagination from "$lib/components/ModalPagination.svelte";
-    import {PathGetCanteens} from "$lib/api/paths.js"
+    import {PathGetAllCanteens} from "$lib/api/paths.js"
     import {redirector} from "$lib/api/auth.js"
     import { createEventDispatcher } from 'svelte';
     import Accordion from "$lib/components/Accordion.svelte";
@@ -24,7 +24,7 @@
 
 
     async function fetchCanteenUsers(){
-        let res = await fetch(`${PathGetCanteens(null,{page,search:searchQuery})}`,{
+        let res = await fetch(`${PathGetAllCanteens({page,search:searchQuery})}`,{
             headers:{
                 Authorization: `${localStorage.getItem("SID")}`
             }
