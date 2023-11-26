@@ -10,8 +10,6 @@ class School extends Model
 {
     use HasFactory;
 
-    protected $appends = ['display_name'];
-
     protected $fillable = [
         'name',
         'name_ar',
@@ -75,17 +73,5 @@ class School extends Model
         ]);
 
         $academicYear->save();
-    }
-
-    public function getDisplayNameAttribute(){
-        if (session()->has('local')) {
-            $local = session('local');
-
-            if ($local === 'ar') {
-                return $this->name_ar;
-            }
-        }
-
-        return $this->name;
     }
 }

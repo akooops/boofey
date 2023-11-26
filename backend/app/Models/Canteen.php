@@ -12,7 +12,7 @@ class Canteen extends Model
 {
     use HasFactory;
 
-    protected $appends = ['display_name', 'display_address', 'status'];
+    protected $appends = ['status'];
 
     protected $fillable = [
         'name',
@@ -121,30 +121,6 @@ class Canteen extends Model
     /* Appends
         --------------------------------------------------------------------
     */
-
-    public function getDisplayNameAttribute(){
-        if (session()->has('local')) {
-            $local = session('local');
-
-            if ($local === 'ar') {
-                return $this->name_ar;
-            }
-        }
-
-        return $this->name;
-    }
-
-    public function getDisplayAddressAttribute(){
-        if (session()->has('local')) {
-            $local = session('local');
-
-            if ($local === 'ar') {
-                return $this->address_ar;
-            }
-        }
-
-        return $this->address;
-    }
 
     public function getStatusAttribute(){
         return (is_null($this->currentQueue)) ? 'closed': 'open';
