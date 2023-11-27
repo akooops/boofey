@@ -1,6 +1,7 @@
 <script>
     import { getContext } from "svelte";
     import {formatTimestamp} from "$lib/utils.js"
+    import ViewRow from "$lib/components/ViewRow.svelte"
 
 
     let {schoolStore} = getContext("schoolStore")
@@ -30,6 +31,9 @@
                                 </div>
                             </div>
                         </div>
+                        <ViewRow>
+                            Arabic Name : <span class="fw-normal">{$schoolStore.name_ar}</span>
+                         </ViewRow>
                         <div class="d-flex mb-2">
                             <div class="flex-grow-1 d-flex align-items-center">
                                 <div class="flex-shrink-0 me-3">

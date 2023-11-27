@@ -16,7 +16,8 @@
 
     function openQueueStudents(){
         let toolTipInstance = bootstrap.Tooltip.getOrCreateInstance(queueStudentsToolTip)
-        goto(`/admin/queues/${activeQueue.id}/queueStudents`)
+        // goto(`/admin/queues/${activeQueue.id}/queueStudents`)
+        goto(`queues/${activeQueue.id}/queueStudents`)
         toolTipInstance.hide()
     }
 
@@ -77,7 +78,7 @@
                                     </div>
                                 </td>
                                 <td>{activeQueue.id}</td>
-                                <td><span class="badge bg-primary-subtle text-primary">{activeQueue.type == 1 ? "Snack" : ":Main Meal"}</span></td>
+                                <td><span class="badge bg-primary-subtle text-primary">{activeQueue.type == 1 ? "Snack" : "Main Meal"}</span></td>
                                 <td>{activeQueue.started_at}</td>
                                 <td>{activeQueue.studentsCount}</td>
                                 <td>{activeQueue.studentsInCount}</td>

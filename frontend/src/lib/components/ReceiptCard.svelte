@@ -1,4 +1,6 @@
 <script>
+    import {translation} from "$lib/translation.js"
+
     export let invoice
 
     function formatDateShortMonth(){
@@ -99,7 +101,6 @@
                             <div class="col-6">
                                 <h6 class="text-muted text-uppercase fw-semibold mb-3">Student</h6>
                                 <p class="fw-medium mb-2" id="billing-name">{invoice?.subscription?.student?.fullname}</p>
-                                <p class="text-muted mb-0" id="billing-address-line-1">Class : {invoice?.subscription?.student?.className}</p>
                             </div>
                             <!--end col-->
                         </div>
@@ -107,9 +108,9 @@
                     </div>
                     <!--end card-body-->
                 </div><!--end col-->
-                <div class="col-lg-12">
-                    <div class="card-body p-4">
-                        <div class="table-responsive">
+                <div class="col-lg-12" >
+                    <div class="card-body p-4" >
+                        <div class="table-responsive"> 
                             <table class="table table-borderless  table-nowrap align-middle mb-0">
                                 <thead>
                                     <tr class="table-active">
@@ -119,7 +120,7 @@
                                         <th scope="col" class="text-end">Price</th>
                                     </tr>
                                 </thead>
-                                <tbody id="products-list">
+                                <tbody id="products-list" >
                                     <tr>
                                         <td class="text-start">
                                             {invoice.subscription.package.name}
@@ -140,7 +141,7 @@
                         </div>
                         <div class="border-top border-top-dashed mt-2">
                             <table class="table table-borderless table-nowrap align-middle mb-0 ms-auto" style="width:250px">
-                                <tbody>
+                                <tbody >
                                     <tr>
                                         <td>Sub Total</td>
                                         <td class="text-end">{invoice.subtotal} SAR</td>
@@ -182,7 +183,7 @@
                             </div>
                         </div> -->
                         <div class="hstack gap-2 justify-content-end d-print-none mt-4">
-                            <a href="javascript:window.print()" class="btn btn-info"><i class="ri-printer-line align-bottom me-1"></i> Print</a>
+                            <a href="javascript:window.print()" class="btn btn-info"><i class="ri-printer-line align-bottom me-1"></i> {translation.print[localStorage.getItem("language")]}</a>
                         </div>
                     </div>
                     <!--end card-body-->

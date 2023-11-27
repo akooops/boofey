@@ -32,7 +32,10 @@
             <ViewRow>
                Name : <span class="fw-normal">{$canteenStore.name}</span>
             </ViewRow>
-
+            <ViewRow>
+                Arabic Name : <span class="fw-normal">{$canteenStore.name_ar}</span>
+             </ViewRow>
+ 
             {#if general}
             <ViewRow>
                 School :      
@@ -44,7 +47,10 @@
             <ViewRow>
                Address : <span class="fw-normal">{$canteenStore.address}</span>
             </ViewRow>
-
+            <ViewRow>
+                Arabic Address : <span class="fw-normal">{$canteenStore.address_ar}</span>
+             </ViewRow>
+ 
             <ViewRow>
                 APi Key 
              </ViewRow>

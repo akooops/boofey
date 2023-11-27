@@ -45,6 +45,7 @@
         </td>
         <td>{canteen.id}</td>
         <td>{canteen.name}</td>
+        <td>{canteen.name_ar}</td>
         {#if general}
         <td>
             <div class="d-flex gap-2 align-items-center">
@@ -58,6 +59,7 @@
         </td>
         {/if}
         <td>{canteen.address}</td>
+        <td>{canteen.address_ar}</td>
         <td>
             <div class="hstack gap-3 flex-wrap">
                 

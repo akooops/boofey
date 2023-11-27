@@ -33,6 +33,8 @@
     <td>{user.profile.lastname}</td>
     <td>{user.email}</td>
     <td>{user.phone}</td>
+    <td>{user.role}</td>
+
     <td class="text-end">
         <div class="hstack gap-3 flex-wrap justify-content-end">
             {#if JSON.parse(sessionStorage.getItem("permissions")).includes("canteenUsers.index") && user.roles[0].name != "parent"}
