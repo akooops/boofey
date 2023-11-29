@@ -28,6 +28,7 @@ class Subscription extends Model
         'initiated_at',
         'package_id',
         'student_id',
+        'should_start_at'
     ];
 
     public function package()
@@ -121,10 +122,15 @@ class Subscription extends Model
 
     public function activate(){
         if($this->student_id == null) return;
-
+        
         $subscriptions = Subscription::where('student_id', $this->student_id)->where('status', 'active')->count();
 
         if($subscriptions != 0) return;
+
+        $today = Carbon::today(); 
+        $should_start_at = Carbon::parse($this->should_start_at)->startOfDay(); 
+
+        if ($this->should_start_at !== null && $today->lessThanOrEqualTo($should_start_at)) return;
 
         $this->update([
             'status' => 'active',

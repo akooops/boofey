@@ -43,6 +43,9 @@ class StoreSubscriptionRequest extends FormRequest
             'coupon_id' => ['numeric', 'min:0', new DiscountRule],            
 
             'exclude_from_calculation' => 'required|boolean',
+
+            'should_start_later' => 'required|boolean',
+            'should_start_at' => 'required_if:should_start_later,true|date_format:Y-m-d',
         ];
 
         if ($currentRoute === 'subscriptions.store') {
