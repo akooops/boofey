@@ -27,7 +27,7 @@ class QueuesController extends Controller
 
         $perPage = limitPerPage($request->query('perPage', 10));
         $page = checkPageIfNull($request->query('page', 1));
-        $search = checkIfSearchEmpty($request->query('search'));
+        $started_at = $request->query('started_at', null);
 
         $today = Carbon::today();
 
@@ -39,6 +39,10 @@ class QueuesController extends Controller
         $queues = Queue::orderBy('id', 'DESC')->where([
             'canteen_id' => $canteen->id
         ]);
+
+        if(!is_null($started_at)){
+            $queues->whereDate('started_at', Carbon::parse($started_at));
+        }
 
         if($activeQueue != null)
             $queues->whereNotIn('id', [$activeQueue->id]);

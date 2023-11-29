@@ -105,15 +105,4 @@ class PermissionsController extends Controller
             'status' => 'success'
         ]);
     }
-
-    public function destroyMultiple(Request $request)
-    {
-        $ids = $request->input('ids');
-
-        Permission::whereIn('id', $ids)->delete();
-
-        return response()->json([
-            'status' => 'success'
-        ]);
-    }
 }
