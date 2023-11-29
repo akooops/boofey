@@ -13,7 +13,7 @@
     <div class="modal-dialog modal-dialog-centered" >
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalgridLabel">View Permission</h5>
+                <h5 class="modal-title" id="exampleModalgridLabel">View Package</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body p-4">
@@ -21,6 +21,18 @@
             <ViewRow>
                Name : <span class="fw-normal">{$packageStore.name}</span>
             </ViewRow>
+
+            <ViewRow>
+                Arabic Name : <span class="fw-normal">{$packageStore.name_ar}</span>
+             </ViewRow>
+
+             <ViewRow>
+                Description : <span class="fw-normal">{$packageStore.description}</span>
+             </ViewRow>
+
+             <ViewRow>
+                Arabic Description : <span class="fw-normal">{$packageStore.description_ar}</span>
+             </ViewRow>
 
             <ViewRow>
                Code : <span class="badge border border-primary text-primary">{$packageStore.code}</span>

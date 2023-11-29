@@ -108,11 +108,15 @@ export const routes = [
       active: null,
     },
     {
-      path: /^\/queues\/\d+\/queueStudents$/,
-      title: "QueueStudents",
+      path: /^\/canteens\/\d+\/queues\/\d+\/queueStudents$/,
+      title: "Queue's Students",
       item: "Queues",
       active: "Students",
-      itemHref:() => "/queues"
+      itemHref:(pathName) => {
+        let parts = pathName.replace("/admin","").split("/")
+
+        return parts.slice(0, -2).join('/');
+      } 
 
     },
     {

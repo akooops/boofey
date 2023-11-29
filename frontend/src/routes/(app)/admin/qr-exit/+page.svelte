@@ -101,8 +101,8 @@ async function switchCamera(){
 <div class="row"  in:fade={{duration: 200 }} >
     <div class="col-lg-12">
         <div class="card">
-            <div class="card-header align-items-center d-flex">
-                <h4 class="card-title mb-0 flex-grow-1">Queue QR exit</h4>
+            <div class="card-header align-items-center d-flex flex-wrap">
+                <h4 class="card-title mb-2 flex-grow-1">Queue QR exit</h4>
                 <div class="flex-shrink-0">
                     <button type="button"  class="btn btn-info waves-effect waves-light" on:click={switchCamera}>Switch Camera</button>
                     {#if cameraActive}

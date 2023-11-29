@@ -41,7 +41,6 @@ import {initToolTip} from "$lib/init/initToolTip.js"
     
                     <!-- <div class="live-preview"> -->
                         
-                            <SearchTable type={"Canteen"}/>
                             <CanteenUsersTable {canteensList}/>
                             <Pagination {...canteenUsersPagination} />
                             <!--end col-->

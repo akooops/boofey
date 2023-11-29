@@ -33,10 +33,12 @@
                     </th>
                     <th scope="col">ID</th>
                     <th scope="col">Name</th>
+                    <th scope="col">Arabic Name</th>
                     {#if general}
                     <th scope="col">School</th>
                     {/if}
                     <th scope="col">Address</th>
+                    <th scope="col">Arabic Address</th>
                     <th scope="col">Action</th>
                 </tr>
              </thead>

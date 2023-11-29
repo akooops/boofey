@@ -18,6 +18,7 @@
         </td>
         <td>{packageObj.id}</td>
         <td>{packageObj.name}</td>
+        <td>{packageObj.name_ar}</td>
         <td><span class="badge border border-primary text-primary">{packageObj.code}</span></td>
         {#if general}
         <td>

@@ -32,6 +32,7 @@ import { navigating } from '$app/stores';
                     <th scope="col">Last Name</th>
                     <th scope="col">Email</th>
                     <th scope="col">Phone</th>
+                    <th scope="col">Role</th>
                     <th scope="col" class="text-end" >Action</th>
                     
                 </tr>

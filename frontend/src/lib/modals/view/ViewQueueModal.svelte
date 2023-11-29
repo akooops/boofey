@@ -31,7 +31,7 @@
                     Student Count : <span class="fw-normal">{$queueStore.studentsCount}</span>
                 </ViewRow>
                 <ViewRow>
-                    students In : <span class="fw-normal">{$queueStore.studentsInCount}</span>
+                    Students In : <span class="fw-normal">{$queueStore.studentsInCount}</span>
                 </ViewRow>
                 <ViewRow>
                     Students Exited : <span class="fw-normal">{$queueStore.studentsExitedCount}</span>

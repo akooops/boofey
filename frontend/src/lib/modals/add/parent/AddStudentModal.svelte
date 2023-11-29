@@ -157,8 +157,8 @@ import {translation} from "$lib/translation.js"
     }
 
     function switchCamera(){
+        stopCam()
         front = !front;
-        console.log(constraints)
         openCam()
     }
 

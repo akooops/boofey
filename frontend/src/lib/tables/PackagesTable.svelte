@@ -29,6 +29,7 @@
                     </th>
                     <th scope="col">ID</th>
                     <th scope="col">Name</th>
+                    <th scope="col">Arabic Name</th>
                     <th scope="col">Code</th>
                     {#if general}
                     <th scope="col">School</th>

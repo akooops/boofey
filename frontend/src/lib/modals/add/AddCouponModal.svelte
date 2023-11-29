@@ -87,7 +87,7 @@ loading = true
                                     {/if}
                                 </div>
                                 <div>
-                                    <label for="couponName" class="form-label">Discount</label>
+                                    <label for="couponName" class="form-label">Discount (%)</label>
                                     <input type="text" class="form-control" id="couponName" name="discount" placeholder="Enter Coupon discount" >
                                     {#if errors?.discount}
                                     <strong class="text-danger ms-1 my-2">{errors.discount[0]}</strong>

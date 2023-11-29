@@ -60,7 +60,7 @@ loading = true
         <div class="modal-dialog modal-dialog-centered" >
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalgridLabel">Add Coupon</h5>
+                    <h5 class="modal-title" id="exampleModalgridLabel">Edit Coupon</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                             <div class="modal-body" >
@@ -88,7 +88,7 @@ loading = true
                                     {/if}
                                 </div>
                                 <div>
-                                    <label for="couponName" class="form-label">Discount</label>
+                                    <label for="couponName" class="form-label">Discount (%)</label>
                                     <input type="text" class="form-control" id="couponName" name="discount" placeholder="Enter Coupon discount" bind:value={$couponStore.discount}>
                                     {#if errors?.discount}
                                     <strong class="text-danger ms-1 my-2">{errors.discount[0]}</strong>

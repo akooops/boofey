@@ -54,6 +54,9 @@
             </div>
         </div>
     </td>
+    <td>
+        {school.name_ar}
+    </td>
 
     <td>
         <div class="hstack gap-3 flex-wrap">

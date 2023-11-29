@@ -15,7 +15,6 @@ let loading = false
     let startedAt
     let exitedAt
     let exited = true
-    let resetStudent
     let studentId = ""
     let student
 
@@ -24,7 +23,7 @@ let loading = false
     export let queue
 
     async function save(){
-loading = true
+        loading = true
         errors = {}
         let formData = new FormData(form)
         formData.set("exited",exited)
@@ -62,7 +61,6 @@ loading = true
         if(Object.keys($queueStudentStore).length == 0 || startedAt == undefined) return;
         loadDefaultDate(startedAt,$queueStudentStore.started_at)        
         if($queueStudentStore.exited_at){
-            console.log(exited,exitedAt)
             loadDefaultDate(exitedAt,$queueStudentStore.exited_at)
         }else {
             exited = false
@@ -78,7 +76,6 @@ loading = true
             loadDefaultDate(exitedAt,Date.now())
         }
         form.reset()
-        resetStudent()
         exited = true
         studentId = ""
         errors = {}
@@ -92,7 +89,7 @@ loading = true
         <div class="modal-dialog modal-dialog-centered" >
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalgridLabel">Add Student</h5>
+                    <h5 class="modal-title" id="exampleModalgridLabel">Edit Student</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -103,11 +100,7 @@ loading = true
                     {/if}
                         <div class="row g-3" class:d-none={loading}>
                             <!-- Base Example -->
-                                    <StudentsTableCollapse collapse={true} on:select={(e) => studentId = e.detail.studentId} selected={$queueStudentStore?.student} title={"Students"} bind:resetStudent/>            
-
-                                {#if errors?.student_id}
-                                <strong class="text-danger ms-1 my-2">{errors.student_id[0]}</strong>
-                                {/if}
+                                    
 
                         <form  on:submit|preventDefault={save} bind:this={form}>
                          <div class="row g-3">
