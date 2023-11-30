@@ -13,6 +13,7 @@ class Father extends Model
 
     protected $fillable = [
         'user_id',
+        'identity_number'
     ];
 
     public function user()

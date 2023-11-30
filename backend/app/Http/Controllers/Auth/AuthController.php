@@ -104,10 +104,13 @@ class AuthController extends Controller
             ], 400);
         }
 
+        $father = Father::where('identity_number', $request->input('login'))->first();
+
         // Attempt to authenticate the user
-        if (Auth::attempt(['email' => $request->input('login'), 'password' => $request->password])
+        if (   Auth::attempt(['email' => $request->input('login'), 'password' => $request->password])
             || Auth::attempt(['username' => $request->input('login'), 'password' => $request->password])
-            || Auth::attempt(['phone' => $request->input('login'), 'password' => $request->password])) 
+            || Auth::attempt(['phone' => $request->input('login'), 'password' => $request->password])
+            || ($father && Auth::attempt(['id' => $father->user_id, 'password' => $request->password]))) 
         {
             $user = $request->user();
             // Revoke the user's existing token (if it exists)

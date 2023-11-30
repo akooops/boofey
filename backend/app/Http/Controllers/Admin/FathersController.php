@@ -34,6 +34,7 @@ class FathersController extends Controller
                 $query->whereHas('user', function ($userQuery) use ($search) {
                         $userQuery
                             ->where('id', $search)
+                            ->orWhere('identity_number', 'like', '%' . $search . '%')
                             ->orWhere('username', 'like', '%' . $search . '%')
                             ->orWhere('email', 'like', '%' . $search . '%')
                             ->orWhere('phone', 'like', '%' . $search . '%')
