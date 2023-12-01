@@ -339,9 +339,6 @@ class PaymentsController extends Controller
 
         if($responseData['status'] == 14){
             $payment->update([
-                'status' => $responseData['status'],
-                'response_code' => $responseData['response_code'],
-                'response_message' => $responseData['response_message'],
                 'paid_at' => now()
             ]);
 
