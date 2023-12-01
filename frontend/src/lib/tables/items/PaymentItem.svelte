@@ -9,7 +9,6 @@
     
     function setPayment(){
         $paymentStore = JSON.parse(JSON.stringify(payment));
-        console.log($paymentStore)
     }
 
 

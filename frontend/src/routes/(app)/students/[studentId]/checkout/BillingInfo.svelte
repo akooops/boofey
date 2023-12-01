@@ -78,7 +78,6 @@ function select(e){
 function setBillingObj(e){
     
     billingObj = e.detail.billing
-    console.log(billingObj)
 }
 
 </script>

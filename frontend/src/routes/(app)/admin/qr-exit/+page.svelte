@@ -34,7 +34,6 @@ async function startCam(){
         await qrScanner.start();
         cameraActive = true
         let list = await QrScanner.listCameras(true);
-        console.log(list)
     }catch(e){
         noCamera = true
         cameraActive = false

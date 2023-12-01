@@ -62,9 +62,7 @@ loading = true
         password = ""
         verified = $userStore?.verified
         if(!$userStore?.roles?.length) return;
-        console.log("role")
         role = $userStore?.roles[0]
-        console.log(role)
     }) 
 
     function reset(){

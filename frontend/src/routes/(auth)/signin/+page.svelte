@@ -41,7 +41,6 @@
                 window.location.href = `${window.location.origin}/admin`
                 // goto("")
             }else {
-                // console.log("not admin")
                 window.location.href = `${window.location.origin}/students`
                 // goto("/")
             }

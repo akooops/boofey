@@ -42,7 +42,6 @@ export function hash(obj){
     shaString = shaRequestPassphrase + shaString + shaRequestPassphrase;
     let signature = sha256(shaString)
 
-    console.log(shaString)
 
     // const signature = crypto.createHash(shaType).update(shaString).digest('hex');
     // 51719497d273c64144eb5e3700da2146b75cd8b7f89a66aa479f10eb98c1326a

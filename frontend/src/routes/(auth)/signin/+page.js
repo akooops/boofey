@@ -6,7 +6,6 @@ export async function load({fetch,cookies,url,depends}) {
     // const cookieStr = cookies.getAll()
     // .map(cookie => `${cookie.name}=${encodeURIComponent(cookie.value)}`).join('; ');
 
-    // console.log(cookieStr)
     let res = await fetch(PathAuth(),{
         headers:{
             Authorization: `${localStorage.getItem("SID")}`

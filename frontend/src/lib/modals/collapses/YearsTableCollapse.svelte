@@ -27,7 +27,6 @@
     let openCollapse
 
     async function fetchYears(){
-        console.log(page,searchQuery)
         let res = await fetch(PathGetAcademicYears(schoolId,{page,search:searchQuery},type),{
             headers:{
                 Authorization: `${localStorage.getItem("SID")}`
@@ -38,7 +37,6 @@
 
         let yearsResponse = await res.json() 
         yearsList = yearsResponse.data.academicYears
-        console.log(yearsList)
         
         yearsPagination = yearsResponse.pagination
     }
@@ -62,13 +60,11 @@
     function search(e){
         page = 1
         searchQuery = e.detail.searchQuery
-        console.log(page,e.detail.searchQuery)
         fetchYears()
     }
 
     function switchPage(e){
         page = e.detail.page
-        console.log(page,e.detail.searchQuery)
         fetchYears()
     }
 

@@ -85,7 +85,6 @@ loading = true
         })
 
         checkAll()
-        // console.log(permissions)
     
     })
 

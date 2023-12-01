@@ -20,7 +20,6 @@ let loading = false
 
     async function save(){
 loading = true
-        // console.log(role)
         errors = {}
 
         

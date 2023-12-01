@@ -23,7 +23,6 @@
     let openCollapse
 
     async function fetchParents(){
-        console.log(page,searchQuery)
         let res = await fetch(PathGetParents({page,search:searchQuery}),{
             headers:{
                 Authorization: `${localStorage.getItem("SID")}`
@@ -56,13 +55,11 @@
     function search(e){
         page = 1
         searchQuery = e.detail.searchQuery
-        console.log(page,e.detail.searchQuery)
         fetchParents()
     }
 
     function switchPage(e){
         page = e.detail.page
-        console.log(page,e.detail.searchQuery)
         fetchParents()
     }
 

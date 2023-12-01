@@ -105,6 +105,13 @@
                                 <strong class="text-danger ms-1 my-2">{errors.phone[0]}</strong>
                                 {/if}
                             </div>
+                            <div class="col-lg-12">
+                                <label for="phone" class="form-label">Identity Number</label>
+                                <input type="text" name="identity_number" class="form-control" id="phoneedit" placeholder="Enter Identity no.">
+                                {#if errors?.identity_number}
+                                <strong class="text-danger ms-1 my-2">{errors.identity_number[0]}</strong>
+                                {/if}
+                            </div>
                             <div class="col-xxl-6">
                                 <label for="password" class="form-label">Password</label>
                                 <div class="position-relative auth-pass-inputgroup mb-3">

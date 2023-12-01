@@ -39,7 +39,6 @@
 
     }
     function back(index){
-        console.log("back")
         states[index] = ""
         states[index-1] = "active"
     }

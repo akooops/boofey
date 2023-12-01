@@ -96,7 +96,6 @@ loading = true
             subtotal = packageObj.currentPrice
             days = packageObj.days
         }
-        // console.log(bill({subtotal,tax,coupon}))
         if(applyDiscount && !useCoupon){
             [total,calculatedTax] = bill({subtotal,tax,coupon:{id:5,discount}})
         }else {
