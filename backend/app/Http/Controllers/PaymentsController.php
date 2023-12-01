@@ -388,6 +388,15 @@ class PaymentsController extends Controller
             ]);
         }
 
+        if($subscription->payment === null){
+            return response()->json([
+                'status' => 'error',
+                'error' => [
+                    'message' => 'Payment Not found on our server, please contact the administration',
+                ]
+            ]);
+        }
+
         return response()->json([
             'status' => 'success',
             'data' => [
