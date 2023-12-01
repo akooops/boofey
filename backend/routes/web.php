@@ -27,3 +27,6 @@ Route::get('calculateSignature', [PayfortController::class, 'calculateSignature'
 
 Route::get('testPayment', [PaymentsController::class, 'testPayment'])->name('testPayment');
 Route::get('testSMS', [SMSController::class, 'testSMS'])->name('testSMS');
+
+Route::get('payfort2', [PayfortController::class, 'index2'])->name('index2');
+Route::post('payfort2', [PayfortController::class, 'paymentReturn2'])->name('paymentReturn2');

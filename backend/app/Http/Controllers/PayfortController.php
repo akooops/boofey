@@ -12,7 +12,9 @@ use App\Models\Father;
 use App\Models\File;
 use App\Models\PaymentMethod;
 use App\Models\School;
+use App\Models\Subscription;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Scope;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -34,21 +36,56 @@ class PayfortController extends Controller
         ]);
     }
 
-    public function calculateSignature(Request $request){
-        if($request->has('fields') && $request->input('fields') != null) {
-            $fieldArray = explode("|", $request->input('fields'));
-            $fields = [];
-        
-            foreach($fieldArray as $val) {
-                $fieldSplitted = explode("=", $val);
-                $fields[$fieldSplitted[0]] = $fieldSplitted[1];
-            }
-        
-            return response()->json([
-                'status' => 'success',
-                'hashed' => $this->hash($fields, env('PAYFORT_SHA_REQUEST_PHRASE'))
-            ]);
+    public function index2(){
+        $prefix = 'BS';
+        $ref = null;
+
+        do {
+            $datePart = Carbon::now()->format('dmy');
+            $randomPart = strtoupper(Str::random(6));
+            $ref = "{$prefix}-{$datePart}{$randomPart}";
+
+        } while (Subscription::where('ref', $ref)->exists());
+
+        $merchant_reference = 'BS'.$ref;
+
+        return view('payfort2', [
+            'command' => 'PURCHASE',
+            'amount' => round(10, 2) * 100,
+            'merchant_identifier' => 'ZWAccRDQ',
+            'merchant_reference' => $merchant_reference,
+            'access_code' => 'UEP75xfrciwtXGA65Qea',
+            'currency' => 'SAR',
+            'language' => 'ar',
+            'customer_email' => 'test@boofey.app',
+            'return_url' => 'https://boofey.test/backend/public/payfort2',
+            'signature' => $this->calculateSignature([
+                'command=PURCHASE',
+                'language=ar',
+                'access_code=UEP75xfrciwtXGA65Qea',
+                'merchant_identifier=ZWAccRDQ',
+                'merchant_reference='.$merchant_reference,
+                'amount='.round(10, 2) * 100,
+                'currency=SAR',
+                'customer_email=test@boofey.app',
+                'return_url=https://boofey.test/backend/public/payfort2'
+            ]),
+        ]);
+    }
+
+    public function paymentReturn2(Request $request){
+        dd($request->all());
+    }
+
+    private function calculateSignature(array $fieldArray){
+        $fields = [];
+    
+        foreach($fieldArray as $val) {
+            $fieldSplitted = explode("=", $val);
+            $fields[$fieldSplitted[0]] = $fieldSplitted[1];
         }
+    
+        return $this->hash($fields, 'S2yS10SxQ4Yyxmj@');
     }
 
     private function hash($arrData, $prefix){
@@ -73,45 +110,9 @@ class PayfortController extends Controller
             }
         }
 
+
         $shaString = $prefix . $shaString . $prefix;
 
         return hash("sha256", $shaString);
-    }
-
-    public function paymentReturn(Request $request){
-        /*
-        $user = Auth::user();
-        $father = Father::where('user_id', $user->id)->first();
-
-        if($father === null){
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Oops! Resource Not Found. The Resource you are looking for is not available or has been moved.'
-            ], 404);
-        }
-        */
-        
-        if($request->input('service_command') == 'TOKENIZATION'){
-            if($request->input('status') == 18){
-                $paymentMethod = PaymentMethod::create([
-                    'card_number' => $request->input('card_number'),
-                    'card_holder_name' => $request->input('card_holder_name'),
-                    'card_bin' => $request->input('card_bin'),
-                    'token_name' => $request->input('token_name'),
-                    'father_id' => 1,
-                ]);
-
-                $paymentMethod->save();
-
-                return redirect()->route('payfort')->with('success', 'Your card was added successfully');
-            }
-
-            return redirect()->route('payfort')->with('error', $request->input('response_message'));
-        }
-
-        return response()->json([
-            'status' => 'error',
-            'message' => 'Oops! Resource Not Found. The Resource you are looking for is not available or has been moved.'
-        ], 404);
     }
 }
