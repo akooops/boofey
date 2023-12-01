@@ -59,6 +59,8 @@ class PayfortController extends Controller
             'language' => 'ar',
             'customer_email' => 'test@boofey.app',
             'return_url' => 'https://boofey.test/backend/public/payfort2',
+            'remember_me' => 'YES',
+            'merchant_extra1' => '1',
             'signature' => $this->calculateSignature([
                 'command=PURCHASE',
                 'language=ar',
@@ -68,7 +70,8 @@ class PayfortController extends Controller
                 'amount='.round(10, 2) * 100,
                 'currency=SAR',
                 'customer_email=test@boofey.app',
-                'return_url=https://boofey.test/backend/public/payfort2'
+                'return_url=https://boofey.test/backend/public/payfort2',
+
             ]),
         ]);
     }
