@@ -80,6 +80,7 @@ Route::group(['namespace' => 'App\Http\Controllers', 'middleware' => ['auth:sanc
     ]);;
 
     Route::post('payments/process', 'PaymentsController@process')->name('parents.payments.process');
+    Route::post('payments/processRedirection', 'PaymentsController@processRedirection')->name('parents.payments.processRedirection');
 
     Route::get('paymentMethods', 'PaymentMethodsController@index')->name('parents.paymentMethods.index');
     Route::post('paymentMethods/init', 'PaymentMethodsController@init')->name('parents.paymentMethods.init');
@@ -104,4 +105,5 @@ Route::group(['namespace' => 'App\Http\Controllers', 'middleware' => ['convert.b
 
     Route::post('payments/return', 'PaymentsController@paymentReturn')->name('parents.payments.paymentReturn');
     Route::post('payments/webhook', 'PaymentsController@webhook')->name('parents.payments.webhook');
+    Route::post('payments/webhookRedirection', 'PaymentsController@webhookRedirection')->name('parents.payments.webhookRedirection');
 });

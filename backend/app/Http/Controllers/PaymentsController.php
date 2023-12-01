@@ -223,6 +223,118 @@ class PaymentsController extends Controller
         }
     }
 
+    public function processRedirection(ProcessPaymentRequest $request){
+        $subscription = Subscription::findOrFail($request->input('subscription_id'));
+
+        if($request->has('coupon_id') && $request->input('coupon_id') != null){
+            $coupon = Coupon::findOrFail($request->get('coupon_id'));
+            $subscription->applyCoupon($coupon);
+        }
+
+        $subscription->calculateTotal();
+        $subscription->save();
+
+        $paymentMethod = null;
+
+        if(!is_null($request->input('payment_method_id')))
+            $paymentMethod = PaymentMethod::findOrFail($request->input('payment_method_id'));
+
+        $payfort_url = env('PAYFORT_IS_SANDBOX') ? env('PAYFORT_API_TEST_URL') : env('PAYFORT_API_PROD_URL');
+        
+        $payload = [
+            'command' => 'PURCHASE', 
+            'language' => $request->get('language'),
+            'access_code' => env('PAYFORT_ACCESS_CODE'),
+            'merchant_identifier' => env('PAYFORT_MERCHANT_ID'),
+            'merchant_reference' => $subscription->ref,  
+            'amount' => round($subscription->total, 2) * 100, 
+            'currency' => 'SAR',
+            'customer_email' => $request->input('customer_email'), 
+            'customer_ip' => $request->input('customer_ip'), 
+            'return_url' => $request->input('return_url'),
+            'remember_me' => 'YES',
+            'merchant_extra1' => $request->input('billing_id')
+        ];
+
+        $signature = [
+            'command=PURCHASE', 
+            'language='.$request->get('language'),
+            'access_code='.env('PAYFORT_ACCESS_CODE'),
+            'merchant_identifier='.env('PAYFORT_MERCHANT_ID'),
+            'merchant_reference='.$subscription->ref,
+            'amount='.round($subscription->total, 2) * 100,
+            'currency=SAR',
+            'customer_email='.$request->input('customer_email'),
+            'customer_ip='.$request->input('customer_ip'),
+            'return_url='.$request->input('return_url'),
+            'remember_me=YES',
+            'merchant_extra1='.$request->input('billing_id')
+        ];
+
+        if(!is_null($paymentMethod)){
+            $payload['token_name'] = $paymentMethod->token_name;
+            $signature = array_push($signature, 'token_name='.$paymentMethod->token_name);
+        }
+
+        $payload['signature'] = $this->calculateSignature($signature);
+
+        return response()->json([
+            'status' => 'success',
+            'data' => [
+                'url' => $payfort_url,
+                'payload' => $payload
+            ]
+        ]);
+    }
+
+    public function webhookRedirection(Request $request){
+        $responseData = $request->all();
+
+        if (Str::startsWith($responseData['merchant_reference'], 'BS') == false) return; 
+
+        $subscription = Subscription::where('ref', $responseData['merchant_reference'])->first();
+        if(is_null($subscription))
+            return;
+        
+        $payment = $subscription->payment;
+
+        if(is_null($payment)){
+            $payment = Payment::create([
+                'fort_id' => key_exists('fort_id', $responseData) ? $responseData['fort_id']:  null,
+                'status' => $responseData['status'],
+                'response_code' => $responseData['response_code'],
+                'response_message' => $responseData['response_message'],
+                'payment_option' => key_exists('payment_option', $responseData) ? $responseData['payment_option']:  null,
+                'card_number' => key_exists('card_number', $responseData) ? $responseData['card_number']:  null,
+                'card_holder_name' => key_exists('card_holder_name', $responseData) ? $responseData['card_holder_name']:  null,
+                'amount' => $responseData['amount'],
+                'father_id' => $subscription->student->father->id,
+                'subscription_id' => $subscription->id
+            ]);
+
+            $payment->applyBilling($responseData['merchant_extra1']);
+
+            $payment->save();
+        }else{
+            $payment->update([
+                'status' => $responseData['status'],
+                'response_code' => $responseData['response_code'],
+                'response_message' => $responseData['response_message'],
+            ]);
+        }
+
+        if($responseData['status'] == 14){
+            $payment->update([
+                'status' => $responseData['status'],
+                'response_code' => $responseData['response_code'],
+                'response_message' => $responseData['response_message'],
+                'paid_at' => now()
+            ]);
+
+            $subscription->start();
+        }
+    }
+
     public function checkPayment($ref){
         $subscription = Subscription::where('ref', $ref)->first();
 

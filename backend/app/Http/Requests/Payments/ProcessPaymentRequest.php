@@ -6,6 +6,7 @@ use App\Rules\SubscriptionIsInitiated;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Route;
 
 class ProcessPaymentRequest extends FormRequest
 {
@@ -26,16 +27,28 @@ class ProcessPaymentRequest extends FormRequest
      */
     public function rules()
     {
-        return [
+        $currentRoute = Route::currentRouteName();
+
+        $rules = [
+            'language' => 'required|in:en,ar',
             'customer_ip' => 'required|ip',
             'customer_email' => 'required|email',
 
-            'payment_method_id' => 'required|exists:payment_methods,id',
             'billing_id' => 'required|exists:billings,id',
 
             'subscription_id' => ['required', 'exists:subscriptions,id', new SubscriptionIsInitiated()],
             'coupon_id' => 'nullable|exists:coupons,id',
         ];
+
+        if($currentRoute === 'parents.payments.process') {
+            $rules['payment_method_id'] = 'required|exists:payment_methods,id';
+        }
+
+        if($currentRoute === 'parents.payments.processRedirection'){
+            $rules['return_url'] = 'required';
+        }
+
+        return $rules;
     }
 
     protected function failedValidation(\Illuminate\Contracts\Validation\Validator $validator)
