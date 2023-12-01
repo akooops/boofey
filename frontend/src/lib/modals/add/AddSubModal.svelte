@@ -3,19 +3,19 @@
     import { toast } from "$lib/components/toast.js";
     import { invalidate } from '$app/navigation';
     import { redirector } from "$lib/api/auth";
-    import { bill } from "$lib/utils.js";
-
+    import { bill,formatTimestamp } from "$lib/utils.js";
     import {loadDefaultDate} from "$lib/init/initFlatpickr.js"
+
     import Accordion from "$lib/components/Accordion.svelte";
 	import CouponTableCollapse from "../collapses/CouponTableCollapse.svelte";
 
     
+    export let student
+    export let packages = []
     let close
     let form 
     let errors
 let loading = false
-    export let student
-    export let packages = []
     let useCoupon = false
     let applyDiscount = false
     let excludeFromCalc = false
@@ -29,6 +29,8 @@ let loading = false
     let total = 0
     let packageId
     let discount
+    let shouldStartLater = false
+    let shouldStartAtInput
 
 
     async function save(){
@@ -44,6 +46,8 @@ loading = true
         formData.set("apply_coupon",useCoupon)
         formData.set("apply_discount",applyDiscount)
         formData.set("exclude_from_calculation",excludeFromCalc)
+        formData.set("should_start_later",shouldStartLater)
+
 
 
     
@@ -72,6 +76,7 @@ loading = true
     }
 
     function reset(){
+        loadDefaultDate(shouldStartAtInput,Date.now())
         form.reset()
         selectPackage.selectedIndex = 0
         if (useCoupon){
@@ -82,6 +87,7 @@ loading = true
         useCoupon = false
         applyDiscount = false
         excludeFromCalc = false
+        shouldStartLater = false
         subtotal =0 
         tax = 0
         days = 0
@@ -156,6 +162,23 @@ loading = true
                                         {/if}
                                     </div>
 
+                                    <div class="row ps-3 g-3">
+                                        <!-- Switches Color -->
+                                        <div class="form-check form-switch col" >
+                                            <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck1" bind:checked={shouldStartLater}>
+                                            <label class="form-check-label" for="SwitchCheck1">Should Start Later</label>
+                                        </div><!-- Switches Color -->
+                                        {#if errors?.should_start_later}
+                                        <strong class="text-danger ms-1 my-2">{errors.should_start_later[0]}</strong>
+                                        {/if}
+                                    </div>
+                                    <div class="col-xxl-6" class:d-none={!shouldStartLater}>
+                                        <label for="from" class="form-label">Should Sart At</label> 
+                                        <input type="text" name="should_start_at" class="form-control" placeholder="Insert start date" data-provider="flatpickr"  data-minDate="{formatTimestamp(Date.now())}"  data-date-format="Y-m-d" id="from" bind:this={shouldStartAtInput}>
+                                        {#if errors?.should_start_at}
+                                        <strong class="text-danger ms-1 my-2">{errors.should_start_at[0]}</strong>
+                                        {/if}
+                                    </div>
 
                                 <div class="row ps-3 g-3">
                                     <!-- Switches Color -->

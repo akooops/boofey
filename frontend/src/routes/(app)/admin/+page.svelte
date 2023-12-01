@@ -37,6 +37,7 @@
 
 
     onMount(() => {
+        if(!JSON.parse(sessionStorage.getItem("permissions")).includes("dashboards.count")) return;
 
         InitFlatPickr()
 
@@ -108,6 +109,7 @@
                 <h4 class="fs-16 mb-1">Good Morning, <span class="text-primary"> {data.userResponse.data.user.username}</span></h4>
                 <p class="text-muted mb-0">Here's what's happening with your store today.</p>
             </div>
+            {#if JSON.parse(sessionStorage.getItem("permissions")).includes("dashboards.count")}
             <div class="mt-3 mt-lg-0">
                 <form action="javascript:void(0);">
                     <div class="row g-3 mb-0 align-items-center">
@@ -125,10 +127,12 @@
                     <!--end row-->
                 </form>
             </div>
+            {/if}
         </div><!-- end card header -->
     </div>
     <!--end col-->
 </div>
+{#if JSON.parse(sessionStorage.getItem("permissions")).includes("dashboards.count")}
 <div class="row swiper" bind:this={slider}>
     <div class="swiper-wrapper">
         {#if count}
@@ -140,22 +144,31 @@
         {/if}
     </div>
 </div> <!-- end row-->
-
-
+{/if}
+{#if JSON.parse(sessionStorage.getItem("permissions")).includes("dashboards.dailyTotal")}
 <div class="row">
     <DailyTotal />
 </div>
-    
+{/if}
+
 <div class="row">
+    {#if JSON.parse(sessionStorage.getItem("permissions")).includes("dashboards.lastSubscribedStudents")}
     <LastSubs/>
+    {/if}
+
+    {#if JSON.parse(sessionStorage.getItem("permissions")).includes("dashboards.canteensStatus")}
     <CanteenStatus />
-</div>
+    {/if}
 
+</div>
 <div class="row">
+    {#if JSON.parse(sessionStorage.getItem("permissions")).includes("dashboards.absentStudents")}
     <AbsentStudents />
+    {/if}
+    {#if JSON.parse(sessionStorage.getItem("permissions")).includes("dashboards.expiringSoonStudents")}
     <ExpiringSubs /> 
+    {/if}
 </div>
-
 <div class="row">
     <CanteensDash />
 </div>

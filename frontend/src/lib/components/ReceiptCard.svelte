@@ -117,12 +117,12 @@
                                         <th scope="col">Name</th>
                                         <th scope="col">School</th>
                                         <th scope="col">Code</th>
-                                        <th scope="col" class="text-end">Price</th>
+                                        <th scope="col" class="text-{localStorage.getItem("language") == "ar" ? "start" : "end"}">Price</th>
                                     </tr>
                                 </thead>
                                 <tbody id="products-list" >
                                     <tr>
-                                        <td class="text-start">
+                                        <td >
                                             {invoice.subscription.package.name}
                                         </td>
                                         <div class="d-flex gap-2 align-items-center">
@@ -134,29 +134,29 @@
                                             </div>
                                         </div>
                                         <td><span class="badge border border-primary text-primary">{invoice.subscription.package.code}</span></td>
-                                        <td class="text-end">{invoice.subscription.package.currentPrice} SAR</td>
+                                        <td class="text-{localStorage.getItem("language") == "ar" ? "start" : "end"}">{invoice.subscription.package.currentPrice} SAR</td>
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
                         <div class="border-top border-top-dashed mt-2">
-                            <table class="table table-borderless table-nowrap align-middle mb-0 ms-auto" style="width:250px">
+                            <table class="table table-borderless table-nowrap align-middle mb-0 {localStorage.getItem("language") == "ar" ? "me-auto" : "ms-auto"} " style="width:250px">
                                 <tbody >
                                     <tr>
                                         <td>Sub Total</td>
-                                        <td class="text-end">{invoice.subtotal} SAR</td>
+                                        <td class="text-{localStorage.getItem("language") == "ar" ? "start" : "end"}">{invoice.subtotal} SAR</td>
                                     </tr>
                                     <tr>
                                         <td>Estimated Tax ({invoice.tax}%)</td>
-                                        <td class="text-end">+ {invoice.taxCalculated} SAR</td>
+                                        <td class="text-{localStorage.getItem("language") == "ar" ? "start" : "end"}">+ {invoice.taxCalculated} SAR</td>
                                     </tr>
                                     <tr>
                                         <td>Discount <small class="text-muted">({invoice.discount}%)</small></td>
-                                        <td class="text-end">- {invoice.discountCalculated} SAR</td>
+                                        <td class="text-{localStorage.getItem("language") == "ar" ? "start" : "end"}">- {invoice.discountCalculated} SAR</td>
                                     </tr>
                                     <tr class="border-top border-top-dashed fs-15">
                                         <th scope="row">Total Amount</th>
-                                        <th class="text-end">{invoice.total} SAR</th>
+                                        <th class="text-{localStorage.getItem("language") == "ar" ? "start" : "end"}">{invoice.total} SAR</th>
                                     </tr>
                                 </tbody>
                             </table>
