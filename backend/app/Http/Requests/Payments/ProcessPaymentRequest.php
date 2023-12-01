@@ -46,6 +46,7 @@ class ProcessPaymentRequest extends FormRequest
 
         if($currentRoute === 'parents.payments.processRedirection'){
             $rules['return_url'] = 'required';
+            $rules['payment_method_id'] = 'nullable|exists:payment_methods,id';
         }
 
         return $rules;
