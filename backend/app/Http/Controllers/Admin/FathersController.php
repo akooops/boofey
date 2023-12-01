@@ -106,11 +106,14 @@ class FathersController extends Controller
      */
     public function update(Father $father, UpdateFatherRequest $request) 
     {
+        $father->update([
+            'identity_number' => $request->get('identity_number')
+        ]);
+
         $father->user()->update([
             'username' => $request->get('username'),
             'email' => $request->get('email'),
             'phone' => $request->get('phone'),
-            'identity_number' => $request->get('identity_number')
         ]);
 
         if($request->get('edit_password') == true){
