@@ -93,6 +93,7 @@ Route::group(['namespace' => 'App\Http\Controllers', 'middleware' => ['auth:sanc
     Route::post('users/verify', 'UsersController@verify')->name('parents.users.verify');
 
     Route::get('payments/check/{ref}', 'PaymentsController@checkPayment')->name('parents.payments.check');
+    Route::get('payments/checkPaymentRedirection/{ref}', 'PaymentsController@checkPaymentRedirection')->name('parents.payments.checkPaymentRedirection');
 });
 
 Route::group(['namespace' => 'App\Http\Controllers', 'middleware' => ['convert.bool.string']], function(){ 

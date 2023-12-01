@@ -239,7 +239,7 @@ class PaymentsController extends Controller
         if(!is_null($request->input('payment_method_id')))
             $paymentMethod = PaymentMethod::findOrFail($request->input('payment_method_id'));
 
-        $payfort_url = env('PAYFORT_IS_SANDBOX') ? env('PAYFORT_API_TEST_URL') : env('PAYFORT_API_PROD_URL');
+        $payfort_url = env('PAYFORT_IS_SANDBOX') ? env('PAYFORT_TEST_URL') : env('PAYFORT_PROD_URL');
         
         $payload = [
             'command' => 'PURCHASE', 
@@ -350,6 +350,26 @@ class PaymentsController extends Controller
     }
 
     public function checkPayment($ref){
+        $subscription = Subscription::where('ref', $ref)->first();
+
+        if($subscription === null){
+            return response()->json([
+                'status' => 'error',
+                'error' => [
+                    'message' => 'Subscription Not found on our server, please contact the administration',
+                ]
+            ]);
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'data' => [
+                'payment' => $subscription->payment
+            ]
+        ]);
+    }
+
+    public function checkPaymentRedirection($ref){
         $subscription = Subscription::where('ref', $ref)->first();
 
         if($subscription === null){
