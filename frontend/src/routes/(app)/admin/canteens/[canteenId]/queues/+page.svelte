@@ -82,7 +82,7 @@ export let data
                 <!-- <div class="live-preview"> -->
                     <div class="row">
                             <!-- Input with Icon -->
-                        <SearchTable type={"Queue"}/>
+                            
                         <QueuesTable {queuesList}/>
                         <Pagination {...queuesPagination} />
                         <!--end col-->

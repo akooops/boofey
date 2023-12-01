@@ -48,7 +48,6 @@ function Init(node){
             if(JSON.parse(sessionStorage.getItem("permissions")).includes("academicBreaks.update")){
                 $breakStore = JSON.parse(JSON.stringify(info.event.extendedProps))
                 $breakStore.id = info.event.id
-                // console.log(info.event.startStr , info.event.endStr)
                 viewBtn.click()
             }
             

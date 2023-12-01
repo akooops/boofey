@@ -24,7 +24,6 @@ function getNextApi() {
   if($apiStore != ""){
     clearInterval(intervalId)
   }
-  console.log("set")
   animationValue = ApisList[currentIndex]; // Get the current API
   currentIndex = (currentIndex + 1) % ApisList.length; // Move to the next index cyclically
 }
@@ -46,9 +45,7 @@ let ApisList = [
 let intervalId
 
 function startAnimation(){
-    console.log("inside",$apiStore)
     if($apiStore != "") return;
-    console.log("inside2")
     intervalId = setInterval(getNextApi, 1);
 }
 

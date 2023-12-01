@@ -16,7 +16,6 @@ import AddBreakModal from '$lib/modals/add/AddBreakModal.svelte';
 export let data
 
 $: breaksList = data.breaksResponse.data.academicBreaks
-console.log(breaksList)
 $: year = data.breaksResponse.data.academicYear
 $: school = year.school
 

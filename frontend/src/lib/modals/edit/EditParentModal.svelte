@@ -20,6 +20,7 @@ let loading = false
     let email = ""
     let phone = ""
     let username = ""
+    let idNumber = ""
 
     async function save(){
 loading = true
@@ -66,6 +67,7 @@ loading = true
         password = ""
         email = $parentStore?.user?.email
         phone = $parentStore?.user?.phone
+        idNumber = $parentStore?.user?.idNumber
     }) 
 
     </script>
@@ -127,6 +129,14 @@ loading = true
                                 <strong class="text-danger ms-1 my-2">{errors.phone[0]}</strong>
                                 {/if}
                             </div>
+                            <div class="col-lg-12">
+                                <label for="phone" class="form-label">Identity Number</label>
+                                <input type="text" name="identity_number" class="form-control" id="phoneedit" placeholder="Enter Identity no." bind:value={idNumber}>
+                                {#if errors?.identity_number}
+                                <strong class="text-danger ms-1 my-2">{errors.identity_number[0]}</strong>
+                                {/if}
+                            </div>
+
 
                             <div class="row ps-3 g-3">
                                 <!-- Switches Color -->

@@ -31,6 +31,7 @@
                     <th scope="col">{translation.package[localStorage.getItem("language")]}</th>
                     <th scope="col">{translation.days[localStorage.getItem("language")]}</th>
                     <th scope="col">{translation.balance[localStorage.getItem("language")]}</th>
+                    <th scope="col">{translation.shouldStartAt[localStorage.getItem("language")]}</th>
                     <th scope="col">{translation.startedAt[localStorage.getItem("language")]}</th>
                     <th scope="col">{translation.actions[localStorage.getItem("language")]}</th>
                 </tr>

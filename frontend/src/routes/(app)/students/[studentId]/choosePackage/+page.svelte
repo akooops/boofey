@@ -3,7 +3,6 @@
     import {translation} from "$lib/translation.js"
 
     export let data 
-    $: console.log(data)
     $: student = data.student
     $: packages = data.packages
     $: yearlyPackages = data.yearlyPackages

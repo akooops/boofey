@@ -23,7 +23,6 @@
     let openCollapse
 
     async function fetchCoupons(){
-        console.log(page,searchQuery)
         let res = await fetch(`${PathGetCoupons({page,search:searchQuery})}&expired=false`,{
             headers:{
                 Authorization: `${localStorage.getItem("SID")}`

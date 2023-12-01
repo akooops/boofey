@@ -171,7 +171,6 @@ loading = true
 
     function switchCamera(){
         front = !front;
-        console.log(constraints)
         openCam()
     }
 
@@ -274,7 +273,7 @@ loading = true
                                     </div><!-- Switches Color -->
 
                                 </div>
-                                <div class="row ps-3 g-3">
+                                <div class="row ps-3 g-3" class:none={!editImage}>
                                     <!-- Switches Color -->
                                     <div class="form-check form-switch col" >
                                         <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck1" on:change={picType} bind:checked={useCamera} >

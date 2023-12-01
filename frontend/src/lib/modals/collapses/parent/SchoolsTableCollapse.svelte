@@ -27,7 +27,6 @@
 
 
     async function fetchSchools(){
-        console.log(page,searchQuery)
         let res = await fetch(PathGetSchools({page,search:searchQuery},"parent"),{
             headers:{
                 Authorization: `${localStorage.getItem("SID")}`,
@@ -62,13 +61,11 @@
     function search(e){
         page = 1
         searchQuery = e.detail.searchQuery
-        console.log(page,e.detail.searchQuery)
         fetchSchools()
     }
 
     function switchPage(e){
         page = e.detail.page
-        console.log(page,e.detail.searchQuery)
         fetchSchools()
     }
 

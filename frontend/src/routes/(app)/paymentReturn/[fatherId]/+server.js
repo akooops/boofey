@@ -24,7 +24,6 @@ export async function POST({ request, cookies,url,params }) {
     })
 
 	res = await res.json()
-	console.log(res)
 
 	throw redirect(303, '/paymentMethods?status=success');
 }

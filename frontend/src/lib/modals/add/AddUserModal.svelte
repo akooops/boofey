@@ -40,7 +40,6 @@ loading = true
             reset()
         }else {
             errors = res.errors
-            console.log(errors)
         }
 
         

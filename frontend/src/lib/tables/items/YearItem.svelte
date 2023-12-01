@@ -10,7 +10,6 @@
         
         function setYear(){
             $yearStore = JSON.parse(JSON.stringify(year));
-            console.log($yearStore)
         }
     
     </script>

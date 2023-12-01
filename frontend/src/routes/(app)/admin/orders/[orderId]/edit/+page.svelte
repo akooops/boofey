@@ -18,7 +18,6 @@
 
     function addProduct(e){
         const existingProductIndex = productsList.findIndex((product) => product.id == e.detail.product.id);
-        console.log(e.detail.product)
         if (existingProductIndex != -1) {    
             productsList[existingProductIndex].qty++;
         } else {

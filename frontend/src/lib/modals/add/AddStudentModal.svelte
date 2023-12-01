@@ -29,7 +29,6 @@ let loading = false
 loading = true
         errors = {}
         let formData = new FormData(form)
-        console.log(parentId)
         if(parentId != ""){
             formData.set("father_id",parentId)
         }

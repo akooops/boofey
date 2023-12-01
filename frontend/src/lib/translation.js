@@ -291,6 +291,10 @@ export let translation = {
         en:"Started At",
         ar:"بدأ في"
     },
+    notScheduled:{
+        en:"Not Scheduled",
+        ar:"غير مقرر"
+    },
     subTotal:{
         en:"Sub Total",
         ar:"المجموع الجزئي"

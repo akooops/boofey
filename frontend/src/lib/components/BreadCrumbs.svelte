@@ -28,7 +28,6 @@ page.subscribe(() => {
       return;
     }
     let currentPath = $page.url.pathname.replace("/admin","")
-    console.log("current", currentPath,$page.url.pathname)
 
     let matchedObject = matchPathWithPatterns(currentPath)
     if(matchedObject){
@@ -40,7 +39,6 @@ page.subscribe(() => {
 
 })
 
-$:console.log(data)
 
 
 </script>

@@ -38,6 +38,7 @@ import DashSearch from "./DashSearch.svelte";
 
 
     async function getDoneByCanteens(){
+        if (!JSON.parse(sessionStorage.getItem("permissions")).includes("dashboards.doneByCanteens")) return;
         let res = await fetch(PathGetDoneByCanteens(selectedCanteen.id,{range,start_date,end_date}),{
             headers:{
                 Authorization: `${localStorage.getItem("SID")}`
@@ -53,11 +54,48 @@ import DashSearch from "./DashSearch.svelte";
            values.push(obj.count)
             categories.push(obj.date)
         }
-        CanteensOptions.series[1].data = values
+
+        let index = 0
+
+        if(JSON.parse(sessionStorage.getItem("permissions")).includes("dashboards.avgByCanteens")){
+            index = 1
+        }
+
+        CanteensOptions.series[index] = {
+            name: "Done",
+            type: "line",
+            data: values,            
+        }
+        CanteensOptions.yaxis[index] = {
+            opposite: index == 1,
+          title: {
+            text: "Done",
+            style: {
+                color: "#695eef"
+            },
+            rotate: 0,
+            offsetY: -150, 
+          },
+          axisTicks: {
+            show: true
+          },
+          axisBorder: {
+            show: true,
+            // color: "#695eef"
+          },
+          labels: {
+            style: {
+              colors: "#695eef"
+            }
+          }
+        }
+
         CanteensOptions.xaxis.categories = categories
     }
 
     async function getAvgByCanteens(){
+        if (!JSON.parse(sessionStorage.getItem("permissions")).includes("dashboards.avgByCanteens")) return;
+
         let res = await fetch(PathGetAvgByCanteens(selectedCanteen.id,{range,start_date,end_date}),{
             headers:{
                 Authorization: `${localStorage.getItem("SID")}`
@@ -71,9 +109,39 @@ import DashSearch from "./DashSearch.svelte";
         let categories = []
         for(let obj of data){
            values.push(obj.avg)
-            categories.push(obj.date)
+           categories.push(obj.date)
+
         }
-        CanteensOptions.series[0].data = values
+        CanteensOptions.series[0] = {
+            name: "Average",
+            type: "line",
+            data: values,
+        }
+        CanteensOptions.xaxis.categories = categories
+
+        CanteensOptions.yaxis[0] = {
+            title: {
+            text: "Average",
+            style: {
+                color: "#5596f7"
+            },
+            rotate: 0,
+            offsetY: -150, 
+          },
+          axisTicks: {
+            show: true
+          },
+          axisBorder: {
+            show: true,
+            // color: "#5596f7"
+          },
+          labels: {
+            style: {
+              colors: "#5596f7"
+            }
+          }
+        }
+
     }
 
 
@@ -137,7 +205,7 @@ import DashSearch from "./DashSearch.svelte";
     }
 
     function toggleChart(name){
-        if(name == "Average"){
+        if(name == "Average" && CanteensOptions.yaxis[1] != null){
             CanteensOptions.yaxis[1].opposite = !CanteensOptions.yaxis[1].opposite    
             chart.updateOptions(CanteensOptions)
         }
@@ -203,6 +271,7 @@ import DashSearch from "./DashSearch.svelte";
 
 
         <div class="card-body p-0 pb-2">
+            {#if JSON.parse(sessionStorage.getItem("permissions")).includes("dashboards.avgByCanteens") && JSON.parse(sessionStorage.getItem("permissions")).includes("dashboards.doneByCanteens")}
             <div class="row ps-4 g-3 align-items-center justify-content-start">
                 <!-- Switches Color -->
                 <div class="form-check form-switch form-check-secondary  col-auto" >
@@ -215,6 +284,10 @@ import DashSearch from "./DashSearch.svelte";
                 </div><!-- Switches Color -->
 
             </div>
+            {:else}
+            
+            <h4 class="card-title mb-0 ps-3 flex-grow-1">{JSON.parse(sessionStorage.getItem("permissions")).includes("dashboards.avgByCanteens") ? "Avergage" : "Done"}</h4>
+            {/if}
             <div class="w-100 p-1">
                 <!-- <div id="customer_impression_charts" data-colors='["--vz-info", "--vz-primary", "--vz-danger"]' class="apex-charts" dir="ltr"></div> -->
                 <div class:d-none={pending} bind:this={chartSpace}></div>

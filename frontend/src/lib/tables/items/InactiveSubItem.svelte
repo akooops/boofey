@@ -37,7 +37,14 @@
     <td>
         <Progress now={sub.balance} max={sub.days}/>
     </td>
+    <td>{#if sub.should_started_at == null}
+            <span class="badge bg-warning-subtle text-warning">not scheduled</span>
+        {:else}
+            sub.started_at
+        {/if}
+    </td>
     <td>{sub.started_at == null ? "unset" : sub.started_at}</td>
+
     <!-- <td>
         {#if sub.status == "scheduled"}
         <span class="badge bg-info-subtle text-info ms-1">Scheduled</span>

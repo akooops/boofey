@@ -41,7 +41,6 @@ function slash(event){
         input.value = value;
     }
 
-    console.log(expiry_date[3],expiry_date[4],expiry_date[0],expiry_date[1])
 }
 let card 
 onMount(() => {

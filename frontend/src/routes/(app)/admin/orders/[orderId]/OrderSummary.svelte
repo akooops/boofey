@@ -61,7 +61,6 @@ import {onMount} from "svelte"
     }
 
     function print(){
-        console.log(order)
         let encoder = new ThermalPrinterEncoder({
             language: 'esc-pos'
         });

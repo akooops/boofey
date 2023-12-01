@@ -17,7 +17,6 @@
     
         $:userResponse = data.userResponse
         $:user = userResponse?.data?.user
-        $:console.log(user)
 
 </script>
 <!-- {#if loaded}

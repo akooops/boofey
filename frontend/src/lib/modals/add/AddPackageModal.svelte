@@ -59,7 +59,6 @@ loading = true
     
     }
     function addFeature(){
-        console.log("adding feature")
         features = [...features,{name:"",checked:false}]
     }
 

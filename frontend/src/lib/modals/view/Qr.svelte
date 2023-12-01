@@ -17,7 +17,6 @@
     let height = 200
 
     function loadQr(data){
-        console.log(data)
         qrInstance.update({
             width: 300,
             height: 300,

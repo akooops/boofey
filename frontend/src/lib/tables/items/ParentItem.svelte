@@ -17,6 +17,7 @@
         </div>
     </td>
     <td>{parent.id}</td>
+    <td>{parent.identity_number}</td>
     <td>
     <div class="d-flex gap-2 align-items-center">
         <div class="flex-shrink-0">

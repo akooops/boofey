@@ -1,16 +1,6 @@
 export let CanteensOptions = {
     series: [  
-        {
-            name: "Average",
-            type: "line",
-            data: [],
-        },
-        {
-            name: "Done",
-            type: "line",
-            data: [],
-            
-        },
+        
     ],
     chart: {
         height: 370,
@@ -41,51 +31,7 @@ export let CanteensOptions = {
         },
     },
     yaxis: [
-        {
-          title: {
-            text: "Average",
-            style: {
-                color: "#5596f7"
-            },
-            rotate: 0,
-            offsetY: -150, 
-          },
-          axisTicks: {
-            show: true
-          },
-          axisBorder: {
-            show: true,
-            // color: "#5596f7"
-          },
-          labels: {
-            style: {
-              colors: "#5596f7"
-            }
-          },
-        },
-        {
-          opposite: true,
-          title: {
-            text: "Done",
-            style: {
-                color: "#695eef"
-            },
-            rotate: 0,
-            offsetY: -150, 
-          },
-          axisTicks: {
-            show: true
-          },
-          axisBorder: {
-            show: true,
-            // color: "#695eef"
-          },
-          labels: {
-            style: {
-              colors: "#695eef"
-            }
-          },
-        }
+        
     ],
     grid: {
         show: true,
