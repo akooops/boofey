@@ -44,12 +44,36 @@
 
 
     let subsPage
+    let params 
     onMount(() => {
+        params = new URL(document.location).searchParams;
+        
         initToolTip(subsPage)
     })
     
 </script>
 <div class="row"  in:fade={{duration: 200 }} bind:this={subsPage}>
+    {#if params?.get("status") == "success"}
+        <div class="row p-3">
+            <!-- Secondary Alert -->
+
+            <div class="alert alert-success alert-border-left alert-dismissible fade show" role="alert">
+                <i class="ri-check-double-line me-3 align-middle"></i> <strong>Success</strong> - New payment method has been added
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+
+        </div>
+    {:else if params?.get("status") != null}
+    <div class="row p-3">
+        <!-- Secondary Alert -->
+
+        <div class="alert alert-danger alert-border-left alert-dismissible fade show" role="alert">
+            <i class="ri-check-double-line me-3 align-middle"></i> <strong>Fail</strong> - {params?.get("msg")}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+
+    </div>
+    {/if}
     <div class="col-lg-12">
         <div class="card">
             <div class="card-header align-items-center d-flex">

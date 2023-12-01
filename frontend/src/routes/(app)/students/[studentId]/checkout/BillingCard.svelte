@@ -6,6 +6,7 @@
     import { PathPay,PathCheckPaymentRef,PathPayementRedirection } from "$lib/api/paths";
     import { toast } from "$lib/components/toast.js";
     import {translation} from "$lib/translation.js"
+    import { page } from '$app/stores';  
 
 
     export let billings
@@ -112,7 +113,7 @@
 
     async function paymentRedirection(){
 
-        let returnUrl = "https://localhost:5173/paymentReturn/feedback"
+        let returnUrl = `https://localhost:5173/paymentReturn/feedback/${$page.url.pathname.split("/")[2]}`
 
         let formData = new FormData()
         formData.set("language",localStorage.getItem("language"))
