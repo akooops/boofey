@@ -59,7 +59,7 @@ class RolesController extends Controller
      */
     public function store(Role $role, StoreRoleRequest $request) 
     {
-        $role->create(['name' => $request->get('name')]);
+        $role->create(['name' => $request->get('name'), 'guard_name' => 'web']);
 
         $permissions = $request->get('permissions');
 
@@ -103,7 +103,10 @@ class RolesController extends Controller
      */
     public function update(Role $role, UpdateRoleRequest $request) 
     {
-        $role->update($request->only('name'));
+        $role->update([
+            'name' => $request->input('name'),
+            'guard_name' => 'web'
+        ]);
         
         $permissions = $request->get('permissions');
 

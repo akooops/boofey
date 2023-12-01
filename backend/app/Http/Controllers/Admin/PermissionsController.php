@@ -49,7 +49,10 @@ class PermissionsController extends Controller
      */
     public function store(Permission $permission, StorePermissionRequest $request) 
     {
-        $permission->create($request->validated());
+        $permission->create(array_merge(
+            $request->validated(),
+            ['guard_name' => 'web']
+        ));
 
         return response()->json([
             'status' => 'success'
@@ -83,7 +86,10 @@ class PermissionsController extends Controller
      */
     public function update(Permission $permission, UpdatePermissionRequest $request) 
     {
-        $permission->update($request->validated());
+        $permission->update(array_merge(
+            $request->validated(),
+            ['guard_name' => 'web']
+        ));
 
         return response()->json([
             'status' => 'success'
