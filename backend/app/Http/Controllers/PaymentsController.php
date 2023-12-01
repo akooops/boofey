@@ -295,6 +295,22 @@ class PaymentsController extends Controller
         $subscription = Subscription::where('ref', $responseData['merchant_reference'])->first();
         if(is_null($subscription))
             return;
+
+        if(key_exists('token_name', $responseData) && !is_null($responseData['token_name'])){
+            $paymentMethod = PaymentMethod::where('token_name', $request->input('token_name'))->first();
+        
+            if($paymentMethod == null){
+                $paymentMethod = PaymentMethod::create([
+                    'card_number' => $responseData['card_number'],
+                    'card_holder_name' => $responseData['card_holder_name'],
+                    'token_name' => $responseData['token_name'],
+                    'expiry_date' => $responseData['expiry_date'],
+                    'father_id' => $subscription->student->father->id
+                ]);
+
+                $paymentMethod->save();
+            }
+        }
         
         $payment = $subscription->payment;
 
