@@ -28,7 +28,7 @@ class RegisterRequest extends FormRequest
         return [
             'firstname' => 'required|string|max:500',
             'lastname' => 'required|string|max:500',
-            'identity_number' => 'required|numeric|size:10|unique:fathers,identity_number',
+            'identity_number' => 'required|numeric|digits:10|unique:fathers,identity_number',
             'username' => 'required|username|unique:users,username',
             'email' => 'required|email|unique:users,email',
             'phone' => 'required|phone|unique:users,phone',

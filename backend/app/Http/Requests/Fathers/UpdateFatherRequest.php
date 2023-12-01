@@ -30,7 +30,7 @@ class UpdateFatherRequest extends FormRequest
         return [
             'firstname' => 'required|string|max:500',
             'lastname' => 'required|string|max:500',
-            'identity_number' => 'required|numeric|size:10|unique:fathers,identity_number,'.$father->identity_number,
+            'identity_number' => 'required|numeric|digits:10|unique:fathers,identity_number,'.$father->identity_number,
             'username' => 'required|username|unique:users,username,'.$father->user->id,
             'email' => 'required|email|unique:users,email,'.$father->user->id,
             'phone' => 'required|phone|unique:users,phone,'.$father->user->id,
