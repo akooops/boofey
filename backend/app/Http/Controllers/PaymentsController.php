@@ -252,7 +252,6 @@ class PaymentsController extends Controller
             'customer_email' => $request->input('customer_email'), 
             'customer_ip' => $request->input('customer_ip'), 
             'return_url' => $request->input('return_url'),
-            'remember_me' => 'YES',
             'merchant_extra1' => $request->input('billing_id')
         ];
 
@@ -267,6 +266,7 @@ class PaymentsController extends Controller
             'customer_email='.$request->input('customer_email'),
             'customer_ip='.$request->input('customer_ip'),
             'return_url='.$request->input('return_url'),
+            'merchant_extra1='.$request->input('billing_id')
         ];
 
         if(!is_null($paymentMethod)){
