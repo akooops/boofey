@@ -370,7 +370,14 @@ class PaymentsController extends Controller
     }
 
     public function checkPaymentRedirection($ref){
-        $subscription = Subscription::where('ref', $ref)->first();
+        $subscription = Subscription::where('ref', $ref)->with([
+            'student:id,firstname,lastname,file_id',
+            'student.image:id,current_name,path',
+            'invoice:id,subscription_id',
+            'package:id,name,name_ar,sale_price,price,days,tax,popular,school_id',
+            'package.school:id,name,name_ar,file_id',
+            'package.school.logo:id,path,current_name'
+        ])->first();
 
         if($subscription === null){
             return response()->json([
@@ -384,6 +391,7 @@ class PaymentsController extends Controller
         return response()->json([
             'status' => 'success',
             'data' => [
+                'subscription' => $subscription,
                 'payment' => $subscription->payment
             ]
         ]);
