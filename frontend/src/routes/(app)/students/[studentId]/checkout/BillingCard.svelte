@@ -3,7 +3,7 @@
     import BillingInfo from "./BillingInfo.svelte";
 	import PaymentSelection from "./PaymentSelection.svelte";
     import { redirector } from "$lib/api/auth";
-    import { PathPay,PathCheckPaymentRef } from "$lib/api/paths";
+    import { PathPay,PathCheckPaymentRef,PathPayementRedirection } from "$lib/api/paths";
     import { toast } from "$lib/components/toast.js";
     import {translation} from "$lib/translation.js"
 
@@ -33,7 +33,8 @@
         states[index] = "done"
         states[index+1] = "active"
         if(index == 1){
-            sendPayment()
+            // sendPayment()
+            paymentRedirection()
         }
 
 
@@ -55,9 +56,6 @@
         if(couponId){
             formData.set("coupon",couponId)
         }
-
-
-
 
         
         let res = await fetch(PathPay(),{
@@ -111,6 +109,60 @@
         }
 
     }
+
+    async function paymentRedirection(){
+
+        let returnUrl = "https://localhost:5173/paymentReturn/feedback"
+
+        let formData = new FormData()
+        formData.set("language",localStorage.getItem("language"))
+        formData.set("customer_ip",customerIp)
+        formData.set("customer_email",customerEmail)
+        formData.set("billing_id",addressId)
+        formData.set("subscription_id",paymentId)
+        formData.set("return_url",returnUrl)
+        if(couponId){
+            formData.set("coupon",couponId)
+        }
+        if(paymentMethodId){
+            formData.set("payment_method_id",paymentMethodId)
+        }
+
+        let res = await fetch(PathPayementRedirection(),{
+            headers:{
+                Authorization: `${localStorage.getItem("SID")}`
+            },
+            method:"POST",
+            body:formData
+        })
+        res = await res.json()
+
+        
+        createForm(res.data.payload,res.data.url)
+        
+
+
+    }
+
+    function createForm(data,url){
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = url;
+
+        // Append the payload data as hidden input fields to the form
+        Object.entries(data).forEach(([key, value]) => {
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = key;
+            input.value = value;
+            form.appendChild(input);
+        });
+
+        // Append the form to the body and submit it
+        document.body.appendChild(form);
+        form.submit();
+    };
+    
 
 
 </script>

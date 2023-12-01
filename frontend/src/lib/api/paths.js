@@ -419,6 +419,11 @@ export function PathPay(){
     return `${PARENT_DOMAIN}/payments/process`
 
 }
+
+export function PathPayementRedirection(){
+    return `${PARENT_DOMAIN}/payments/processRedirection`
+}
+
 export function PathCheckPaymentRef(ref){
     return `${PARENT_DOMAIN}/payments/check/${ref}`
 }
