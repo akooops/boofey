@@ -105,6 +105,8 @@ Route::group(['namespace' => 'App\Http\Controllers', 'middleware' => ['convert.b
     Route::post('paymentMethods/store/{father}', 'PaymentMethodsController@store')->name('parents.paymentMethods.store');
 
     Route::post('payments/return', 'PaymentsController@paymentReturn')->name('parents.payments.paymentReturn');
+    Route::post('payments/returnRedirection', 'PaymentsController@paymentReturnRedirection')->name('parents.payments.paymentReturnRedirection');
+
     Route::post('payments/webhook', 'PaymentsController@webhook')->name('parents.payments.webhook');
     Route::post('payments/webhookRedirection', 'PaymentsController@webhookRedirection')->name('parents.payments.webhookRedirection');
 });

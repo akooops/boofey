@@ -251,7 +251,7 @@ class PaymentsController extends Controller
             'currency' => 'SAR',
             'customer_email' => $request->input('customer_email'), 
             'customer_ip' => $request->input('customer_ip'), 
-            'return_url' => $request->input('return_url'),
+            'return_url' => route('parents.payments.paymentReturnRedirection'),
             'merchant_extra1' => $request->input('billing_id')
         ];
 
@@ -265,7 +265,7 @@ class PaymentsController extends Controller
             'currency=SAR',
             'customer_email='.$request->input('customer_email'),
             'customer_ip='.$request->input('customer_ip'),
-            'return_url='.$request->input('return_url'),
+            'return_url='.route('parents.payments.paymentReturnRedirection'),
             'merchant_extra1='.$request->input('billing_id')
         ];
 
@@ -366,8 +366,8 @@ class PaymentsController extends Controller
         ]);
     }
 
-    public function checkPaymentRedirection(Request $request){
-        $subscription = Subscription::where('ref', $request->get('merchant_reference'))->first();
+    public function checkPaymentRedirection($ref){
+        $subscription = Subscription::where('ref', $ref)->first();
 
         if($subscription === null){
             return response()->json([
@@ -439,6 +439,55 @@ class PaymentsController extends Controller
         return response($script)->header('Content-Type', 'text/html');
     }
 
+    public function paymentReturnRedirection(Request $request){
+        $responseData = $request->all();
+
+        if(!$this->compareSignatures($responseData)) return;
+
+        $subscription = Subscription::where('ref', $responseData['merchant_reference'])->first();
+        if(is_null($subscription))
+            return;
+        
+        $payment = $subscription->payment;
+
+        if(is_null($payment)){
+            $payment = Payment::create([
+                'fort_id' => key_exists('fort_id', $responseData) ? $responseData['fort_id']:  null,
+                'status' => $responseData['status'],
+                'response_code' => $responseData['response_code'],
+                'response_message' => $responseData['response_message'],
+                'payment_option' => key_exists('payment_option', $responseData) ? $responseData['payment_option']:  null,
+                'card_number' => key_exists('card_number', $responseData) ? $responseData['card_number']:  null,
+                'card_holder_name' => key_exists('card_holder_name', $responseData) ? $responseData['card_holder_name']:  null,
+                'amount' => $responseData['amount'] / 100,
+                'father_id' => $subscription->student->father->id,
+                'subscription_id' => $subscription->id
+            ]);
+
+            $payment->save();
+        }else{
+            $payment->update([
+                'status' => $responseData['status'],
+                'response_code' => $responseData['response_code'],
+                'response_message' => $responseData['response_message'],
+            ]);
+        }
+
+        if($responseData['status'] == 14){
+            $payment->update([
+                'paid_at' => now()
+            ]);
+
+            $subscription->start();
+        }
+
+        $url = env('PAYFORT_IS_LOCALHOST')
+            ? "https://localhost:5173/students/{$subscription->student_id}/subscriptions?ref={$subscription->ref}"
+            : "https://boofey.app/students/{$subscription->student_id}/subscriptions?ref={$subscription->ref}";
+        
+        return redirect($url);
+    }
+
     public function webhook(Request $request){
         $responseData = $request->all();
 
@@ -500,6 +549,32 @@ class PaymentsController extends Controller
         }
     
         return $this->hash($fields, env('PAYFORT_SHA_REQUEST_PHRASE'));
+    }
+
+    private function calculateSignatureResponse(array $fieldArray){
+        $fields = [];
+    
+        foreach($fieldArray as $val) {
+            $fieldSplitted = explode("=", $val);
+            $fields[$fieldSplitted[0]] = $fieldSplitted[1];
+        }
+    
+        return $this->hash($fields, env('PAYFORT_SHA_RESPONSE_PHRASE'));
+    }
+
+    private function compareSignatures(array $responseData) {
+        $receivedSignature = $responseData['signature'] ?? '';
+    
+        unset($responseData['signature']);
+    
+        $formattedData = [];
+        foreach ($responseData as $key => $value) {
+            $formattedData[] = "$key=$value";
+        }
+
+        $calculatedSignature = $this->calculateSignatureResponse($formattedData);
+    
+        return hash_equals($calculatedSignature, $receivedSignature);
     }
 
     private function hash($arrData, $prefix){
