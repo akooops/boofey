@@ -3,19 +3,21 @@ import {PathAddPaymentMethod,PathCheckPaymentRedirection} from "$lib/api/paths.j
 
 export async function POST({ request, cookies,url,params }) {
 	let values = await request.formData();
-	
+   
+    let formData = new FormData()
+    for (let pair of values.entries()) {
+        formData.set(pair[0],pair[1]); 
+    }
+
+    console.log("feedback")
+
     let res = await fetch(PathCheckPaymentRedirection(values.get("merchant_reference")),{
         method:"POST",
-        body:values
+        // body:formData
     })
-
-
-    console.log("\n----------\n")
-    for (let pair of values.entries()) {
-        console.log(pair[0]+ ', ' + pair[1]); 
-    }
-	// res = await res.json()
-    let status = values.status == 14 ? "success" : "fail"
-    let msg = values.get("response_message") == null ? "" : `&msg=${values.get("response_message")}`
-	throw redirect(303, `/students/${params.studentId}/subscriptions?status=${status}${msg}`);
+    res = await res.json()
+    console.log(res)
+    let msg = res?.error?.message == null ? "" : `&msg=${res?.error?.message}`
+    console.log(`/students/${params.studentId}/subscriptions?status=${res.status}${msg}`)
+	throw redirect(303, `/students/${params.studentId}/subscriptions?status=${res.status}${msg}`);
 }
