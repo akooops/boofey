@@ -182,7 +182,7 @@ class PaymentsController extends Controller
                 'payment_option' => key_exists('payment_option', $responseData) ? $responseData['payment_option']:  null,
                 'card_number' => key_exists('card_number', $responseData) ? $responseData['card_number']:  null,
                 'card_holder_name' => key_exists('card_holder_name', $responseData) ? $responseData['card_holder_name']:  null,
-                'amount' => $responseData['amount'],
+                'amount' => $responseData['amount'] / 100,
                 'father_id' => $father->id,
                 'subscription_id' => $subscription->id
             ]);
@@ -321,7 +321,7 @@ class PaymentsController extends Controller
                 'payment_option' => key_exists('payment_option', $responseData) ? $responseData['payment_option']:  null,
                 'card_number' => key_exists('card_number', $responseData) ? $responseData['card_number']:  null,
                 'card_holder_name' => key_exists('card_holder_name', $responseData) ? $responseData['card_holder_name']:  null,
-                'amount' => $responseData['amount'],
+                'amount' => $responseData['amount'] / 100,
                 'father_id' => $subscription->student->father->id,
                 'subscription_id' => $subscription->id
             ]);
@@ -413,7 +413,7 @@ class PaymentsController extends Controller
                 'payment_option' => key_exists('payment_option', $responseData) ? $responseData['payment_option']:  null,
                 'card_number' => key_exists('card_number', $responseData) ? $responseData['card_number']:  null,
                 'card_holder_name' => key_exists('card_holder_name', $responseData) ? $responseData['card_holder_name']:  null,
-                'amount' => $responseData['amount'],
+                'amount' => $responseData['amount'] / 100,
                 'father_id' => $subscription->student->father->id,
                 'subscription_id' => $subscription->id
             ]);
@@ -457,7 +457,7 @@ class PaymentsController extends Controller
                 'payment_option' => key_exists('payment_option', $responseData) ? $responseData['payment_option']:  null,
                 'card_number' => key_exists('card_number', $responseData) ? $responseData['card_number']:  null,
                 'card_holder_name' => key_exists('card_holder_name', $responseData) ? $responseData['card_holder_name']:  null,
-                'amount' => $responseData['amount'],
+                'amount' => $responseData['amount'] / 100,
                 'father_id' => $subscription->student->father->id,
                 'subscription_id' => $subscription->id
             ]);
