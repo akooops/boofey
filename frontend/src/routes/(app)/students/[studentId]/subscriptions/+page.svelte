@@ -47,33 +47,35 @@
     let params 
     onMount(() => {
         params = new URL(document.location).searchParams;
-        
+        let url = new URL(window.location.toString());
+        // remove queries 
+        url.searchParams.delete("ref");
+        url.searchParams.delete("status");
+        url.searchParams.delete("msg");
+        history.replaceState({}, '', url);
+        ///
         initToolTip(subsPage)
     })
     
 </script>
 <div class="row"  in:fade={{duration: 200 }} bind:this={subsPage}>
-    {#if params?.get("status") == "success"}
-        <div class="row p-3">
+    <div class="col-lg-12">
+            {#if params?.get("status") == "success"}
             <!-- Secondary Alert -->
 
             <div class="alert alert-success alert-border-left alert-dismissible fade show" role="alert">
-                <i class="ri-check-double-line me-3 align-middle"></i> <strong>Success</strong> - New payment method has been added
+                <i class="ri-check-double-line me-3 align-middle"></i> <strong>{translation.success[localStorage.getItem("language")]}</strong> - {translation.paymentFullfilled[localStorage.getItem("language")]}
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
+            {:else if params?.get("status") != null}
 
-        </div>
-    {:else if params?.get("status") != null}
-    <div class="row p-3">
-        <!-- Secondary Alert -->
-
-        <div class="alert alert-danger alert-border-left alert-dismissible fade show" role="alert">
-            <i class="ri-check-double-line me-3 align-middle"></i> <strong>Fail</strong> - {params?.get("msg")}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-
+            <div class="alert alert-danger alert-border-left alert-dismissible fade show" role="alert">
+                <i class="ri-check-double-line me-3 align-middle"></i> <strong>{translation.failed[localStorage.getItem("language")]}</strong> - {data.msg}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+    
+            {/if}
     </div>
-    {/if}
     <div class="col-lg-12">
         <div class="card">
             <div class="card-header align-items-center d-flex">

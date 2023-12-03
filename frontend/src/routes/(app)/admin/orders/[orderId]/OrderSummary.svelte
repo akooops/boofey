@@ -133,7 +133,7 @@ import {onMount} from "svelte"
                 </div>
                 <div class="row g-3 mt-2 ">
                     <div class="hstack gap-2 justify-content-end">
-                        <button type="button" class="btn btn-primary waves-effect waves-light" on:click={print}> <i class="ri-printer-line align-bottom me-1"></i> Print Order</button>
+                        <a role="button" href="/admin/orders/{order.id}/print" target="_blank" class="btn btn-primary waves-effect waves-light" > <i class="ri-printer-line align-bottom me-1"></i> Print Order</a>
                     </div>
                 </div>
 

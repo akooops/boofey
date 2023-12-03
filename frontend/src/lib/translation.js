@@ -467,6 +467,10 @@ export let translation = {
         en:"Payment Info",
         ar:"معلومات الدفع"
     },
+    paymentFullfilled:{
+        en:"Payment has been fullfilled",
+        ar:"تمت عملية الدفع بنجاح"
+    },
     finish:{
         en:"Finish",
         ar:"انتهاء"

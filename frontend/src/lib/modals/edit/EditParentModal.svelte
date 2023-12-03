@@ -67,7 +67,7 @@ loading = true
         password = ""
         email = $parentStore?.user?.email
         phone = $parentStore?.user?.phone
-        idNumber = $parentStore?.user?.idNumber
+        idNumber = $parentStore?.identity_number
     }) 
 
     </script>
