@@ -247,7 +247,7 @@ class PaymentsController extends Controller
             'access_code' => env('PAYFORT_ACCESS_CODE'),
             'merchant_identifier' => env('PAYFORT_MERCHANT_ID'),
             'merchant_reference' => $subscription->ref,  
-            'amount' => round($subscription->total, 2) * 100, 
+            'amount' => number_format(round($subscription->total, 2) * 100, 0, '.', ''), 
             'currency' => 'SAR',
             'customer_email' => $request->input('customer_email'), 
             'customer_ip' => $request->input('customer_ip'), 
@@ -261,7 +261,7 @@ class PaymentsController extends Controller
             'access_code='.env('PAYFORT_ACCESS_CODE'),
             'merchant_identifier='.env('PAYFORT_MERCHANT_ID'),
             'merchant_reference='.$subscription->ref,
-            'amount='.round($subscription->total, 2) * 100,
+            'amount='.number_format(round($subscription->total, 2) * 100, 0, '.', ''),
             'currency=SAR',
             'customer_email='.$request->input('customer_email'),
             'customer_ip='.$request->input('customer_ip'),
@@ -366,16 +366,8 @@ class PaymentsController extends Controller
         ]);
     }
 
-    public function checkPaymentRedirection($ref, Request $request){
-        $responseData = $request->all();
-
-        if ($this->compareSignatures($responseData)) {
-            return response()->json(['mismatch' => 'false']);
-        }
-
-        return response()->json(['mismatch' => 'true']);
-
-        $subscription = Subscription::where('ref', $ref)->first();
+    public function checkPaymentRedirection(Request $request){
+        $subscription = Subscription::where('ref', $request->get('merchant_reference'))->first();
 
         if($subscription === null){
             return response()->json([
@@ -508,32 +500,6 @@ class PaymentsController extends Controller
         }
     
         return $this->hash($fields, env('PAYFORT_SHA_REQUEST_PHRASE'));
-    }
-
-    private function calculateSignatureResponse(array $fieldArray){
-        $fields = [];
-    
-        foreach($fieldArray as $val) {
-            $fieldSplitted = explode("=", $val);
-            $fields[$fieldSplitted[0]] = $fieldSplitted[1];
-        }
-    
-        return $this->hash($fields, env('PAYFORT_SHA_RESPONSE_PHRASE'));
-    }
-
-    private function compareSignatures(array $responseData) {
-        $receivedSignature = $responseData['signature'] ?? '';
-    
-        unset($responseData['signature']);
-    
-        $formattedData = [];
-        foreach ($responseData as $key => $value) {
-            $formattedData[] = "$key=$value";
-        }
-
-        $calculatedSignature = $this->calculateSignatureResponse($formattedData);
-    
-        return hash_equals($calculatedSignature, $receivedSignature);
     }
 
     private function hash($arrData, $prefix){
