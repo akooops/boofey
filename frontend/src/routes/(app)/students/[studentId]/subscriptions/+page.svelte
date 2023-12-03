@@ -64,13 +64,13 @@
             <!-- Secondary Alert -->
 
             <div class="alert alert-success alert-border-left alert-dismissible fade show" role="alert">
-                <i class="ri-check-double-line me-3 align-middle"></i> <strong>Success</strong> - Payment has been fullfilled
+                <i class="ri-check-double-line me-3 align-middle"></i> <strong>{translation.success[localStorage.getItem("language")]}</strong> - {translation.paymentFullfilled[localStorage.getItem("language")]}
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
             {:else if params?.get("status") != null}
 
             <div class="alert alert-danger alert-border-left alert-dismissible fade show" role="alert">
-                <i class="ri-check-double-line me-3 align-middle"></i> <strong>Fail</strong> - {data.msg}
+                <i class="ri-check-double-line me-3 align-middle"></i> <strong>{translation.failed[localStorage.getItem("language")]}</strong> - {data.msg}
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
     
