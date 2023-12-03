@@ -366,15 +366,16 @@ class PaymentsController extends Controller
         ]);
     }
 
-    public function checkPaymentRedirection($ref){
-        $subscription = Subscription::where('ref', $ref)->with([
-            'student:id,firstname,lastname,file_id',
-            'student.image:id,current_name,path',
-            'invoice:id,subscription_id',
-            'package:id,name,name_ar,sale_price,price,days,tax,popular,school_id',
-            'package.school:id,name,name_ar,file_id',
-            'package.school.logo:id,path,current_name'
-        ])->first();
+    public function checkPaymentRedirection($ref, Request $request){
+        $responseData = $request->all();
+
+        if ($this->compareSignatures($responseData)) {
+            return response()->json(['mismatch' => 'false']);
+        }
+
+        return response()->json(['mismatch' => 'true']);
+
+        $subscription = Subscription::where('ref', $ref)->first();
 
         if($subscription === null){
             return response()->json([
@@ -397,7 +398,6 @@ class PaymentsController extends Controller
         return response()->json([
             'status' => 'success',
             'data' => [
-                'subscription' => $subscription,
                 'payment' => $subscription->payment
             ]
         ]);
@@ -508,6 +508,32 @@ class PaymentsController extends Controller
         }
     
         return $this->hash($fields, env('PAYFORT_SHA_REQUEST_PHRASE'));
+    }
+
+    private function calculateSignatureResponse(array $fieldArray){
+        $fields = [];
+    
+        foreach($fieldArray as $val) {
+            $fieldSplitted = explode("=", $val);
+            $fields[$fieldSplitted[0]] = $fieldSplitted[1];
+        }
+    
+        return $this->hash($fields, env('PAYFORT_SHA_RESPONSE_PHRASE'));
+    }
+
+    private function compareSignatures(array $responseData) {
+        $receivedSignature = $responseData['signature'] ?? '';
+    
+        unset($responseData['signature']);
+    
+        $formattedData = [];
+        foreach ($responseData as $key => $value) {
+            $formattedData[] = "$key=$value";
+        }
+
+        $calculatedSignature = $this->calculateSignatureResponse($formattedData);
+    
+        return hash_equals($calculatedSignature, $receivedSignature);
     }
 
     private function hash($arrData, $prefix){
