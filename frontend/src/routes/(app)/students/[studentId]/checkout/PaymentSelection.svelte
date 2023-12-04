@@ -4,6 +4,7 @@
     const dispatch = createEventDispatcher();
     import {translation} from "$lib/translation.js"
     import { invalidate } from '$app/navigation';
+    import { env } from '$env/dynamic/public';
 
 
     export let paymentMethods
@@ -19,9 +20,9 @@
     }
 
     async function SendPaymentMethod(){
-        // if(paymentMethodId){
+        if(paymentMethodId || env.PUBLIC_PAYMENT_REDIRECTION == "true"){
             dispatch("proceed",{paymentMethodId})
-        // }
+        }
     }
     async function back(){
         dispatch("back",{paymentMethodId})
@@ -32,6 +33,7 @@
         await invalidate("checkOut:refresh")
         loading = false
     }
+
 
 </script>
 
@@ -70,5 +72,7 @@
 <div class="d-flex align-items-start gap-3 mt-4">
     <button type="button" class="btn btn-light btn-label previestab" on:click={back}><i class="ri-arrow-{localStorage.getItem("language") == "ar" ? "right" : "left"}-line label-icon align-middle fs-16 me-2" ></i>{translation.backToBilling[localStorage.getItem("language")]}</button>
     <!-- <button type="button" class="btn btn-primary btn-label right ms-auto nexttab" on:click={SendPaymentMethod} disabled={paymentMethodId == null}><i class="ri-shopping-basket-line label-icon align-middle fs-16 ms-2"></i>{translation.completeOrder[localStorage.getItem("language")]}</button> -->
-    <button type="button" class="btn btn-primary btn-label right ms-auto nexttab" on:click={SendPaymentMethod} ><i class="ri-shopping-basket-line label-icon align-middle fs-16 ms-2"></i>{translation.completeOrder[localStorage.getItem("language")]}</button>
+    <button type="button" class="btn btn-primary btn-label right ms-auto nexttab" on:click={SendPaymentMethod} disabled={paymentMethodId == null && env.PUBLIC_PAYMENT_REDIRECTION != "true"}><i class="ri-shopping-basket-line label-icon align-middle fs-16 ms-2"></i>{translation.completeOrder[localStorage.getItem("language")]}</button>
 </div>
+
+

@@ -70,18 +70,9 @@ onMount(() => {
 
 let cardForm
 let cardNumber = ""
-function sub(){
-    let formDate = new FormData(cardForm)
-    fetch("sdsd",{
-        method:"POST",
-        body:formDate
-    })
-}
-
-
 </script>
 
-<form  method="post" action="{payFort.payfort_url}"   id="payment-form" name="form1" autocomplete="off" bind:this={cardForm}>
+<form   action="{payFort.payfort_url}" method="POST"   id="payment-form" name="form1" autocomplete="off" bind:this={cardForm}>
     <div class="collapse show" id="paymentmethodCollapse" style="">
         <!-- <div class="card p-4 border shadow-none mb-0 "> -->
 

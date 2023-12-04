@@ -7,7 +7,8 @@
     import { toast } from "$lib/components/toast.js";
     import {translation} from "$lib/translation.js"
     import { page } from '$app/stores';  
-
+    import { env } from '$env/dynamic/public';
+	import { onMount } from "svelte";
 
     export let billings
     export let couponId
@@ -34,8 +35,11 @@
         states[index] = "done"
         states[index+1] = "active"
         if(index == 1){
-            // sendPayment()
-            paymentRedirection()
+            if(env.PUBLIC_PAYMENT_REDIRECTION == "true"){
+                paymentRedirection()
+            }else {
+                sendPayment()
+            }
         }
 
 
@@ -69,7 +73,6 @@
         redirector(res)
 
         res = await res.json()
-    
         if(res.status == "success") {
             pending = false                    
             let text = `Payment has been fullfilled` 
