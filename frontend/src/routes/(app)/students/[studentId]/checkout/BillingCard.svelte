@@ -58,6 +58,7 @@
         formData.set("customer_ip",customerIp)
         formData.set("payment_method_id",paymentMethodId)
         formData.set("billing_id",addressId)
+        formData.set("language",localStorage.getItem("language"))
         if(couponId){
             formData.set("coupon",couponId)
         }
