@@ -7,6 +7,7 @@
     import { redirector } from "$lib/api/auth";
     import {states} from "$lib/env.js"
     import {translation} from "$lib/translation.js"
+    import { page } from '$app/stores';  
 
 const dispatch = createEventDispatcher();
 
@@ -69,6 +70,7 @@ onMount(() => {
     if(billings[0]){
         addressId = billings[0].id
     }
+    addressId = $page.url.searchParams.get("billing")
 })
 
 function select(e){

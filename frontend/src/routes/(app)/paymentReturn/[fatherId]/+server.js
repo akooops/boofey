@@ -6,10 +6,9 @@ export async function POST({ request, cookies,url,params }) {
 	
 	let formData = new FormData()
 
-	if(values.get("status") != 18){
+	if(values.get("status") != 18 && url.searchParams.get("student") == null){
 		throw redirect(303, `/paymentMethods/add?status=fail&msg=${values.get("response_message")}`);
 	}
-
 	formData.set("card_number",values.get("card_number"))
 	formData.set("card_holder_name",values.get("card_holder_name"))
 	formData.set("card_bin",values.get("card_bin"))
@@ -24,6 +23,14 @@ export async function POST({ request, cookies,url,params }) {
     })
 
 	res = await res.json()
-
-	throw redirect(303, '/paymentMethods?status=success');
+	console.log(res)
+	if(url.searchParams.get("student")){
+		if(res.status == "success"){
+			throw redirect(303, `/students/${url.searchParams.get("student")}/checkout?package=${url.searchParams.get("package")}&billing=${url.searchParams.get("billing")}&payment=${res.data.payment_method_id}`);
+		}else {
+			throw redirect(303, `/students/${url.searchParams.get("student")}/checkout?package=${url.searchParams.get("package")}&error=${values.get("response_message")}`);
+		}
+	}else {
+		throw redirect(303, '/paymentMethods?status=success');
+	}
 }

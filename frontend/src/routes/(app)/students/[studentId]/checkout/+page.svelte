@@ -43,7 +43,7 @@ import {translation} from "$lib/translation.js"
     
     <div class="row mb-3">
         <div class="col-xl-8">
-            <BillingCard {billings} {couponId} {paymentMethods} {customerEmail} {customerIp} paymentId={subscription.id} paymentRef={subscription.ref}/>
+            <BillingCard {data} {billings} {couponId} {paymentMethods} {customerEmail} {customerIp} paymentId={subscription.id} paymentRef={subscription.ref}/>
         </div>
         <!-- end col -->
         <OrderSummary payment={subscription} {packageObj} bind:couponId={couponId}/>

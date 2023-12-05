@@ -706,6 +706,10 @@ export let translation = {
         en:"New Password",
         ar:"كلمة المرور الجديدة"
     },
+    newPaymentMethod:{
+        en:"New Payment Method",
+        ar:"طريقة دفع جديدة"
+    },
     enterNewPass:{
         en:"Enter New Password",
         ar:"ادخل كلمة المرور الجديدة"

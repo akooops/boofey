@@ -27,7 +27,22 @@
     let paymentMethodId
     let interval
 
+    export let data
 
+
+    onMount(() => {
+        addressId = $page.url.searchParams.get("billing")
+        paymentMethodId = $page.url.searchParams.get("payment")
+        if($page.url.searchParams.get("error")){
+            error = $page.url.searchParams.get("error")
+        }
+        if(addressId && paymentMethodId){
+            pay()
+        }
+        if(addressId || paymentMethodId || error){
+            states = ["done","done","active"]
+        }
+    })
 
     async function proceed(index,e){
         addressId = e.detail.addressId != null ? e.detail.addressId : addressId
@@ -35,15 +50,21 @@
         states[index] = "done"
         states[index+1] = "active"
         if(index == 1){
-            if(env.PUBLIC_PAYMENT_REDIRECTION == "true"){
-                paymentRedirection()
-            }else {
-                sendPayment()
-            }
+           pay()
         }
 
 
     }
+
+    function pay(){
+        console.log("paying")
+        if(env.PUBLIC_PAYMENT_REDIRECTION == "true"){
+                paymentRedirection()
+            }else {
+                sendPayment()
+            }
+    }
+
     function back(index){
         states[index] = ""
         states[index-1] = "active"
@@ -204,7 +225,7 @@
 
 
                 <div class="tab-pane fade {states[1] == "active" ? "show active" : ""}" id="pills-payment" role="tabpanel" aria-labelledby="pills-payment-tab">
-                    <PaymentSelection {paymentMethods} on:proceed={(e) => proceed(1,e)} on:back={(e) => back(1)}/>
+                    <PaymentSelection billingId={addressId} {data} {paymentMethods} on:proceed={(e) => proceed(1,e)} on:back={(e) => back(1)}/>
                 </div>
                 <!-- end tab pane -->
 

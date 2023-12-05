@@ -5,11 +5,15 @@
     import {translation} from "$lib/translation.js"
     import { invalidate } from '$app/navigation';
     import { env } from '$env/dynamic/public';
+	import AddCard from "./AddCard.svelte";
 
-
+    export let data
     export let paymentMethods
+    export let billingId
     let loading = false
     let paymentMethodId
+    let add = true
+    let addCard
     onMount(() => {
         if(paymentMethods[0]){
             paymentMethodId = paymentMethods[0].id
@@ -20,7 +24,11 @@
     }
 
     async function SendPaymentMethod(){
+        if(add){
+            addCard()
+        }
         if(paymentMethodId || env.PUBLIC_PAYMENT_REDIRECTION == "true"){
+            
             dispatch("proceed",{paymentMethodId})
         }
     }
@@ -43,6 +51,18 @@
     <p class="text-muted mb-4">{translation.pleaseSelectPayment[localStorage.getItem("language")]}</p>
 </div>
 
+<div class="">
+    <!-- Switches Color -->
+    <div class="form-check form-switch col" >
+        <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck1" bind:checked={add}>
+        <label class="form-check-label" for="SwitchCheck1">{translation.newPaymentMethod[localStorage.getItem("language")]}</label>
+    </div><!-- Switches Color -->
+
+</div>
+{#if add}
+
+<AddCard {data} {billingId} bind:addCard/>
+{:else}
 <div class="mt-4">
     <div class="d-flex align-items-center mb-2">
         <div class="flex-grow-1">
@@ -61,6 +81,7 @@
             {/if}
         </div>
     </div>
+
     <div class="row gy-3">
         {#each paymentMethods as paymentMethod,_ (paymentMethod.id)}
             <PaymentMethod {paymentMethod} selectedPaymentMethodId={paymentMethodId} on:select={select}/>
@@ -68,11 +89,11 @@
     </div>
     
 </div>
-
+{/if}
 <div class="d-flex align-items-start gap-3 mt-4">
     <button type="button" class="btn btn-light btn-label previestab" on:click={back}><i class="ri-arrow-{localStorage.getItem("language") == "ar" ? "right" : "left"}-line label-icon align-middle fs-16 me-2" ></i>{translation.backToBilling[localStorage.getItem("language")]}</button>
     <!-- <button type="button" class="btn btn-primary btn-label right ms-auto nexttab" on:click={SendPaymentMethod} disabled={paymentMethodId == null}><i class="ri-shopping-basket-line label-icon align-middle fs-16 ms-2"></i>{translation.completeOrder[localStorage.getItem("language")]}</button> -->
-    <button type="button" class="btn btn-primary btn-label right ms-auto nexttab" on:click={SendPaymentMethod} disabled={paymentMethodId == null && env.PUBLIC_PAYMENT_REDIRECTION != "true"}><i class="ri-shopping-basket-line label-icon align-middle fs-16 ms-2"></i>{translation.completeOrder[localStorage.getItem("language")]}</button>
+    <button type="button" class="btn btn-primary btn-label right ms-auto nexttab" on:click={SendPaymentMethod} disabled={paymentMethodId == null && env.PUBLIC_PAYMENT_REDIRECTION != "true" && add == false}><i class="ri-shopping-basket-line label-icon align-middle fs-16 ms-2"></i>{translation.completeOrder[localStorage.getItem("language")]}</button>
 </div>
 
 
