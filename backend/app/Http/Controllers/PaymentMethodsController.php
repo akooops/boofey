@@ -67,7 +67,10 @@ class PaymentMethodsController extends Controller
         $paymentMethod->save();
 
         return response()->json([
-            'status' => 'success'
+            'status' => 'success',
+            'data' => [
+                'payment_method_id' => $paymentMethod->id
+            ]
         ]);
     }
 
