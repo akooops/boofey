@@ -124,6 +124,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'App\Http\Controllers\Admin', 
     Route::resource('queues', QueuesController::class)->only(['show', 'destroy']);
     Route::post('queues/{queue}/update', 'QueuesController@update')->name('queues.update');
     Route::post('queues/{queue}/close', 'QueuesController@close')->name('queues.close');
+    Route::post('queues/{queue}/qr/exit', 'QueuesController@exit')->name('queues.exit');
 
     /* -------------------------------------------------------------------------------- */
     /* Queues Students Routes */
@@ -132,8 +133,6 @@ Route::group(['prefix' => 'admin', 'namespace' => 'App\Http\Controllers\Admin', 
 
     Route::resource('queueStudents', QueueStudentsController::class)->only(['show', 'destroy']);
     Route::post('queueStudents/{queueStudent}/update', 'QueueStudentsController@update')->name('queueStudents.update');
-    Route::post('qr/exit', 'QueueStudentsController@exit')->name('queueStudents.exit');
-
 
     /* -------------------------------------------------------------------------------- */
     /* Coupons Routes */

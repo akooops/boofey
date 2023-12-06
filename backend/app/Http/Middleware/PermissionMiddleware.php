@@ -29,9 +29,9 @@ class PermissionMiddleware
             return response()->json([
                 'status' => 'error',
                 'errors' => [
-                    '403' => 'Access Denied: Please Log In to Access This Resource'
+                    'unauthorized' => 'Access Denied: Please Log In to Access This Resource'
                 ]
-            ], 403);        
+            ], 401);        
         }
 
         if (! is_null($permission)) {

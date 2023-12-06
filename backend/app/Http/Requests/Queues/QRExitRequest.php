@@ -1,15 +1,17 @@
 <?php
 
-namespace App\Http\Requests\QueueStudents;
+namespace App\Http\Requests\Queues;
 
 use App\Rules\CheckCurrentQueue;
+use App\Rules\NotClosedQueue;
+use App\Rules\StudentIsInQueue;
 use App\Rules\UniqueStudentInQueue;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Validation\Rule;
 
-class ExitQueueStudentRequest extends FormRequest
+class QRExitRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -28,9 +30,14 @@ class ExitQueueStudentRequest extends FormRequest
      */
     public function rules()
     {
+        $queue = request()->route('queue');
+
+        $this->merge([
+            'queue' => null
+        ]);
+
         return [
-            'queue_id' => 'required|exists:queues,id',
-            'student_id' => 'required|exists:students,id',
+            'student_id' => ['required', 'exists:students,id', new StudentIsInQueue($queue->id)]
         ];
     }
 

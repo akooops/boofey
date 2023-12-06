@@ -13,6 +13,7 @@ use App\Models\File;
 use App\Models\QueueStudent;
 use App\Models\Student;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class QueueStudentsController extends Controller
 {
@@ -23,6 +24,15 @@ class QueueStudentsController extends Controller
      */
     public function index(Queue $queue, Request $request) 
     {
+        $user = Auth::user();
+
+        if (!$user->canteens->contains('id', $queue->canteen->id)) {
+            return response()->json([
+                'status' => 'error',
+                'permissions' => 'User does not have the right permissions to control this canteen.'
+            ], 403);
+        }
+
         $queue->load([
             'canteen:id,name,address,school_id',
             'canteen.school:id,name,file_id',
@@ -80,6 +90,15 @@ class QueueStudentsController extends Controller
      */
     public function store(Queue $queue, StoreQueueStudentRequest $request) 
     {
+        $user = Auth::user();
+
+        if (!$user->canteens->contains('id', $queue->canteen->id)) {
+            return response()->json([
+                'status' => 'error',
+                'permissions' => 'User does not have the right permissions to control this canteen.'
+            ], 403);
+        }
+
         $exited_at = null;
 
         if ($request->input('exited') == true) {
@@ -111,6 +130,15 @@ class QueueStudentsController extends Controller
      */
     public function show(QueueStudent $queueStudent) 
     {
+        $user = Auth::user();
+
+        if (!$user->canteens->contains('id', $queueStudent->queue->canteen->id)) {
+            return response()->json([
+                'status' => 'error',
+                'permissions' => 'User does not have the right permissions to control this canteen.'
+            ], 403);
+        }
+
         return response()->json([
             'status' => 'success',
             'data' => [
@@ -129,6 +157,15 @@ class QueueStudentsController extends Controller
      */
     public function update(QueueStudent $queueStudent, UpdateQueueStudentRequest $request) 
     {
+        $user = Auth::user();
+
+        if (!$user->canteens->contains('id', $queueStudent->queue->canteen->id)) {
+            return response()->json([
+                'status' => 'error',
+                'permissions' => 'User does not have the right permissions to control this canteen.'
+            ], 403);
+        }
+
         $exited_at = null;
 
         if ($request->input('exited') == true) {
@@ -154,35 +191,16 @@ class QueueStudentsController extends Controller
      */
     public function destroy(QueueStudent $queueStudent) 
     {
-        $queueStudent->delete();
+        $user = Auth::user();
 
-        return response()->json([
-            'status' => 'success'
-        ]);
-    }
-
-    public function exit(ExitQueueStudentRequest $request){
-        $student = Student::findOrFail($request->get('student_id'));
-        $queue = Queue::findOrFail($request->get('queue_id'));
-
-        $queueStudent = QueueStudent::where([
-            'student_id' => $request->get('student_id'),
-            'queue_id' => $request->get('queue_id')
-        ])->first();
-
-        if($queueStudent === null){
+        if (!$user->canteens->contains('id', $queueStudent->queue->canteen->id)) {
             return response()->json([
                 'status' => 'error',
-                'errors' => [
-                    'queue_student_id' => [
-                        'This student is not in the givven queue'
-                    ]
-                ],
-            ], 422);
+                'permissions' => 'User does not have the right permissions to control this canteen.'
+            ], 403);
         }
-
-        $queueStudent->update(['exited_at' => Carbon::now()]);
         
+        $queueStudent->delete();
 
         return response()->json([
             'status' => 'success'

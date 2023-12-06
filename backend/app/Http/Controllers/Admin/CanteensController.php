@@ -175,7 +175,7 @@ class CanteensController extends Controller
         if (!$user->canteens->contains('id', $canteen->id)) {
             return response()->json([
                 'status' => 'error',
-                'error' => 'Forbidden - Access Denied'
+                'permissions' => 'User does not have the right permissions to control this canteen.'
             ], 403);
         }
         
@@ -202,7 +202,7 @@ class CanteensController extends Controller
         if (!$user->canteens->contains('id', $canteen->id)) {
             return response()->json([
                 'status' => 'error',
-                'error' => 'Forbidden - Access Denied'
+                'permissions' => 'User does not have the right permissions to control this canteen.'
             ], 403);
         }
 
@@ -220,7 +220,7 @@ class CanteensController extends Controller
         if (!$user->canteens->contains('id', $canteen->id)) {
             return response()->json([
                 'status' => 'error',
-                'error' => 'Forbidden - Access Denied'
+                'permissions' => 'User does not have the right permissions to control this canteen.'
             ], 403);
         }
 
@@ -241,7 +241,7 @@ class CanteensController extends Controller
         if (!$user->canteens->contains('id', $canteen->id)) {
             return response()->json([
                 'status' => 'error',
-                'error' => 'Forbidden - Access Denied'
+                'permissions' => 'User does not have the right permissions to control this canteen.'
             ], 403);
         }
 
@@ -266,7 +266,7 @@ class CanteensController extends Controller
         if (!$user->canteens->contains('id', $canteen->id)) {
             return response()->json([
                 'status' => 'error',
-                'error' => 'Forbidden - Access Denied'
+                'permissions' => 'User does not have the right permissions to control this canteen.'
             ], 403);
         }
 
