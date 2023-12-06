@@ -21,6 +21,19 @@ class Coupon extends Model
         'onhold',
     ];
 
+    /* Relationships
+        --------------------------------------------------------------------
+    */
+
+    public function couponUsages()
+    {
+        return $this->hasMany(UsedCoupon::class);
+    }
+
+    /* Appends
+        --------------------------------------------------------------------
+    */
+
     function getExpiredAttribute() {
         return ($this->used >= $this->max || $this->onhold == true) ? true : false;
     }

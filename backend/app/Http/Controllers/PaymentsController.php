@@ -130,7 +130,7 @@ class PaymentsController extends Controller
 
         if($request->has('coupon_id') && $request->input('coupon_id') != null){
             $coupon = Coupon::findOrFail($request->get('coupon_id'));
-            $subscription->applyCoupon($coupon);
+            $subscription->applyCoupon($coupon, $father);
         }
 
         $subscription->calculateTotal();
@@ -224,11 +224,13 @@ class PaymentsController extends Controller
     }
 
     public function processRedirection(ProcessPaymentRequest $request){
+        $father = $request->get('father');
+
         $subscription = Subscription::findOrFail($request->input('subscription_id'));
 
         if($request->has('coupon_id') && $request->input('coupon_id') != null){
             $coupon = Coupon::findOrFail($request->get('coupon_id'));
-            $subscription->applyCoupon($coupon);
+            $subscription->applyCoupon($coupon, $father);
         }
 
         $subscription->calculateTotal();

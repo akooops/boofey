@@ -65,7 +65,7 @@ Route::group(['namespace' => 'App\Http\Controllers', 'middleware' => ['auth:sanc
 
     /* -------------------------------------------------------------------------------- */
     /* Coupons Routes */
-    Route::get('coupons/check/{code}', 'CouponsController@check')->name('parents.coupons.check');
+    Route::get('coupons/check', 'CouponsController@check')->name('parents.coupons.check');
 
     /* -------------------------------------------------------------------------------- */
     /* Billing Routes */

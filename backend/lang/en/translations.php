@@ -13,6 +13,7 @@ return [
 
     'student_is_subscribed_on_delete' => 'Can\'t delete this student since he has an active subscribtion for the moment.',
     'invalid_coupon' => 'Invalid or expired coupon code. Please try another one.',
+    'coupon_already_used' => 'This Coupon is already used. Please try another one.',
 
     'incorrect_old_password' => 'The old password is incorrect.'
 ];

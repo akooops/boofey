@@ -65,6 +65,10 @@ class User extends Authenticatable
         return $this->hasOne(Profile::class);
     }
 
+    public function father(){
+        return $this->hasOne(Father::class);
+    }
+
     public function canteens()
     {
         return $this->belongsToMany(Canteen::class, 'canteen_users', 'user_id', 'canteen_id')->withPivot('id');

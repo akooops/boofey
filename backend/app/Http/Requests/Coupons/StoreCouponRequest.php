@@ -27,7 +27,7 @@ class StoreCouponRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:500',
-            'code' => 'required|string|max:500|unique:coupons,code',
+            'code' => 'required|string|max:500|regex:/^[a-zA-Z0-9]+$/|unique:coupons,code',
 
             'discount' => 'required|numeric|min:0',
             'max' => 'required|integer|min:0',

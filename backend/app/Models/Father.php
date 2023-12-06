@@ -16,6 +16,20 @@ class Father extends Model
         'identity_number'
     ];
 
+    /* Relationships
+        --------------------------------------------------------------------
+    */
+
+    public function couponUsages()
+    {
+        return $this->hasMany(UsedCoupon::class);
+    }
+
+    public function usedCoupons()
+    {
+        return $this->belongsToMany(Coupon::class, 'used_coupons', 'father_id', 'coupon_id');
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -42,8 +56,11 @@ class Father extends Model
         return $this->hasMany(Billing::class, 'father_id', 'id');
     }
 
-    function getChildrenCountAttribute() {  
+    /* Appends
+        --------------------------------------------------------------------
+    */
 
+    function getChildrenCountAttribute() {  
         return $this->students()->count();
     }
 }

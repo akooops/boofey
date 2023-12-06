@@ -2,11 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Coupons\CheckCouponRequest;
 use App\Models\Coupon;
-use Illuminate\Http\Request;
-use App\Http\Requests\Coupons\StoreCouponRequest;
-use App\Http\Requests\Coupons\UpdateCouponRequest;
-use App\Models\File;
 
 class CouponsController extends Controller
 {
@@ -15,16 +12,9 @@ class CouponsController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function check($code = null) 
+    public function check(CheckCouponRequest $request) 
     {
-        $coupon = Coupon::where('code', $code)->whereRaw('(used < max AND onhold = false)')->first();
-
-        if($coupon === null){
-            return response()->json([
-                'status' => 'error',
-                'error' => __('translations.invalid_coupon')
-            ], 200);
-        }
+        $coupon = Coupon::where('code', $request->input('code'))->first();
 
         $response = [
             'status' => 'success',
