@@ -15,5 +15,7 @@ return [
     'invalid_coupon' => 'Invalid or expired coupon code. Please try another one.',
     'coupon_already_used' => 'This Coupon is already used. Please try another one.',
 
+    'coupon_discount_not_hundred' => 'The :attribute is required.',
+
     'incorrect_old_password' => 'The old password is incorrect.'
 ];

@@ -130,7 +130,21 @@ class PaymentsController extends Controller
 
         if($request->has('coupon_id') && $request->input('coupon_id') != null){
             $coupon = Coupon::findOrFail($request->get('coupon_id'));
+
             $subscription->applyCoupon($coupon, $father);
+
+            if($coupon->discount == 100){
+                $subscription->calculateTotal();
+                $subscription->save();
+                $subscription->start();
+
+                return response()->json([
+                    'status' => 'success',
+                    'data' => [
+                        'merchant_reference' => $subscription->ref
+                    ]
+                ]);
+            }
         }
 
         $subscription->calculateTotal();
@@ -230,7 +244,21 @@ class PaymentsController extends Controller
 
         if($request->has('coupon_id') && $request->input('coupon_id') != null){
             $coupon = Coupon::findOrFail($request->get('coupon_id'));
+
             $subscription->applyCoupon($coupon, $father);
+
+            if($coupon->discount == 100){
+                $subscription->calculateTotal();
+                $subscription->save();
+                $subscription->start();
+
+                return response()->json([
+                    'status' => 'success',
+                    'data' => [
+                        'merchant_reference' => $subscription->ref
+                    ]
+                ]);
+            }
         }
 
         $subscription->calculateTotal();

@@ -38,13 +38,16 @@ class StoreStudentRequest extends FormRequest
             'file' => 'required|file|mimes:jpeg,png'    
         ];
 
-        // Add the 'school_id' rule if the current route is 'academicYears.store'
         if ($currentRoute === 'students.store') {
             $rules['academic_year_id'] = 'required|exists:academic_years,id';
             $rules['father_id'] = 'required|exists:fathers,id';
             $rules['nfc_id'] = 'nullable|string|unique:students,nfc_id';
             $rules['face_id'] = 'nullable|string|unique:students,face_id';
             $rules['onhold'] = 'required|boolean';
+        }
+
+        if ($currentRoute === 'students.storeBySchool') {
+            unset($rules['school_id']);
         }
 
         return $rules;

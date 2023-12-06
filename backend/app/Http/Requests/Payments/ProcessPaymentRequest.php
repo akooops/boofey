@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests\Payments;
 
+use App\Models\Coupon;
+use App\Rules\IsFullDiscount;
 use App\Rules\SubscriptionIsInitiated;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\ValidationException;
@@ -34,14 +36,19 @@ class ProcessPaymentRequest extends FormRequest
             'customer_ip' => 'required|ip',
             'customer_email' => 'required|email',
 
-            'billing_id' => 'required|exists:billings,id',
-
             'subscription_id' => ['required', 'exists:subscriptions,id', new SubscriptionIsInitiated()],
             'coupon_id' => 'nullable|exists:coupons,id',
         ];
 
-        if($currentRoute === 'parents.payments.process') {
-            $rules['payment_method_id'] = 'required|exists:payment_methods,id';
+        $coupon_id = $this->input('coupon_id');
+        $coupon = Coupon::find($coupon_id);
+
+        if(is_null($coupon) || (!is_null($coupon) && $coupon->discount != 100)){
+            $rules['billing_id'] = ['required', 'exists:billings,id'];
+
+            if($currentRoute === 'parents.payments.process') {
+                $rules['payment_method_id'] = ['required' , 'exists:payment_methods,id'];
+            }
         }
 
         if($currentRoute === 'parents.payments.processRedirection'){

@@ -15,6 +15,8 @@ return [
     'invalid_coupon' => 'رمز القسيمة غير صالح أو منتهي الصلاحية. يرجى تجربة واحدة أخرى.',
     'coupon_already_used' => 'لقد تم إستخدام هذه القسيمة من طرفكم من قبل، جرب واحدة أخرى',
 
+    'coupon_discount_not_hundred' => 'حقل :attribute مطلوب.',
+
     'incorrect_old_password' => 'كلمة السر الحالية خاطئة'
 
 ];
