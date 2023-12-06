@@ -10,7 +10,7 @@ class FatherHasNotUsedCoupon implements Rule
 {
     public function passes($attribute, $value)
     {
-        $coupon = Coupon::where('code', $value)->first();
+        $coupon = Coupon::where('id', $value)->orWhere('code', $value)->first();
 
         if ($coupon) {
             $father = Auth::user()->father;

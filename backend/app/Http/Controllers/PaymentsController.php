@@ -150,6 +150,7 @@ class PaymentsController extends Controller
         $subscription->calculateTotal();
         $subscription->save();
 
+        dd('fdfds');
         $paymentMethod = PaymentMethod::findOrFail($request->input('payment_method_id'));
 
         $payfort_url = env('PAYFORT_IS_SANDBOX') ? env('PAYFORT_API_TEST_URL') : env('PAYFORT_API_PROD_URL');

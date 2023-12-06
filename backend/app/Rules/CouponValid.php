@@ -9,9 +9,12 @@ class CouponValid implements Rule
 {
     public function passes($attribute, $value)
     {
-        $coupon = Coupon::where('code', $value)
-            ->whereRaw('(used < max AND onhold = false)')
-            ->first();
+        $coupon = Coupon::where(function ($query) use ($value) {
+            $query->where('id', $value)
+                  ->orWhere('code', $value);
+        })
+        ->whereRaw('(used < max AND onhold = false)')
+        ->first();
 
         return $coupon ? true : false;
     }

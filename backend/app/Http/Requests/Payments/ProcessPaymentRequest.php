@@ -3,6 +3,8 @@
 namespace App\Http\Requests\Payments;
 
 use App\Models\Coupon;
+use App\Rules\CouponValid;
+use App\Rules\FatherHasNotUsedCoupon;
 use App\Rules\IsFullDiscount;
 use App\Rules\SubscriptionIsInitiated;
 use Illuminate\Foundation\Http\FormRequest;
@@ -37,7 +39,7 @@ class ProcessPaymentRequest extends FormRequest
             'customer_email' => 'required|email',
 
             'subscription_id' => ['required', 'exists:subscriptions,id', new SubscriptionIsInitiated()],
-            'coupon_id' => 'nullable|exists:coupons,id',
+            'coupon_id' => ['nullable', 'exists:coupons,id', new CouponValid(), new FatherHasNotUsedCoupon()]
         ];
 
         $coupon_id = $this->input('coupon_id');
