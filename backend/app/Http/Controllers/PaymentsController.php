@@ -150,7 +150,6 @@ class PaymentsController extends Controller
         $subscription->calculateTotal();
         $subscription->save();
 
-        dd('fdfds');
         $paymentMethod = PaymentMethod::findOrFail($request->input('payment_method_id'));
 
         $payfort_url = env('PAYFORT_IS_SANDBOX') ? env('PAYFORT_API_TEST_URL') : env('PAYFORT_API_PROD_URL');
@@ -161,7 +160,7 @@ class PaymentsController extends Controller
             'access_code' => env('PAYFORT_ACCESS_CODE'),
             'merchant_identifier' => env('PAYFORT_MERCHANT_ID'),
             'merchant_reference' => $subscription->ref,  
-            'amount' => round($subscription->total, 2) * 100,
+            'amount' => number_format(round($subscription->total, 2) * 100, 0, '.', ''),
             'currency' => 'SAR',
             'customer_email' => $request->input('customer_email'), 
             'customer_ip' => $request->input('customer_ip'), 
@@ -172,7 +171,7 @@ class PaymentsController extends Controller
                 'access_code='.env('PAYFORT_ACCESS_CODE'),
                 'merchant_identifier='.env('PAYFORT_MERCHANT_ID'),
                 'merchant_reference='.$subscription->ref,
-                'amount='.round($subscription->total, 2) * 100,
+                'amount='.number_format(round($subscription->total, 2) * 100, 0, '.', ''),
                 'currency=SAR',
                 'customer_email='.$request->input('customer_email'),
                 'customer_ip='.$request->input('customer_ip'),
@@ -201,8 +200,6 @@ class PaymentsController extends Controller
                 'father_id' => $father->id,
                 'subscription_id' => $subscription->id
             ]);
-
-            $payment->save();
         }
 
         $payment->applyBilling($request->input('billing_id'));
@@ -389,6 +386,15 @@ class PaymentsController extends Controller
             ]);
         }
 
+        if($subscription->payment === null){
+            return response()->json([
+                'status' => 'error',
+                'error' => [
+                    'message' => 'Payment Not found on our server, please contact the administration',
+                ]
+            ]);
+        }
+
         return response()->json([
             'status' => 'success',
             'data' => [
@@ -428,6 +434,10 @@ class PaymentsController extends Controller
 
     public function paymentReturn(Request $request){
         $responseData = $request->all();
+
+        if(!$this->compareSignatures($responseData)) return;
+
+        if (Str::startsWith($responseData['merchant_reference'], 'BS') == false) return; 
 
         $subscription = Subscription::where('ref', $responseData['merchant_reference'])->first();
         if(is_null($subscription))
@@ -521,6 +531,8 @@ class PaymentsController extends Controller
 
     public function webhook(Request $request){
         $responseData = $request->all();
+
+        if (Str::startsWith($responseData['merchant_reference'], 'BS') == false) return; 
 
         $subscription = Subscription::where('ref', $responseData['merchant_reference'])->first();
         if(is_null($subscription))
