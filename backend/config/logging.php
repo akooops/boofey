@@ -119,7 +119,10 @@ return [
         ],
 
         'payfort' => [
+            'driver' => 'daily',
             'path' => storage_path('logs/payfort.log'),
+            'level' => 'info',
+            'days' => 14,
         ],
     ],
 

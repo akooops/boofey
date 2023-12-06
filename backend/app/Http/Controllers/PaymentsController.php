@@ -316,6 +316,8 @@ class PaymentsController extends Controller
     public function webhookRedirection(Request $request){
         $responseData = $request->all();
 
+        Log::channel('payfort')->info('Webhook received at ' . now(), ['data' => $responseData]);
+
         if (Str::startsWith($responseData['merchant_reference'], 'BS') == false) return; 
 
         $subscription = Subscription::where('ref', $responseData['merchant_reference'])->first();
@@ -531,6 +533,8 @@ class PaymentsController extends Controller
 
     public function webhook(Request $request){
         $responseData = $request->all();
+
+        Log::channel('payfort')->info('Webhook received at ' . now(), ['data' => $responseData]);
 
         if (Str::startsWith($responseData['merchant_reference'], 'BS') == false) return; 
 
