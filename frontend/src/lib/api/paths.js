@@ -415,7 +415,7 @@ export function PathInitSubscription(){
 }
 
 export function PathCheckCoupon(){
-    return `${PARENT_DOMAIN}/coupons/check/`
+    return `${PARENT_DOMAIN}/coupons/check`
 
 }
 export function PathPay(){
