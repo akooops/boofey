@@ -19,14 +19,7 @@
         
         toolTipInstance.hide()
     }
-    function openQrExit(){
-        let toolTipInstance = bootstrap.Tooltip.getOrCreateInstance(qrExit)
-        // goto(`/admin/queues/${queue.id}/queueStudents`)
-        goto(`queues/${queue.id}/qr/exit`)
-        
-        toolTipInstance.hide()
-    }
-
+ 
 </script>
 
 <tr scope="row">
@@ -45,9 +38,7 @@
     
     <td>
         <div class="hstack gap-3 flex-wrap">
-            {#if JSON.parse(sessionStorage.getItem("permissions")).includes("queues.exit")}
-                <span on:click={openQrExit} bind:this={qrExit}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Qr Exit" ><i class="ri-qr-code-line"></i></a></span>
-            {/if}
+           
             
             {#if JSON.parse(sessionStorage.getItem("permissions")).includes("queues.show")}
             <span data-bs-toggle="modal" data-bs-target="#viewQueueModal" on:click={setQueue}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="View" ><i class="ri-eye-fill"></i></a></span>

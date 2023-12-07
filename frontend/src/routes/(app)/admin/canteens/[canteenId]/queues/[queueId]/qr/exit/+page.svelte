@@ -22,7 +22,7 @@ let camera
 let boxSize = 250
 let fps = 24
 const config = { fps: 24, qrbox: { width: 250, height: 250 } };
-
+let qrOutput
 onMount(async () => {
   camerasList = await Html5Qrcode.getCameras()
    camera = camerasList[0] 
@@ -32,6 +32,7 @@ onMount(async () => {
 })
 
 async function startCam(){
+    if(laserScan) return;
     noCamera = false
     try {
         // await qrScanner.start();
@@ -50,6 +51,7 @@ async function startCam(){
 }
 
 async function stopCam(){
+    if(laserScan) return;
     await qrScanner.stop();
     cameraActive = false
 }
@@ -116,6 +118,22 @@ async function applySettings(){
 }
 
 
+let laserScan = false
+
+function changeType(){
+    if(laserScan == false){
+        stopCam()
+    }
+}
+
+
+function listenInput(event) {
+        var key = event.key;
+        if (key === '\n' || key === '\r') {
+            exitQueue(qrOutput)
+        }
+};
+
 </script>
 {#if JSON.parse(sessionStorage.getItem("permissions")).includes("queues.exit")}
 <div class="row"  in:fade={{duration: 200 }} >
@@ -123,16 +141,31 @@ async function applySettings(){
         <div class="card">
             <div class="card-header align-items-center d-flex flex-wrap">
                 <h4 class="card-title mb-2 flex-grow-1">Queue QR exit</h4>
+                
+                <div class="form-check form-switch col-2 flex-shrink-0" >
+                    <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck1" on:changed={changeType} bind:checked={laserScan}>
+                    <label class="form-check-label" for="SwitchCheck1">Scan without camera</label>
+                </div><!-- Switches Color -->
                 <div class="flex-shrink-0">
-                    <button type="button" data-bs-toggle="modal" data-bs-target="#QrSettings" class="btn btn-light btn-icon waves-effect"><i class="  ri-settings-4-line fs-4"></i></button>
+                    <!-- Switches Color -->
+           
+
+                    <button type="button" data-bs-toggle="modal" data-bs-target="#QrSettings" class="btn btn-light btn-icon waves-effect me-2"><i class="  ri-settings-4-line fs-4"></i></button>
                     <!-- <button type="button"  class="btn btn-info waves-effect waves-light" on:click={switchCamera}>Switch Camera</button> -->
-                    {#if cameraActive}
-                    <button type="button"  class="btn btn-danger waves-effect waves-light" on:click={stopCam}>Stop Qr Scanner</button>
-                    {:else}
-                    <button type="button"  class="btn btn-primary waves-effect waves-light" on:click={startCam}>Launch Qr Scanner</button>
+                    {#if laserScan == false}
+                        {#if cameraActive}
+                        <button type="button"  class="btn btn-danger waves-effect waves-light" on:click={stopCam}>Stop Qr Scanner</button>
+                        {:else}
+                        <button type="button"  class="btn btn-primary waves-effect waves-light" on:click={startCam}>Launch Qr Scanner</button>
+                        {/if}
                     {/if}
                 </div>
             </div><!-- end card header -->
+
+            {#if laserScan}
+                <input type="text" name="firstname" class="form-control" id="firstName" bind:value={qrOutput}>
+            {/if}
+
             {#if noCamera || Object.keys(errors).length > 0}
             <div class="card-body">
                 <!-- Danger Alert -->

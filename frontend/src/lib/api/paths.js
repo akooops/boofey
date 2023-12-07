@@ -317,6 +317,9 @@ export function PathUpdateQueue(queueId){
 export function PathDelQueue(queueId){
     return `${ADMIN_DOMAIN}/queues/${queueId}`
 }
+export function PathCloseQueue(queueId){
+    return `${ADMIN_DOMAIN}/queues/${queueId}/close`
+}
 
 ////
 export function PathGetQueueStudents(queueId,{page,search}){
