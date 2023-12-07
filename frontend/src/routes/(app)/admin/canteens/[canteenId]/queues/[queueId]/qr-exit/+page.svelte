@@ -163,7 +163,7 @@ function listenInput(event) {
             </div><!-- end card header -->
 
             {#if laserScan}
-                <input type="text" name="firstname" class="form-control" id="firstName" bind:value={qrOutput}>
+                <input type="text" name="firstname" class="form-control" id="firstName" on:keydown={listenInput} bind:value={qrOutput}>
             {/if}
 
             {#if noCamera || Object.keys(errors).length > 0}

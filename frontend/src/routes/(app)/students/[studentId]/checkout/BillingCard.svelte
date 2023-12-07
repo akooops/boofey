@@ -88,7 +88,7 @@
         formData.set("language",localStorage.getItem("language"))
  
         const url = new URL(window.location.href);
-        url.searchParams.set("billing",billing)
+        url.searchParams.set("billing",addressId)
         url.searchParams.set("payment",paymentMethodId)
 
         formData.set("return_url",url.href)

@@ -125,7 +125,6 @@ async function load(){
                         </div>
                     {/if}    
             <!-- </div> -->
-            {payFort?.signature}
             <div class="row gy-3 mt-2">
                     <div class="card">
                         <div class="card-header">
