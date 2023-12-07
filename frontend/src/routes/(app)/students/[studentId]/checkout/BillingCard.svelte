@@ -86,6 +86,12 @@
         formData.set("payment_method_id",paymentMethodId)
         formData.set("billing_id",addressId)
         formData.set("language",localStorage.getItem("language"))
+ 
+        const url = new URL(window.location.href);
+        url.searchParams.set("billing",billing)
+        url.searchParams.set("payment",paymentMethodId)
+
+        formData.set("return_url",url.href)
         if(couponId){
             formData.set("coupon_id",couponId)
         }
