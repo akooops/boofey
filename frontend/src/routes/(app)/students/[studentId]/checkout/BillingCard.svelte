@@ -108,7 +108,7 @@
             error = res.error
         }
         else {
-            let popup = window.open(res.data["3ds_url"],"width=500","height=600")
+            let popup = window.open(res.data["3ds_url"])
 
             interval = setInterval(async () => {
                 if (popup.closed) {

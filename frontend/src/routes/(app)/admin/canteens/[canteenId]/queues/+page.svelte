@@ -19,6 +19,7 @@
     import { setContext } from 'svelte';
     import { writable } from 'svelte/store';
     import { fade } from 'svelte/transition';
+import CloseQueueModal from "$lib/modals/CloseQueueModal.svelte";
 
 
 
@@ -64,6 +65,9 @@ export let data
                     <ViewQueueModal />
                     <EditQueueModal /> 
                     <DeleteQueueModal />
+                    <DeleteQueueModal />
+                    <CloseQueueModal />
+
                 </div>
             </div><!-- end card header -->
         </div><!-- end card -->
