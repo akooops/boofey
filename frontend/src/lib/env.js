@@ -20,6 +20,19 @@ export const routes = [
       itemHref:() => "/canteens"
     },
     {
+      path: /^\/canteens\/\d+\/queues\/\d+\/qr-exit$/,
+      title: "Qr Exit",
+      item: "Queues",
+      active: "Qr exit",
+      itemHref:(pathName) => {
+
+        let parts = pathName.replace("/admin","").split("/")
+
+        return `/canteens/${parts[2]}/queues/`
+
+      }
+    },
+    {
       path: /^\/canteens$/,
       title: "Canteens",
       item: "Canteens",
@@ -150,6 +163,14 @@ export const routes = [
       title: "Packages",
       item: "Schools",
       active: "Packages",
+      itemHref:() => "/schools"
+
+    },
+    {
+      path: /^\/schools\/\d+\/students$/,
+      title: "School's Students",
+      item: "Schools",
+      active: "Students",
       itemHref:() => "/schools"
 
     },

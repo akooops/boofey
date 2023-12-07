@@ -23,7 +23,7 @@
     function openQrExit(){
         let toolTipInstance = bootstrap.Tooltip.getOrCreateInstance(qrExit)
         // goto(`/admin/queues/${queue.id}/queueStudents`)
-        goto(`queues/${activeQueue.id}/qr/exit`)
+        goto(`queues/${activeQueue.id}/qr-exit`)
         
         toolTipInstance.hide()
     }

@@ -201,6 +201,9 @@ export function PathGetStudents({page,search},type,{archived=undefined,subscribe
     }
     return `${ADMIN_DOMAIN}/students?page=${page}&search=${search}&archived=${archived}&subscribed=${subscribed}`
 }
+export function PathGetStudentsBySchool(schoolId,{page,search},type,{archived=undefined,subscribed=undefined} =  {}){
+    return `${ADMIN_DOMAIN}/schools/${schoolId}/students?page=${page}&search=${search}&archived=${archived}&subscribed=${subscribed}`
+}
 export function PathGetStudent(studentId){
     return `${PARENT_DOMAIN}/students/${studentId}`
 }
