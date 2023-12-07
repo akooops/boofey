@@ -165,6 +165,7 @@ class PaymentsController extends Controller
             'customer_email' => $request->input('customer_email'), 
             'customer_ip' => $request->input('customer_ip'), 
             'token_name' => $paymentMethod->token_name,
+            'return_url' => $request->input('return_url'),
             'signature' => $this->calculateSignature([
                 'command=PURCHASE',
                 'language=en',
@@ -175,7 +176,8 @@ class PaymentsController extends Controller
                 'currency=SAR',
                 'customer_email='.$request->input('customer_email'),
                 'customer_ip='.$request->input('customer_ip'),
-                'token_name='.$paymentMethod->token_name
+                'token_name='.$paymentMethod->token_name,
+                'return_url='.$request->input('return_url'),
             ]),
         ];
 

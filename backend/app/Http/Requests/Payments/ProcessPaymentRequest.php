@@ -34,6 +34,7 @@ class ProcessPaymentRequest extends FormRequest
         $currentRoute = Route::currentRouteName();
 
         $rules = [
+            'return_url' => 'required',
             'language' => 'required|in:en,ar',
             'customer_ip' => 'required|ip',
             'customer_email' => 'required|email',
@@ -54,7 +55,6 @@ class ProcessPaymentRequest extends FormRequest
         }
 
         if($currentRoute === 'parents.payments.processRedirection'){
-            $rules['return_url'] = 'required';
             $rules['payment_method_id'] = 'nullable|exists:payment_methods,id';
         }
 
