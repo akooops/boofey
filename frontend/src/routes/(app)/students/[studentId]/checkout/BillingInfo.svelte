@@ -70,7 +70,7 @@ onMount(() => {
     if(billings[0]){
         addressId = billings[0].id
     }
-    addressId = $page.url.searchParams.get("billing")
+    addressId = $page.url.searchParams.get("billing") ? $page.url.searchParams.get("billing") : addressId 
 })
 
 function select(e){

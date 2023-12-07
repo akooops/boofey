@@ -53,7 +53,6 @@ async function load(){
         body:formData
     })
     redirector(res)
-
     payFort = (await res.json()).data
 }
     let payFort
@@ -65,9 +64,20 @@ async function load(){
     let card 
     onMount( async () => {
         params = new URL(document.location).searchParams;
-        await load()
+        // await load()
+        
+    })
+    let cardForm
+    let cardNumber = ""
+    let submitBtn
+    export function addCard(){
+        
+        submitBtn.click()
+    }
+
+    function cardJs(node){
         card = new Card({
-            form: cardForm,
+            form: node,
             container: '.card-wrapper',
             formSelectors: {
                 numberInput: 'input#card-number-input',
@@ -85,30 +95,22 @@ async function load(){
                 cardNumber: '•' // optional - mask card number
             },
         });
-    
-    })
-    
-    let cardForm
-    let cardNumber = ""
-    let submitBtn
-    export function addCard(){
-        submitBtn.click()
     }
     
     </script>
     {#if payFort}
-    <form action="{payFort.payfort_url}" method="POST"   id="payment-form" name="form1" autocomplete="off" bind:this={cardForm}>
+    <form action="{payFort.payfort_url}" method="POST"   id="payment-form" name="form1" autocomplete="off" bind:this={cardForm} use:cardJs>
         <div class="collapse show" id="paymentmethodCollapse" style="">
             <!-- <div class="card p-4 border shadow-none mb-0 "> -->
     
                     <input type="hidden" name="service_command" value="TOKENIZATION" />
-                    <!-- <input type="hidden" name="language" value="en" /> -->
+                    <input type="hidden" name="language" value="en" />
                     <input type="hidden" name="merchant_identifier" value="{payFort.merchant_identifier}" />
                     <input type="hidden" name="access_code" value="{payFort.access_code}" />
                     <input type="hidden" name="signature" value="{payFort.signature}" />
                     <input type="hidden" name="return_url" value="{`${returnUrl(data.userResponse.data.father.id)}?student=${studentId}&package=${packageId}&billing=${billingId}`}" />
                     <input type="hidden" name="merchant_reference" id="merchant_reference" value="{payFort.merchant_reference}" />
-                    <input type="hidden" name="remember_me" value="YES" />
+                    <!-- <input type="hidden" name="remember_me" value="YES" /> -->
                     <input type="hidden"name="expiry_date" value="{`${expiry_date?.[5]}${expiry_date?.[6]}${expiry_date?.[0]}${expiry_date?.[1]}`}">
                     <input type="hidden"name="card_number" value="{cardNumber.replace(/ /g,'')}">
     
@@ -123,6 +125,7 @@ async function load(){
                         </div>
                     {/if}    
             <!-- </div> -->
+            {payFort?.signature}
             <div class="row gy-3 mt-2">
                     <div class="card">
                         <div class="card-header">

@@ -170,6 +170,7 @@ loading = true
     }
 
     function switchCamera(){
+        stopCam()
         front = !front;
         openCam()
     }

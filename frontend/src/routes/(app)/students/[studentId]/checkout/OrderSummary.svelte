@@ -19,12 +19,16 @@
 
     export let couponId
 
+    let form
     async function checkCoupon(){
         error = null
-        let res = await fetch(PathCheckCoupon(couponCode),{
+        let formData = new FormData(form)
+        let res = await fetch(PathCheckCoupon(),{
             headers:{
                 Authorization: `${localStorage.getItem("SID")}`
             },
+            method:"POST",
+            body:formData
         })
         redirector(res)
 
@@ -46,6 +50,10 @@
 
         [payment.total,payment.taxCalculated] = bill({subtotal:payment.subtotal,tax:payment.tax,coupon})
          payment.discountCalculated = parseFloat(coupon.discount * (payment.subtotal / 100)).toFixed(3)
+
+         if(payment.total == 0){
+            dispatch("free")
+         }
     }
     
 
@@ -76,18 +84,19 @@
 
             </div>
 
-
+            <form  on:submit|preventDefault={checkCoupon} bind:this={form}>
             <div class="card-header bg-light-subtle border-bottom-dashed">
                 <label for="name" class="form-label  px-1">{translation.couponCode[localStorage.getItem("language")]}</label>
                 <div class="hstack gap-3 px-3 mx-n3 mb-1">
-                    <input class="form-control me-auto" type="text" placeholder={translation.enterCouponCode[localStorage.getItem("language")]} aria-label="Add Promo Code here..." bind:value={couponCode}>
-                    <button type="button" class="btn btn-primary w-xs" on:click={checkCoupon}>{translation.apply[localStorage.getItem("language")]}</button>
+                    <input class="form-control me-auto" type="text" placeholder={translation.enterCouponCode[localStorage.getItem("language")]} name="code" aria-label="Add Promo Code here...">
+                    <input type="submit" class="btn btn-primary w-xs" value="{translation.apply[localStorage.getItem("language")]}">
                 </div>
                 {#if error}
                  <strong class="text-danger ms-1 my-2 ">{error}</strong>
                 {/if}
 
             </div>
+            </form>
 
 
             <div class="card-body pt-2">

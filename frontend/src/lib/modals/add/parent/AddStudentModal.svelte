@@ -159,7 +159,7 @@ import {translation} from "$lib/translation.js"
     function switchCamera(){
         stopCam()
         front = !front;
-        constraints.video.facingMode = front ? "user" : "environment";
+        // constraints.video.facingMode = front ? "user" : "environment";
         openCam()
     }
 

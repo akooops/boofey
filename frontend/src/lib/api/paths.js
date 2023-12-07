@@ -331,8 +331,8 @@ export function PathUpdateQueueStudent(queueStudentsId){
 export function PathDelQueueStudent(queueStudentsId){
     return `${ADMIN_DOMAIN}/queueStudents/${queueStudentsId}`
 }
-export function PathExitQueue(){
-    return `${ADMIN_DOMAIN}/qr/exit`
+export function PathExitQueue(queueId){
+    return `${ADMIN_DOMAIN}/queues/${queueId}/qr/exit`
 }
 
 ////
@@ -411,8 +411,8 @@ export function PathInitSubscription(){
     return `${PARENT_DOMAIN}/subscriptions/init`
 }
 
-export function PathCheckCoupon(code){
-    return `${PARENT_DOMAIN}/coupons/check/${code}`
+export function PathCheckCoupon(){
+    return `${PARENT_DOMAIN}/coupons/check/`
 
 }
 export function PathPay(){

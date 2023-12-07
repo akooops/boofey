@@ -15,12 +15,14 @@ import {translation} from "$lib/translation.js"
     $:customerEmail = data.customerEmail
     $:packageObj = data.package
     // $:productsList = data.orderResponse.data.order.order_items
-
+    let free
     // let productsList = []
         let couponId
         onMount(() => {
             phoneMask()
         })
+        
+    
 
     </script>
 
@@ -43,10 +45,10 @@ import {translation} from "$lib/translation.js"
     
     <div class="row mb-3">
         <div class="col-xl-8">
-            <BillingCard {data} {billings} {couponId} {paymentMethods} {customerEmail} {customerIp} paymentId={subscription.id} paymentRef={subscription.ref}/>
+            <BillingCard {data} {billings} {couponId} {paymentMethods} {customerEmail} {customerIp} paymentId={subscription.id} paymentRef={subscription.ref} bind:free/>
         </div>
         <!-- end col -->
-        <OrderSummary payment={subscription} {packageObj} bind:couponId={couponId}/>
+        <OrderSummary payment={subscription} {packageObj} bind:couponId={couponId} on:free={() => free()}/>
         
     </div>
     {/if

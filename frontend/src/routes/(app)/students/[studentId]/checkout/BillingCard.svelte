@@ -70,7 +70,12 @@
         states[index-1] = "active"
     }
 
-    async function sendPayment(){
+    export async function free(){
+        states = ["done","done","active"]
+        sendPayment()
+    }
+
+    export async function sendPayment(){
 
         let formData = new FormData()
 

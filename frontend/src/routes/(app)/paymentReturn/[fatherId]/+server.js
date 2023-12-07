@@ -3,7 +3,7 @@ import {PathAddPaymentMethod} from "$lib/api/paths.js"
 
 export async function POST({ request, cookies,url,params }) {
 	let values = await request.formData();
-	
+	console.log([...values])
 	let formData = new FormData()
 
 	if(values.get("status") != 18 && url.searchParams.get("student") == null){

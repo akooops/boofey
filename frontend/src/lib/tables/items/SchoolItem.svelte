@@ -60,6 +60,7 @@
 
     <td>
         <div class="hstack gap-3 flex-wrap">
+            <span on:click={openCanteens}><a bind:this={canteensToolTip} href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Canteens" ><i class="ri-restaurant-2-fill"></i></a></span>
             
             {#if JSON.parse(sessionStorage.getItem("permissions")).includes("canteens.indexBySchool")}
             <span on:click={openCanteens}><a bind:this={canteensToolTip} href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Canteens" ><i class="ri-restaurant-2-fill"></i></a></span>
