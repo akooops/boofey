@@ -20,7 +20,6 @@ let loading = false
     let parentId = ""
     let yearId = ""
     let resetParent
-    let resetSchool
     let resetYear
     let editImage = false
     let {studentStore} = getContext("studentStore")
@@ -80,7 +79,6 @@ loading = true
         selectClass.selectedIndex = 0
         errors = {}
         resetParent()
-        resetSchool()
         resetYear()
         onHold = false
         parentId = yearId = ""

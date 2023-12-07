@@ -213,6 +213,9 @@ export function PathAddStudent(type){
     }
     return `${ADMIN_DOMAIN}/students`
 }
+export function PathAddStudentBySchool(schoolId){
+    return `${ADMIN_DOMAIN}/schools/${schoolId}/students`
+}
 export function PathUpdateStudent(studentId,type){
     if(type == "parent"){
         return `${PARENT_DOMAIN}/students/${studentId}/update`

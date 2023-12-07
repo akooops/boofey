@@ -1,5 +1,5 @@
 <script>
-    import { PathAddStudent } from "$lib/api/paths";
+    import { PathAddStudentBySchool } from "$lib/api/paths";
     import {onMount} from "svelte"
     import { toast } from "$lib/components/toast.js";
     import { invalidate } from '$app/navigation';
@@ -19,7 +19,6 @@ let loading = false
     let parentId = ""
     let yearId = ""
     let resetParent
-    let resetSchool
     let resetYear
     export let school
 
@@ -34,13 +33,11 @@ loading = true
         if(yearId != ""){
             formData.set("academic_year_id",yearId)
         }
-        formData.set("school_id",school.id)
 
-    
-    
+
         formData.set("onhold",onHold)
         
-        let res = await fetch(PathAddStudent(),{
+        let res = await fetch(PathAddStudentBySchool(school.id),{
             headers:{
                 Authorization: `${localStorage.getItem("SID")}`
             },
@@ -71,7 +68,6 @@ loading = true
         selectClass.selectedIndex = 0
         errors = {}
         resetParent()
-        resetSchool()
         resetYear()
         onHold = false
         parentId =  yearId = ""
