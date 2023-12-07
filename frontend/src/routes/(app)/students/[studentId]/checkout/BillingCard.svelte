@@ -72,6 +72,7 @@
 
     export async function free(){
         states = ["done","done","active"]
+        console.log(couponId)
         sendPayment()
     }
 
@@ -86,7 +87,7 @@
         formData.set("billing_id",addressId)
         formData.set("language",localStorage.getItem("language"))
         if(couponId){
-            formData.set("coupon",couponId)
+            formData.set("coupon_id",couponId)
         }
 
         
@@ -153,7 +154,7 @@
         formData.set("subscription_id",paymentId)
         formData.set("return_url",returnUrl)
         if(couponId){
-            formData.set("coupon",couponId)
+            formData.set("coupon_id",couponId)
         }
         if(paymentMethodId){
             formData.set("payment_method_id",paymentMethodId)

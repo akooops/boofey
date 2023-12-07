@@ -39,8 +39,8 @@
             toast(text,"success")
             payment.discount = res.data.coupon.discount
             dispatch("coupon",{couponId:res.data.coupon.id})
-            reCalculate(res.data.coupon)
             couponId = res.data.coupon.id
+            reCalculate(res.data.coupon)
         }else {
             error = res.error
         }
