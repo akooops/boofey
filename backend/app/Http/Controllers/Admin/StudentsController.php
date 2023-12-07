@@ -166,7 +166,6 @@ class StudentsController extends Controller
 
         $file = uploadFile($request->file('file'), 'students');
 
-
         $student = Student::create(array_merge(
             $request->validated(),
             [
