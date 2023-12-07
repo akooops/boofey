@@ -30,6 +30,7 @@ class CheckCouponRequest extends FormRequest
     {
         return [
             'code' => [
+                'required',
                 'exists:coupons,code',
                 new CouponValid(),
                 new FatherHasNotUsedCoupon()
