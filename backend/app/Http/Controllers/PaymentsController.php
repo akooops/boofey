@@ -167,17 +167,17 @@ class PaymentsController extends Controller
             'token_name' => $paymentMethod->token_name,
             'return_url' => $request->input('return_url'),
             'signature' => $this->calculateSignature([
-                'command=PURCHASE',
-                'language=en',
-                'access_code='.env('PAYFORT_ACCESS_CODE'),
-                'merchant_identifier='.env('PAYFORT_MERCHANT_ID'),
-                'merchant_reference='.$subscription->ref,
-                'amount='.number_format(round($subscription->total, 2) * 100, 0, '.', ''),
-                'currency=SAR',
-                'customer_email='.$request->input('customer_email'),
-                'customer_ip='.$request->input('customer_ip'),
-                'token_name='.$paymentMethod->token_name,
-                'return_url='.$request->input('return_url'),
+                'command==PURCHASE',
+                'language==en',
+                'access_code=='.env('PAYFORT_ACCESS_CODE'),
+                'merchant_identifier=='.env('PAYFORT_MERCHANT_ID'),
+                'merchant_reference=='.$subscription->ref,
+                'amount=='.number_format(round($subscription->total, 2) * 100, 0, '.', ''),
+                'currency==SAR',
+                'customer_email=='.$request->input('customer_email'),
+                'customer_ip=='.$request->input('customer_ip'),
+                'token_name=='.$paymentMethod->token_name,
+                'return_url=='.$request->input('return_url'),
             ]),
         ];
 
@@ -286,22 +286,22 @@ class PaymentsController extends Controller
         ];
 
         $signature = [
-            'command=PURCHASE', 
-            'language='.$request->get('language'),
-            'access_code='.env('PAYFORT_ACCESS_CODE'),
-            'merchant_identifier='.env('PAYFORT_MERCHANT_ID'),
-            'merchant_reference='.$subscription->ref,
-            'amount='.number_format(round($subscription->total, 2) * 100, 0, '.', ''),
-            'currency=SAR',
-            'customer_email='.$request->input('customer_email'),
-            'customer_ip='.$request->input('customer_ip'),
-            'return_url='.route('parents.payments.paymentReturnRedirection'),
-            'merchant_extra1='.$request->input('billing_id')
+            'command==PURCHASE', 
+            'language=='.$request->get('language'),
+            'access_code=='.env('PAYFORT_ACCESS_CODE'),
+            'merchant_identifier=='.env('PAYFORT_MERCHANT_ID'),
+            'merchant_reference=='.$subscription->ref,
+            'amount=='.number_format(round($subscription->total, 2) * 100, 0, '.', ''),
+            'currency==SAR',
+            'customer_email=='.$request->input('customer_email'),
+            'customer_ip=='.$request->input('customer_ip'),
+            'return_url=='.route('parents.payments.paymentReturnRedirection'),
+            'merchant_extra1=='.$request->input('billing_id')
         ];
 
         if(!is_null($paymentMethod)){
             $payload['token_name'] = $paymentMethod->token_name;
-            $signature = array_push($signature, 'token_name='.$paymentMethod->token_name);
+            $signature = array_push($signature, 'token_name=='.$paymentMethod->token_name);
         }
 
         $payload['signature'] = $this->calculateSignature($signature);
@@ -593,7 +593,7 @@ class PaymentsController extends Controller
         $fields = [];
     
         foreach($fieldArray as $val) {
-            $fieldSplitted = explode("=", $val);
+            $fieldSplitted = explode("==", $val);
             $fields[$fieldSplitted[0]] = $fieldSplitted[1];
         }
     
