@@ -95,12 +95,12 @@ class PaymentMethodsController extends Controller
                 'merchant_identifier' => env('PAYFORT_MERCHANT_ID'),
                 'merchant_reference' => $ref,             
                 'signature' => $this->calculateSignature([
-                    'service_command=TOKENIZATION',
-                    'language=en',
-                    'access_code='.env('PAYFORT_ACCESS_CODE'),
-                    'merchant_identifier='.env('PAYFORT_MERCHANT_ID'),
-                    'merchant_reference='.$ref,
-                    'return_url='.$return_url,
+                    'service_command==TOKENIZATION',
+                    'language==en',
+                    'access_code=='.env('PAYFORT_ACCESS_CODE'),
+                    'merchant_identifier=='.env('PAYFORT_MERCHANT_ID'),
+                    'merchant_reference=='.$ref,
+                    'return_url=='.$return_url,
                 ])
             ]
         ]);
@@ -110,7 +110,7 @@ class PaymentMethodsController extends Controller
         $fields = [];
     
         foreach($fieldArray as $val) {
-            $fieldSplitted = explode("=", $val);
+            $fieldSplitted = explode("==", $val);
             $fields[$fieldSplitted[0]] = $fieldSplitted[1];
         }
     
