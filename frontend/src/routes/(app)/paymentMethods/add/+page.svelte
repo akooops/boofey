@@ -86,6 +86,7 @@ let cardNumber = ""
                 <input type="hidden" name="remember_me" value="YES" />
                 <input type="hidden"name="expiry_date" value="{`${expiry_date?.[5]}${expiry_date?.[6]}${expiry_date?.[0]}${expiry_date?.[1]}`}">
                 <input type="hidden"name="card_number" value="{cardNumber.replace(/ /g,'')}">
+                <input type="hidden"name="remember_me" value="YES">
 
                 {#if params?.get("status") == "fail"}
                     <div class="row p-3 ">

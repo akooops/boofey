@@ -101,6 +101,14 @@ class Subscription extends Model
 
         if ($father && $father->usedCoupons()->where('coupon_id', $coupon->id)->exists()) return;
 
+        $usedCoupon = UsedCoupon::create([
+            'father_id' => $father->id,
+            'coupon_id' => $coupon->id
+        ]);
+
+        $usedCoupon->save();
+
+
         $coupon->increment('used');
 
         $this->discount = ($coupon === null) ? 0 : $coupon->discount;
