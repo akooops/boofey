@@ -206,4 +206,23 @@ class QueueStudentsController extends Controller
             'status' => 'success'
         ]);
     }
+
+    public function exit(QueueStudent $queueStudent){
+        $user = Auth::user();
+
+        if (!$user->canteens->contains('id', $queueStudent->queue->canteen->id)) {
+            return response()->json([
+                'status' => 'error',
+                'permissions' => 'User does not have the right permissions to control this canteen.'
+            ], 403);
+        }
+
+        $queueStudent->update([
+            'exited_at' => is_null($queueStudent->exited_at) ? now() : null
+        ]);
+
+        return response()->json([
+            'status' => 'success'
+        ]);
+    }
 }
