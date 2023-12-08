@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Queues;
 
+use App\Rules\CanteenHasActiveQueue;
 use App\Rules\CheckCurrentQueue;
 use App\Rules\NotClosedQueue;
 use App\Rules\StudentIsInQueue;
@@ -30,14 +31,14 @@ class QRExitRequest extends FormRequest
      */
     public function rules()
     {
-        $queue = request()->route('queue');
+        $canteen = request()->route('canteen');
 
         $this->merge([
-            'queue' => null
+            'canteen' => null
         ]);
 
         return [
-            'student_id' => ['required', 'exists:students,id', new StudentIsInQueue($queue->id)]
+            'student_id' => ['required', 'exists:students,id', new StudentIsInQueue($canteen->id)]
         ];
     }
 

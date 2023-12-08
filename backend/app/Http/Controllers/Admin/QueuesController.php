@@ -225,10 +225,10 @@ class QueuesController extends Controller
         ]);
     }
     
-    public function exit(Queue $queue, QRExitRequest $request){
+    public function exit(Canteen $canteen, QRExitRequest $request){
         $user = Auth::user();
 
-        if (!$user->canteens->contains('id', $queue->canteen->id)) {
+        if (!$user->canteens->contains('id', $canteen->id)) {
             return response()->json([
                 'status' => 'error',
                 'permissions' => 'User does not have the right permissions to control this canteen.'
@@ -237,7 +237,7 @@ class QueuesController extends Controller
         
         $queueStudent = QueueStudent::where([
             'student_id' => $request->get('student_id'),
-            'queue_id' => $queue->id
+            'queue_id' => $canteen->currentQueue->id
         ])->first();
 
         $queueStudent->update(['exited_at' => Carbon::now()]);
