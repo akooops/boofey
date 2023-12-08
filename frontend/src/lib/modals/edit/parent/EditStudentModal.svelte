@@ -169,11 +169,17 @@ loading = true
         cameraActive = false
     }
 
-    function switchCamera(){
+    async function switchCamera(){
         stopCam()
         front = !front;
-        openCam()
+        // console.log(constraints)
+        // constraints.video.facingMode = front ? "user" : "environment";
+        // console.log(constraints)
+        
+        await openCam()
     }
+
+    
 
     function changeEditImage(){
         if(editImage && video){

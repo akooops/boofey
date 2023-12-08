@@ -256,7 +256,7 @@ function listenInput(event) {
                                 <input type="number" class="form-control" name="name" id="firstName" bind:value={fps}>
                             </div>
                             <label for="class" class="form-label">Camera</label>
-                            <select class="form-select" name="class" id="class" aria-label="Default select example" bind:this={camera}>
+                            <select class="form-select" name="class" id="class" aria-label="Default select example" bind:value={camera}>
                                 {#each camerasList as camera}
                                     <option value={camera}>{camera.label}</option>
                                 {/each}

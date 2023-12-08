@@ -15,13 +15,13 @@
     export let packageObj
 
     let couponCode
-    let error
+    let errors
 
     export let couponId
 
     let form
     async function checkCoupon(){
-        error = null
+        errors = null
         let formData = new FormData(form)
         let res = await fetch(PathCheckCoupon(),{
             headers:{
@@ -42,7 +42,7 @@
             couponId = res.data.coupon.id
             reCalculate(res.data.coupon)
         }else {
-            error = res.error
+            errors = res.errors
         }
     }
 
@@ -70,11 +70,11 @@
                 <div class="d-flex align-items-center">
                     <div class="flex-grow-1">
                         {#if localStorage.getItem("language") == "en"}
-                        <h5 class="mb-1 fw-semibold">{packageObj.name}</h5>
-                        <p class="text-muted mb-0">{packageObj.description}</p>
+                        <h5 class="mb-1 fw-semibold" >{packageObj.name}</h5>
+                        <p class="text-muted mb-0" class:d-none={packageObj.description == null}>{packageObj.description}</p>
                         {:else}
                         <h5 class="mb-1 fw-semibold">{packageObj.name_ar}</h5>
-                        <p class="text-muted mb-0">{packageObj.description_ar}</p>
+                        <p class="text-muted mb-0" class:d-none={packageObj.description_ar == null}>{packageObj.description_ar}</p>
                         {/if}
                     </div>
                     <div class="">
@@ -91,8 +91,8 @@
                     <input class="form-control me-auto" type="text" placeholder={translation.enterCouponCode[localStorage.getItem("language")]} name="code" aria-label="Add Promo Code here...">
                     <input type="submit" class="btn btn-primary w-xs" value="{translation.apply[localStorage.getItem("language")]}">
                 </div>
-                {#if error}
-                 <strong class="text-danger ms-1 my-2 ">{error}</strong>
+                {#if errors}
+                 <strong class="text-danger ms-1 my-2 ">{errors.code}</strong>
                 {/if}
 
             </div>

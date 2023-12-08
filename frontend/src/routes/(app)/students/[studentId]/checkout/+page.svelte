@@ -48,7 +48,7 @@ import {translation} from "$lib/translation.js"
             <BillingCard {data} {billings} {couponId} {paymentMethods} {customerEmail} {customerIp} paymentId={subscription.id} paymentRef={subscription.ref} bind:free/>
         </div>
         <!-- end col -->
-        <OrderSummary payment={subscription} {packageObj} bind:couponId={couponId} on:free={() => free()}/>
+        <OrderSummary payment={subscription} {packageObj} bind:couponId={couponId} on:free={() => {console.log(couponId);free(couponId)}}/>
         
     </div>
     {/if

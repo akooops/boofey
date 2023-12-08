@@ -70,9 +70,9 @@
         states[index-1] = "active"
     }
 
-    export async function free(){
+    export async function free(appliedCoupon){
         states = ["done","done","active"]
-        console.log(couponId)
+        couponId = appliedCoupon
         sendPayment()
     }
 
@@ -116,7 +116,7 @@
         }
         else {
             // let popup = window.open(res.data["3ds_url"])
-            window.location.href = res.data["3ds_url"]
+        window.location.href = res.data["3ds_url"]
 
             interval = setInterval(async () => {
                 if (popup.closed) {
