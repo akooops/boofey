@@ -146,9 +146,9 @@ import {translation} from "$lib/translation.js"
         if (video?.srcObject) {
             const stream = video.srcObject;
             const tracks = stream.getTracks();
-            
             tracks.forEach(track => {
-            track.stop(); // Stop each track in the stream
+                console.log(track)
+                track.stop(); // Stop each track in the stream
             });
             
             video.srcObject = null; // Clear the srcObject to stop displaying the video
@@ -156,11 +156,14 @@ import {translation} from "$lib/translation.js"
         cameraActive = false
     }
 
-    function switchCamera(){
+    async function switchCamera(){
         stopCam()
         front = !front;
+        // console.log(constraints)
         // constraints.video.facingMode = front ? "user" : "environment";
-        openCam()
+        // console.log(constraints)
+        
+        await openCam()
     }
 
     function picType(){

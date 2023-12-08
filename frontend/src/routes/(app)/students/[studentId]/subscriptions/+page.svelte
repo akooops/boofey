@@ -17,6 +17,7 @@
     import { fade } from 'svelte/transition';
     import {translation} from "$lib/translation.js"
 	import GenSubInvoiceModal from "./GenSubInvoiceModal.svelte";
+    import { page } from '$app/stores';  
 
 	import InactiveSubsTable from "./InactiveSubsTable.svelte";
 
@@ -53,7 +54,7 @@
         url.searchParams.delete("status");
         url.searchParams.delete("msg");
         history.replaceState({}, '', url);
-        ///
+        
         initToolTip(subsPage)
     })
     

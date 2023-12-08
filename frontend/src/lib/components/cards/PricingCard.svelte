@@ -22,10 +22,10 @@ function choose() {
                 <div class="flex-grow-1">
                     {#if localStorage.getItem("language") == "en"}
                     <h5 class="mb-1 fw-semibold">{packageObj.name}</h5>
-                    <p class="text-muted mb-0">{packageObj.description}</p>
+                    <p class="text-muted mb-0" class:d-none={packageObj.description == null}>{packageObj.description}</p>
                     {:else}
                     <h5 class="mb-1 fw-semibold">{packageObj.name_ar}</h5>
-                    <p class="text-muted mb-0">{packageObj.description_ar}</p>
+                    <p class="text-muted mb-0" class:d-none={packageObj.description_ar == null}>{packageObj.description_ar}</p>
                     {/if}
                 </div>
             </div>

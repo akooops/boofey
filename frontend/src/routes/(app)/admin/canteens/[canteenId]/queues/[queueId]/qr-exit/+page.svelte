@@ -230,6 +230,7 @@
             <!-- </span> -->
         <!-- end col -->
     </div>
+<<<<<<< HEAD
     {/if}
     
     
@@ -267,6 +268,70 @@
                                     
                         </div><!--end row-->
                 </div>
+=======
+    <!-- <span class="VideoContainer"> -->
+        {#if loading}
+        <!-- Border spinner -->
+        <div class="row align-items-center justify-content-center">
+            <div class="spinner-border text-primary" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+        {:else if Object.keys(errors).length > 0 && status != "neutral"}
+            {#if status == "error"}
+            <div class="row  text-center">
+                <i class="ri-error-warning-line text-danger fs-1 align-middle"></i>
+            </div>
+            {/if}
+        {:else if status == "success"}
+            <div class="row  text-center">
+                <i class="ri-check-double-line text-success fs-1 align-middle"></i>
+            </div>
+        {/if}
+        <div id="stream">
+
+        </div>
+        <!-- <video  bind:this={stream}></video> -->
+        <!-- </span> -->
+    <!-- end col -->
+</div>
+{/if}
+
+
+
+<div class="modal  fade" id="QrSettings" tabindex="-1" aria-labelledby="exampleModalgridLabel" aria-modal="true" on:hidden.bs.modal={applySettings}>
+    <div class="modal-dialog modal-dialog-centered" >
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalgridLabel">Qr Settings</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" >
+          
+
+                    <div class="row g-3">
+
+                            <div>
+                                <label for="name" class="form-label">Box Size</label>
+                                <input type="number" class="form-control" name="name" id="firstName" bind:value={boxSize}>
+                                
+                            </div>
+                            <div>
+                                <label for="name" class="form-label">Fps</label>
+                                <input type="number" class="form-control" name="name" id="firstName" bind:value={fps}>
+                            </div>
+                            <label for="class" class="form-label">Camera</label>
+                            <select class="form-select" name="class" id="class" aria-label="Default select example" bind:value={camera}>
+                                {#each camerasList as camera}
+                                    <option value={camera}>{camera.label}</option>
+                                {/each}
+                            </select>
+                            <div class="hstack gap-2 justify-content-end">
+                                <input type="submit" class="btn btn-primary waves-effect waves-light" data-bs-dismiss="modal" value="Apply">
+                            </div>
+                                
+                    </div><!--end row-->
+>>>>>>> 76028e69c99197dd3f491c36ca14558ff9b1783d
             </div>
         </div>
     </div>

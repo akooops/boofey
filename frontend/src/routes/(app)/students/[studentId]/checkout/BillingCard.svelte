@@ -59,10 +59,10 @@
     function pay(){
         console.log("paying")
         if(env.PUBLIC_PAYMENT_REDIRECTION == "true"){
-                paymentRedirection()
-            }else {
-                sendPayment()
-            }
+            paymentRedirection()
+        }else {
+            sendPayment()
+        }
     }
 
     function back(index){
@@ -70,9 +70,9 @@
         states[index-1] = "active"
     }
 
-    export async function free(){
+    export async function free(appliedCoupon){
         states = ["done","done","active"]
-        console.log(couponId)
+        couponId = appliedCoupon
         sendPayment()
     }
 
@@ -91,7 +91,10 @@
         url.searchParams.set("billing",addressId)
         url.searchParams.set("payment",paymentMethodId)
 
-        formData.set("return_url",url.href)
+        
+        // formData.set("return_url",url.href)
+        console.log($page)
+        formData.set("return_url",`${$page.url.origin}/students/${$page.params.studentId}/subscriptions?ref=${paymentRef}`)
         if(couponId){
             formData.set("coupon_id",couponId)
         }
@@ -116,7 +119,7 @@
         }
         else {
             // let popup = window.open(res.data["3ds_url"])
-            window.location.href = res.data["3ds_url"]
+        window.location.href = res.data["3ds_url"]
 
             interval = setInterval(async () => {
                 if (popup.closed) {
