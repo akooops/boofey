@@ -54,7 +54,7 @@
         url.searchParams.delete("status");
         url.searchParams.delete("msg");
         history.replaceState({}, '', url);
-        ///
+        
         initToolTip(subsPage)
     })
     

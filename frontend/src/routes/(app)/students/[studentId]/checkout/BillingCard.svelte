@@ -59,10 +59,10 @@
     function pay(){
         console.log("paying")
         if(env.PUBLIC_PAYMENT_REDIRECTION == "true"){
-                paymentRedirection()
-            }else {
-                sendPayment()
-            }
+            paymentRedirection()
+        }else {
+            sendPayment()
+        }
     }
 
     function back(index){
@@ -91,7 +91,10 @@
         url.searchParams.set("billing",addressId)
         url.searchParams.set("payment",paymentMethodId)
 
-        formData.set("return_url",url.href)
+        
+        // formData.set("return_url",url.href)
+        console.log($page)
+        formData.set("return_url",`${$page.url.origin}/students/${$page.params.studentId}/subscriptions?ref=${paymentRef}`)
         if(couponId){
             formData.set("coupon_id",couponId)
         }
