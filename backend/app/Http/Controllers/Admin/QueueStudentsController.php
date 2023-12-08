@@ -99,20 +99,34 @@ class QueueStudentsController extends Controller
             ], 403);
         }
 
-        $exited_at = null;
+        $queueStudent = null;
+        
+        if($request->input('simplified') == true){
+            $queueStudent = QueueStudent::create(array_merge(
+                $request->validated(),
+                [
+                    'started_at' => now(),
+                    'synced_at' => now(),
+                    'exited_at' => null
+                ]
+            ));
+        }else{
+            $exited_at = null;
+  
+            if ($request->input('exited') == true) {
+                $exited_at = $request->get('exited_at');
+            }
 
-        if ($request->input('exited') == true) {
-            $exited_at = $request->get('exited_at');
+            $queueStudent = QueueStudent::create(array_merge(
+                $request->validated(),
+                [
+                    'queue_id' => $queue->id,
+                    'synced_at' => Carbon::now(),
+                    'exited_at' => $exited_at
+                ]
+            ));
         }
 
-        $queueStudent = QueueStudent::create(array_merge(
-            $request->validated(),
-            [
-                'queue_id' => $queue->id,
-                'synced_at' => Carbon::now(),
-                'exited_at' => $exited_at
-            ]
-        ));
 
         $queueStudent->save();
 

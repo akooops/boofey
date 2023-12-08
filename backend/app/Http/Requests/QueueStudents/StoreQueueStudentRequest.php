@@ -31,8 +31,9 @@ class StoreQueueStudentRequest extends FormRequest
         $queue = $this->route('queue');
 
         return [
-            'started_at' => 'required|date_format:Y-m-d H:i:s,Y-m-d H:i',
-            'exited' => 'required|boolean',
+            'simplified' => 'required|boolean',
+            'started_at' => 'required_if:simplified,false|date_format:Y-m-d H:i:s,Y-m-d H:i',
+            'exited' => 'required_if:simplified,false|boolean',
             'exited_at' => 'required_if:exited,true|date_format:Y-m-d H:i:s,Y-m-d H:i|after_or_equal:started_at',
             'student_id' => ['required', 'exists:students,id', new UniqueStudentInQueue($queue->id)],
         ];
