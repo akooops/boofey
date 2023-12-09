@@ -19,7 +19,7 @@ class PaymentsController extends Controller
         $page = checkPageIfNull($request->query('page', 1));
         $search = checkIfSearchEmpty($request->query('search'));
 
-        $payments = Payment::orderBy('id', 'DESC')->with([
+        $payments = Payment::orderBy('id', 'DESC')->where('status', 14)->with([
             'subscription:id,ref,package_id,student_id,started_at,expired_at,initiated_at,days',
             'subscription.package:id,name,code,sale_price,price,days,school_id',
             'subscription.package.school:id,name,file_id',
