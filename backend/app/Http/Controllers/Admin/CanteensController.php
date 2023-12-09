@@ -81,7 +81,7 @@ class CanteensController extends Controller
         if ($search) {
             $canteensQuery->where(function ($query) use ($search) {
                 $query
-                    ->where('id', $search)
+                    ->where('canteens.id', $search)
                     ->where('name', 'like', '%' . $search . '%')
                     ->orWhere('name_ar', 'like', '%' . $search . '%')
                     ->orWhere('address', 'like', '%' . $search . '%')
