@@ -105,6 +105,7 @@ class QueueStudentsController extends Controller
             $queueStudent = QueueStudent::create(array_merge(
                 $request->validated(),
                 [
+                    'queue_id' => $queue->id,
                     'started_at' => now(),
                     'synced_at' => now(),
                     'exited_at' => null
