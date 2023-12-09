@@ -34,6 +34,17 @@
         goto(`/admin/canteens/${canteen.id}/queues`)
         toolTipInstance.hide()
     }
+
+    let qrExit
+
+    function openQrExit(){
+        let toolTipInstance = bootstrap.Tooltip.getOrCreateInstance(qrExit)
+        // goto(`/admin/queues/${queue.id}/queueStudents`)
+        goto(`/admin/canteens/${canteen.id}/qr-exit`)
+        
+        toolTipInstance.hide()
+    }
+
     
     </script>
     
@@ -62,7 +73,9 @@
         <td>{canteen.address_ar}</td>
         <td>
             <div class="hstack gap-3 flex-wrap">
-                
+                {#if JSON.parse(sessionStorage.getItem("permissions")).includes("queues.exit")}
+                    <span on:click={openQrExit} bind:this={qrExit}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Qr Exit" ><i class="ri-qr-code-line"></i></a></span>
+                {/if}
                 {#if JSON.parse(sessionStorage.getItem("permissions")).includes("queues.index")}
                 <span on:click={openQueues} bind:this={queuesToolTip}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Queues" ><i class="ri-team-line"></i></a></span>
                 {/if}

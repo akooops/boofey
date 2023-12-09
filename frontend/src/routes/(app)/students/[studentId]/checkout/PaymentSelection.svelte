@@ -15,9 +15,7 @@
     let add = true
     let addCard
     onMount(() => {
-        if(paymentMethods[0]){
-            paymentMethodId = paymentMethods[0].id
-        }
+        
     })
     function select(e){
         paymentMethodId = e.detail.paymentMethodId

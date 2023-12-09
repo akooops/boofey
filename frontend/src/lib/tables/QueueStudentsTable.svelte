@@ -7,6 +7,7 @@
     import { setContext } from 'svelte';
     import { writable } from 'svelte/store';
     import { navigating } from '$app/stores';
+import ExitQueueStudent from "$lib/modals/confirmation/ExitQueueStudent.svelte";
     
     export let queueStudentsList = []
     setContext('queueStudentStore', {
@@ -45,6 +46,7 @@
         <ViewQueueStudentModal /> 
         <EditQueueStudentModal />
         <DeleteQueueStudentModal />
+        <ExitQueueStudent />
         <!-- 
               -->
     </div>

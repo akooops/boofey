@@ -49,7 +49,7 @@
                 <div class="col-lg-12">
                     <div class="text-center">
                         <p class="mb-0 text-muted">&copy;
-                            {new Date().getFullYear()} Boofy. Crafted with <i class="mdi mdi-heart text-danger"></i> by Akoops
+                            {new Date().getFullYear()} Boofy. Crafted with <i class="mdi mdi-heart text-danger"></i> by <a href="http://digiprime.net" target="_blank" class="fw-semibold text-primary text-decoration-underline"> Digital Prime IT </a>
                         </p>
                     </div>
                 </div>

@@ -340,9 +340,10 @@ export function PathUpdateQueueStudent(queueStudentsId){
 export function PathDelQueueStudent(queueStudentsId){
     return `${ADMIN_DOMAIN}/queueStudents/${queueStudentsId}`
 }
-export function PathExitQueue(queueId){
-    return `${ADMIN_DOMAIN}/queues/${queueId}/qr/exit`
+export function PathExitQueueStudent(queueStudentsId){
+    return `${ADMIN_DOMAIN}/queueStudents/${queueStudentsId}/exit`
 }
+
 
 ////
 export function PathGetCategories({page,search}){
@@ -484,6 +485,9 @@ export function PathGetCanteensStatus({page,perPage,searchQuery}){
 }
 export function PathGetAbsentStudents({page,perPage,searchQuery}){
     return `${ADMIN_DOMAIN}/dashboards/absentStudents?page=${page}&perPage=${perPage}&search=${searchQuery}`
+}
+export function PathExitQr(canteenId){
+    return `${ADMIN_DOMAIN}/canteens/${canteenId}/qr/exit`
 }
 
 

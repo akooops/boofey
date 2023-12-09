@@ -26,6 +26,7 @@ loading = true
         if(studentId){
             formData.set("student_id",studentId)
         }
+        formData.set("simplified",false)
 
         let res = await fetch(PathAddQueueStudent(queue.id),{
             headers:{

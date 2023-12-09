@@ -43,6 +43,7 @@ async function redirection3ds(url){
 
         if(res.status == "success") {
             if(res?.data?.payment?.status != 14){
+                status = "fail"
                 msg = res?.data?.payment?.response_message
             }
             
