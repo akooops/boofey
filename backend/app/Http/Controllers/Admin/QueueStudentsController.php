@@ -42,6 +42,7 @@ class QueueStudentsController extends Controller
         $perPage = limitPerPage($request->query('perPage', 10));
         $page = checkPageIfNull($request->query('page', 1));
         $search = checkIfSearchEmpty($request->query('search'));
+        $simplified = $request->query('simplified', false);
 
         $queueStudents = QueueStudent::with([
             'student:id,firstname,lastname,file_id',
@@ -49,6 +50,10 @@ class QueueStudentsController extends Controller
         ])->orderBy('id', 'DESC')->where([
             'queue_id' => $queue->id
         ]);
+
+        if($simplified){
+            $queueStudents->where('exited_at', NULL);
+        }
 
         if ($search) {
             $queueStudents->whereHas('student', function ($query) use ($search) {
