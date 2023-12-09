@@ -8,6 +8,11 @@
     import { setContext } from 'svelte';
     import { writable } from 'svelte/store';
     import { fade } from 'svelte/transition';
+	import CanteenCard from "./simplified/CanteenCard.svelte";
+    import ViewCanteenModal from "$lib/modals/view/ViewCanteenModal.svelte";
+    import EditCanteenModal from "$lib/modals/edit/EditCanteenModal.svelte";
+    import { navigating } from '$app/stores';
+
 
     export let data
     $: canteensList = data.canteensResponse.data.canteens
@@ -22,6 +27,12 @@
     setContext('apiStore', {
 	    apiStore: writable("")
     });
+
+
+    setContext('canteenStore', {
+	    canteenStore: writable({})
+    });
+
 
 
     
@@ -41,28 +52,43 @@
                     {/if}
                 </div>
             </div><!-- end card header -->
+            
             {#if JSON.parse(sessionStorage.getItem("permissions")).includes("canteens.index")}
-
+<!-- 
             <div class="card-body">
-
-                <!-- <div class="live-preview"> -->
                     <div class="row">
-                            <!-- Input with Icon -->
                         <SearchTable type={"Canteen"}/>
                         <CanteensTable {canteensList} general={true}/>
                         <Pagination {...canteensPagination} />
-                        <!--end col-->
                     </div>
-                    <!--end row-->
-                <!-- </div> -->
-            </div><!-- end card-body -->
+            </div> -->
 
             {/if}
-        </div><!-- end card -->
-
+        </div><!-- end card  -->
+        
+        
     </div>
+    
+            <SearchTable type={"Canteen"}/>
+                
+            {#if $navigating?.from?.route?.id == $navigating?.to?.route?.id  && $navigating}
+                <div class="text-center">
+                    <lord-icon src="https://cdn.lordicon.com/xjovhxra.json" trigger="loop" colors="primary:#695eef,secondary:#73dce9" style="width:120px;height:120px"></lord-icon>
+                </div>
+            {:else}
+                <span>
+                    {#each canteensList as canteen,_ (canteen.id)}
+                        <CanteenCard {canteen} />
+                    {/each}
+                </span>
+            {/if}
+            <Pagination {...canteensPagination} />
     <!-- end col -->
 </div>
+<ViewCanteenModal general={true}/> 
+
+
+
 
 <!-- src="https://boofey.akoops.com/uploads/schools/_5607de8d-e2d4-47e3-a808-d54851903b65.jpeg"
 <div class="d-flex gap-2 align-items-center">

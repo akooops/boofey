@@ -10,9 +10,7 @@
 import ExitQueueStudent from "$lib/modals/confirmation/ExitQueueStudent.svelte";
     
     export let queueStudentsList = []
-    setContext('queueStudentStore', {
-	    queueStudentStore: writable({})
-    });
+
 
 </script>
 

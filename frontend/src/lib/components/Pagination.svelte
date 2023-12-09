@@ -24,7 +24,7 @@
     <div class="col-sm-12 col-md-6">
         <p >{translation.showing[localStorage.getItem("language")]} <span class="fw-bold">{from}</span> {translation.to[localStorage.getItem("language")]} <span class="fw-bold">{to}</span> {translation.of[localStorage.getItem("language")]} <span class="fw-bold">{total}</span> {translation.results[localStorage.getItem("language")]}</p>
     </div>
-    <div class="col-sm-12 col-md-6  ">
+    <div class="col-sm-12 col-md-6  pe-0">
     <nav>
         <ul class="pagination justify-content-md-end justify-content-sm-start pagination-separated pagination-sm">
             <li class="page-item" class:disabled={current_page == 1}><a class="page-link ms-0" on:click={() => switchPage(current_page - 1)} href="#">{translation.previous[localStorage.getItem("language")]}</a></li>

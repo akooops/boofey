@@ -84,9 +84,9 @@
             </div>
             <div class="modal-body">
                 <form>
-                    <div class="row g-3">
+                    <div class="row g-3 d-print-block">
 
-                            <div bind:this={view} class="text-center">
+                            <div bind:this={view} class="text-center " >
                             </div>
                             <div class="text-center">
                                 <button type="button" class="btn btn-primary waves-effect waves-light" on:click={downLoad}>{translation.download[localStorage.getItem("language")]}</button>

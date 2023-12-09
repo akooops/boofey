@@ -20,11 +20,12 @@
     import { writable } from 'svelte/store';
     import { fade } from 'svelte/transition';
 import CloseQueueModal from "$lib/modals/CloseQueueModal.svelte";
+	import SimpleQueuePage from "./simple/SimpleQueuePage.svelte";
 
 
 
 
-export let data
+    export let data
 
     setContext('queueStore', {
         queueStore: writable({})
@@ -38,12 +39,15 @@ export let data
 
     let queuesPage
     onMount(() => {
-        initToolTip(queuesPage)
+        // initToolTip(queuesPage)
         // InitFlatPickr()
 
     })
     
 </script>
+{#if true}
+    <SimpleQueuePage {queuesList} {activeQueue} {canteen} {queuesPagination}/>
+{:else}
 <div class="row"  in:fade={{duration: 200 }} bind:this={queuesPage}>
     <div class="col-lg-12">
         <div class="card">
@@ -105,15 +109,7 @@ export let data
             <!--  
      end col -->
 </div>
+{/if}
 
-<!-- src="https://boofey.akoops.com/uploads/schools/_5607de8d-e2d4-47e3-a808-d54851903b65.jpeg"
-<div class="d-flex gap-2 align-items-center">
-    <div class="flex-shrink-0">
-        <img src={school.logo.full_path} alt="" class="avatar-xs rounded-circle" />
-    </div>
-    <div class="flex-grow-1">
-        {school.name}
-    </div>
-</div> -->
 
     

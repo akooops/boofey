@@ -5,9 +5,21 @@
     import AddQueueStudentModal from "$lib/modals/add/AddQueueStudentModal.svelte"
     import {InitFlatPickr} from "$lib/init/initFlatpickr.js"
     import { fade } from 'svelte/transition';
-
+    import { setContext } from 'svelte';
+    import { writable } from 'svelte/store';
     import { onMount } from "svelte";
     import {initToolTip} from "$lib/init/initToolTip.js"
+    import { navigating } from '$app/stores';
+
+	import QueueStudentCard from "./simplified/QueueStudentCard.svelte";
+    import DeleteQueueStudentModal from "$lib/modals/delete/DeleteQueueStudentModal.svelte"
+
+	import ViewQueueStudentModal from "$lib/modals/view/ViewQueueStudentModal.svelte";
+
+	import EditQueueStudentModal from "$lib/modals/edit/EditQueueStudentModal.svelte";
+
+import ExitQueueStudent from "$lib/modals/confirmation/ExitQueueStudent.svelte";
+	import AddQueueStudentSimple from "./simplified/AddQueueStudentSimple.svelte";
 
     export let data
     $: queueStudentsList = data.queueStudentsResponse.data.queueStudents
@@ -18,8 +30,12 @@ let queueStudentsPage
 onMount(() => {
     initToolTip(queueStudentsPage)
     InitFlatPickr()
-
 })
+
+setContext('queueStudentStore', {
+    queueStudentStore: writable({})
+});
+
 
 </script>
 <div class="row"  in:fade={{duration: 200 }} bind:this={queueStudentsPage}>
@@ -37,25 +53,40 @@ onMount(() => {
                     {#if JSON.parse(sessionStorage.getItem("permissions")).includes("queueStudents.store")}
 
                         <button type="button" data-bs-toggle="modal" data-bs-target="#addQueueStudentModal" class="btn btn-primary waves-effect waves-light"><i class="ri-add-line align-bottom me-1"></i>Add Student</button>
-                        <AddQueueStudentModal {queue}/>
+                        <!-- <AddQueueStudentModal {queue}/> -->
+                        <AddQueueStudentSimple {queue}/>
                     {/if}
                     </div>
                 </div>
                 {#if JSON.parse(sessionStorage.getItem("permissions")).includes("queueStudents.index")}
-                <div class="card-body">
+                <!-- <div class="card-body"> -->
     
-                    <!-- <div class="live-preview"> -->
                         
-                            <SearchTable type={"Student"}/>
+                            <!-- <SearchTable type={"Student"}/>
                             <QueueStudentsTable {queueStudentsList}/>
                             <Pagination {...queueStudentsPagination} />
-                            <!--end col-->
-                        
-                        <!--end row-->
-                    <!-- </div> -->
-                </div><!-- end card-body -->
+                         -->
+                <!-- </div> -->
                 {/if}
         </div><!-- end card -->
     </div>
         <!-- end col -->
+
+        <SearchTable type={"Student"}/>
+        {#if $navigating?.from?.route?.id == $navigating?.to?.route?.id  && $navigating}
+                <div class="text-center">
+                    <lord-icon src="https://cdn.lordicon.com/xjovhxra.json" trigger="loop" colors="primary:#695eef,secondary:#73dce9" style="width:120px;height:120px"></lord-icon>
+                </div>
+        {:else}
+            {#each queueStudentsList as queueStudent,_ (queueStudent.id)}
+                <QueueStudentCard {queueStudent} />
+            {/each}
+        {/if}
+        <Pagination {...queueStudentsPagination} />
+        
 </div>
+
+<ViewQueueStudentModal /> 
+<EditQueueStudentModal />
+<DeleteQueueStudentModal />
+<ExitQueueStudent />

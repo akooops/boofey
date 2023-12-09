@@ -13,10 +13,6 @@
     
     export let canteensList
     export let general = false
-    setContext('canteenStore', {
-	    canteenStore: writable({})
-    });
-
 
 </script>
 

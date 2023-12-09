@@ -42,26 +42,25 @@
                     <span class="badge bg-danger-subtle text-danger">{translation.notSubscribed[localStorage.getItem("language")]}</span>
                     {/if}
 
-                    <div class="d-flex gap-2 justify-content-center mt-4">
-                        <!-- Soft Buttons -->
-                        <span  data-bs-toggle="modal" data-bs-target="#editStudentModal" on:click|stopPropagation={setStudent} >
-                            <button type="button" class="btn btn-soft-secondary btn-icon waves-effect waves-light" data-bs-toggle="tooltip" data-bs-original-title="{translation.edit[localStorage.getItem("language")]}">
-                                <i class="ri-edit-2-line"></i>
+                    <div class="d-flex gap-2  mt-4 flex-wrap">
+
+                        <span  data-bs-toggle="modal" class="col-12" data-bs-target="#editStudentModal" on:click|stopPropagation={setStudent} >
+                            <button type="button" class="btn  col-12 text-start btn-soft-success btn-label  waves-effect waves-light">
+                                <i class="ri-edit-2-line label-icon align-middle fs-16 me-2"></i> {translation.edit[localStorage.getItem("language")]}
                             </button>
                         </span>
 
-                        <button type="button" on:click|stopPropagation={openSubs} bind:this={subsToolTip} class="btn btn-soft-secondary btn-icon waves-effect waves-light" data-bs-toggle="tooltip" data-bs-original-title="{translation.subscription[localStorage.getItem("language")]}">
-                            <i class="ri-money-dollar-circle-line"></i>
+                        <button type="button" on:click|stopPropagation={openSubs} bind:this={subsToolTip} class="col-12 btn text-start btn-soft-secondary btn-label waves-effect waves-light" >
+                            <i class="ri-money-dollar-circle-line label-icon align-middle fs-16 me-2"></i> {translation.subscription[localStorage.getItem("language")]}
                         </button>
                         
-                        <span  data-bs-toggle="modal" data-bs-target="#ViewQrStudentModal" on:click|stopPropagation={setStudent} >
-                            <button type="button"  class="btn btn-soft-secondary btn-icon waves-effect waves-light" data-bs-toggle="tooltip" data-bs-original-title="{translation.qrCode[localStorage.getItem("language")]}">
-                                <i class="ri-qr-code-line"></i>
+                        <span  data-bs-toggle="modal" class="col-12" data-bs-target="#ViewQrStudentModal" on:click|stopPropagation={setStudent} >
+                            <button type="button"  class="col-12 btn text-start btn-soft-danger btn-label waves-effect waves-light">
+                                <i class="ri-qr-code-line label-icon align-middle fs-16 me-2"></i> {translation.qrCode[localStorage.getItem("language")]}
                             </button>
                         </span>
                         <button type="button" class="d-none" on:click={setStudent} data-bs-toggle="modal" data-bs-target="#viewStudentModal" bind:this={viewBtn}></button>
                         
-                    
                     </div>
                 </div>
         </div>
