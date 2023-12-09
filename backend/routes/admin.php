@@ -152,7 +152,10 @@ Route::group(['prefix' => 'admin', 'namespace' => 'App\Http\Controllers\Admin', 
 
     /* -------------------------------------------------------------------------------- */
     /* Orders Routes */
-    Route::resource('orders', OrdersController::class)->except(['create', 'edit', 'update']);
+    Route::get('canteens/{canteen}/orders', 'OrdersController@index')->name('orders.index');
+    Route::post('canteens/{canteen}/orders', 'OrdersController@store')->name('orders.store');
+
+    Route::resource('orders', QueuesController::class)->only(['destroy']);
     Route::post('orders/{order}/update', 'OrdersController@update')->name('orders.update');
 
     /* -------------------------------------------------------------------------------- */
@@ -168,3 +171,5 @@ Route::group(['prefix' => 'admin', 'namespace' => 'App\Http\Controllers\Admin', 
     Route::get('dashboards/doneByCanteens/{canteen}', 'DashboardsController@doneByCanteens')->name('dashboards.doneByCanteens');
     Route::get('dashboards/avgByCanteens/{canteen}', 'DashboardsController@avgByCanteens')->name('dashboards.avgByCanteens');
 });
+
+Route::get('orders/{order}', 'OrdersController@show')->name('orders.show');

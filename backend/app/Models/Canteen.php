@@ -33,6 +33,11 @@ class Canteen extends Model
         return $this->hasMany(Queue::class, 'canteen_id', 'id');
     }
 
+    public function orders()
+    {
+        return $this->hasMany(Order::class, 'canteen_id', 'id');
+    }
+
     public function currentQueue(){
         $today = Carbon::today();
 

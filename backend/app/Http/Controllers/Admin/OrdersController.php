@@ -6,7 +6,9 @@ use App\Models\Order;
 use Illuminate\Http\Request;
 use App\Http\Requests\Orders\StoreOrderRequest;
 use App\Http\Requests\Orders\UpdateOrderRequest;
+use App\Models\Canteen;
 use App\Models\File;
+use Illuminate\Support\Facades\Auth;
 
 class OrdersController extends Controller
 {
@@ -15,13 +17,22 @@ class OrdersController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request) 
+    public function index(Canteen $canteen, Request $request) 
     {
+        $user = Auth::user();
+
+        if (!$user->canteens->contains('id', $canteen->id)) {
+            return response()->json([
+                'status' => 'error',
+                'permissions' => 'User does not have the right permissions to control this canteen.'
+            ], 403);
+        }
+
         $perPage = limitPerPage($request->query('perPage', 10));
         $page = checkPageIfNull($request->query('page', 1));
         $search = checkIfSearchEmpty($request->query('search'));
 
-        $orders = Order::with([
+        $orders = Order::where('canteen_id', $canteen->id)->with([
             'orderItems',
             'orderItems.product:id,name,price,sale_price,category_id,file_id',
             'orderItems.product.image:id,current_name,path',
@@ -47,8 +58,17 @@ class OrdersController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreOrderRequest $request) 
+    public function store(Canteen $canteen, StoreOrderRequest $request) 
     {
+        $user = Auth::user();
+
+        if (!$user->canteens->contains('id', $canteen->id)) {
+            return response()->json([
+                'status' => 'error',
+                'permissions' => 'User does not have the right permissions to control this canteen.'
+            ], 403);
+        }
+
         $products = $request->input('products');
 
         if(is_string($products) && json_decode($products) !== null) {
@@ -64,7 +84,10 @@ class OrdersController extends Controller
             ], 422);
         }
 
-        $order = Order::create($request->validated());
+        $order = Order::create(array_merge(
+            $request->validated(),
+            ['canteen_id' => $canteen->id]
+        ));
 
         $order->save();
 
@@ -115,6 +138,15 @@ class OrdersController extends Controller
      */
     public function update(Order $order, UpdateOrderRequest $request) 
     {
+        $user = Auth::user();
+
+        if (!$user->canteens->contains('id', $order->canteen->id)) {
+            return response()->json([
+                'status' => 'error',
+                'permissions' => 'User does not have the right permissions to control this canteen.'
+            ], 403);
+        }
+
         $products = $request->input('products');
 
         if(is_string($products) && json_decode($products) !== null) {
@@ -158,6 +190,15 @@ class OrdersController extends Controller
      */
     public function destroy(Order $order) 
     {
+        $user = Auth::user();
+
+        if (!$user->canteens->contains('id', $order->canteen->id)) {
+            return response()->json([
+                'status' => 'error',
+                'permissions' => 'User does not have the right permissions to control this canteen.'
+            ], 403);
+        }
+        
         $order->delete();
 
         return response()->json([

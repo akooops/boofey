@@ -14,12 +14,18 @@ class Order extends Model
     protected $appends = ["discountCalculated", 'taxCalculated'];
 
     protected $fillable = [
+        'canteen_id',
         'ref',
         'tax',
         'discount',
         'subtotal',
         'total',
     ];
+
+    public function canteen()
+    {
+        return $this->belongsTo(Canteen::class);
+    }
 
     public function orderItems()
     {
