@@ -316,14 +316,16 @@ loading = true
                                                 {#if video?.srcObject}
                                                     <div class="square" bind:this={square} style="width: {squareWidth}px; height: {squareHeight}px"></div>
 
-                                                    <div class="camera-btn-group">
-                                                        <button type="button" class="btn btn-primary waves-effect waves-light" on:click={capture}>
-                                                            <i class="ri-camera-lens-fill"></i>
-                                                        </button>   
-
-                                                        <button type="button" class="btn btn-success waves-effect waves-light mt-2" on:click={switchCamera}>
-                                                            <i class="ri-camera-switch-line"></i>
-                                                        </button>   
+                                                    <div class="camera-btn-container">
+                                                        <div class="camera-btn-group py-4">
+                                                            <button type="button" class="btn btn-lg btn-primary waves-effect waves-light mx-2" on:click={capture}>
+                                                                <i class="ri-camera-lens-fill"></i>
+                                                            </button>   
+        
+                                                            <button type="button" class="btn btn-lg btn-success waves-effect waves-light mx-2" on:click={switchCamera}>
+                                                                <i class="ri-camera-switch-line"></i>
+                                                            </button>   
+                                                        </div>
                                                     </div>
 
                                                             
@@ -385,14 +387,23 @@ loading = true
             transform: translate(-50%, -50%);
             outline: 4px solid #695eef;
         }
+        .camera-btn-container{
+    position: relative;
+    margin-top: 0;
+    margin-bottom: 75px;
+}
 
-        .camera-btn-group{
-            display: flex;
-            flex-direction: column;
-            position: absolute;
-            top: 15px;
-            right: 20px;
-        }
+.camera-btn-group{
+    position: absolute;
+    width: 100%;
+    top: 100%;
+    margin-top: 0;
+    background-color: black;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
        .none {
         display: none;
        }
