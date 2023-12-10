@@ -165,13 +165,23 @@ class StudentsController extends Controller
         $archived = is_null($school->currentAcademicYear) ? true : ($school->currentAcademicYear->id == $request->input('academic_year_id') ? false : true);
 
         $file = uploadFile($request->file('file'), 'students');
+        
+        $face = uploadFace("{$file->path}/{$file->current_name}");
+        
+        if(is_null($face)){
+            return response()->json([
+                'status' => 'error',
+                'file' => __('translations.no_face_detected')
+            ], 422);
+        }
 
         $student = Student::create(array_merge(
             $request->validated(),
             [
                 'school_id' => $school->id,
                 'file_id' => $file->id,
-                'archived' => $archived
+                'archived' => $archived,
+                'face_id' => $face
             ]
         ));
 
@@ -206,11 +216,21 @@ class StudentsController extends Controller
     public function update(Student $student, UpdateStudentRequest $request) 
     {
         $file = File::find($student->file_id);
+        $face = null;
 
         if($request->file('file')) {
             removeFile($file);
 
             $file = uploadFile($request->file('file'), 'students');
+
+            $face = uploadFace("{$file->path}/{$file->current_name}", $student->face_id);
+
+            if(is_null($face)){
+                return response()->json([
+                    'status' => 'error',
+                    'file' => __('translations.no_face_detected')
+                ], 422);
+            }
         }
 
         $school = School::findOrFail($student->school_id);
@@ -221,7 +241,8 @@ class StudentsController extends Controller
             $request->validated(),
             [
                 'file_id' => $file->id,
-                'archived' => $archived
+                'archived' => $archived,
+                'face_id' => $face
             ]
         ));
 

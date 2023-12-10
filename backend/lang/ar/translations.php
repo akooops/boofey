@@ -17,6 +17,7 @@ return [
 
     'coupon_discount_not_hundred' => 'حقل :attribute مطلوب.',
 
-    'incorrect_old_password' => 'كلمة السر الحالية خاطئة'
+    'incorrect_old_password' => 'كلمة السر الحالية خاطئة',
 
+    'no_face_detected' => 'يبدو أنه لايوجد وجه في الصورة، الرجاء إعادة رفع الصورة',
 ];

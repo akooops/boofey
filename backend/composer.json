@@ -6,6 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.0.2",
+        "aws/aws-sdk-php": "^3.293",
         "fruitcake/laravel-cors": "^3.0",
         "guzzlehttp/guzzle": "^7.2",
         "laravel/framework": "^9.19",
@@ -31,7 +32,8 @@
         "files" : [
             "app/Http/Helpers/PaginationHelper.php",
             "app/Http/Helpers/FileHelper.php",
-            "app/Http/Helpers/SMSHelper.php"
+            "app/Http/Helpers/SMSHelper.php",
+            "app/Http/Helpers/AWSRekognition.php"
         ]
     },
     "autoload-dev": {

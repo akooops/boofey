@@ -17,5 +17,7 @@ return [
 
     'coupon_discount_not_hundred' => 'The :attribute is required.',
 
-    'incorrect_old_password' => 'The old password is incorrect.'
+    'incorrect_old_password' => 'The old password is incorrect.',
+
+    'no_face_detected' => 'No Face Detected in the image, please try another one'
 ];

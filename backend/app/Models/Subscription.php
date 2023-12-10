@@ -141,6 +141,8 @@ class Subscription extends Model
 
         if ($this->should_start_at !== null && $today->lessThanOrEqualTo($should_start_at)) return;
 
+        if($this->student->onhold == true) return;
+
         $this->update([
             'status' => 'active',
             'started_at' => now()

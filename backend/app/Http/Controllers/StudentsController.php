@@ -62,16 +62,27 @@ class StudentsController extends Controller
 
         $file = uploadFile($request->file('file'), 'students');
 
+        $face = uploadFace("{$file->path}/{$file->current_name}");
+        
+        if(is_null($face)){
+            return response()->json([
+                'status' => 'error',
+                'file' => __('translations.no_face_detected')
+            ], 422);
+        }
+
         $student = Student::create(array_merge(
             $request->validated(),
             [
                 'school_id' => $school->id,
                 'father_id' => $father->id,
-                'file_id' => $file->id
+                'file_id' => $file->id,
+                'face_id' => $face
             ]
         ));
 
         $student->save();
+
 
         return response()->json([
             'status' => 'success'
@@ -135,16 +146,29 @@ class StudentsController extends Controller
         }
 
         $file = File::find($student->file_id);
+        $face = null;
 
         if($request->file('file')) {
             removeFile($file);
 
             $file = uploadFile($request->file('file'), 'students');
+
+            $face = uploadFace("{$file->path}/{$file->current_name}", $student->face_id);
+
+            if(is_null($face)){
+                return response()->json([
+                    'status' => 'error',
+                    'file' => __('translations.no_face_detected')
+                ], 422);
+            }
         }
 
         $student->update(array_merge(
             $request->validated(),
-            ['file_id' => $file->id]
+            [
+                'file_id' => $file->id,
+                'face_id' => $face
+            ]
         ));
 
         return response()->json([
