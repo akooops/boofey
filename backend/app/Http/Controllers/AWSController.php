@@ -10,6 +10,7 @@ use App\Models\AcademicYear;
 use App\Models\Father;
 use App\Models\File;
 use App\Models\School;
+use App\Models\Student;
 use Aws\Rekognition\RekognitionClient;
 use Illuminate\Database\Eloquent\Scope;
 use Illuminate\Support\Facades\Auth;
@@ -86,11 +87,16 @@ class AWSController extends Controller
             $identifiedFaceId = $topMatch['Face']['FaceId'];
             $confidence = $topMatch['Similarity'];
 
+            $student = Student::where('face_id', $identifiedFaceId)->first();
+
             // Return detailed search result
             return [
                 'match' => true,
                 'confidence' => $confidence,
                 'faceId' => $identifiedFaceId,
+                'student' => [
+                    'firstname' => $student->firstname
+                ]
             ];
         } else {
             // No match found
