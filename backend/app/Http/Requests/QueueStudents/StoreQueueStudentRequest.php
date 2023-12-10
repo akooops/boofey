@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\QueueStudents;
 
+use App\Rules\CanStudentEnterQueue;
 use App\Rules\CheckCurrentQueue;
 use App\Rules\UniqueStudentInQueue;
 use Illuminate\Foundation\Http\FormRequest;
@@ -35,7 +36,7 @@ class StoreQueueStudentRequest extends FormRequest
             'started_at' => 'required_if:simplified,false|date_format:Y-m-d H:i:s,Y-m-d H:i',
             'exited' => 'required_if:simplified,false|boolean',
             'exited_at' => 'required_if:exited,true|date_format:Y-m-d H:i:s,Y-m-d H:i|after_or_equal:started_at',
-            'student_id' => ['required', 'exists:students,id', new UniqueStudentInQueue($queue->id)],
+            'student_id' => ['required', 'exists:students,id', new UniqueStudentInQueue($queue->id), new CanStudentEnterQueue($queue->id)],
         ];
     }
 
