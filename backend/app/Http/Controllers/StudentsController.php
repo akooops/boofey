@@ -151,11 +151,9 @@ class StudentsController extends Controller
         $face = null;
 
         if($request->file('file')) {
-            removeFile($file);
+            $newFile = uploadFile($request->file('file'), 'students');
 
-            $file = uploadFile($request->file('file'), 'students');
-
-            $face = uploadFace("{$file->path}/{$file->current_name}", $student->face_id);
+            $face = uploadFace("{$newFile->path}/{$newFile->current_name}", $student->face_id);
 
             if(is_null($face)){
                 return response()->json([
@@ -165,6 +163,9 @@ class StudentsController extends Controller
                     ]
                 ], 422);
             }
+
+            removeFile($file);
+            $file = $newFile;
         }
 
         $student->update(array_merge(
