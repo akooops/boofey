@@ -171,7 +171,9 @@ class StudentsController extends Controller
         if(is_null($face)){
             return response()->json([
                 'status' => 'error',
-                'file' => __('translations.no_face_detected')
+                'errors' => [
+                    'file' => [__('translations.no_face_detected')]
+                ]
             ], 422);
         }
 
@@ -228,7 +230,9 @@ class StudentsController extends Controller
             if(is_null($face)){
                 return response()->json([
                     'status' => 'error',
-                    'file' => __('translations.no_face_detected')
+                    'errors' => [
+                        'file' => [__('translations.no_face_detected')]
+                    ]
                 ], 422);
             }
         }

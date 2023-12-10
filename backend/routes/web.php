@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AWSController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PayfortController;
 use App\Http\Controllers\PaymentsController;
@@ -30,3 +31,6 @@ Route::get('testSMS', [SMSController::class, 'testSMS'])->name('testSMS');
 
 Route::get('payfort2', [PayfortController::class, 'index2'])->name('index2');
 Route::post('payfort2', [PayfortController::class, 'paymentReturn2'])->name('paymentReturn2');
+
+Route::get('/search-face', [AWSController::class, 'index'])->name('search.index');
+Route::post('/search-face', [AWSController::class, 'searchFace'])->name('search.face');
