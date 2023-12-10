@@ -27,7 +27,7 @@
             </ViewRow>
 
             <ViewRow>
-                Fort ID : <span class="fw-normal">{$paymentStore?.discount}%</span>
+                Fort ID : <span class="fw-normal">{$paymentStore?.fort_id}</span>
             </ViewRow>
  
             <ViewRow>

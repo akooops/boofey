@@ -5,6 +5,7 @@
 
     let {canteenStore} = getContext("canteenStore")
     export let general
+    export let simple = false
     
     let isCopied = false
 
@@ -50,28 +51,28 @@
             <ViewRow>
                 Arabic Address : <span class="fw-normal">{$canteenStore.address_ar}</span>
              </ViewRow>
- 
-            <ViewRow>
-                APi Key 
-             </ViewRow>
-             <div class="ps-3">
-            <ViewRow>
-                <div class="input-group">
+             {#if simple == false}
+                <ViewRow>
+                    APi Key 
+                </ViewRow>
+                <div class="ps-3">
+                    <ViewRow>
+                        <div class="input-group">
 
-                <input type="text" class="form-control blur" aria-label="APi key" readonly role="button" bind:value={$canteenStore.api_key} on:click={copyApiKey}>
-                <button type="button" class="btn btn-icon  waves-effect waves-light {isCopied ? "btn-success" : "btn-primary"}"  on:click={copyApiKey}>    
-                    {#if isCopied}
-                    <i class="ri-check-double-line"></i>
-                    {:else}
-                    <i class="ri-file-copy-line"></i>
-                    {/if}
-                </button>
+                        <input type="text" class="form-control blur" aria-label="APi key" readonly role="button" bind:value={$canteenStore.api_key} on:click={copyApiKey}>
+                        <button type="button" class="btn btn-icon  waves-effect waves-light {isCopied ? "btn-success" : "btn-primary"}"  on:click={copyApiKey}>    
+                            {#if isCopied}
+                            <i class="ri-check-double-line"></i>
+                            {:else}
+                            <i class="ri-file-copy-line"></i>
+                            {/if}
+                        </button>
 
-             </div>
-                
-            </ViewRow>
-            
-            </div>
+                    </div>
+                        
+                    </ViewRow>
+                </div>
+            {/if}
  
             <ViewRow>
                 Created at : <span class="fw-normal">{formatTimestamp($canteenStore.created_at)}</span>

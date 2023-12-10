@@ -45,7 +45,7 @@ import CloseQueueModal from "$lib/modals/CloseQueueModal.svelte";
     })
     
 </script>
-{#if true}
+{#if  JSON.parse(sessionStorage.getItem("permissions")).includes("queues.index.simplified")}
     <SimpleQueuePage {queuesList} {activeQueue} {canteen} {queuesPagination}/>
 {:else}
 <div class="row"  in:fade={{duration: 200 }} bind:this={queuesPage}>

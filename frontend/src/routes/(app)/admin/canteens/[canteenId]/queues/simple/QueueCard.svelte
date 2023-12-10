@@ -52,26 +52,34 @@
 
 
         <div class="d-flex gap-2  mt-4 flex-wrap">
+            {#if JSON.parse(sessionStorage.getItem("permissions")).includes("queues.update.simplified")}
             <span data-bs-toggle="modal" class="col-12" data-bs-target="#editQueueModal" on:click|stopPropagation={setQueue}>
                 <button type="button" class="btn  col-12 text-start btn-soft-success btn-label  waves-effect waves-light">
                     <i class="ri-edit-2-line label-icon align-middle fs-16 me-2"></i> Edit Queue
                 </button>
             </span>
+            {/if}
+            {#if JSON.parse(sessionStorage.getItem("permissions")).includes("queues.show.simplified")}
             <span data-bs-toggle="modal" class="col-12" data-bs-target="#viewQueueModal" on:click|stopPropagation={setQueue}>
                 <button type="button" class="btn  col-12 text-start btn-soft-secondary btn-label  waves-effect waves-light">
                     <i class="ri-eye-fill label-icon align-middle fs-16 me-2"></i> View Queue
                 </button>
             </span>
+            {/if}
+            {#if JSON.parse(sessionStorage.getItem("permissions")).includes("queues.destroy.simplified")}
             <span data-bs-toggle="modal" class="col-12" data-bs-target="#deleteQueueModal" on:click|stopPropagation={setQueue}>
                 <button type="button" class="btn  col-12 text-start btn-soft-danger btn-label  waves-effect waves-light">
                     <i class="ri-delete-bin-line label-icon align-middle fs-16 me-2"></i> Delete Queue
                 </button>
             </span>
-            <span data-bs-toggle="modal" class="col-12" on:click|stopPropagation={openQueueStudents} bind:this={queueStudentsToolTip}>
-                <button type="button" class="btn  col-12 text-start btn-soft-secondary btn-label  waves-effect waves-light">
-                    <i class="ri-eye-fill label-icon align-middle fs-16 me-2"></i> Students
+            {/if}
+            {#if JSON.parse(sessionStorage.getItem("permissions")).includes("queueStudents.index.simplified")}
+            <span  class="col-12" on:click|stopPropagation={openQueueStudents} bind:this={queueStudentsToolTip}>
+                <button type="button" class="btn  col-12 text-start btn-soft-primary btn-label  waves-effect waves-light">
+                    <i class="ri-user-2-line label-icon align-middle fs-16 me-2"></i> Students
                 </button>
             </span>
+            {/if}
         </div>
     </div>
 </div><!-- end col -->

@@ -5,9 +5,10 @@ import {PathExitQr} from "$lib/api/paths.js"
 import { redirector } from "$lib/api/auth";
 import { fade } from 'svelte/transition';
 import { page } from '$app/stores';  
-
 import {Html5QrcodeScanner} from "html5-qrcode";
 import {Html5Qrcode} from "html5-qrcode";
+import { beforeNavigate } from "$app/navigation";
+
 
 let stream
 let qrScanner
@@ -22,7 +23,7 @@ let camera
 let boxSize = 250
 let fps = 24
 const config = { fps: 24, qrbox: { width: 250, height: 250 } };
-let qrOutput
+let qrOutput = ""
 onMount(async () => {
   camerasList = await Html5Qrcode.getCameras()
    camera = camerasList[0] 
@@ -129,14 +130,20 @@ function changeType(){
 
 function listenInput(event) {
         let key = event.key;
-        if (key === '\n' || key === '\r') {
+        if (key === '\n' || key === '\r' || key == "Enter") {
             // QR code scan is complete
             exitQueue(qrOutput)
+            qrOutput = ""
         } else {
             // Collect scanned characters
             qrOutput += key;
         }
 };
+beforeNavigate( () => {
+    document.removeEventListener('keydown', this.listenInput);
+})
+
+
 
 document.addEventListener('keydown',listenInput)
 

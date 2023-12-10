@@ -19,7 +19,8 @@
 	import EditQueueStudentModal from "$lib/modals/edit/EditQueueStudentModal.svelte";
 
 import ExitQueueStudent from "$lib/modals/confirmation/ExitQueueStudent.svelte";
-	import AddQueueStudentSimple from "./simplified/AddQueueStudentSimple.svelte";
+	import AddQueueStudentSimple from "./simplified/AddQueueStudentModalSimple.svelte";
+	import AddQueueStudentModalSimple from "./simplified/AddQueueStudentModalSimple.svelte";
 
     export let data
     $: queueStudentsList = data.queueStudentsResponse.data.queueStudents
@@ -53,36 +54,40 @@ setContext('queueStudentStore', {
                     {#if JSON.parse(sessionStorage.getItem("permissions")).includes("queueStudents.store")}
 
                         <button type="button" data-bs-toggle="modal" data-bs-target="#addQueueStudentModal" class="btn btn-primary waves-effect waves-light"><i class="ri-add-line align-bottom me-1"></i>Add Student</button>
-                        <!-- <AddQueueStudentModal {queue}/> -->
-                        <AddQueueStudentSimple {queue}/>
+                        <AddQueueStudentModal {queue}/>
+                    {/if}
+                    {#if JSON.parse(sessionStorage.getItem("permissions")).includes("queueStudents.store.simplified")}
+                        <button type="button" data-bs-toggle="modal" data-bs-target="#addQueueStudentModal" class="btn btn-primary waves-effect waves-light"><i class="ri-add-line align-bottom me-1"></i>Add Student</button>
+                        <AddQueueStudentModalSimple {queue}/>
                     {/if}
                     </div>
                 </div>
                 {#if JSON.parse(sessionStorage.getItem("permissions")).includes("queueStudents.index")}
-                <!-- <div class="card-body"> -->
+                <div class="card-body">
     
                         
-                            <!-- <SearchTable type={"Student"}/>
-                            <QueueStudentsTable {queueStudentsList}/>
-                            <Pagination {...queueStudentsPagination} />
-                         -->
-                <!-- </div> -->
+                    <SearchTable type={"Student"}/>
+                    <QueueStudentsTable {queueStudentsList}/>
+                    <Pagination {...queueStudentsPagination} />
+                
+                </div>
                 {/if}
         </div><!-- end card -->
     </div>
         <!-- end col -->
-
-        <SearchTable type={"Student"}/>
-        {#if $navigating?.from?.route?.id == $navigating?.to?.route?.id  && $navigating}
-                <div class="text-center">
-                    <lord-icon src="https://cdn.lordicon.com/xjovhxra.json" trigger="loop" colors="primary:#695eef,secondary:#73dce9" style="width:120px;height:120px"></lord-icon>
-                </div>
-        {:else}
-            {#each queueStudentsList as queueStudent,_ (queueStudent.id)}
-                <QueueStudentCard {queueStudent} />
-            {/each}
+        {#if JSON.parse(sessionStorage.getItem("permissions")).includes("queueStudents.index.simplified")}
+            <SearchTable type={"Student"}/>
+            {#if $navigating?.from?.route?.id == $navigating?.to?.route?.id  && $navigating}
+                    <div class="text-center">
+                        <lord-icon src="https://cdn.lordicon.com/xjovhxra.json" trigger="loop" colors="primary:#695eef,secondary:#73dce9" style="width:120px;height:120px"></lord-icon>
+                    </div>
+            {:else}
+                {#each queueStudentsList as queueStudent,_ (queueStudent.id)}
+                    <QueueStudentCard {queueStudent} />
+                {/each}
+            {/if}
+            <Pagination {...queueStudentsPagination} />
         {/if}
-        <Pagination {...queueStudentsPagination} />
         
 </div>
 

@@ -54,21 +54,20 @@
             </div><!-- end card header -->
             
             {#if JSON.parse(sessionStorage.getItem("permissions")).includes("canteens.index")}
-<!-- 
+
             <div class="card-body">
                     <div class="row">
                         <SearchTable type={"Canteen"}/>
                         <CanteensTable {canteensList} general={true}/>
                         <Pagination {...canteensPagination} />
                     </div>
-            </div> -->
+            </div>
 
             {/if}
         </div><!-- end card  -->
-        
-        
-    </div>
-    
+        {#if JSON.parse(sessionStorage.getItem("permissions")).includes("canteens.index.simplified")}
+            <div class="row">
+            
             <SearchTable type={"Canteen"}/>
                 
             {#if $navigating?.from?.route?.id == $navigating?.to?.route?.id  && $navigating}
@@ -76,17 +75,18 @@
                     <lord-icon src="https://cdn.lordicon.com/xjovhxra.json" trigger="loop" colors="primary:#695eef,secondary:#73dce9" style="width:120px;height:120px"></lord-icon>
                 </div>
             {:else}
-                <span>
-                    {#each canteensList as canteen,_ (canteen.id)}
-                        <CanteenCard {canteen} />
-                    {/each}
-                </span>
+                {#each canteensList as canteen,_ (canteen.id)}
+                    <CanteenCard {canteen} />
+                {/each}
             {/if}
             <Pagination {...canteensPagination} />
+            </div>
+        {/if}
+    </div>
     <!-- end col -->
 </div>
-<ViewCanteenModal general={true}/> 
 
+<ViewCanteenModal general={true} simple={JSON.parse(sessionStorage.getItem("permissions")).includes("canteens.show.simplified")}/> 
 
 
 

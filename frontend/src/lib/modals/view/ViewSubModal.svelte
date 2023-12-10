@@ -71,6 +71,10 @@
                         <div class="table-responsive ">
                             <table class="table table-borderless mb-0">
                                 <tbody>
+                                    <tr>
+                                        <td>{translation.subTotal[localStorage.getItem("language")]} : </td>
+                                        <td class="text-end" id="cart-subtotal">{$subStore.subtotal} {translation.sar[localStorage.getItem("language")]}</td>
+                                    </tr>
                                     {#if $subStore?.coupon}
                                     <tr>
                                         <td>{translation.discount[localStorage.getItem("language")]} <span class="text-muted">($subStore?.coupon)</span> : </td>
@@ -79,7 +83,7 @@
                                     {/if}
                                     <tr>
                                         <td>{translation.estimatedTax[localStorage.getItem("language")]}({$subStore.tax}%) : </td>
-                                        <td class="text-end" id="cart-discount">- {$subStore.taxCalculated} {translation.sar[localStorage.getItem("language")]}</td>
+                                        <td class="text-end" id="cart-discount">+ {$subStore.taxCalculated} {translation.sar[localStorage.getItem("language")]}</td>
                                     </tr>
                                     <tr class="table-active">
                                         <th>{translation.total[localStorage.getItem("language")]} ({translation.sar[localStorage.getItem("language")]}) :</th>

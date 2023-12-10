@@ -328,8 +328,8 @@ export function PathCloseQueue(queueId){
 }
 
 ////
-export function PathGetQueueStudents(queueId,{page,search}){
-    return `${ADMIN_DOMAIN}/queues/${queueId}/queueStudents?page=${page}&search=${search}`
+export function PathGetQueueStudents(queueId,{page,search},simple){
+    return `${ADMIN_DOMAIN}/queues/${queueId}/queueStudents?page=${page}&search=${search}&simplified=${simple}`
 }
 export function PathAddQueueStudent(queueId){
     return `${ADMIN_DOMAIN}/queues/${queueId}/queueStudents`

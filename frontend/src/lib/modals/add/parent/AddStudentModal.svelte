@@ -269,9 +269,7 @@ import {translation} from "$lib/translation.js"
                                 <div>
                                     <label for="formFile" class="form-label">{translation.studentImage[localStorage.getItem("language")]}</label>
                                     <input class="form-control" name="file" type="file" id="formFile">
-                                    {#if errors?.file}
-                                    <strong class="text-danger ms-1 my-2">{errors.file[0]}</strong>
-                                    {/if}
+                                    
                                 </div>
                                 {/if}
                                 {#if cameraActive}

@@ -306,9 +306,6 @@ loading = true
                                         <div class:none={!editImage}>
                                             <label for="formFile" class="form-label">{translation.studentImage[localStorage.getItem("language")]}</label>
                                             <input class="form-control" name="file" type="file" id="formFile">
-                                            {#if errors?.file}
-                                            <strong class="text-danger ms-1 my-2">{errors.file[0]}</strong>
-                                            {/if}
                                         </div>
                                     {/if}
                                     
@@ -342,9 +339,7 @@ loading = true
                                     </div>
                                     {/if}
                                     <div class:none={!editImage}>
-                                        {#if errors?.file}
-                                        <strong class="text-danger ms-1 my-2">{errors.file[0]}</strong>
-                                        {/if}
+                                        
                                     </div>
                                 {#if !editImage}
                                     <figure class="figure">
@@ -354,6 +349,9 @@ loading = true
                                     
                                 {/if}
                                 
+                                {#if errors?.file}
+                                    <strong class="text-danger ms-1 my-2">{errors.file[0]}</strong>
+                                {/if}
 
 
                                 <div class="hstack gap-2 justify-content-end">

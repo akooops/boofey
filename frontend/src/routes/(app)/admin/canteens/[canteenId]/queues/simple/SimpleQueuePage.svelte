@@ -6,7 +6,7 @@
     import Pagination from "$lib/components/Pagination.svelte";
     import SearchTable from "$lib/components/SearchTable.svelte";
 	import ViewQueueModal from "$lib/modals/view/ViewQueueModal.svelte";
-	import EditQueueModal from "$lib/modals/edit/EditQueueModal.svelte";
+	import EditQueueModalSimple from "./EditQueueModalSimple.svelte";
 	import DeleteQueueModal from "$lib/modals/delete/DeleteQueueModal.svelte";
 
     import { goto } from '$app/navigation';
@@ -69,7 +69,7 @@ import CloseQueueModal from "$lib/modals/CloseQueueModal.svelte";
                 <div class="flex-shrink-0">
                     <div class="hstack gap-2 justify-content-end">
 
-                            {#if activeQueue}
+                            {#if activeQueue && JSON.parse(sessionStorage.getItem("permissions")).includes("queues.close.simplified")}
                            
                             <span data-bs-toggle="modal"  data-bs-target="#closeQueueModal" >
                                 <button type="button" class="btn  col-12 text-start btn-danger btn-label  waves-effect waves-light">
@@ -77,25 +77,26 @@ import CloseQueueModal from "$lib/modals/CloseQueueModal.svelte";
                                 </button>
                             </span>
 
-                            {:else}
+                            {:else if JSON.parse(sessionStorage.getItem("permissions")).includes("queues.store.simplified")}
                             <span data-bs-toggle="modal"  data-bs-target="#addQueueModal">
                                 <button type="button" class="btn  col-12 text-start btn-success btn-label  waves-effect waves-light">
                                     <i class="ri-add-line label-icon align-middle fs-16 me-2"></i> Open Queue
                                 </button>
                             </span>
+                            {:else if JSON.parse(sessionStorage.getItem("permissions")).includes("queues.exit.simplified")}
+                                <span on:click={openQrExit} bind:this={qrExit} >
+                                    <button type="button" class="btn  col-12 text-start btn-info btn-label  waves-effect waves-light">
+                                        <i class="ri-qr-code-line label-icon align-middle fs-16 me-2"></i> Qr Exit
+                                    </button>
+                                </span>
                             {/if}
-                            <span on:click={openQrExit} bind:this={qrExit} >
-                                <button type="button" class="btn  col-12 text-start btn-info btn-label  waves-effect waves-light">
-                                    <i class="ri-qr-code-line label-icon align-middle fs-16 me-2"></i> Qr Exit
-                                </button>
-                            </span>
                         </div>
 
                     
                     
                     <AddQueueModal {canteen}/>
                     <ViewQueueModal />
-                    <EditQueueModal /> 
+                    <EditQueueModalSimple /> 
                     <DeleteQueueModal />
                     <CloseQueueModal />
 
@@ -106,7 +107,7 @@ import CloseQueueModal from "$lib/modals/CloseQueueModal.svelte";
 
         <h4 class="card-title mb-0 flex-grow-1 mb-3">Active Queue</h4>
 
-        {#if JSON.parse(sessionStorage.getItem("permissions")).includes("queues.index")}
+        {#if JSON.parse(sessionStorage.getItem("permissions")).includes("queues.index.simplified")}
             {#if activeQueue}
             <QueueCard queue={activeQueue} />
             {:else}
@@ -121,7 +122,7 @@ import CloseQueueModal from "$lib/modals/CloseQueueModal.svelte";
     
                 <h4 class="card-title mb-0 flex-grow-1 mb-3">All queues</h4>
     
-            {#if JSON.parse(sessionStorage.getItem("permissions")).includes("queues.index")}
+            {#if JSON.parse(sessionStorage.getItem("permissions")).includes("queues.index.simplified")}
             <!-- <div class="card-body"> -->
         
                 <!-- <div class="live-preview"> -->

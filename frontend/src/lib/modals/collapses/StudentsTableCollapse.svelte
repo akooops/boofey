@@ -21,13 +21,15 @@
     export let selected = {}
     export let collapse
     export let title 
+    export let subscribed
+    export let archived
 
     let openCollapse
 
 
 
     async function fetchStudents(){
-        let res = await fetch(PathGetStudents({page,search:searchQuery},null,false),{
+        let res = await fetch(PathGetStudents({page,search:searchQuery},null,{subscribed,archived}),{
             headers:{
                 Authorization: `${localStorage.getItem("SID")}`
             }

@@ -32,24 +32,21 @@
     <div class="card card-animate" style="filter: drop-shadow( {localStorage.getItem("language") == "en" ? "-4px" : "4px"} 0px 0px var(--vz-{state}));" role="button" on:click={setSub}  data-bs-toggle="modal" data-bs-target="#viewSubModal">
         <div class="card-body">
             <div class="d-flex flex-column h-100">
-                <div class="d-flex mb-2">
-                    <div class="flex-shrink-0 me-3">
-                        <div class="avatar-sm">
-                            <!-- <span class="avatar-title bg-warning-subtle"> -->
-                                <!-- <img class="img-thumbnail rounded-circle avatar-xl" alt="200x200" src="assets/images/users/avatar-3.jpg"> -->
-                                <img src={activeSub.student.image.full_path} alt="" class="img-fluid rounded-circle">
-                            <!-- </span> -->
-                        </div>
+                <div class="d-flex  align-items-center mb-3">
+                    <div class="flex-shrink-0">
+                        <img src={activeSub.student.image.full_path} alt="" class="avatar-sm rounded-circle" />
                     </div>
-                    <div class="flex-grow-1">
-                        <h5 class="mb-1 fs-16"><a href="apps-projects-overview.html" class="text-body">{activeSub.student.fullname}</a></h5>
-                        <p class="text-muted text-truncate-two-lines">{translation.package[localStorage.getItem("language")]}: {#if localStorage.getItem("language") == "ar"}
-                                {activeSub.package.school.name_ar} - {activeSub.package.name_ar}
-                            {:else}
-                                {activeSub.package.school.name} - {activeSub.package.name}
-                            {/if}</p>
+                    <div class="flex-grow-1 ms-2">
+                        <h5 class="card-title mb-1">{activeSub.student.fullname}</h5>
+                        <p class="text-muted mb-0">{translation.package[localStorage.getItem("language")]}: {#if localStorage.getItem("language") == "ar"}
+                            {activeSub.package.school.name_ar} - {activeSub.package.name_ar}
+                        {:else}
+                            {activeSub.package.school.name} - {activeSub.package.name}
+                        {/if}</p>
                     </div>
+   
                 </div>
+
                 <div class="mt-auto">
                     <div class="d-flex mb-2">
                         <div class="flex-grow-1">
