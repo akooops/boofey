@@ -42,6 +42,8 @@
             <div style="color: green;">Face Match Found!</div>
             <div style="color: green;">Face Match Found! Confidence: {{ $searchResult['confidence'] }}</div>
             <div style="color: green;">Face Match Found! FaceID: {{ $searchResult['faceId'] }}</div>
+            <div style="color: green;">Face Match Found! Confidence: {{ $searchResult['student']['firstname'] }}</div>
+
         @else
             <div style="color: red;">No Match Found</div>
         @endif
