@@ -151,9 +151,9 @@ class SyncController extends Controller
             return response()->json([
                 'status' => 'error',
                 'errors' => [
-                    '404' => 'Not found.'
+                    '401' => 'No Current Queue Found For This Canteent For The Moment.'
                 ]
-            ], 404);
+            ], 401);
         }
 
         $students = $request->get('students');

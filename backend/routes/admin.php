@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\QueuesController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -156,6 +157,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'App\Http\Controllers\Admin', 
     Route::post('canteens/{canteen}/orders', 'OrdersController@store')->name('orders.store');
 
     Route::resource('orders', QueuesController::class)->only(['destroy']);
+    Route::get('orders/{order}', 'OrdersController@show')->name('orders.show')->withoutMiddleware(['auth:sanctum', 'permission', 'convert.bool.string', 'verified']);
     Route::post('orders/{order}/update', 'OrdersController@update')->name('orders.update');
 
     /* -------------------------------------------------------------------------------- */
@@ -172,4 +174,3 @@ Route::group(['prefix' => 'admin', 'namespace' => 'App\Http\Controllers\Admin', 
     Route::get('dashboards/avgByCanteens/{canteen}', 'DashboardsController@avgByCanteens')->name('dashboards.avgByCanteens');
 });
 
-Route::get('orders/{order}', 'OrdersController@show')->name('orders.show');
