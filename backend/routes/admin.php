@@ -156,7 +156,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'App\Http\Controllers\Admin', 
     Route::get('canteens/{canteen}/orders', 'OrdersController@index')->name('orders.index');
     Route::post('canteens/{canteen}/orders', 'OrdersController@store')->name('orders.store');
 
-    Route::resource('orders', QueuesController::class)->only(['destroy']);
+    Route::resource('orders', OrdersController::class)->only(['destroy']);
     Route::get('orders/{order}', 'OrdersController@show')->name('orders.show')->withoutMiddleware(['auth:sanctum', 'permission', 'convert.bool.string', 'verified']);
     Route::post('orders/{order}/update', 'OrdersController@update')->name('orders.update');
 
