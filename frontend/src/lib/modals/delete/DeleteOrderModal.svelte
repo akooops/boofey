@@ -54,7 +54,7 @@ loading = true
                     <form  on:submit|preventDefault={deleteTarget}  class:d-none={loading}>
                     <lord-icon src="https://cdn.lordicon.com/gsqxdxog.json" trigger="loop" colors="primary:#f7b84b,secondary:#f06548" style="width:100px;height:100px"></lord-icon>
                     <h4 class="mb-3 mt-4">Are you Sure ?</h4>
-                    <p class="text-muted fs-15 mb-4">Are you Sure You want to Delete <span class="text-primary">{`${$orderStore.name} #${$orderStore.id}`}</span> ?</p>
+                    <p class="text-muted fs-15 mb-4">Are you Sure You want to Delete <span class="text-primary">{`#${$orderStore.id}`}</span> ?</p>
                     <div class="hstack gap-2 justify-content-center"> 
                         <button type="button" class="btn btn-light fw-light" data-bs-dismiss="modal" bind:this={close}>Close</button>
                         <button type="button" class="btn btn-danger waves-effect waves-light" on:click={deleteTarget}>Delete</button>

@@ -68,6 +68,7 @@
     }
 
     export function resetCanteenUser(){
+        console.log("deselcted")
         selected = {}
     }
 

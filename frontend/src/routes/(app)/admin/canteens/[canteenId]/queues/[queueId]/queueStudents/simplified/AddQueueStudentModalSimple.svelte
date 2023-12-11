@@ -5,7 +5,7 @@
     import { redirector } from "$lib/api/auth";
     import Accordion from "$lib/components/Accordion.svelte";
     import {loadDefaultDate} from "$lib/init/initFlatpickr.js"
-    import StudentsTableCollapse from "$lib/modals/collapses/StudentsTableCollapse.svelte"; 
+    import StudentsTableCollapseSimple from "./StudentsTableCollapseSimple.svelte"; 
 
     let close
     let form 
@@ -78,7 +78,7 @@ loading = true
     
                         <div class="row g-3" class:d-none={loading}>
                             <!-- Base Example -->
-                                    <StudentsTableCollapse collapse={true} on:select={(e) => studentId = e.detail.studentId} title={"Students"} subscribed={true} bind:resetStudent/>            
+                                    <StudentsTableCollapseSimple collapse={true} on:select={(e) => studentId = e.detail.studentId} title={"Students"} schoolId={queue?.canteen?.school?.id} bind:resetStudent/>            
                                 {#if errors?.student_id}
                                 <strong class="text-danger ms-1 my-2">{errors.student_id[0]}</strong>
                                 {/if}

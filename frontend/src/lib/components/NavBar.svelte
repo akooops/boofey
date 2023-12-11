@@ -55,7 +55,7 @@ import {translation} from "$lib/translation.js"
         submenu: [
             { title: "Categories ", links: [], route:"/admin/categories",permission:"categories.index",icon:"ri-node-tree"},
             { title: "Products ", links: [], route:"/admin/products",permission:"products.index",icon:"ri-shopping-bag-line"},
-            { title: "Orders ", links: [], route:"/admin/orders",permission:"orders.index",icon:"ri-survey-line"},
+            // { title: "Orders ", links: [], route:"/admin/orders",permission:"orders.index",icon:"ri-survey-line"},
             
         ]
     },
@@ -111,19 +111,19 @@ onMount(() => {
         <!-- Dark Logo-->
         <a href="index.html" class="logo logo-dark">
             <span class="logo-sm">
-                <img src="/assets/images/logo.png" alt="" height="22">
+                <img src="/assets/images/logo.svg" alt="" height="22">
             </span>
             <span class="logo-lg">
-                <img src="/assets/images/logo.png" alt="" height="50">
+                <img src="/assets/images/logo.svg" alt="" height="120">
             </span>
         </a>
         <!-- Light Logo-->
         <a href="index.html" class="logo logo-light">
             <span class="logo-sm">
-                <img src="/assets/images/logo.png" alt="" height="22">
+                <img src="/assets/images/logo.svg" alt="" height="22">
             </span>
             <span class="logo-lg">
-                <img src="/assets/images/logo.png" alt="" height="50">
+                <img src="/assets/images/logo.svg" alt="" height="50">
             </span>
         </a>
         <button type="button" class="btn btn-sm p-0 fs-20 header-item float-end btn-vertical-sm-hover" id="vertical-hover">

@@ -22,11 +22,17 @@ let camerasList = []
 let camera
 let boxSize = 250
 let fps = 24
-const config = { fps: 24, qrbox: { width: 250, height: 250 } };
+let config = { fps: 24, qrbox: { width: 250, height: 250 } };
 let qrOutput = ""
 onMount(async () => {
-  camerasList = await Html5Qrcode.getCameras()
-   camera = camerasList[0] 
+    camerasList = await Html5Qrcode.getCameras()
+    camera = camerasList[0] 
+   
+    config = localStorage.getItem("QrSettings") == null ? config : JSON.parse(localStorage.getItem("QrSettings"))
+
+    fps = config.fps
+    boxSize = config.qrbox.width
+
    qrScanner = new Html5Qrcode("stream")
 
     
@@ -53,6 +59,7 @@ async function startCam(){
 
 async function stopCam(){
     if(laserScan) return;
+    if(cameraActive == false) return;
     await qrScanner.stop();
     cameraActive = false
 }
@@ -109,12 +116,16 @@ async function applySettings(){
     await stopCam()
     fps = fps == null ? 24 : fps
     boxSize = boxSize == null ? 250 : boxSize
-
+    console.log(config)
     config.fps = fps
     config.qrbox = {
         width:boxSize,
         height:boxSize
     }
+
+
+
+    localStorage.setItem("QrSettings",JSON.stringify(config))
     await startCam()
 }
 

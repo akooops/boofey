@@ -49,7 +49,6 @@ loading = true
 
     function reset(){
         form.reset()
-        onHold = false
         errors = {}
         resetCanteenUser()
 

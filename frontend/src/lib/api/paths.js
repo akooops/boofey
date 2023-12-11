@@ -375,14 +375,14 @@ export function PathDelProduct(productId){
 
 //////
 
-export function PathGetOrders({page,search}){
-    return `${ADMIN_DOMAIN}/orders?page=${page}&search=${search}`
+export function PathGetOrders({page,search},canteenId){
+    return `${ADMIN_DOMAIN}/canteens/${canteenId}/orders?page=${page}&search=${search}`
 }
 export function PathGetOrderById(orderId){
     return `${ADMIN_DOMAIN}/orders/${orderId}`
 }
-export function PathAddOrder(){
-    return `${ADMIN_DOMAIN}/orders`
+export function PathAddOrder(canteenId){
+    return `${ADMIN_DOMAIN}/canteens/${canteenId}/orders`
 }
 export function PathUpdateOrder(orderId){
     return `${ADMIN_DOMAIN}/orders/${orderId}/update`

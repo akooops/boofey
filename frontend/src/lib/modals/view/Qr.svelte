@@ -3,7 +3,7 @@
     import QRCodeStyling from "qr-code-styling";
     import { PathGetStudentQr } from "$lib/api/paths"
     import { redirector } from "$lib/api/auth";
-
+    import printJS from 'print-js'
     import {translation} from "$lib/translation.js"
 
 
@@ -72,6 +72,10 @@
         })
 
     }
+    async function print(){
+        // printJS('qrImage', 'html')
+        printJS({ printable: 'qrImage', type: 'html', header: `Boofey - ${$studentStore.fullname}`})
+    }
 
 </script>
 
@@ -86,10 +90,12 @@
                 <form>
                     <div class="row g-3 d-print-block">
 
-                            <div bind:this={view} class="text-center " >
+                            <div bind:this={view} class="text-center" id="qrImage" >
                             </div>
-                            <div class="text-center">
+                            <div class="text-center hstack gap-2 justify-content-center">
+                                
                                 <button type="button" class="btn btn-primary waves-effect waves-light" on:click={downLoad}>{translation.download[localStorage.getItem("language")]}</button>
+                                <button type="button" class="btn btn-primary waves-effect waves-light" on:click={print}>{translation.print[localStorage.getItem("language")]}</button>
                             </div>
                             <div>
                                 <!-- Warning Alert -->

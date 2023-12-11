@@ -69,7 +69,7 @@ import CloseQueueModal from "$lib/modals/CloseQueueModal.svelte";
                 <div class="flex-shrink-0">
                     <div class="hstack gap-2 justify-content-end">
 
-                            {#if activeQueue && JSON.parse(sessionStorage.getItem("permissions")).includes("queues.close.simplified")}
+                            {#if activeQueue && JSON.parse(sessionStorage.getItem("permissions")).includes("queues.exit.simplified")}
                            
                             <span data-bs-toggle="modal"  data-bs-target="#closeQueueModal" >
                                 <button type="button" class="btn  col-12 text-start btn-danger btn-label  waves-effect waves-light">
