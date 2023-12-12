@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Requests\Students\OtpStudentRequest;
 use App\Models\Student;
 use Illuminate\Http\Request;
 use App\Http\Requests\Students\StoreStudentRequest;
@@ -256,7 +257,7 @@ class StudentsController extends Controller
         ]);
     }
 
-    public function otp(Student $student) 
+    public function otp(Student $student, OtpStudentRequest $request) 
     {
         $otp = null;
 
@@ -266,7 +267,9 @@ class StudentsController extends Controller
             $studentWithOtpCode = Student::where('otp', $otp)->first();
         } while ($studentWithOtpCode != null);
 
-        $otpExpiresAt = now()->endOfDay();
+        $otpExpiresAt = ($request->input('otp_expires_later') == true) 
+            ? $request->input('otp_expires_at') 
+            : now()->endOfDay();
 
         $student->update(['otp' => $otp, 'otp_expires_at' => $otpExpiresAt]);
 
