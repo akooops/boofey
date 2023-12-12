@@ -27,7 +27,7 @@
 </script>
 
 
-<div class="col-xxl-2 col-xl-3  col-lg-4  col-sm-6   col-xs-12">
+<div class="col-xxl-3 col-xl-4  col-lg-5  col-sm-6   col-xs-12">
     <div class="card card-animate p-3 py-2"   role="button" on:click={view}>
         <div class="row g-0">
                 <div class="card-body text-center">
@@ -53,12 +53,13 @@
                         <button type="button" on:click|stopPropagation={openSubs} bind:this={subsToolTip} class="col-12 btn text-start btn-soft-secondary btn-label waves-effect waves-light" >
                             <i class="ri-money-dollar-circle-line label-icon align-middle fs-16 me-2"></i> {translation.subscription[localStorage.getItem("language")]}
                         </button>
-                        
+                        {#if student.qrEnabled}
                         <span  data-bs-toggle="modal" class="col-12" data-bs-target="#ViewQrStudentModal" on:click|stopPropagation={setStudent} >
                             <button type="button"  class="col-12 btn text-start btn-soft-danger btn-label waves-effect waves-light">
                                 <i class="ri-qr-code-line label-icon align-middle fs-16 me-2"></i> {translation.qrCode[localStorage.getItem("language")]}
                             </button>
                         </span>
+                        {/if}
                         <button type="button" class="d-none" on:click={setStudent} data-bs-toggle="modal" data-bs-target="#viewStudentModal" bind:this={viewBtn}></button>
                         
                     </div>

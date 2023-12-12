@@ -49,6 +49,15 @@ import CloseQueueModal from "$lib/modals/CloseQueueModal.svelte";
     }
 
 
+    let orderToolTip
+
+    function openOrders(){
+        let toolTipInstance = bootstrap.Tooltip.getOrCreateInstance(orderToolTip)
+        // goto(`/admin/queues/${queue.id}/queueStudents`)
+        goto(`/admin/canteens/${canteen.id}/orders`)
+        
+        toolTipInstance.hide()
+    }
 
     
     
@@ -69,7 +78,7 @@ import CloseQueueModal from "$lib/modals/CloseQueueModal.svelte";
                 <div class="flex-shrink-0">
                     <div class="hstack gap-2 justify-content-end">
 
-                            {#if activeQueue && JSON.parse(sessionStorage.getItem("permissions")).includes("queues.exit.simplified")}
+                            {#if activeQueue && JSON.parse(sessionStorage.getItem("permissions")).includes("queues.close.simplified")}
                            
                             <span data-bs-toggle="modal"  data-bs-target="#closeQueueModal" >
                                 <button type="button" class="btn  col-12 text-start btn-danger btn-label  waves-effect waves-light">
@@ -83,10 +92,18 @@ import CloseQueueModal from "$lib/modals/CloseQueueModal.svelte";
                                     <i class="ri-add-line label-icon align-middle fs-16 me-2"></i> Open Queue
                                 </button>
                             </span>
-                            {:else if JSON.parse(sessionStorage.getItem("permissions")).includes("queues.exit.simplified")}
+                            {/if}
+                            {#if JSON.parse(sessionStorage.getItem("permissions")).includes("queues.exit.simplified")}
                                 <span on:click={openQrExit} bind:this={qrExit} >
                                     <button type="button" class="btn  col-12 text-start btn-info btn-label  waves-effect waves-light">
                                         <i class="ri-qr-code-line label-icon align-middle fs-16 me-2"></i> Qr Exit
+                                    </button>
+                                </span>
+                            {/if}
+                            {#if JSON.parse(sessionStorage.getItem("permissions")).includes("orders.index")}
+                                <span on:click={openOrders} bind:this={orderToolTip} >
+                                    <button type="button" class="btn  col-12 text-start btn-info btn-label  waves-effect waves-light">
+                                        <i class="ri-survey-line label-icon align-middle fs-16 me-2"></i> POS
                                     </button>
                                 </span>
                             {/if}

@@ -85,7 +85,7 @@ loading = true
     
                         <div class="row g-3" class:d-none={loading}>
                             <!-- Base Example -->
-                                    <StudentsTableCollapse collapse={true} on:select={(e) => studentId = e.detail.studentId} title={"Students"} bind:resetStudent/>            
+                                    <StudentsTableCollapse collapse={true} on:select={(e) => studentId = e.detail.studentId} title={"Students"} subscribed={true} archived={false} bind:resetStudent/>            
                                 {#if errors?.student_id}
                                 <strong class="text-danger ms-1 my-2">{errors.student_id[0]}</strong>
                                 {/if}

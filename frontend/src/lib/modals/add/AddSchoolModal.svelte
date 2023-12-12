@@ -9,14 +9,15 @@
     let form 
     let schoolName = ""
     let errors
-let loading = false
+    let loading = false
+    let enableQr = true
     async function save(){
-loading = true
+        loading = true
     
         errors = {}
     
         let formData = new FormData(form)
-    
+        formData.set("qr_enabled",enableQr)
         let res = await fetch(PathAddSchool(),{
             headers:{
                 Authorization: `${localStorage.getItem("SID")}`
@@ -43,6 +44,7 @@ loading = true
 
     function reset(){
         form.reset()
+        enableQr = true
         errors = {}
     }
 
@@ -80,6 +82,17 @@ loading = true
                                     <strong class="text-danger ms-1 my-2">{errors.name_ar[0]}</strong>
                                     {/if}
                                 </div>
+                                <div class="row ps-3 g-3">
+                                    <!-- Switches Color -->
+                                    <div class="form-check form-switch col" >
+                                        <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck1" bind:checked={enableQr} >
+                                        <label class="form-check-label" for="SwitchCheck1">Enable Qr</label>
+                                    </div><!-- Switches Color -->
+
+                                    {#if errors?.qr_enabled}
+                                        <strong class="text-danger ms-1 my-2">{errors.qr_enabled[0]}</strong>
+                                    {/if}
+                                </div>    
                                 <div>
                                     <label for="formFile" class="form-label">School Logo</label>
                                     <input class="form-control" name="file" type="file" id="formFile">

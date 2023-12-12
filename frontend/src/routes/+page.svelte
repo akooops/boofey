@@ -74,8 +74,8 @@
                 <div class="row justify-content-center">
                     <div class="col-lg-8 col-sm-10">
                         <div class="text-center mt-lg-5 pt-5">
-                            <h1 class="display-6 fw-semibold mb-3 lh-base">The <span class="text-primary">best</span> canteens online solution in Saudi Arabia</h1>
-                            <p class="lead text-muted lh-base">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                            <h1 class="display-6 fw-semibold mb-3 lh-base">Boofey <span class="text-primary">Nourishing</span> the Next Generation </h1>
+                            <p class="lead text-muted lh-base">Our mission is simple: to transform school canteens into hubs of nutrition and taste. We partner with schools to provide students with meals that are not just satisfying, but also nourishing and balanced.</p>
 
                             <div class="d-flex gap-2 justify-content-center mt-4">
                                 {#if userResponse}
@@ -113,9 +113,8 @@
                 <div class="row justify-content-center">
                     <div class="col-lg-8">
                         <div class="text-center mb-5">
-                            <h1 class="mb-3 ff-secondary fw-semibold lh-base">Your Digital Partner for Modern Canteens Online Solutions in Saudi Arabia.</h1>
-                            <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.</p>
+                            <h1 class="mb-3 ff-secondary fw-semibold lh-base">Why Choose Boofey?</h1>
+                          
                         </div>
                     </div>
                     <!-- end col -->
@@ -125,7 +124,141 @@
                 <div class="row g-3">
          
                     <!-- end col -->
-                    <div class="col-lg-4">
+                    <div class="col-lg-3">
+                        <div class="d-flex p-3">
+                            <div class="flex-shrink-0 me-3">
+                                <div class="avatar-sm icon-effect">
+                                    <div class="avatar-title bg-transparent text-success rounded-circle">
+                                        <i class="ri-restaurant-line fs-36"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex-grow-1">
+                                <h5 class="fs-18">Nutrition First</h5>
+                                <p class="text-muted my-3 ff-secondary">Our menus are crafted by nutrition experts, ensuring each meal is a balanced blend of essential nutrients.</p>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end col -->
+                    <div class="col-lg-3">
+                        <div class="d-flex p-3">
+                            <div class="flex-shrink-0 me-3">
+                                <div class="avatar-sm icon-effect">
+                                    <div class="avatar-title bg-transparent text-success rounded-circle">
+                                        <i class="ri-truck-line fs-36"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex-grow-1">
+                                <h5 class="fs-18">Locally Sourced</h5>
+                                <p class="text-muted my-3 ff-secondary">We believe in supporting our community. That's why we source fresh, seasonal ingredients from local farmers and suppliers.</p>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end col -->
+                    <div class="col-lg-3">
+                        <div class="d-flex p-3">
+                            <div class="flex-shrink-0 me-3">
+                                <div class="avatar-sm icon-effect">
+                                    <div class="avatar-title bg-transparent text-success rounded-circle">
+                                        <i class="ri-survey-line fs-36"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex-grow-1">
+                                <h5 class="fs-18">Tailored Menus</h5>
+                                <p class="text-muted my-3 ff-secondary">Understanding diverse tastes and dietary needs, we offer a range of options and choices.</p>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="d-flex p-3">
+                            <div class="flex-shrink-0 me-3">
+                                <div class="avatar-sm icon-effect">
+                                    <div class="avatar-title bg-transparent text-success rounded-circle">
+                                        <i class="ri-leaf-line fs-36"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex-grow-1">
+                                <h5 class="fs-18">Sustainability Commitment</h5>
+                                <p class="text-muted my-3 ff-secondary">We're dedicated to eco-friendly practices, reducing waste, and promoting sustainability in all our operations.</p>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end col -->
+
+                    <!-- end col -->
+                </div>
+
+
+                <div class="row justify-content-center mt-4">
+                    <div class="col-lg-8">
+                        <div class="text-center mb-5">
+                            <h1 class="mb-3 ff-secondary fw-semibold lh-base">Easy Online Subscription for Parents</h1>
+                          
+                        </div>
+                    </div>
+                    <!-- end col -->
+                </div>
+                <div class="row g-3">
+         
+                    <!-- end col -->
+                    <div class="col-lg-3">
+                        <div class="d-flex p-3">
+                            <div class="flex-shrink-0 me-3">
+                                <div class="avatar-sm icon-effect">
+                                    <div class="avatar-title bg-transparent text-success rounded-circle">
+                                        <i class="ri-open-arm-line fs-36"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex-grow-1">
+                                <h5 class="fs-18">Convenient & Flexible</h5>
+                                <p class="text-muted my-3 ff-secondary">Subscribe to our meal plans easily through our online portal. Choose a package that fits your child's needs and schedule.</p>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end col -->
+                    <div class="col-lg-3">
+                        <div class="d-flex p-3">
+                            <div class="flex-shrink-0 me-3">
+                                <div class="avatar-sm icon-effect">
+                                    <div class="avatar-title bg-transparent text-success rounded-circle">
+                                        <i class="ri-price-tag-3-line fs-36"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex-grow-1">
+                                <h5 class="fs-18">Transparent Pricing</h5>
+                                <p class="text-muted my-3 ff-secondary">Clear, upfront pricing with no hidden fees. Pick the plan that works best for your budget.</p>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end col -->
+                    <div class="col-lg-3">
+                        <div class="d-flex p-3">
+                            <div class="flex-shrink-0 me-3">
+                                <div class="avatar-sm icon-effect">
+                                    <div class="avatar-title bg-transparent text-success rounded-circle">
+                                        <i class="ri-bank-card-line fs-36"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex-grow-1">
+                                <h5 class="fs-18">Hassle-Free Payments</h5>
+                                <p class="text-muted my-3 ff-secondary">Secure and straightforward payment process, with options for customization and changes as needed.</p>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
                         <div class="d-flex p-3">
                             <div class="flex-shrink-0 me-3">
                                 <div class="avatar-sm icon-effect">
@@ -135,49 +268,9 @@
                                 </div>
                             </div>
                             <div class="flex-grow-1">
-                                <h5 class="fs-18">Awesome Support</h5>
-                                <p class="text-muted my-3 ff-secondary">Awesome Support is the most versatile and feature-rich support plugin for all version.</p>
-                                <div>
-                                    <a href="#" class="fs-14 fw-medium">Learn More <i class="ri-arrow-right-s-line align-bottom"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- end col -->
-                    <div class="col-lg-4">
-                        <div class="d-flex p-3">
-                            <div class="flex-shrink-0 me-3">
-                                <div class="avatar-sm icon-effect">
-                                    <div class="avatar-title bg-transparent text-success rounded-circle">
-                                        <i class="ri-stack-line fs-36"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="flex-grow-1">
-                                <h5 class="fs-18">Truly Multipurpose</h5>
-                                <p class="text-muted my-3 ff-secondary">You usually get a broad range of options to play with. This enables you to use a single theme across multiple.</p>
-                                <div>
-                                    <a href="#" class="fs-14 fw-medium">Learn More <i class="ri-arrow-right-s-line align-bottom"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- end col -->
-                    <div class="col-lg-4">
-                        <div class="d-flex p-3">
-                            <div class="flex-shrink-0 me-3">
-                                <div class="avatar-sm icon-effect">
-                                    <div class="avatar-title bg-transparent text-success rounded-circle">
-                                        <i class="ri-settings-2-line fs-36"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="flex-grow-1">
-                                <h5 class="fs-18">Easy to customize</h5>
-                                <p class="text-muted my-3 ff-secondary">Personalise your own website, no matter what theme and what customization options.</p>
-                                <div>
-                                    <a href="#" class="fs-14 fw-medium">Learn More <i class="ri-arrow-right-s-line align-bottom"></i></a>
-                                </div>
+                                <h5 class="fs-18">Stay Informed</h5>
+                                <p class="text-muted my-3 ff-secondary">Receive regular updates about menus, nutritional information, and special offers directly through the portal.</p>
+                                
                             </div>
                         </div>
                     </div>
@@ -200,7 +293,7 @@
                 <div class="row align-items-center gy-4">
                     <div class="col-sm">
                         <div>
-                            <h4 class="text-white mb-0 fw-semibold">Manage your canteens better with Boofey</h4>
+                            <h4 class="text-white mb-0 fw-semibold">subscribe to Boofey and bring daily nutritious delight to your child's school meals!</h4>
                         </div>
                     </div>
                     <!-- end col -->
@@ -244,72 +337,53 @@
 
                 <div class="row g-lg-5 g-4">
                     <div class="col-lg-6">
-                        <div class="d-flex align-items-center mb-2">
-                            <div class="flex-shrink-0 me-1">
-                                <i class="ri-question-line fs-24 align-middle text-success me-1"></i>
-                            </div>
-                            <div class="flex-grow-1">
-                                <h5 class="mb-0 fw-semibold">For Parents</h5>
-                            </div>
-                        </div>
+          
                         <div class="accordion custom-accordionwithicon custom-accordion-border accordion-border-box" id="genques-accordion">
                             <div class="accordion-item">
                                 <h2 class="accordion-header" id="genques-headingOne">
                                     <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#genques-collapseOne" aria-expanded="true" aria-controls="genques-collapseOne">
-                                        What is the purpose of using our system ?
+                                        What types of meal plans does Boofey offer?
                                     </button>
                                 </h2>
                                 <div id="genques-collapseOne" class="accordion-collapse collapse show" aria-labelledby="genques-headingOne" data-bs-parent="#genques-accordion">
                                     <div class="accordion-body ff-secondary">
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do 
-                                        eiusmod tempor incididunt ut labore et dolore magna aliqua. orem ipsum dolor 
-                                        sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                                        labore et dolore magna aliqua.
+                                        Boofey offers fixed, nutritious meal plans designed to cater to a variety of tastes.
                                     </div>
                                 </div>
                             </div>
                             <div class="accordion-item">
                                 <h2 class="accordion-header" id="genques-headingTwo">
                                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#genques-collapseTwo" aria-expanded="false" aria-controls="genques-collapseTwo">
-                                        Lorem ipsum dolor sit amet, consecteturre?
+                                        How do you ensure meals are nutritious?
                                     </button>
                                 </h2>
                                 <div id="genques-collapseTwo" class="accordion-collapse collapse" aria-labelledby="genques-headingTwo" data-bs-parent="#genques-accordion">
                                     <div class="accordion-body ff-secondary">
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do 
-                                        eiusmod tempor incididunt ut labore et dolore magna aliqua. orem ipsum dolor 
-                                        sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                                        labore et dolore magna aliqua.
+                                        Our menus, crafted by nutrition experts, focus on balanced diets that provide essential nutrients for growing children.
                                     </div>
                                 </div>
                             </div>
                             <div class="accordion-item">
                                 <h2 class="accordion-header" id="genques-headingThree">
                                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#genques-collapseThree" aria-expanded="false" aria-controls="genques-collapseThree">
-                                        Lorem ipsum dolor sit amet, consecteturre?
+                                        Can I customize my child’s meals?
                                     </button>
                                 </h2>
                                 <div id="genques-collapseThree" class="accordion-collapse collapse" aria-labelledby="genques-headingThree" data-bs-parent="#genques-accordion">
                                     <div class="accordion-body ff-secondary">
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do 
-                                        eiusmod tempor incididunt ut labore et dolore magna aliqua. orem ipsum dolor 
-                                        sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                                        labore et dolore magna aliqua.
+                                        Our meal plans are fixed and cannot be customized to ensure consistency and efficiency in our meal preparation.
                                     </div>
                                 </div>
                             </div>
                             <div class="accordion-item">
                                 <h2 class="accordion-header" id="genques-headingFour">
                                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#genques-collapseFour" aria-expanded="false" aria-controls="genques-collapseFour">
-                                        Lorem ipsum dolor sit amet, consecteturre?
+                                        How are the ingredients sourced?
                                     </button>
                                 </h2>
                                 <div id="genques-collapseFour" class="accordion-collapse collapse" aria-labelledby="genques-headingFour" data-bs-parent="#genques-accordion">
                                     <div class="accordion-body ff-secondary">
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do 
-                                        eiusmod tempor incididunt ut labore et dolore magna aliqua. orem ipsum dolor 
-                                        sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                                        labore et dolore magna aliqua.
+                                        We prioritize locally sourced, seasonal ingredients to support our community and ensure freshness.
                                     </div>
                                 </div>
                             </div>
@@ -319,73 +393,54 @@
                     </div>
                     <!-- end col -->
                     <div class="col-lg-6">
-                        <div class="d-flex align-items-center mb-2">
-                            <div class="flex-shrink-0 me-1">
-                                <i class="ri-question-line fs-24 align-middle text-success me-1"></i>
-                            </div>
-                            <div class="flex-grow-1">
-                                <h5 class="mb-0 fw-semibold">For Schools</h5>
-                            </div>
-                        </div>
+                      
 
                         <div class="accordion custom-accordionwithicon custom-accordion-border accordion-border-box" id="privacy-accordion">
                             <div class="accordion-item">
                                 <h2 class="accordion-header" id="privacy-headingOne">
                                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#privacy-collapseOne" aria-expanded="false" aria-controls="privacy-collapseOne">
-                                        What is the purpose of using our system ?
+                                        What is the policy regarding food allergies?
                                     </button>
                                 </h2>
                                 <div id="privacy-collapseOne" class="accordion-collapse collapse" aria-labelledby="privacy-headingOne" data-bs-parent="#privacy-accordion">
                                     <div class="accordion-body ff-secondary">
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do 
-                                        eiusmod tempor incididunt ut labore et dolore magna aliqua. orem ipsum dolor 
-                                        sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                                        labore et dolore magna aliqua.
+                                        Parents are responsible for checking our fixed menus for potential allergens. We provide detailed menu information to assist parents in this process.
                                     </div>
                                 </div>
                             </div>
                             <div class="accordion-item">
                                 <h2 class="accordion-header" id="privacy-headingTwo">
                                     <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#privacy-collapseTwo" aria-expanded="true" aria-controls="privacy-collapseTwo">
-                                        Lorem ipsum dolor sit amet, consecteturre?
+                                        What is the subscription policy?
                                     </button>
                                 </h2>
                                 <div id="privacy-collapseTwo" class="accordion-collapse collapse show" aria-labelledby="privacy-headingTwo" data-bs-parent="#privacy-accordion">
                                     <div class="accordion-body ff-secondary">
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do 
-                                        eiusmod tempor incididunt ut labore et dolore magna aliqua. orem ipsum dolor 
-                                        sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                                        labore et dolore magna aliqua.
+                                        Once a subscription starts, it cannot be cancelled, refunded, or paused. Missed days by the child are not subject to reimbursement.
                                     </div>
                                 </div>
                             </div>
                             <div class="accordion-item">
                                 <h2 class="accordion-header" id="privacy-headingThree">
                                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#privacy-collapseThree" aria-expanded="false" aria-controls="privacy-collapseThree">
-                                        Lorem ipsum dolor sit amet?
+                                        How is food safety managed in the canteens?
                                     </button>
                                 </h2>
                                 <div id="privacy-collapseThree" class="accordion-collapse collapse" aria-labelledby="privacy-headingThree" data-bs-parent="#privacy-accordion">
                                     <div class="accordion-body ff-secondary">
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do 
-                                        eiusmod tempor incididunt ut labore et dolore magna aliqua. orem ipsum dolor 
-                                        sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                                        labore et dolore magna aliqua.
+                                        Food safety is our top priority. We adhere to strict hygiene standards and conduct regular safety audits.
                                     </div>
                                 </div>
                             </div>
                             <div class="accordion-item">
                                 <h2 class="accordion-header" id="privacy-headingFour">
                                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#privacy-collapseFour" aria-expanded="false" aria-controls="privacy-collapseFour">
-                                        Lorem ipsum dolor sit amet, consectetur?
+                                        How do I provide feedback or suggestions?
                                     </button>
                                 </h2>
                                 <div id="privacy-collapseFour" class="accordion-collapse collapse" aria-labelledby="privacy-headingFour" data-bs-parent="#privacy-accordion">
                                     <div class="accordion-body ff-secondary">
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do 
-                                        eiusmod tempor incididunt ut labore et dolore magna aliqua. orem ipsum dolor 
-                                        sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                                        labore et dolore magna aliqua.
+                                        We welcome feedback and suggestions! Please contact us through our website or the parent portal.
                                     </div>
                                 </div>
                             </div>
@@ -521,7 +576,7 @@
                 <div class="row align-items-center gy-4">
                     <div class="col-sm">
                         <div>
-                            <h4 class="text-white mb-0 fw-semibold">Manage your canteens better with Boofey</h4>
+                            <h4 class="text-white mb-0 fw-semibold">subscribe to Boofey and bring daily nutritious delight to your child's school meals!</h4>
                         </div>
                     </div>
                     <!-- end col -->

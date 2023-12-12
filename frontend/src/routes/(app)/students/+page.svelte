@@ -14,7 +14,7 @@
     import DeleteStudentModal from "$lib/modals/delete/DeleteStudentModal.svelte"
 	import ViewStudentModal from "$lib/modals/view/parent/ViewStudentModal.svelte";
 	import EditStudentModal from "$lib/modals/edit/parent/EditStudentModal.svelte";
-	import Qr from "$lib/modals/view/Qr.svelte";
+	import Qr from "./Qr.svelte";
 
 
     export let data
