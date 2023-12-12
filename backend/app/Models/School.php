@@ -13,6 +13,7 @@ class School extends Model
     protected $fillable = [
         'name',
         'name_ar',
+        'qr_enabled',
         'file_id',
     ];
 

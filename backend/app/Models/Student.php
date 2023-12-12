@@ -11,7 +11,7 @@ class Student extends Model
 {
     use HasFactory;
 
-    protected $appends = ['fullname', "subscribed", 'subscribedPackage', "tookSnackToday", 'tookMainMealToday', 'className', 'classNameAr'];
+    protected $appends = ['fullname', "subscribed", 'subscribedPackage', "tookSnackToday", 'tookMainMealToday', 'className', 'classNameAr', 'qrEnabled'];
 
     protected $fillable = [
         'name',
@@ -163,5 +163,11 @@ class Student extends Model
             // Return a default value or an error message if the number is not found
             return 'الصف غير محدد';
         }
+    }
+
+    public function getQrEnabledAttribute(){
+        $school = $this->school()->first();
+
+        return (is_null($school)) ? false : $school->qr_enabled;
     }
 }

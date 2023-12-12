@@ -194,6 +194,15 @@ class StudentsController extends Controller
             ], 403);
         }
 
+        if($student->school->qr_enabled != true){
+            return response()->json([
+                'status' => 'error',
+                'errors' => [
+                    'otp' => [__('translations.qr_is_disabled')]
+                ]
+            ], 422);
+        }
+
         $otp = null;
 
         do {
