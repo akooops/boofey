@@ -21,6 +21,7 @@ loading = true
             formData.delete("file")
         }
         formData.set("edit_logo",editLogo)
+        formData.set("qr_enabled",$schoolStore.qr_enabled)
 
 
         let res = await fetch(PathUpdateSchool($schoolStore.id),{
@@ -86,6 +87,18 @@ loading = true
                                     <strong class="text-danger ms-1 my-2">{errors.name_ar[0]}</strong>
                                     {/if}
                                 </div>
+
+                                <div class="row ps-3 g-3">
+                                    <!-- Switches Color -->
+                                    <div class="form-check form-switch col" >
+                                        <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck1" bind:checked={$schoolStore.qr_enabled} >
+                                        <label class="form-check-label" for="SwitchCheck1">Enable Qr</label>
+                                    </div><!-- Switches Color -->
+
+                                    {#if errors?.qr_enabled}
+                                        <strong class="text-danger ms-1 my-2">{errors.qr_enabled[0]}</strong>
+                                    {/if}
+                                </div>    
 
 
                                 <div class="mb-2 col-lg-12">

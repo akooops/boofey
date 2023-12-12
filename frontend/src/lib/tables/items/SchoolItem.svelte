@@ -63,6 +63,13 @@
     <td>
         {school.name_ar}
     </td>
+    <td>
+        {#if school.qr_enabled}
+        <span class="badge bg-success-subtle text-success">Enabled</span>
+        {:else}
+        <span class="badge bg-danger-subtle text-danger">Disabled</span>
+        {/if}
+    </td>
 
     <td>
         <div class="hstack gap-3 flex-wrap">

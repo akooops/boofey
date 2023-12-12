@@ -28,6 +28,7 @@
 
 
     async function fetchStudents(){
+        console.log("fetching from collapse")
         let res = await fetch(PathGetStudentsBySchool(schoolId,{page,search:searchQuery},null,{subscribed:true,archived:false}),{
             headers:{
                 Authorization: `${localStorage.getItem("SID")}`

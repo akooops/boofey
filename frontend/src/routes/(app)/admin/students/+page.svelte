@@ -5,6 +5,8 @@
     import AddStudentModal from "$lib/modals/add/AddStudentModal.svelte";
 	import { onMount } from "svelte";
     import {initToolTip} from "$lib/init/initToolTip.js"
+    import {InitFlatPickr} from "$lib/init/initFlatpickr.js"
+
     import { setContext } from 'svelte';
     import { writable } from 'svelte/store';
     import { fade } from 'svelte/transition';
@@ -30,6 +32,7 @@
         if(state != null){
             subscribed = state == "true" ? "subscribed" : "not subscribed"
         }
+        InitFlatPickr()
 
     
         
