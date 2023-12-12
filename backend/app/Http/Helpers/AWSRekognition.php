@@ -36,6 +36,21 @@ function uploadFace($image, $faceID = null)
             'CollectionId' => $collectionId,
             'FaceIds' => [$faceID],
         ]);
+    }else{
+        $response = $rekognition->searchFacesByImage([
+            'CollectionId' => $collectionId,
+            'Image' => [
+                'Bytes' => file_get_contents($imagePath),
+            ],
+            'FaceMatchThreshold' => 96, 
+            'MaxFaces' => 1,
+        ]);
+
+        $faceMatches = $response->get('FaceMatches');
+
+        if (!empty($faceMatches)){
+            return ['status' => 'indexed'];
+        }
     }
 
     $response = $rekognition->indexFaces([

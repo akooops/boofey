@@ -73,7 +73,7 @@ class AWSController extends Controller
                 'Bytes' => file_get_contents($image),
             ],
             'FaceMatchThreshold' => 80, // Adjust the confidence threshold as needed
-            'MaxFaces' => 1, // Retrieve information for the top matching face
+            'MaxFaces' => 3, // Retrieve information for the top matching face
         ]);
 
         // Extract information about the identified face

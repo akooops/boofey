@@ -73,6 +73,15 @@ class StudentsController extends Controller
             ], 422);
         }
 
+        if(!is_null($face['status']) && $face['status'] == 'indexed'){
+            return response()->json([
+                'status' => 'error',
+                'errors' => [
+                    'file' => [__('translations.face_already_indexed')]
+                ]
+            ], 422);
+        }
+
         if(!is_null($face['status']) && $face['status'] == 'nothing'){
             return response()->json([
                 'status' => 'error',
@@ -266,7 +275,7 @@ class StudentsController extends Controller
         if(!is_null($student->face_id)){
             removeFace($student->face_id);
         }
-        
+
         $student->delete();
 
         removeFile($file);

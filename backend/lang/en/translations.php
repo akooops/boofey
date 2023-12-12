@@ -21,6 +21,7 @@ return [
 
     'no_face_detected' => 'No Face Detected in the image, please try another one',
     'many_face_detected' => 'Many faces were detected in the image, please try another one',
+    'face_already_indexed' => 'Face already exists in our databases, please try another one',
 
     'qr_is_disabled' => 'Qr is disabled for this student.',
 ];
