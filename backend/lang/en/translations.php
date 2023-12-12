@@ -20,6 +20,7 @@ return [
     'incorrect_old_password' => 'The old password is incorrect.',
 
     'no_face_detected' => 'No Face Detected in the image, please try another one',
+    'many_face_detected' => 'Many faces were detected in the image, please try another one',
 
     'qr_is_disabled' => 'Qr is disabled for this student.',
 ];

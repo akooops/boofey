@@ -49,10 +49,27 @@ function uploadFace($image, $faceID = null)
     $faceRecords = $response->get('FaceRecords');
     
     if (!empty($faceRecords)) {
+        if(count($faceRecords) > 1){
+            $faceIdsToDelete = [];
+
+            foreach ($faceRecords as $faceRecord) {
+                if (isset($faceRecord['Face']) && isset($faceRecord['Face']['FaceId'])) {
+                    $faceIdsToDelete[] = $faceRecord['Face']['FaceId'];
+                }
+            }
+
+            $rekognition->deleteFaces([
+                'CollectionId' => $collectionId,
+                'FaceIds' => $faceIdsToDelete,
+            ]);
+
+            return ['status' => 'many'];
+        }
+
         $faceId = $faceRecords[0]['Face']['FaceId'];
         
         return $faceId;
     } else {
-        return null;
+        return ['status' => 'nothing'];;
     }
 }

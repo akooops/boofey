@@ -169,7 +169,16 @@ class StudentsController extends Controller
         
         $face = uploadFace("{$file->path}/{$file->current_name}");
         
-        if(is_null($face)){
+        if(!is_null($face['status']) && $face['status'] == 'many'){
+            return response()->json([
+                'status' => 'error',
+                'errors' => [
+                    'file' => [__('translations.many_face_detected')]
+                ]
+            ], 422);
+        }
+
+        if(!is_null($face['status']) && $face['status'] == 'nothing'){
             return response()->json([
                 'status' => 'error',
                 'errors' => [
@@ -226,7 +235,16 @@ class StudentsController extends Controller
 
             $face = uploadFace("{$newFile->path}/{$newFile->current_name}", $student->face_id);
 
-            if(is_null($face)){
+            if(!is_null($face['status']) && $face['status'] == 'many'){
+                return response()->json([
+                    'status' => 'error',
+                    'errors' => [
+                        'file' => [__('translations.many_face_detected')]
+                    ]
+                ], 422);
+            }
+    
+            if(!is_null($face['status']) && $face['status'] == 'nothing'){
                 return response()->json([
                     'status' => 'error',
                     'errors' => [
