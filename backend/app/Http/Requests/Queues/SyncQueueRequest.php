@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests\Queues;
 
+use App\Rules\CanStudentEnterQueue;
+use App\Rules\UniqueStudentInQueue;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Http\JsonResponse;
@@ -25,9 +27,13 @@ class SyncQueueRequest extends FormRequest
      */
     public function rules()
     {
+        $canteen = $this->get('canteen');
+
+        $queueID = (is_null($canteen->currentQueue)) ? null : $canteen->currentQueue->id;
+
         return [
             'students' => 'required|array',
-            'students.*.id' => 'required|exists:students,id',
+            'students.*.id' => ['required', 'exists:students,id', new UniqueStudentInQueue($queueID), new CanStudentEnterQueue($queueID)],
             'students.*.started_at' => 'required|date_format:Y-m-d H:i:s',
         ];
     }

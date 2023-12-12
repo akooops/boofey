@@ -82,7 +82,7 @@ class Student extends Model
         return $this->belongsToMany(Queue::class, 'queue_students', 'student_id', 'queue_id')
         ->where('queues.type', 1)
         ->whereDate('queues.started_at', $today)
-        ->select('queues.id');
+        ->count();
     }
 
     public function getTookMainMealTodayAttribute()
@@ -92,7 +92,7 @@ class Student extends Model
         return $this->belongsToMany(Queue::class, 'queue_students', 'student_id', 'queue_id')
         ->where('queues.type', 0)
         ->whereDate('queues.started_at', $today)
-        ->select('queues.id');
+        ->count();
     }
 
     function getSubscribedAttribute() {  

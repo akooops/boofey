@@ -24,6 +24,8 @@ class CanStudentEnterQueue implements Rule
 
     public function passes($attribute, $value)
     {
+        if(is_null($this->queueId)) return false;
+        
         $student = Student::findOrFail($value);
         $queue = Queue::findOrFail($this->queueId);
 

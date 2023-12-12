@@ -19,6 +19,8 @@ class UniqueStudentInQueue implements Rule
 
     public function passes($attribute, $value)
     {
+        if(is_null($this->queueId)) return false;
+
         $query = QueueStudent::where('queue_id', $this->queueId)
             ->where('student_id', $value);
 
