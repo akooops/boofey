@@ -263,6 +263,10 @@ class StudentsController extends Controller
 
         $file = File::find($student->file_id);
 
+        if(!is_null($student->face_id)){
+            removeFace($student->face_id);
+        }
+        
         $student->delete();
 
         removeFile($file);

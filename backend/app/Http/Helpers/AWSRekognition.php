@@ -73,3 +73,40 @@ function uploadFace($image, $faceID = null)
         return ['status' => 'nothing'];;
     }
 }
+
+function removeFace($faceID){
+    $collectionId = env('AWS_DEFAULT_COLLECTION');
+    
+    $rekognition = new RekognitionClient([
+        'version' => 'latest',
+        'region' => env('AWS_DEFAULT_REGION'),
+        'credentials' => [
+            'key' => env('AWS_ACCESS_KEY_ID'),
+            'secret' => env('AWS_SECRET_ACCESS_KEY'),
+        ],
+    ]);
+    
+    $collections = $rekognition->listCollections();
+
+    if (in_array($collectionId, $collections['CollectionIds']) == false) {
+        $rekognition->createCollection(['CollectionId' => $collectionId]);
+    }
+
+    $searchResponse = $rekognition->searchFaces([
+        'CollectionId' => $collectionId,
+        'FaceId' => $faceID,
+    ]);
+
+    $matchingFaces = $searchResponse->get('FaceMatches');
+
+    if (!empty($matchingFaces)) {
+        $rekognition->deleteFaces([
+            'CollectionId' => $collectionId,
+            'FaceIds' => [$faceID],
+        ]);
+
+        return true; 
+    }
+
+    return false;
+}
