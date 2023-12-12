@@ -38,8 +38,10 @@ class UpdateStudentRequest  extends FormRequest
             
             'school_id' => ['required', 'exists:schools,id', new CanChangeSchool($student->id)],
 
+            /*
             'edit_image' => 'required|boolean',
             'file' => 'required_if:edit_image,true|file|mimes:jpeg,png'    
+            */
         ];
 
         if ($currentRoute === 'students.update') {

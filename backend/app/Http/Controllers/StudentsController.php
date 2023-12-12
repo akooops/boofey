@@ -166,6 +166,8 @@ class StudentsController extends Controller
         }
 
         $file = File::find($student->file_id);
+
+        /*
         $face = null;
 
         if($request->file('file')) {
@@ -185,12 +187,13 @@ class StudentsController extends Controller
             removeFile($file);
             $file = $newFile;
         }
+        */
 
         $student->update(array_merge(
             $request->validated(),
             [
-                'file_id' => $file->id,
-                'face_id' => $face
+                'file_id' => $file->id/*,
+                'face_id' => $face*/
             ]
         ));
 
