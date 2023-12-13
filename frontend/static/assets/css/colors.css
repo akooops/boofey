@@ -311,3 +311,10 @@
     padding-right: 0;
     list-style: none;
   }
+
+  .navbar-menu .navbar-nav .nav-link.active {
+    color: var(--vz-primary);
+  }
+  .navbar-menu .navbar-nav .nav-link:hover {
+    color: var(--vz-primary);
+  }
