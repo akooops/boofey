@@ -24,6 +24,10 @@ import { fade } from 'svelte/transition';
 	    apiStore: writable("")
     });
 
+    setContext('canteenStore', {
+	    canteenStore: writable({})
+    });
+
 
     
 </script>
