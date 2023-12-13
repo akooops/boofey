@@ -30,7 +30,7 @@ import {translation} from "$lib/translation.js"
         submenu: [
             { title: "Parents", links: [], route:"/admin/parents",permission:"fathers.index",icon:"ri-group-2-line"},
             { title: "Students", links: [], route:"/admin/students",permission:"students.index",icon:"ri-user-2-line"},    
-            { title: "Qr Exit Scan ", links: [], route:"/admin/qr-exit",permission:"queueStudents.exit",icon:"ri-qr-code-line"},
+            // { title: "Qr Exit Scan ", links: [], route:"/admin/qr-exit",permission:"queueStudents.exit",icon:"ri-qr-code-line"},
         ]
 
     },
