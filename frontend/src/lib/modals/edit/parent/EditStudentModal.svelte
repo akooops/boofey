@@ -272,14 +272,13 @@ loading = true
     
 
                            
-                                <div class="row ps-3 g-3">
-                                    <!-- Switches Color -->
+                                <!-- <div class="row ps-3 g-3">
                                     <div class="form-check form-switch col" >
                                         <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck1" on:change={changeEditImage} bind:checked={editImage}>
                                         <label class="form-check-label" for="SwitchCheck1">{translation.editImage[localStorage.getItem("language")]}</label>
-                                    </div><!-- Switches Color -->
-
+                                    </div>
                                 </div>
+                                 -->
                                 <div class="row ps-3 g-3" class:none={!editImage}>
                                     <!-- Switches Color -->
                                     <div class="form-check form-switch col" >

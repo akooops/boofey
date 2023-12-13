@@ -79,6 +79,11 @@
         errors = {}
         let formData = new FormData(form)
         formData.set("otp_expires_later",otpExpiresLater)
+
+        if(otpExpiresLater == false){
+            formData.delete("otp_expires_at")
+        }
+
         let res = await fetch(PathGetStudentQr($studentStore.id,type),{
             headers:{
                 Authorization: `${localStorage.getItem("SID")}`
@@ -92,6 +97,8 @@
         let otpResponse = await res.json()
         if(otpResponse.status == "success"){
             loadQr(otpResponse.data.otp)
+        }else {
+            errors = otpResponse.errors
         }
 
         loading = false
@@ -153,8 +160,6 @@
                                     {/if}
                                 </div>
                             </div>
-
-
                             <div class="hstack gap-2 justify-content-end">
                                 <button type="button" class="btn btn-light fw-light" data-bs-dismiss="modal" >{translation.close[localStorage.getItem("language")]}</button>
                                 <input type="submit" class="btn btn-primary waves-effect waves-light" value="Save">

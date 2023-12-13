@@ -2,7 +2,7 @@
     import Pagination from "$lib/components/Pagination.svelte";    
     import SearchTable from "$lib/components/SearchTable.svelte";    
     import QueueStudentsTable from "$lib/tables/QueueStudentsTable.svelte";
-    import AddQueueStudentModal from "$lib/modals/add/AddQueueStudentModal.svelte"
+    import AddQueueStudentModal from "./AddQueueStudentModal.svelte"
     import {InitFlatPickr} from "$lib/init/initFlatpickr.js"
     import { fade } from 'svelte/transition';
     import { setContext } from 'svelte';
