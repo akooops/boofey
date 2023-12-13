@@ -2,6 +2,7 @@ export let CanteensOptions = {
     series: [  
         
     ],
+    colors:['#E16F28', '#E1A228'],
     chart: {
         height: 370,
         type: "line",
@@ -73,7 +74,6 @@ export let CanteensOptions = {
             barHeight: "100%",
         },
     },
-    colors: ["#5596f7","#695eef"],
     tooltip: {
         shared: true,
         y: [{
@@ -119,6 +119,7 @@ export let dailyTotalOptions = {
             data: [],
         },
     ],
+    colors:['#E16F28', '#E1A228'],
     chart: {
         type: "area",
         height: 320,

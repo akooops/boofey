@@ -106,7 +106,7 @@
 <!-- Load More Buttons -->
 
                                     <div class="mt-4">
-                                        <button class="btn btn-info w-100 btn-load" type="submit" disabled={loading}>
+                                        <button class="btn btn-primary w-100 btn-load" type="submit" disabled={loading}>
                                             {#if loading}
                                             <span class="spinner-border " role="status"></span>
                                             {:else}

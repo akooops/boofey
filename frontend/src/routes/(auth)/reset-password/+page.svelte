@@ -132,7 +132,7 @@ function updateTimer() {
                             <strong class="text-danger ms-1 my-2">{errors.phone[0]}</strong>
                         {/if}
                         <div class="text-center mt-4">
-                            <button class="btn btn-info w-100 btn-load" type="submit" disabled={loading}>
+                            <button class="btn btn-primary w-100 btn-load" type="submit" disabled={loading}>
                                 {#if loading}
                                 <span class="spinner-border " role="status"></span>
                                 {:else}
@@ -196,7 +196,7 @@ function updateTimer() {
                         </div>
 
                         <div class="mt-4">
-                            <button class="btn btn-info w-100 btn-load" type="submit" disabled={loading}>
+                            <button class="btn btn-primary w-100 btn-load" type="submit" disabled={loading}>
                                 {#if loading}
                                 <span class="spinner-border " role="status"></span>
                                 {:else}
@@ -239,7 +239,7 @@ function updateTimer() {
                     <h4>Success !</h4>
                     <p class="text-muted mx-4">your password has been changed successfully</p>
                     <div class="mt-4">
-                        <a href="/signin" class="btn btn-info w-100">Sign in</a>
+                        <a href="/signin" class="btn btn-primary w-100">Sign in</a>
                     </div>
                 </div>
             </div>
