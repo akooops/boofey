@@ -17,7 +17,8 @@
         let toolTipInstance = bootstrap.Tooltip.getOrCreateInstance(subsToolTip)        
         // goto(`/students/2/subscriptions`)
         toolTipInstance.hide()
-        goto(`/students/${student.id}/subscriptions`)
+        // goto(`/students/${student.id}/subscriptions`)
+        goto(`/students/${student.id}/choosePackage`)
     }
 
     function view(){
@@ -51,7 +52,7 @@
                         </span>
 
                         <button type="button" on:click|stopPropagation={openSubs} bind:this={subsToolTip} class="col-12 btn text-start btn-soft-secondary btn-label waves-effect waves-light" >
-                            <i class="ri-money-dollar-circle-line label-icon align-middle fs-16 me-2"></i> {translation.subscription[localStorage.getItem("language")]}
+                            <i class="ri-money-dollar-circle-line label-icon align-middle fs-16 me-2"></i> {translation.subscribe[localStorage.getItem("language")]}
                         </button>
                         {#if student.qrEnabled}
                         <span  data-bs-toggle="modal" class="col-12" data-bs-target="#ViewQrStudentModal" on:click|stopPropagation={setStudent} >
