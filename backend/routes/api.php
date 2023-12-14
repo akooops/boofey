@@ -41,7 +41,7 @@ Route::group(['namespace' => 'App\Http\Controllers', 'middleware' => ['auth:sanc
         'destroy' => 'parent.students.destroy',
     ]);
 
-    Route::post('students', 'StudentsController@store')->name('parents.students.store');
+    //Route::post('students', 'StudentsController@store')->name('parents.students.store');
     Route::post('students/{student}/update', 'StudentsController@update')->name('parents.students.update');
     Route::post('students/{student}/otp', 'StudentsController@otp')->name('parents.students.otp');
 

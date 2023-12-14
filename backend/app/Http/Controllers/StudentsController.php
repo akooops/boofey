@@ -53,6 +53,7 @@ class StudentsController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
+    /*
     public function store(StoreStudentRequest $request) 
     {
         $father = $request->get('father');
@@ -108,6 +109,7 @@ class StudentsController extends Controller
             'status' => 'success'
         ]);
     }
+    */
 
     /**
      * Show student data
@@ -167,7 +169,6 @@ class StudentsController extends Controller
 
         $file = File::find($student->file_id);
 
-        /*
         $face = null;
 
         if($request->file('file')) {
@@ -187,15 +188,21 @@ class StudentsController extends Controller
             removeFile($file);
             $file = $newFile;
         }
-        */
+        
+        $student->update([
+            'file_id' => $file->id,
+            'face_id' => $face
+        ]);
 
+        /*
         $student->update(array_merge(
             $request->validated(),
             [
-                'file_id' => $file->id/*,
-                'face_id' => $face*/
+                'file_id' => $file->id,
+                'face_id' => $face
             ]
         ));
+        */
 
         return response()->json([
             'status' => 'success'

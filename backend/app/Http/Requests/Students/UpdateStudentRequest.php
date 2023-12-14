@@ -36,12 +36,7 @@ class UpdateStudentRequest  extends FormRequest
             'lastname' => 'required|string|max:500',
             'class' => 'required|integer',
             
-            'school_id' => ['required', 'exists:schools,id', new CanChangeSchool($student->id)],
-
-            /*
-            'edit_image' => 'required|boolean',
-            'file' => 'required_if:edit_image,true|file|mimes:jpeg,png'    
-            */
+            'school_id' => ['required', 'exists:schools,id', new CanChangeSchool($student->id)], 
         ];
 
         if ($currentRoute === 'students.update') {
@@ -50,6 +45,14 @@ class UpdateStudentRequest  extends FormRequest
             $rules['nfc_id'] = 'nullable|string|unique:students,nfc_id,'.$student->id;
             $rules['face_id'] = 'nullable|string|unique:students,face_id,'.$student->id;
             $rules['onhold'] = 'required|boolean';
+            $rules['edit_image'] = 'required|boolean';
+            $rules['file'] = 'required_if:edit_image,true|file|mimes:jpeg,png';
+        }
+
+        if($currentRoute === 'parents.students.update'){
+            $rules = [
+                'file' => 'file|mimes:jpeg,png'
+            ];
         }
 
         return $rules;
