@@ -219,7 +219,7 @@ class AuthController extends Controller
             ], 400);
         }
 
-        $user = User::where('phone', $request->input('phone'));
+        $user = User::where('phone', $request->input('phone'))->first();
 
         if(is_null($user)){
             return response()->json([
@@ -245,7 +245,6 @@ class AuthController extends Controller
             $expiration = now()->addHour();
             $tokenName = 'short-lived-token';
 
-            $user = $request->user();
             $token = $user->createToken($tokenName, ['*'], $expiration);
 
             $user->load([

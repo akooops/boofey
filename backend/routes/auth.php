@@ -15,6 +15,6 @@ Route::group(['prefix' => 'auth', 'namespace' => 'App\Http\Controllers\Auth', 'm
     Route::post('admin/login', 'AuthController@loginAdmin')->name('login');
     Route::post('login', 'AuthController@login')->name('parent.login');
 
-    Route::get('otp', 'AuthController@otp');
+    Route::post('otp', 'AuthController@otp');
     Route::post('tokens/refresh', 'AuthController@refreshTokens');
 });
