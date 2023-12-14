@@ -123,7 +123,7 @@ class PaymentsController extends Controller
         return $this->process($request);
     }
 
-    public function process(ProcessPaymentRequest $request){
+    public function process(Student $student, ProcessPaymentRequest $request){
         $father = $request->get('father');
 
         $subscription = Subscription::findOrFail($request->input('subscription_id'));
@@ -131,7 +131,7 @@ class PaymentsController extends Controller
         if($request->has('coupon_id') && $request->input('coupon_id') != null){
             $coupon = Coupon::findOrFail($request->get('coupon_id'));
 
-            $subscription->applyCoupon($coupon, $father);
+            $subscription->applyCoupon($coupon, $student);
 
             if($coupon->discount == 100){
                 $subscription->calculateTotal();
@@ -237,15 +237,14 @@ class PaymentsController extends Controller
         }
     }
 
-    public function processRedirection(ProcessPaymentRequest $request){
+    public function processRedirection(Student $student, ProcessPaymentRequest $request){
         $father = $request->get('father');
 
         $subscription = Subscription::findOrFail($request->input('subscription_id'));
 
         if($request->has('coupon_id') && $request->input('coupon_id') != null){
             $coupon = Coupon::findOrFail($request->get('coupon_id'));
-
-            $subscription->applyCoupon($coupon, $father);
+            $subscription->applyCoupon($coupon, $student);
 
             if($coupon->discount == 100){
                 $subscription->calculateTotal();

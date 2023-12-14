@@ -65,7 +65,7 @@ Route::group(['namespace' => 'App\Http\Controllers', 'middleware' => ['auth:sanc
 
     /* -------------------------------------------------------------------------------- */
     /* Coupons Routes */
-    Route::post('coupons/check', 'CouponsController@check')->name('parents.coupons.check');
+    Route::post('students/{student}/coupons/check', 'CouponsController@check')->name('parents.coupons.check');
 
     /* -------------------------------------------------------------------------------- */
     /* Billing Routes */
@@ -79,8 +79,8 @@ Route::group(['namespace' => 'App\Http\Controllers', 'middleware' => ['auth:sanc
         'show' => 'parent.payments.show',
     ]);;
 
-    Route::post('payments/process', 'PaymentsController@process')->name('parents.payments.process');
-    Route::post('payments/processRedirection', 'PaymentsController@processRedirection')->name('parents.payments.processRedirection');
+    Route::post('students/{student}/payments/process', 'PaymentsController@process')->name('parents.payments.process');
+    Route::post('students/{student}/payments/processRedirection', 'PaymentsController@processRedirection')->name('parents.payments.processRedirection');
 
     Route::get('paymentMethods', 'PaymentMethodsController@index')->name('parents.paymentMethods.index');
     Route::post('paymentMethods/init', 'PaymentMethodsController@init')->name('parents.paymentMethods.init');

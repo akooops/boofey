@@ -6,6 +6,7 @@ use App\Models\Coupon;
 use App\Rules\CouponValid;
 use App\Rules\FatherHasNotUsedCoupon;
 use App\Rules\IsFullDiscount;
+use App\Rules\StudentHasNotUsedCoupon;
 use App\Rules\SubscriptionIsInitiated;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\ValidationException;
@@ -31,6 +32,8 @@ class ProcessPaymentRequest extends FormRequest
      */
     public function rules()
     {
+        $student = $this->route('student');
+
         $currentRoute = Route::currentRouteName();
 
         $rules = [
@@ -40,7 +43,7 @@ class ProcessPaymentRequest extends FormRequest
             'customer_email' => 'required|email',
 
             'subscription_id' => ['required', 'exists:subscriptions,id', new SubscriptionIsInitiated()],
-            'coupon_id' => ['nullable', 'exists:coupons,id', new CouponValid(), new FatherHasNotUsedCoupon()]
+            'coupon_id' => ['nullable', 'exists:coupons,id', new CouponValid(), new StudentHasNotUsedCoupon($student->id)]
         ];
 
         $coupon_id = $this->input('coupon_id');

@@ -75,6 +75,17 @@ class Student extends Model
         return $this->hasMany(Subscription::class, 'student_id', 'id')->where('status', 'initiated');
     }
 
+    
+    public function couponUsages()
+    {
+        return $this->hasMany(UsedCoupon::class);
+    }
+
+    public function usedCoupons()
+    {
+        return $this->belongsToMany(Coupon::class, 'used_coupons', 'student_id', 'coupon_id');
+    }
+
     public function getTookSnackTodayAttribute()
     {
         $today = Carbon::today();

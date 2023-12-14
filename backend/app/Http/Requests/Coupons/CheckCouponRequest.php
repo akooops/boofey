@@ -4,7 +4,7 @@ namespace App\Http\Requests\Coupons;
 
 use App\Rules\CouponExists;
 use App\Rules\CouponValid;
-use App\Rules\FatherHasNotUsedCoupon;
+use App\Rules\StudentHasNotUsedCoupon;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Http\JsonResponse;
@@ -28,12 +28,14 @@ class CheckCouponRequest extends FormRequest
      */
     public function rules()
     {
+        $student = $this->route('student');
+
         return [
             'code' => [
                 'required',
                 'exists:coupons,code',
                 new CouponValid(),
-                new FatherHasNotUsedCoupon()
+                new StudentHasNotUsedCoupon($student)
             ], 
         ];
     }

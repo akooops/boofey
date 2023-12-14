@@ -10,7 +10,7 @@ class UsedCoupon extends Model
     use HasFactory;
 
     protected $fillable = [
-        'father_id',
+        'student_id',
         'coupon_id'
     ];
         
@@ -18,9 +18,9 @@ class UsedCoupon extends Model
         --------------------------------------------------------------------
     */
 
-    public function father()
+    public function student()
     {
-        return $this->belongsTo(Father::class);
+        return $this->belongsTo(Student::class);
     }
 
     public function coupon()

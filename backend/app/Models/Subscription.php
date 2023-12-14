@@ -96,13 +96,13 @@ class Subscription extends Model
         $this->balance = $package->days; 
     }
 
-    public function applyCoupon($coupon, Father $father = null){
+    public function applyCoupon($coupon, Student $student = null){
         if($coupon === null || $coupon->onhold == true || $coupon->used >= $coupon->max) return;
 
-        if ($father && $father->usedCoupons()->where('coupon_id', $coupon->id)->exists()) return;
+        if ($student && $student->usedCoupons()->where('coupon_id', $coupon->id)->exists()) return;
 
         $usedCoupon = UsedCoupon::create([
-            'father_id' => $father->id,
+            'student_id' => $student->id,
             'coupon_id' => $coupon->id
         ]);
 

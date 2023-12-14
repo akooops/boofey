@@ -19,17 +19,6 @@ class Father extends Model
     /* Relationships
         --------------------------------------------------------------------
     */
-
-    public function couponUsages()
-    {
-        return $this->hasMany(UsedCoupon::class);
-    }
-
-    public function usedCoupons()
-    {
-        return $this->belongsToMany(Coupon::class, 'used_coupons', 'father_id', 'coupon_id');
-    }
-
     public function user()
     {
         return $this->belongsTo(User::class);
