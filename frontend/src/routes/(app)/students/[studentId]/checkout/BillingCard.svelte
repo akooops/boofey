@@ -100,7 +100,7 @@
         }
 
         
-        let res = await fetch(PathPay(),{
+        let res = await fetch(PathPay(data.student.id),{
             headers:{
                 Authorization: `${localStorage.getItem("SID")}`
             },
@@ -154,7 +154,7 @@
 
     async function paymentRedirection(){
 
-        let returnUrl = `https://localhost:5173/paymentReturn/feedback/${$page.url.pathname.split("/")[2]}`
+        let returnUrl = `${$page.url.origin}/paymentReturn/feedback/${$page.url.pathname.split("/")[2]}`
 
         let formData = new FormData()
         formData.set("language",localStorage.getItem("language"))
@@ -170,7 +170,7 @@
             formData.set("payment_method_id",paymentMethodId)
         }
 
-        let res = await fetch(PathPayementRedirection(),{
+        let res = await fetch(PathPaymentRedirection(data.student.id),{
             headers:{
                 Authorization: `${localStorage.getItem("SID")}`
             },

@@ -88,6 +88,14 @@ loading = true
                                     {/if}
                                 </div>
 
+                                <div>
+                                    <label for="name" class="form-label">School Code</label>
+                                    <input type="text" name="code" class="form-control" id="name" placeholder="Enter School code" bind:value={$schoolStore.code}>
+                                    {#if errors?.code}
+                                    <strong class="text-danger ms-1 my-2">{errors.code[0]}</strong>
+                                    {/if}
+                                </div>
+
                                 <div class="row ps-3 g-3">
                                     <!-- Switches Color -->
                                     <div class="form-check form-switch col" >

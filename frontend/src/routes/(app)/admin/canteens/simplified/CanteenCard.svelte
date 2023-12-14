@@ -15,16 +15,16 @@
     let queuesToolTip
 
     function openQueues(){
-        let toolTipInstance = bootstrap.Tooltip.getOrCreateInstance(queuesToolTip)
+        // let toolTipInstance = bootstrap.Tooltip.getOrCreateInstance(queuesToolTip)
         goto(`/admin/canteens/${canteen.id}/queues`)
-        toolTipInstance.hide()
+        // toolTipInstance.hide()
     }
 
 </script>
 
 
 <div class="col-xxl-3 col-xl-4  col-lg-5  col-sm-6   col-xs-12">
-    <div class="card card-animate p-3 "   role="button">
+    <div class="card card-animate p-3 "   role="button" on:click={openQueues}>
 
         <div class="d-flex  align-items-center">
             <div class="flex-shrink-0">
@@ -42,7 +42,7 @@
             <span class="badge bg-danger-subtle text-danger">{canteen.status}</span>
             {/if}
         </div>
-        <div class="d-flex gap-2  mt-4 flex-wrap">
+        <!-- <div class="d-flex gap-2  mt-4 flex-wrap">
             <span data-bs-toggle="modal" class="col-12" data-bs-target="#editCanteenModal" on:click={openQueues} bind:this={queuesToolTip}>
                 <button type="button" class="btn  col-12 text-start btn-soft-success btn-label  waves-effect waves-light">
                     <i class="ri-edit-2-line label-icon align-middle fs-16 me-2"></i> Manage
@@ -53,7 +53,7 @@
                     <i class="ri-eye-fill label-icon align-middle fs-16 me-2"></i> View Canteen
                 </button>
             </span>
-        </div>
+        </div> -->
     </div>
 </div><!-- end col -->
 

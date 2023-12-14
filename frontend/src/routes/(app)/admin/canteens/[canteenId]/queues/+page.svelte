@@ -35,7 +35,7 @@ import CloseQueueModal from "$lib/modals/CloseQueueModal.svelte";
     $: activeQueue = data.queuesResponse.data.activeQueue
     $: canteen = data.queuesResponse.data.canteen
     $: queuesPagination = data.queuesResponse.pagination
-
+    $: activeQueueStudents = data.activeQueueStudents
 
     let queuesPage
     onMount(() => {
@@ -46,7 +46,7 @@ import CloseQueueModal from "$lib/modals/CloseQueueModal.svelte";
     
 </script>
 {#if  JSON.parse(sessionStorage.getItem("permissions")).includes("queues.index.simplified")}
-    <SimpleQueuePage {queuesList} {activeQueue} {canteen} {queuesPagination}/>
+    <SimpleQueuePage {queuesList} {activeQueue} {canteen} {queuesPagination} {activeQueueStudents}/>
 {:else}
 <div class="row"  in:fade={{duration: 200 }} bind:this={queuesPage}>
     <div class="col-lg-12">

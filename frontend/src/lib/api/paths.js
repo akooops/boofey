@@ -421,17 +421,17 @@ export function PathInitSubscription(){
     return `${PARENT_DOMAIN}/subscriptions/init`
 }
 
-export function PathCheckCoupon(){
-    return `${PARENT_DOMAIN}/coupons/check`
+export function PathCheckCoupon(studentId){
+    return `${PARENT_DOMAIN}/students/${studentId}/coupons/check`
 
 }
-export function PathPay(){
-    return `${PARENT_DOMAIN}/payments/process`
+export function PathPay(studentId){
+    return `${PARENT_DOMAIN}/students/${studentId}/payments/process `
 
 }
 
-export function PathPayementRedirection(){
-    return `${PARENT_DOMAIN}/payments/processRedirection`
+export function PathPaymentRedirection(studentId){
+    return `${PARENT_DOMAIN}/students/${studentId}/payments/processRedirection`
 }
 export function PathCheckPaymentRedirection(ref){
     return `${PARENT_DOMAIN}/payments/checkPaymentRedirection/${ref}`
@@ -495,8 +495,15 @@ export function PathExitQr(canteenId){
 
 /////
 export function PathLogin(){
+    return `${AUTH_DOMAIN}/admin/login`
+}
+export function PathSendId(){
+    return `${AUTH_DOMAIN}/otp`
+}
+export function PathSendIdVerification(){
     return `${AUTH_DOMAIN}/login`
 }
+
 
 export function PathRegister(){
     return `${AUTH_DOMAIN}/register`
@@ -529,6 +536,9 @@ export function PathLogOut(){
 
 
 export function DefaultGetQueries(url){
+    if(url == null){
+        return {page:1,search:""}
+    }
     let page =  url.searchParams.get("page")
     page = page ? page : 1
     let search =  url.searchParams.get("search")

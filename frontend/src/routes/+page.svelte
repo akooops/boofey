@@ -57,7 +57,7 @@
                             <a href="{user.roles[0].name == "parent" ? "/students" : "/admin"}" data-sveltekit-reload  class="btn btn-primary">Go To Control Panel</a>
                         {:else}
                         <a href="/signin"  data-sveltekit-reload class="btn btn-link fw-medium text-decoration-none text-body">Sign in</a>
-                        <a href="/signup" data-sveltekit-reload  class="btn btn-primary">Sign Up</a>
+                        <!-- <a href="/signup" data-sveltekit-reload  class="btn btn-primary">Sign Up</a> -->
                         {/if}
                     </div>
                 </div>
@@ -81,9 +81,10 @@
                                 {#if userResponse}
                                 <a href="{user.roles[0].name == "parent" ? "/students" : "/admin"}" data-sveltekit-reload  class="btn btn-primary">Go To Control Panel <i class="ri-arrow-right-line align-middle ms-1"></i></a>
                                 {:else}
-                                <a href="/signup" data-sveltekit-reload  class="btn btn-primary">Get Started <i class="ri-arrow-right-line align-middle ms-1"></i></a>
+                                <!-- <a href="/signup" data-sveltekit-reload  class="btn btn-primary">Get Started <i class="ri-arrow-right-line align-middle ms-1"></i></a> -->
+                                <a href="/signin" data-sveltekit-reload  class="btn btn-primary">Subscribe Now <i class="ri-arrow-right-line align-middle ms-1"></i></a>
                                 {/if}
-                                <a href="pages-pricing.html" class="btn btn-danger">Contact <i class="ri-eye-line align-middle ms-1"></i></a>
+                                <!-- <a href="pages-pricing.html" class="btn btn-danger">Contact <i class="ri-eye-line align-middle ms-1"></i></a> -->
                             </div>
                         </div>
 
@@ -303,7 +304,8 @@
                             <a href="{user.roles[0].name == "parent" ? "/students" : "/admin"}" data-sveltekit-reload class="btn bg-gradient btn-danger"><i class="ri-arrow-right-line align-middle me-1"></i> Go To Control Panel</a>
 
                             {:else}
-                            <a href="/signup" data-sveltekit-reload class="btn bg-gradient btn-danger"><i class="ri-arrow-right-line align-middle me-1"></i> Get Started</a>
+                            <!-- <a href="/signup" data-sveltekit-reload class="btn bg-gradient btn-danger"><i class="ri-arrow-right-line align-middle me-1"></i> Get Started</a> -->
+                            <a href="/signin" data-sveltekit-reload class="btn bg-gradient btn-danger"><i class="ri-arrow-right-line align-middle me-1"></i> Subscribe Now</a>
                             {/if}
                         </div>
                     </div>
@@ -459,7 +461,7 @@
         <!-- end review -->
 
         <!-- start counter -->
-        <section class="py-5 position-relative bg-light">
+        <!-- <section class="py-5 position-relative bg-light">
             <div class="container">
                 <div class="row text-center gy-4">
                     <div class="col-lg-3 col-6">
@@ -468,7 +470,6 @@
                             <div class="text-muted">Projects Completed</div>
                         </div>
                     </div>
-                    <!-- end col -->
 
                     <div class="col-lg-3 col-6">
                         <div>
@@ -476,7 +477,6 @@
                             <div class="text-muted">Win Awards</div>
                         </div>
                     </div>
-                    <!-- end col -->
 
                     <div class="col-lg-3 col-6">
                         <div>
@@ -484,20 +484,15 @@
                             <div class="text-muted">Satisfied Clients</div>
                         </div>
                     </div>
-                    <!-- end col -->
                     <div class="col-lg-3 col-6">
                         <div>
                             <h2 class="mb-2"><span class="counter-value" data-target="50">50</span></h2>
                             <div class="text-muted">Employees</div>
                         </div>
                     </div>
-                    <!-- end col -->
                 </div>
-                <!-- end row -->
             </div>
-            <!-- end container -->
-        </section>
-        <!-- end counter -->
+        </section> -->
 
         <!-- start Work Process -->
         <section class="section">
@@ -530,7 +525,7 @@
                         </div>
                     </div>
                     <!-- end col -->
-                    <div class="col-lg-4">
+                    <!-- <div class="col-lg-4">
                         <div class="process-card mt-4">
                             <div class="process-arrow-img d-none d-lg-block">
                                 <img src="assets/images/landing/process-arrow-img.png" alt="" class="img-fluid">
@@ -544,9 +539,9 @@
                             <h5>Phone</h5>
                             <p class="text-muted ff-secondary">0000000000</p>
                         </div>
-                    </div>
+                    </div> -->
                     <!-- end col -->
-                    <div class="col-lg-4">
+                    <!-- <div class="col-lg-4">
                         <div class="process-card mt-4">
                             <div class="avatar-sm icon-effect mx-auto mb-4">
                                 <div class="avatar-title bg-transparent text-success rounded-circle h1">
@@ -557,7 +552,7 @@
                             <h5>Address</h5>
                             <p class="text-muted ff-secondary">Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
                         </div>
-                    </div>
+                    </div> -->
                     <!-- end col -->
                 </div>
                 <!-- end row -->
@@ -570,7 +565,7 @@
         <!-- end contact -->
 
         <!-- start cta -->
-        <section class="py-5 bg-primary position-relative">
+        <!-- <section class="py-5 bg-primary position-relative">
             <div class="bg-overlay bg-overlay-pattern opacity-50"></div>
             <div class="container">
                 <div class="row align-items-center gy-4">
@@ -579,7 +574,6 @@
                             <h4 class="text-white mb-0 fw-semibold">subscribe to Boofey and bring daily nutritious delight to your child's school meals!</h4>
                         </div>
                     </div>
-                    <!-- end col -->
                     <div class="col-sm-auto">
                         <div>
                             {#if userResponse}
@@ -587,16 +581,13 @@
 
                             {:else}
                             <a href="/signup" data-sveltekit-reload class="btn bg-gradient btn-danger"><i class="ri-arrow-right-line align-middle me-1"></i> Get Started</a>
+                            <a href="/signin" data-sveltekit-reload class="btn bg-gradient btn-danger"><i class="ri-arrow-right-line align-middle me-1"></i> Subscribe Now</a>
                             {/if}
                         </div>
                     </div>
-                    <!-- end col -->
                 </div>
-                <!-- end row -->
             </div>
-            <!-- end container -->
-        </section>
-        <!-- end cta -->
+        </section> -->
 
         <!-- Start footer -->
         <footer class="custom-footer bg-dark py-5 position-relative">

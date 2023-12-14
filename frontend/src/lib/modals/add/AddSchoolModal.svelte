@@ -70,7 +70,7 @@
                         <div class="row g-3">
                                 <div>
                                     <label for="name" class="form-label">School Name</label>
-                                    <input type="text" name="name" class="form-control" id="name" placeholder="Enter Permission name" bind:value={schoolName}>
+                                    <input type="text" name="name" class="form-control" id="name" placeholder="Enter School name" bind:value={schoolName}>
                                     {#if errors?.name}
                                     <strong class="text-danger ms-1 my-2">{errors.name[0]}</strong>
                                     {/if}
@@ -80,6 +80,13 @@
                                     <input type="text" class="form-control" id="productName" name="name_ar" dir="rtl" placeholder="ادخل اسم المدرسة">
                                     {#if errors?.name_ar}
                                     <strong class="text-danger ms-1 my-2">{errors.name_ar[0]}</strong>
+                                    {/if}
+                                </div>
+                                <div>
+                                    <label for="name" class="form-label">School Code</label>
+                                    <input type="text" name="code" class="form-control" id="name" placeholder="Enter School code">
+                                    {#if errors?.code}
+                                    <strong class="text-danger ms-1 my-2">{errors.code[0]}</strong>
                                     {/if}
                                 </div>
                                 <div class="row ps-3 g-3">

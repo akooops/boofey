@@ -64,6 +64,13 @@
         {school.name_ar}
     </td>
     <td>
+        {#if school.code == null}
+            <span class="badge bg-dark-subtle text-body">not set</span>
+        {:else}
+            <span class="badge border border-primary text-primary">{school.code}</span>
+        {/if}
+    </td>
+    <td>
         {#if school.qr_enabled}
         <span class="badge bg-success-subtle text-success">Enabled</span>
         {:else}

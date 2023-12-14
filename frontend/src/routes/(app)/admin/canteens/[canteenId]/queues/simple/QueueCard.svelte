@@ -2,6 +2,7 @@
     import { getContext } from "svelte"
     import { goto } from '$app/navigation';
 
+
     export let queue
     let queueStudentsToolTip
 
@@ -52,7 +53,7 @@
 
 
         <div class="d-flex gap-2  mt-4 flex-wrap">
-            {#if JSON.parse(sessionStorage.getItem("permissions")).includes("queues.update.simplified")}
+            <!-- {#if JSON.parse(sessionStorage.getItem("permissions")).includes("queues.update.simplified")}
             <span data-bs-toggle="modal" class="col-12" data-bs-target="#editQueueModal" on:click|stopPropagation={setQueue}>
                 <button type="button" class="btn  col-12 text-start btn-soft-success btn-label  waves-effect waves-light">
                     <i class="ri-edit-2-line label-icon align-middle fs-16 me-2"></i> Edit Queue
@@ -72,9 +73,9 @@
                     <i class="ri-delete-bin-line label-icon align-middle fs-16 me-2"></i> Delete Queue
                 </button>
             </span>
-            {/if}
+            {/if} -->
             {#if JSON.parse(sessionStorage.getItem("permissions")).includes("queueStudents.index.simplified")}
-            <span  class="col-12" on:click|stopPropagation={openQueueStudents} bind:this={queueStudentsToolTip}>
+            <span  class="col-12" on:click|stopPropagation={openQueueStudents} bind:this={queueStudentsToolTip} data-bs-dismiss="modal">
                 <button type="button" class="btn  col-12 text-start btn-soft-primary btn-label  waves-effect waves-light">
                     <i class="ri-user-2-line label-icon align-middle fs-16 me-2"></i> Students
                 </button>

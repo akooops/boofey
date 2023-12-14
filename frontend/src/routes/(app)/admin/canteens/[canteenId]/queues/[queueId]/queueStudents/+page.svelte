@@ -21,6 +21,7 @@
 import ExitQueueStudent from "$lib/modals/confirmation/ExitQueueStudent.svelte";
 	import AddQueueStudentSimple from "./simplified/AddQueueStudentModalSimple.svelte";
 	import AddQueueStudentModalSimple from "./simplified/AddQueueStudentModalSimple.svelte";
+    import { invalidate,beforeNavigate } from '$app/navigation';
 
     export let data
     $: queueStudentsList = data.queueStudentsResponse.data.queueStudents
@@ -28,14 +29,30 @@ import ExitQueueStudent from "$lib/modals/confirmation/ExitQueueStudent.svelte";
     $: queueStudentsPagination = data.queueStudentsResponse.pagination
 
 let queueStudentsPage
+let interval
 onMount(() => {
     initToolTip(queueStudentsPage)
     InitFlatPickr()
+    interval = setInterval(() => {
+        invalidate("queueStudents:refresh")
+    }, 60000)
 })
 
 setContext('queueStudentStore', {
     queueStudentStore: writable({})
 });
+
+
+beforeNavigate( () => {
+    if(interval){
+        clearInterval(interval)
+    }
+})
+
+
+
+
+// 
 
 
 </script>

@@ -23,7 +23,7 @@
     async function checkCoupon(){
         errors = null
         let formData = new FormData(form)
-        let res = await fetch(PathCheckCoupon(),{
+        let res = await fetch(PathCheckCoupon(payment.student_id),{
             headers:{
                 Authorization: `${localStorage.getItem("SID")}`
             },

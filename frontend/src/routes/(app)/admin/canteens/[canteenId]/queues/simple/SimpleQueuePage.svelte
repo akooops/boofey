@@ -22,13 +22,16 @@
     import { fade } from 'svelte/transition';
 import CloseQueueModal from "$lib/modals/CloseQueueModal.svelte";
 	import QueueCard from "./QueueCard.svelte";
+	import ActiveQueueStudentCard from "./ActiveQueueStudentCard.svelte";
+	import ViewAllQueuesModal from "./ViewAllQueuesModal.svelte";
+    import ExitQueueStudent from "$lib/modals/confirmation/ExitQueueStudent.svelte";
 
 
     export let queuesList 
     export let activeQueue 
     export let canteen 
     export let queuesPagination
-
+    export let activeQueueStudents
 
     let queuesPage
     onMount(() => {
@@ -36,6 +39,9 @@ import CloseQueueModal from "$lib/modals/CloseQueueModal.svelte";
         // InitFlatPickr()
 
     })
+    setContext('queueStudentStore', {
+        queueStudentStore: writable({})
+    });
 
 
     let qrExit
@@ -93,6 +99,13 @@ import CloseQueueModal from "$lib/modals/CloseQueueModal.svelte";
                                 </button>
                             </span>
                             {/if}
+                            {#if JSON.parse(sessionStorage.getItem("permissions")).includes("queues.index.simplified")}
+                                <span  data-bs-toggle="modal"  data-bs-target="#ViewAllQueuesModal">
+                                    <button type="button" class="btn  col-12 text-start btn-secondary btn-label  waves-effect waves-light">
+                                        <i class="ri-team-line label-icon align-middle fs-16 me-2"></i> Queues
+                                    </button>
+                                </span>
+                            {/if}
                             {#if JSON.parse(sessionStorage.getItem("permissions")).includes("queues.exit.simplified")}
                                 <span on:click={openQrExit} bind:this={qrExit} >
                                     <button type="button" class="btn  col-12 text-start btn-info btn-label  waves-effect waves-light">
@@ -122,11 +135,20 @@ import CloseQueueModal from "$lib/modals/CloseQueueModal.svelte";
         </div><!-- end card -->
 
 
-        <h4 class="card-title mb-0 flex-grow-1 mb-3">Active Queue</h4>
+        <h4 class="card-title mb-0 flex-grow-1 mb-3">Active Queue Students</h4>
 
         {#if JSON.parse(sessionStorage.getItem("permissions")).includes("queues.index.simplified")}
             {#if activeQueue}
-            <QueueCard queue={activeQueue} />
+            <!-- <QueueCard queue={activeQueue} /> -->
+                {#each activeQueueStudents as queueStudent}
+                     <ActiveQueueStudentCard {queueStudent}/>
+                {:else}
+                <div class="alert alert-info alert-border-left alert-dismissible fade show" role="alert">
+                    <i class="ri-airplay-line me-3 align-middle"></i> There are no <strong>Students</strong> at the moment 
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {/each}
+
             {:else}
                 <div class="alert alert-info alert-border-left alert-dismissible fade show" role="alert">
                     <i class="ri-airplay-line me-3 align-middle"></i> There are no <strong>Active Queues</strong> at the moment 
@@ -136,25 +158,19 @@ import CloseQueueModal from "$lib/modals/CloseQueueModal.svelte";
             {/if}
         {/if}
 
-    
+<!--     
                 <h4 class="card-title mb-0 flex-grow-1 mb-3">All queues</h4>
     
             {#if JSON.parse(sessionStorage.getItem("permissions")).includes("queues.index.simplified")}
-            <!-- <div class="card-body"> -->
         
-                <!-- <div class="live-preview"> -->
                     <div class="row">
-                            <!-- Input with Icon -->
                         {#each queuesList as queue,_ (queue.id)}
                             <QueueCard {queue} />
                         {/each}
                         <Pagination {...queuesPagination} />
-                        <!--end col-->
                     </div>
-                    <!--end row-->
-                <!-- </div> -->
             {/if}
-        
+         -->
        
     
     </div>
@@ -173,5 +189,9 @@ import CloseQueueModal from "$lib/modals/CloseQueueModal.svelte";
         {school.name}
     </div>
 </div> -->
+
+
+<ExitQueueStudent />
+<ViewAllQueuesModal {queuesList} {activeQueue} {canteen} {queuesPagination}/>
 
     

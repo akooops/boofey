@@ -168,7 +168,7 @@ document.addEventListener('keydown',listenInput)
                 
                 <div class="form-check form-switch col-2 flex-shrink-0" >
                     <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck1" on:changed={changeType} bind:checked={laserScan}>
-                    <label class="form-check-label" for="SwitchCheck1">Scan without camera</label>
+                    <label class="form-check-label" for="SwitchCheck1">External Scanner</label>
                 </div><!-- Switches Color -->
                 <div class="flex-shrink-0">
                     <!-- Switches Color -->

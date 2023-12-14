@@ -30,6 +30,7 @@
                     <th scope="col">ID</th>
                     <th scope="col">Name</th>
                     <th scope="col">Arabic Name</th>
+                    <th scope="col">code</th>
                     <th scope="col">Qr</th>
                     <th scope="col">Action</th>
 

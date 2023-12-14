@@ -1,131 +1,304 @@
 <script>
-    import {PathLogin} from "$lib/api/paths.js"
+    import {PathSendId,PathSendIdVerification} from "$lib/api/paths.js"
     import { goto } from '$app/navigation';
 	import { onMount } from "svelte";
     import {initApp} from "$lib/init/initApp.js"
-    import { navigating } from '$app/stores';
 	import Password from "$lib/components/Password.svelte";
+    import { phoneMask } from "$lib/inputMasks.js";
     import {translation} from "$lib/translation.js"
 
 
 
     export let data;
     let form 
-    let keep_me_signed_in = false
-    let message = ""
     let errors
     let loading = false
-    async function signin(){
-        localStorage.setItem("language","en")
+    let step = "id" 
+    let idNumber
+    let phone 
+    let resendAvailable = true
+    let time = "01:00"
+    let timeLeft = 58
+
+
+    async function sendId(){
         loading = true
         errors = {}
-        message = ""
         let formData = new FormData(form)
-        formData.set("keep_me_signed_in",keep_me_signed_in)
-        formData.set("lang",localStorage.getItem("language"))
-
-        let res = await fetch(PathLogin(),{
+        idNumber = formData.get("identity_number")
+        let res = await fetch(PathSendId(),{
             method:"POST",
             body:formData
         })
 
-        let resJson = await res.json()
-        if(resJson.status == "success") {
-            localStorage.setItem("SID", `Bearer ${resJson.data.token}`);
-            if(resJson?.data?.user?.verified == false){
-                goto("/verification")   
-            }
+        res = await res.json()
+        if(res.status == "success") {
+            phone = res.data.phone
+            step = "verification"
 
-
-            if(resJson?.data?.roles[0]?.name != "parent"){
-                window.location.href = `${window.location.origin}/admin`
-                // goto("")
-            }else {
-                window.location.href = `${window.location.origin}/students`
-                // goto("/")
-            }
-            // history.back()
         }else {
-            if(res.status == 422){
-                errors = resJson.errors
-            }else {
-                message = resJson.message
-            }
+            errors = res.errors
         }
+
         loading = false
+
     }
 
-    onMount(() => {
+
+    async function resendId(){
+        errors = {}
+        let formData = new FormData()
+        formData.set("identity_number",idNumber)
+        let res = await fetch(PathSendId(),{
+            method:"POST",
+            body:formData
+        })
+
+        res = await res.json()
+        if(res.status == "success") {
+            phone = res.data.phone
+         
+        }
+
+        resendAvailable = false
+        updateTimer()
+
+    }
+
+
+async function sendPhone(){
+    loading = true
+
+    errors = {}
+    let formData = new FormData(form)
+
+    let allValues = [];
+
+    // Iterate through the FormData entries
+    for (const pair of formData.entries()) {
+        const [name, value] = pair;
+        allValues.push(value);
+    }
+
+    formData = new FormData()
+    formData.set("verification_code",allValues.join(''))
+    formData.set("phone",phone)
+
+    let res = await fetch(PathSendIdVerification(),{
+            method:"POST",
+            body:formData
     })
+
+    let resJson = await res.json()
+    if(resJson.status == "success") {
+        localStorage.setItem("SID", `Bearer ${resJson.data.token}`);
+        if(resJson?.data?.user?.verified == false){
+            goto("/verification")   
+        }
+
+
+        if(resJson?.data?.roles[0]?.name != "parent"){
+            window.location.href = `${window.location.origin}/admin`
+            // goto("")
+        }else {
+            window.location.href = `${window.location.origin}/students`
+            // goto("/")
+        }
+
+        // history.back()
+    }else {
+        if(res.status == 422){
+            errors = resJson.errors
+        }else {
+            message = resJson.message
+        }
+    }
+
+
+
+    resendAvailable = false
+    loading = false
+
+}
+function updateTimer() {
+            const seconds = timeLeft % 60;
+            time = `00:${seconds < 10 ? '0' : ''}${seconds}`;
+
+            if (timeLeft === 0) {
+                // Timer has ended, you can add code to handle this event
+                resendAvailable = true
+                timeLeft = 59
+            } else {
+                timeLeft--;
+                setTimeout(updateTimer, 1000); // Update the timer every 1 second
+            }
+    }
+
+
+    function moveToNext(index, event) {
+        function getInputElement(index) {
+            return document.getElementById('digit' + index + '-input');
+        }
+
+        const eventCode = event.which || event.keyCode;
+        if (getInputElement(index).value.length === 1) {
+            if (index !== 6) {
+                getInputElement(index + 1).focus();
+            } else {
+                getInputElement(index).blur();
+                // Submit code
+                sendPhone()
+            }
+        }
+        if (eventCode === 8 && index !== 1) {
+            getInputElement(index - 1).focus();
+        }
+    }
 
 
 
 </script>
+{#if step == "id"}
+<div class="row justify-content-center">
+    <div class="col-md-9 col-lg-7 col-xl-6">
+        <div class="card mt-4">
 
-
-            <div class="row justify-content-center">
-                <div class="col-md-8 col-lg-6 col-xl-5">
-                    <div class="card mt-4">
-
-                        <div class="card-body p-4">
-                            <div class="text-center mt-2">
-                                <h5 class="text-primary">Welcome Back !</h5>
-                                <p class="text-muted">Sign in to continue to Boofey.</p>
-                            </div>
-                            <div class="p-2 mt-4">
-                                <form on:submit|preventDefault={signin} bind:this={form}>
-
-                                    <div class="mb-3">
-                                        <label for="username" class="form-label">Username</label>
-                                        <input type="text" class="form-control" id="username" name="login" placeholder="Enter username, email or phone">
-                                        {#if errors?.login}
-                                            <strong class="text-danger ms-1 my-2">{errors.login[0]}</strong>
-                                        {/if}
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <div class="float-end">
-                                            <a href="/reset-password" class="text-muted">Forgot password ?</a>
-                                        </div>
-                                        <label class="form-label" for="password-input">Password</label>
-                                        <div class="position-relative auth-pass-inputgroup mb-3">
-                                            <Password name={"password"} placeholder="Enter Password"/>
-                                        </div>
-                                        {#if errors?.password}
-                                        <strong class="text-danger ms-1 my-2">{errors.password[0]}</strong>
-                                        {/if}
-                                    </div>
-
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" bind:checked={keep_me_signed_in} id="auth-remember-check">
-                                        <label class="form-check-label" for="auth-remember-check">Keep me signed in</label>
-                                    </div>
-                                    {#if message != ""}
-                                    <strong class="text-danger ms-1 my-2">{message}</strong>
-                                    {/if}
-<!-- Load More Buttons -->
-
-                                    <div class="mt-4">
-                                        <button class="btn btn-primary w-100 btn-load" type="submit" disabled={loading}>
-                                            {#if loading}
-                                            <span class="spinner-border " role="status"></span>
-                                            {:else}
-                                            Sign In
-
-                                            {/if}                                        
-                                        </button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                        <!-- end card body -->
-                    </div>
-                    <!-- end card -->
-
-                    <div class="mt-4 text-center">
-                        <p class="mb-0">Don't have an account ? <a href="/signup" class="fw-semibold text-primary text-decoration-underline"> Sign Up </a> </p>
-                    </div>
+            <div class="card-body p-4">
+                <div class="text-center mt-2">
+                    <h5 class="text-primary">Welcome Back !</h5>
+                    <p class="text-muted">Sign in to continue to Boofey.</p>
+                    <lord-icon src="https://cdn.lordicon.com/yodhlnxj.json" trigger="loop" colors="primary:#0ab39c" class="avatar-xl">
+                    </lord-icon>
 
                 </div>
+
+                <div class="p-2">
+                    <form on:submit|preventDefault={sendId} bind:this={form}>
+                        <div class="mb-4">
+                            <label class="form-label">Idnetity Number</label>
+                            <input type="text" class="form-control" name="identity_number" id="cleave-phone" placeholder="Enter Identity Number">
+                        </div>
+                        {#if errors?.identity_number}
+                            <strong class="text-danger ms-1 my-2">{errors.identity_number[0]}</strong>
+                        {/if}
+                        <div class="mb-4">
+                            <p class="mb-0 fs-13 text-muted fst-italic">By signing in you accept our <a href="#" class="text-primary text-decoration-underline fst-normal fw-semibold">Terms of use </a> and &#160<a href="#" class="text-primary text-decoration-underline fst-normal fw-semibold">privacy policy</a></p>
+                        </div>
+                        <div class="text-center mt-4">
+                            <button class="btn btn-primary w-100 btn-load" type="submit" disabled={loading}>
+                                {#if loading}
+                                <span class="spinner-border " role="status"></span>
+                                {:else}
+                                Submit
+                                {/if}                                        
+                            </button>
+                        </div>
+                    </form><!-- end form -->
+                </div>
             </div>
-  
+            <!-- end card body -->
+        </div>
+        <!-- end card -->
+    </div>
+</div>
+{:else if step == "verification"}
+
+<div class="row justify-content-center">
+    <div class="col-md-9 col-lg-7 col-xl-6">
+        <div class="card mt-4">
+
+            <div class="card-body p-4">
+                <div class="text-center mt-2">
+                    <h5 class="text-primary">Welcome Back !</h5>
+                    <p class="text-muted">Sign in to continue to Boofey.</p>
+                    <lord-icon src="https://cdn.lordicon.com/rhvddzym.json" trigger="loop" colors="primary:#0ab39c" class="avatar-xl">
+                    </lord-icon>
+
+                </div>
+
+                <div class="p-2 ">
+                    <div class="text-muted text-center mb-4 mx-lg-3">
+                        <p>Please enter the 6 digits code sent to this phone number : <span class="text-primary">{phone}</span> </p>
+                    </div>
+
+                    <form autocomplete="off" on:submit|preventDefault={sendPhone} bind:this={form}>
+                        <div class="row">
+                            <div class="col-2">
+                                <div class="mb-3">
+                                    <label for="digit1-input" class="visually-hidden">Digit 1</label>
+                                    <input type="text" name="1" class="form-control form-control-lg bg-light border-light text-center p-0 p-0"  on:keyup={event => moveToNext(1, event)} maxLength="1" id="digit1-input">
+                                </div>
+                            </div><!-- end col -->
+                    
+                            <div class="col-2">
+                                <div class="mb-3">
+                                    <label for="digit2-input" class="visually-hidden">Digit 2</label>
+                                    <input type="text" name="2" class="form-control form-control-lg bg-light border-light text-center p-0" on:keyup={event => moveToNext(2, event)} maxLength="1" id="digit2-input">
+                                </div>
+                            </div><!-- end col -->
+                    
+                            <div class="col-2">
+                                <div class="mb-3">
+                                    <label for="digit3-input" class="visually-hidden">Digit 3</label>
+                                    <input type="text" name="3" class="form-control form-control-lg bg-light border-light text-center p-0"  on:keyup={event => moveToNext(3, event)} maxLength="1" id="digit3-input">
+                                </div>
+                            </div><!-- end col -->
+                    
+                            <div class="col-2">
+                                <div class="mb-3">
+                                    <label for="digit4-input" class="visually-hidden">Digit 4</label>
+                                    <input type="text" name="4" class="form-control form-control-lg bg-light border-light text-center p-0"  on:keyup={event => moveToNext(4, event)} maxLength="1" id="digit4-input">
+                                </div>
+                            </div><!-- end col -->
+                            <div class="col-2">
+                                <div class="mb-3">
+                                    <label for="digit5-input" class="visually-hidden">Digit 5</label>
+                                    <input type="text" name="5" class="form-control form-control-lg bg-light border-light text-center p-0"  on:keyup={event => moveToNext(5, event)} maxLength="1" id="digit5-input">
+                                </div>
+                            </div><!-- end col -->
+                            <div class="col-2">
+                                <div class="mb-3">
+                                    <label for="digit6-input" class="visually-hidden">Digit 6</label>
+                                    <input type="text" name="6" class="form-control form-control-lg bg-light border-light text-center p-0"  on:keyup={event => moveToNext(6, event)} maxLength="1" id="digit6-input">
+                                </div>
+                            </div><!-- end col -->
+                        </div>
+                    </form><!-- end form -->
+                    {#if errors?.verification_code}
+                        <div class="my-1 text-center">
+                            <p class="mb-0 text-danger">{errors?.verification_code[0]}</p>
+                        </div>
+                    {/if}
+                    {#if errors?.["403"]}
+                        <div class="my-1 text-center">
+                            <p class="mb-0 text-danger">{errors?.["403"]}</p>
+                        </div>
+                    {/if}
+                    <div class="mt-3">
+                        <button class="btn btn-primary w-100 btn-load" type="submit" disabled={loading}>
+                            {#if loading}
+                            <span class="spinner-border " role="status"></span>
+                            {:else}
+                            Confirm
+                            {/if}                                        
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- end card body -->
+        </div>
+
+        <div class="mt-4 text-center">
+            {#if resendAvailable}
+            <p class="mb-0">Didn't receive the code ? <a href="javascript:void(0);" on:click={resendId} class="fw-semibold text-primary text-decoration-underline"> Resend  </a> </p>
+            {:else}
+            <p class="mb-0">You need to wait <span>{time}</span> in order to resend again  </p>
+            
+
+            {/if}
+        </div>
+        <!-- end card -->
+    </div>
+</div>
+
+{/if}

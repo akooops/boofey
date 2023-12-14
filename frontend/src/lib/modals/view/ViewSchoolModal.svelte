@@ -34,6 +34,15 @@
                         <ViewRow>
                             Arabic Name : <span class="fw-normal">{$schoolStore.name_ar}</span>
                          </ViewRow>
+
+                        <ViewRow>
+                            Code : {#if $schoolStore.code == null}
+                                <span class="badge bg-dark-subtle text-body">not set</span>
+                            {:else}
+                                <span class="badge border border-primary text-primary">{$schoolStore.code}</span>
+                            {/if}
+                        </ViewRow>
+                        
                         <div class="d-flex mb-2">
                             <div class="flex-grow-1 d-flex align-items-center">
                                 <div class="flex-shrink-0 me-3">
