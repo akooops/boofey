@@ -26,7 +26,7 @@ class OtpRequest extends FormRequest
     public function rules()
     {
         return [
-            'identity_number' => 'required|numeric|digits:10|unique:fathers,identity_number',
+            'identity_number' => 'required|numeric|digits:10',
         ];
     }
 

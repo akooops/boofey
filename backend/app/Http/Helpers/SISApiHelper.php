@@ -13,11 +13,11 @@ function registerFather($identity_number){
     $response = Http::get($apiUrl, [
         'api_key' => $apiKey,
         'SuperiorNationalityNumber' => $identity_number,
-    ])->withoutVerifying();
+    ]);
 
-    $result = $response->json();
+    $result = (object)$response->json();
 
-    if (isset($result['error'])) {
+    if (isset($result->error)) {
         return [
             'status' => 'error',
         ];
@@ -28,12 +28,7 @@ function registerFather($identity_number){
             $username = strtolower($result->SuperiorName.' '.$result->SuperiorID);
             $username = str_replace(' ', '_', $username);
 
-            $phone = $result->SMSNumber;
-
-            if (preg_match('/^(\+96605\d{8})$/', $phone, $matches)) {
-                $desiredPart = $matches[1];
-                $phone = $desiredPart; 
-            }
+            $phone = substr($result->SMSNumber, 4);
 
             $user = User::create([
                 'username' => $username,
