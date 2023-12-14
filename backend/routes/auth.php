@@ -11,6 +11,10 @@ Route::group(['prefix' => 'auth', 'namespace' => 'App\Http\Controllers\Auth', 'm
 
 Route::group(['prefix' => 'auth', 'namespace' => 'App\Http\Controllers\Auth', 'middleware' => ['convert.bool.string']], function(){  
     Route::post('register', 'AuthController@register');
-    Route::post('login', 'AuthController@login');
+
+    Route::post('admin/login', 'AuthController@loginAdmin')->name('login');
+    Route::post('login', 'AuthController@login')->name('parent.login');
+
+    Route::get('otp', 'AuthController@otp');
     Route::post('tokens/refresh', 'AuthController@refreshTokens');
 });

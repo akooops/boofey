@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Http\Requests\Auth\OtpRequest;
 use App\Http\Requests\Auth\RefreshTokensRequest;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Models\Father;
@@ -93,7 +94,57 @@ class AuthController extends Controller
         ], 200);
     }
 
-    public function login(LoginRequest $request)
+    public function otp(OtpRequest $request){
+        $user = registerFather($request->input('identity_number'));
+
+        if($user['status'] == 'error'){
+            return response()->json([
+                'status' => 'error',
+                'errors' => [
+                    'identity_number' => [__('translations.identity_number_not_found')]
+                ]
+            ], 422);
+        }
+
+        $user = $user['data']['user'];
+
+        $user->verificationCodes()->delete();
+
+        $expiration = now()->addMinutes(5);
+        
+        $verificationCode = new VerificationCode([
+            'expires_at' => $expiration,
+        ]);
+
+        $verificationCode->generateCode();
+        
+        $user->verificationCodes()->save($verificationCode);
+
+        if (config('app.debug') != true) {
+            sendSMS(
+                "Boofey - Your verification code is: {$verificationCode->code}",
+                $user->phone
+            );
+        }
+
+        $response = [
+            'status' => 'success',
+            'data' => [
+                'phone' => $user->phone
+            ]
+        ];
+
+        if (config('app.debug')) {
+            $response['data'] = [
+                'verificationCode' => $verificationCode->code,
+                'phone' => $user->phone
+            ];
+        }
+
+        return response()->json($response); 
+    }
+
+    public function loginAdmin(LoginRequest $request)
     {
         $user = Auth::user();
 
@@ -149,6 +200,77 @@ class AuthController extends Controller
                     ]   
                 ], 200);
             }
+        }
+
+        return response()->json([
+            'status' => 'error',
+            'message' => 'Authentication failed. The provided email or password is incorrect.',
+        ], 200);
+    }
+
+    public function login(LoginRequest $request)
+    {
+        $user = Auth::user();
+
+        if($user !== null){
+            return response()->json([
+                'status' => 'error',
+                'error' => 'You are already logged in!'  
+            ], 400);
+        }
+
+        $user = User::where('phone', $request->input('phone'));
+
+        if(is_null($user)){
+            return response()->json([
+                'status' => 'error',
+                'errors' => [
+                    'verification_code' => [
+                        __('translations.invalid_verification_code')
+                    ]
+                ],
+            ], 422);
+        }
+
+        $verificationCode = $user->verificationCodes()
+            ->where('code', $request->input('verification_code'))
+            ->where('expires_at', '>=', now())
+            ->first();
+
+        if ($verificationCode) {
+            $verificationCode->delete(); 
+            
+            PersonalAccessToken::where('tokenable_id', $user->id)->delete();
+
+            $expiration = now()->addHour();
+            $tokenName = 'short-lived-token';
+
+            $user = $request->user();
+            $token = $user->createToken($tokenName, ['*'], $expiration);
+
+            $user->load([
+                'profile:id,user_id,firstname,lastname',
+                'profile.image:id,current_name,path',
+                'roles:id,name,guard_name', 
+                'roles.permissions:id,name,guard_name', 
+            ]);
+
+            return response()->json([
+                'status' => 'success',
+                'data' => [
+                    'roles' => $user->roles,
+                    'token' => $token->plainTextToken
+                ]   
+            ], 200);
+        } else {
+            return response()->json([
+                'status' => 'error',
+                'errors' => [
+                    'verification_code' => [
+                        __('translations.invalid_verification_code')
+                    ]
+                ],
+            ], 422);
         }
 
         return response()->json([

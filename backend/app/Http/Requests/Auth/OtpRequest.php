@@ -5,9 +5,8 @@ namespace App\Http\Requests\Auth;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Route;
 
-class LoginRequest extends FormRequest
+class OtpRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,23 +25,9 @@ class LoginRequest extends FormRequest
      */
     public function rules()
     {
-        $currentRoute = Route::currentRouteName();
-
-        
-        $rules = [
-            'login' => 'required',
-            'password' => 'required',
-            'keep_me_signed_in' => 'required|boolean',
+        return [
+            'identity_number' => 'required|numeric|digits:10|unique:fathers,identity_number',
         ];
-
-        if ($currentRoute === 'parent.login') {
-            $rules = [
-                'phone' => 'required|phone|exists:users,phone',
-                'verification_code' => 'required|numeric|digits:6',
-            ];
-        }
-
-        return $rules;
     }
 
     protected function failedValidation(\Illuminate\Contracts\Validation\Validator $validator)

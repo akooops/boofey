@@ -24,4 +24,6 @@ return [
     'face_already_indexed' => 'Face already exists in our databases, please try another one',
 
     'qr_is_disabled' => 'Qr is disabled for this student.',
+
+    'identity_number_not_found' => 'It looks like this identity numbers doesn\'t exist in our databases, please try again' 
 ];
