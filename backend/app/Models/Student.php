@@ -32,7 +32,10 @@ class Student extends Model
 
     public function image()
     {
-        return $this->hasOne(File::class, 'id', 'file_id');
+        return $this->hasOne(File::class, 'id', 'file_id')->withDefault([
+            'path' => 'students',
+            'current_name' => 'default.png',
+        ]);;
     }
 
     public function father()
