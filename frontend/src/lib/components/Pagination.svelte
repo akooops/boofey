@@ -27,11 +27,13 @@
     <div class="col-sm-12 col-md-6  pe-0">
     <nav>
         <ul class="pagination justify-content-md-end justify-content-sm-start pagination-separated pagination-sm">
-            <li class="page-item" class:disabled={current_page == 1}><a class="page-link ms-0" on:click={() => switchPage(current_page - 1)} href="#">{translation.previous[localStorage.getItem("language")]}</a></li>
+            <!-- <li class="page-item" class:disabled={current_page == 1}><a class="page-link ms-0" on:click={() => switchPage(current_page - 1)} href="#">{translation.previous[localStorage.getItem("language")]}</a></li> -->
+            <li class="page-item" class:disabled={current_page == 1}><a class="page-link ms-0" on:click={() => switchPage(current_page - 1)} href="#">←</a></li>
             {#each pages as page,i}
                 <li class="page-item" class:active={current_page == page}><a class="page-link" on:click={() => switchPage(page)} href="#">{page}</a></li>
             {/each}
-            <li class="page-item" class:disabled={current_page == last_page}><a class="page-link" on:click={() => switchPage(current_page + 1)} href="#">{translation.next[localStorage.getItem("language")]}</a></li>
+            <!-- <li class="page-item" class:disabled={current_page == last_page}><a class="page-link" on:click={() => switchPage(current_page + 1)} href="#">{translation.next[localStorage.getItem("language")]}</a></li> -->
+            <li class="page-item" class:disabled={current_page == last_page}><a class="page-link" on:click={() => switchPage(current_page + 1)} href="#">→</a></li>
         </ul>
     </nav>
 </div>

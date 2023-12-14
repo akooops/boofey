@@ -52,7 +52,7 @@
         if(res.status == "success") {
             let text = `Added a new Order` 
             toast(text,"success")
-            goto(`/admin/canteens/${$page.params.canteenId}/orders`)
+            goto(`/admin/orders/${res.data.id}?canteen=${$page.params.canteenId}`)
             errors = {}
         }else {
             errors = res.errors
@@ -135,7 +135,7 @@
 
                 <div class="row g-3 mt-2 ">
                     <div class="hstack gap-2 justify-content-end">
-                        <button type="button" class="btn btn-primary waves-effect waves-light" disabled={pending} on:click={save}>Save Order</button>
+                        <button type="button" class="btn btn-primary waves-effect waves-light" disabled={pending} on:click={save}>Checkout</button>
                     </div>
                 </div>
                 <!-- end table-responsive -->

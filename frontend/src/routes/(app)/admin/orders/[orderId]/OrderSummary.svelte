@@ -3,6 +3,8 @@ import ThermalPrinterEncoder from '$lib/ThermalEncoder.js';
 // import ThermalPrinterEncoder from 'thermal-printer-encoder.esm.js';
 import WebUSBReceiptPrinter from "$lib/WebUsbPrinter.js"
 import {onMount} from "svelte"
+import { page } from '$app/stores';  
+
 
     export let order
     let receiptPrinter
@@ -88,8 +90,12 @@ import {onMount} from "svelte"
         receiptPrinter.print(result);
 
     }
+    let canteenId
     onMount(() => {
         receiptPrinter = new WebUSBReceiptPrinter();
+        let params = new URL(document.location).searchParams;
+        canteenId = params.get("canteen")
+
     })
 
 
@@ -133,6 +139,9 @@ import {onMount} from "svelte"
                 </div>
                 <div class="row g-3 mt-2 ">
                     <div class="hstack gap-2 justify-content-end">
+                        {#if canteenId}
+                            <a role="button" href="/admin/canteens/{canteenId}/orders/add" class="btn btn-primary waves-effect waves-light" > <i class="ri-printer-line align-bottom me-1"></i> New Order</a>
+                        {/if}
                         <a role="button" href="/admin/orders/{order.id}/print" target="_blank" class="btn btn-primary waves-effect waves-light" > <i class="ri-printer-line align-bottom me-1"></i> Print Order</a>
                     </div>
                 </div>

@@ -28,7 +28,9 @@ import { navigating } from '$app/stores';
     
     
     <TopBar {user}/>
-    <NavBar {user}/>
+    <!-- {#if user.roles[0].name != "pos"} -->
+        <NavBar {user}/>
+    <!-- {/if} -->
     
         <!-- ========== App Menu ========== -->
     <div class="vertical-overlay"></div>
