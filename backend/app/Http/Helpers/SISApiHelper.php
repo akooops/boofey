@@ -2,6 +2,7 @@
 
 use App\Models\Father;
 use App\Models\School;
+use App\Models\Student;
 use App\Models\User;
 use Illuminate\Support\Facades\Http;
 use Spatie\Permission\Models\Role;
@@ -64,7 +65,7 @@ function registerFather($identity_number){
     
             $father->save();
 
-            registerStudents($result->SuperiorID);
+            registerStudents($result->SuperiorID, $father);
 
             return [
                 'status' => 'success',
@@ -85,7 +86,7 @@ function registerFather($identity_number){
     }
 }
 
-function registerStudents($SuperiorID){
+function registerStudents($SuperiorID, $father){
     $apiUrl = 'https://ds.sis.edu.sa/BoofeyStudent.php';
     $apiKey = '0506da243a5b435b8f56b5b8ce4efd75';
 
@@ -103,7 +104,18 @@ function registerStudents($SuperiorID){
     }else{
         $sis = School::where('code', 'sis')->first();
         if(is_null($sis)) return;
-        
 
+        foreach($result as $student){
+            $student = Student::create([
+                'firstname' => $result->EnglishFirstName.' '.$result->EnglishSecondName,
+                'lastname' => $result->EnglishLastName,
+                'class' => preg_match('/\d+/', $result->EnglishGradeName, $matches)[0],
+                'father_id' => $father->id,
+                'school_id' => $sis->id,
+                'academic_year_id' => $sis->currentAcademicYear->id ?? null,
+            ]);
+
+            $student->save();
+        }
     }
 }
