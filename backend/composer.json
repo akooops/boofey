@@ -33,7 +33,8 @@
             "app/Http/Helpers/PaginationHelper.php",
             "app/Http/Helpers/FileHelper.php",
             "app/Http/Helpers/SMSHelper.php",
-            "app/Http/Helpers/AWSRekognition.php"
+            "app/Http/Helpers/AWSRekognition.php",
+            "app/Http/Helpers/SISApiHelper.php"
         ]
     },
     "autoload-dev": {

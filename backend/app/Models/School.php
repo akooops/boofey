@@ -14,6 +14,7 @@ class School extends Model
         'name',
         'name_ar',
         'qr_enabled',
+        'code',
         'file_id',
     ];
 

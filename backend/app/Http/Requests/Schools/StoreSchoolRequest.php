@@ -28,6 +28,7 @@ class StoreSchoolRequest extends FormRequest
         return [
             'name' => 'required|string|max:500|unique:schools,name',
             'name_ar' => 'required|string|max:500|unique:schools,name_ar',
+            'code' => 'required|string|max:255|regex:/^[a-zA-Z0-9]+$/|unique:schools,code',
             'qr_enabled' => 'required|boolean',
             'file' => 'required|file|mimes:jpeg,png'       
         ];
