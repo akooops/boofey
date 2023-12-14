@@ -47,7 +47,7 @@ class QueueStudentsController extends Controller
         $queueStudents = QueueStudent::with([
             'student:id,firstname,lastname,file_id',
             'student.image:id,current_name,path'
-        ])->orderBy('id', 'DESC')->where([
+        ])->orderBy('started_at')->where([
             'queue_id' => $queue->id
         ]);
 

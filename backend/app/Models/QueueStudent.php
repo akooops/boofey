@@ -16,6 +16,8 @@ class QueueStudent extends Model
         'exited_at' => 'datetime:Y-m-d H:i:s',
     ];
 
+    protected $appends = ["number"];
+
     protected $fillable = [
         'started_at',
         'synced_at',
@@ -32,5 +34,10 @@ class QueueStudent extends Model
     public function student()
     {
         return $this->belongsTo(Student::class);
+    }
+
+    public function getNumberAttribute()
+    {
+        return $this->queue->students()->where('started_at', '<=', $this->started_at)->count();
     }
 }
