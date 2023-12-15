@@ -38,6 +38,10 @@
 
 
             if(resJson?.data?.roles[0]?.name != "parent"){
+                if(resJson?.data?.roles[0]?.name == "pos"){
+                    window.location.href = `${window.location.origin}/admin/canteens`
+                    return;
+                }
                 window.location.href = `${window.location.origin}/admin`
                 // goto("")
             }else {

@@ -34,6 +34,7 @@ import CloseQueueModal from "$lib/modals/CloseQueueModal.svelte";
     export let canteen 
     export let queuesPagination
     export let activeQueueStudents
+    export let currentQueue
 
     let queuesPage
     onMount(() => {
@@ -141,29 +142,35 @@ import CloseQueueModal from "$lib/modals/CloseQueueModal.svelte";
                 <lord-icon src="https://cdn.lordicon.com/xjovhxra.json" trigger="loop" colors="primary:#695eef,secondary:#73dce9" style="width:120px;height:120px"></lord-icon>
             </div>
         {:else}
-        <h4 class="card-title mb-0 flex-grow-1 mb-3">Active Queue Students</h4>
+        <h4 class="card-title mb-0 flex-grow-1 mb-3">Queue #{currentQueue.id}</h4>
 
-        {#if JSON.parse(sessionStorage.getItem("permissions")).includes("queues.index.simplified")}
-            {#if activeQueue}
-            <!-- <QueueCard queue={activeQueue} /> -->
-                {#each activeQueueStudents as queueStudent}
-                     <ActiveQueueStudentCard {queueStudent}/>
+            {#if JSON.parse(sessionStorage.getItem("permissions")).includes("queues.index.simplified")}
+                {#if activeQueue}
+                <!-- <QueueCard queue={activeQueue} /> -->
+                <div class="row g-3">
+
+                    {#each activeQueueStudents as queueStudent}
+                        <ActiveQueueStudentCard {queueStudent}/>
+                    {:else}
+                    
+                    <div class="alert alert-info alert-border-left alert-dismissible fade show" role="alert">
+                        <i class="ri-airplay-line me-3 align-middle"></i> There are no <strong>Students</strong> at the moment 
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    {/each}
+                </div>
+
                 {:else}
-                <div class="alert alert-info alert-border-left alert-dismissible fade show" role="alert">
-                    <i class="ri-airplay-line me-3 align-middle"></i> There are no <strong>Students</strong> at the moment 
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-                {/each}
+                    <div class="alert alert-info alert-border-left alert-dismissible fade show" role="alert">
+                        <i class="ri-airplay-line me-3 align-middle"></i> There are no <strong>Active Queues</strong> at the moment 
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    
+                {/if}
+            {/if}
+        {/if}  
 
-            {:else}
-                <div class="alert alert-info alert-border-left alert-dismissible fade show" role="alert">
-                    <i class="ri-airplay-line me-3 align-middle"></i> There are no <strong>Active Queues</strong> at the moment 
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-                
-            {/if}
-            {/if}
-        {/if}
+
 <!--     
                 <h4 class="card-title mb-0 flex-grow-1 mb-3">All queues</h4>
     

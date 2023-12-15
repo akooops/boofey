@@ -16,10 +16,15 @@ export async function load({fetch,cookies,url,depends}) {
         if(authResponse?.data?.user?.verified == false){
             goto("/verification")   
         }
-        if(authResponse?.data?.user?.roles[0]?.name != "parent"){
-            goto("/admin")
-        }else{
+        console.log("i am pos",authResponse?.data?.user?.roles[0]?.name)
+
+        if(authResponse?.data?.user?.roles[0]?.name == "parent"){
             goto("/")
+        }else if (authResponse?.data?.user?.roles[0]?.name == "pos"){
+            goto("/admin/canteens")
+        }else{
+            goto("/admin")
+
         }
     }
 

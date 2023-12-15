@@ -215,18 +215,17 @@ loading = true
                         </div>
                         {/if}
                         <div class="row g-3" class:d-none={loading}>
-
-                            <!-- Base Example -->
+<!-- 
                                 <SchoolsTableCollapse collapse={true} on:select={(e) => schoolId = e.detail.schoolId} selected={$studentStore.school} bind:resetSchool title={translation.studentSchool[localStorage.getItem("language")]}/>                     
                                 {#if errors?.school_id}
                                 <strong class="text-danger ms-1 my-2">{errors.school_id[0]}</strong>
-                                {/if}
+                                {/if} -->
 
                         <form  on:submit|preventDefault={save} bind:this={form}>
                          <div class="row g-3">
 
 
-                                <div class="col-xxl-6">
+                                <!-- <div class="col-xxl-6">
                                     <div>
                                         <label for="firstName" class="form-label">{translation.firstName[localStorage.getItem("language")]}</label>
                                         <input type="text" name="firstname" class="form-control" id="firstName" placeholder={translation.enterFirstName[localStorage.getItem("language")]} bind:value={$studentStore.firstname}>
@@ -235,7 +234,6 @@ loading = true
                                         {/if}
                                     </div>
                                 </div>
-                                <!--end col-->
                                 <div class="col-xxl-6">
                                     <div>
                                         <label for="lastName" class="form-label">{translation.lastName[localStorage.getItem("language")]}</label>
@@ -268,23 +266,30 @@ loading = true
                                     {#if errors?.class}
                                     <strong class="text-danger ms-1 my-2">{errors.class[0]}</strong>
                                     {/if}
+                                </div> -->
+                                <!-- Info Alert -->
+                                <!-- Info Alert -->
+
+                                <div class="alert alert-info alert-dismissible border-2 fade show p-4" role="alert">
+                                  {@html translation.picGuide[localStorage.getItem("language")]}
                                 </div>
-    
+
+                             
+
 
                            
-                                <!-- <div class="row ps-3 g-3">
+                                <div class="row ps-3 g-3">
                                     <div class="form-check form-switch col" >
                                         <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck1" on:change={changeEditImage} bind:checked={editImage}>
                                         <label class="form-check-label" for="SwitchCheck1">{translation.editImage[localStorage.getItem("language")]}</label>
                                     </div>
                                 </div>
-                                 -->
+                                
                                 <div class="row ps-3 g-3" class:none={!editImage}>
-                                    <!-- Switches Color -->
                                     <div class="form-check form-switch col" >
                                         <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck1" on:change={picType} bind:checked={useCamera} >
                                         <label class="form-check-label" for="SwitchCheck1">{translation.useCamera[localStorage.getItem("language")]}</label>
-                                    </div><!-- Switches Color -->
+                                    </div>
 
                                 </div>
 

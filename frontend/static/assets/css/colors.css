@@ -33,7 +33,7 @@
   --vz-primary-rgb: 225, 111, 40; 
   --vz-secondary-rgb: 85, 150, 247;
   --vz-success-rgb: 17, 209, 183;
-  --vz-info-rgb: 115, 220, 233;
+  --vz-info-rgb: 40, 169, 225;
   --vz-warning-rgb: 255, 192, 97;
   --vz-danger-rgb: 255, 127, 65;
   --vz-light-rgb: 243, 246, 249;
@@ -269,14 +269,14 @@
   
   .btn-danger {
     --vz-btn-color: #fff;
-    --vz-btn-bg: #ff7f41;
-    --vz-btn-border-color: #ff7f41;
+    --vz-btn-bg: #E12828;
+    --vz-btn-border-color: #E12828;
     --vz-btn-hover-color: #fff;
-    --vz-btn-hover-bg: #d96c37;
-    --vz-btn-hover-border-color: #cc6634;
+    --vz-btn-hover-bg: #C71111;
+    --vz-btn-hover-border-color: #C71111;
     --vz-btn-focus-shadow-rgb: 255, 146, 94;
     --vz-btn-active-color: #fff;
-    --vz-btn-active-bg: #cc6634;
+    --vz-btn-active-bg: #C71111;
     --vz-btn-active-border-color: #bf5f31;
     --vz-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
     --vz-btn-disabled-color: #fff;

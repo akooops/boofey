@@ -5,7 +5,7 @@ var language = localStorage.getItem("language");
 
 
 export function InitVars(){
-    navbarMenuHTML = document.querySelector(".navbar-menu").innerHTML;
+    navbarMenuHTML = document.querySelector(".navbar-menu")?.innerHTML;
 }
 
 

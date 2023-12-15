@@ -41,7 +41,7 @@
             <div class="card-header align-items-center d-flex">
                 <h4 class="card-title mb-0 flex-grow-1">{translation.studentsManagement[localStorage.getItem("language")]}</h4>
                 <div class="flex-shrink-0">
-                    <button type="button" data-bs-toggle="modal" data-bs-target="#addStudentModal" class="btn btn-primary waves-effect waves-light"><i class="ri-add-line align-bottom me-1"></i>{translation.addStudent[localStorage.getItem("language")]}</button>
+                    <!-- <button type="button" data-bs-toggle="modal" data-bs-target="#addStudentModal" class="btn btn-primary waves-effect waves-light"><i class="ri-add-line align-bottom me-1"></i>{translation.addStudent[localStorage.getItem("language")]}</button> -->
                     <AddStudentModal/>
                 </div>
             </div>

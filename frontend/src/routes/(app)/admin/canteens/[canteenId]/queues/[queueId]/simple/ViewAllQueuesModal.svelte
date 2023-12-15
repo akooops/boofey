@@ -42,7 +42,7 @@
                     
                             {#if JSON.parse(sessionStorage.getItem("permissions")).includes("queues.index.simplified")}
                                 {#if activeQueue}
-                                <QueueCard {canteen} active={true} queue={activeQueue} />
+                                <QueueCard {canteen}  queue={activeQueue} active={true}/>
                                     
                                 {:else}
                                     <div class="alert alert-info alert-border-left alert-dismissible fade show" role="alert">
@@ -60,7 +60,7 @@
                         
                                     <div class="row">
                                         {#each queuesList as queue,_ (queue.id)}
-                                            <QueueCard {canteen} {queue} />
+                                            <QueueCard {canteen}  {queue} />
                                         {/each}
                                         <Pagination {...queuesPagination} />
                                     </div>

@@ -17,6 +17,9 @@ import { navigating } from '$app/stores';
     }
 
     onMount(() => {
+        if(user.roles[0].name == "pos"){
+            document.documentElement.setAttribute('data-layout-style', 'detached')
+        }
         initApp()
     })
 
@@ -28,17 +31,12 @@ import { navigating } from '$app/stores';
     
     
     <TopBar {user}/>
-    <!-- {#if user.roles[0].name != "pos"} -->
+    {#if user.roles[0].name != "pos"}
         <NavBar {user}/>
-    <!-- {/if} -->
+        <div class="vertical-overlay"></div>
+    {/if}
     
-        <!-- ========== App Menu ========== -->
-    <div class="vertical-overlay"></div>
-    <!-- Left Sidebar End -->
-    
-    <!-- right content  start -->
-    
-        <div class="main-content">
+        <div class="main-content" class:ms-0={user.roles[0].name == "pos"}>
             <div class="page-content">
                 <div class="container-fluid">
                      <!-- start page title -->
@@ -62,6 +60,5 @@ import { navigating } from '$app/stores';
 
         </script>
     {/if}
-    {@html ''}
     
     
