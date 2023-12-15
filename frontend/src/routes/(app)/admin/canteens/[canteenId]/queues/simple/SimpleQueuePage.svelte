@@ -127,7 +127,7 @@ import CloseQueueModal from "./CloseQueueModal.svelte";
 
                     
                     
-                    <!-- <AddQueueModal {canteen}/> -->
+                    <AddQueueModal {canteen}/>
 
                     <ViewQueueModal />
                     <EditQueueModalSimple /> 

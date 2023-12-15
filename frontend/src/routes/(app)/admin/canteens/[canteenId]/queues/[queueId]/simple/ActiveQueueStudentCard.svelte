@@ -24,7 +24,7 @@
                     <div class="avatar-md mb-3 mx-auto">
                         <img src={queueStudent.student.image.full_path} alt="" id="candidate-img" class="avatar-md rounded-circle">
                     </div>
-                    <p class="text-muted mb-0 fs-6">#{queueStudent.id}</p>
+                    <p class="text-muted mb-0 fs-6">#{queueStudent.number}</p>
                     <h5 id="candidate-name" class="mb-1 text-truncate">{queueStudent.student.fullname}</h5>
                     <p class="text-muted mb-0 fs-6">Started at : {queueStudent.started_at}</p>
                     <div class="d-flex gap-2  mt-4 flex-wrap">
