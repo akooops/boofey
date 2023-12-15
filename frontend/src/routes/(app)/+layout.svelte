@@ -18,7 +18,8 @@ import { navigating } from '$app/stores';
 
     onMount(() => {
         if(user.roles[0].name == "pos"){
-            document.documentElement.setAttribute('data-layout-style', 'detached')
+            // document.documentElement.setAttribute('data-layout-style', 'detached')
+            document.documentElement.setAttribute('data-sidebar-size', 'sm')
         }
         initApp()
     })
@@ -31,10 +32,10 @@ import { navigating } from '$app/stores';
     
     
     <TopBar {user}/>
-    {#if user.roles[0].name != "pos"}
+    <!-- {#if user.roles[0].name != "pos"} -->
         <NavBar {user}/>
         <div class="vertical-overlay"></div>
-    {/if}
+    <!-- {/if} -->
     
         <div class="main-content" class:ms-0={user.roles[0].name == "pos"}>
             <div class="page-content">

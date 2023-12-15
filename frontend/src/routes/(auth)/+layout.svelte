@@ -2,9 +2,8 @@
     import {onMount} from "svelte"
     onMount(() => {
 
-        
-
     })
+
 </script>
 <div class="auth-page-wrapper pt-5">
     <!-- auth page bg -->
