@@ -17,7 +17,7 @@ export async function load({fetch,url,depends,params}) {
     let activeQueue = queuesResponse.data.activeQueue
     let activeQueueStudents
     let currentQueue
-    if(activeQueue){
+    // if(activeQueue){
         res = await fetch(PathGetQueueStudents(params.queueId,DefaultGetQueries(url),true),{
             headers:{
                 Authorization: `${localStorage.getItem("SID")}`
@@ -31,7 +31,7 @@ export async function load({fetch,url,depends,params}) {
         currentQueue = ActiveQueuesResponse.data.queue
 
 
-    }
+    // }
 
 
 
