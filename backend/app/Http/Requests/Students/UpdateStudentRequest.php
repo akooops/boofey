@@ -55,7 +55,7 @@ class UpdateStudentRequest  extends FormRequest
             }
         
             $rules = [
-                'file' => 'file|mimes:jpeg,png'
+                'file' => 'required|file|mimes:jpeg,png'
             ];
         }
 
