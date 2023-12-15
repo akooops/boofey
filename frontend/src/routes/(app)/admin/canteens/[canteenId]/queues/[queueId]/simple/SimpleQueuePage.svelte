@@ -145,29 +145,33 @@ import CloseQueueModal from "./CloseQueueModal.svelte";
         <h4 class="card-title mb-0 flex-grow-1 mb-3">Queue #{currentQueue.id}</h4>
 
             {#if JSON.parse(sessionStorage.getItem("permissions")).includes("queues.index.simplified")}
-                {#if activeQueue}
                 <!-- <QueueCard queue={activeQueue} /> -->
-                <div class="row g-3">
 
-                    {#each activeQueueStudents as queueStudent}
-                        <ActiveQueueStudentCard {queueStudent}/>
-                    {:else}
-                    
-                    <div class="alert alert-info alert-border-left alert-dismissible fade show" role="alert">
-                        <i class="ri-airplay-line me-3 align-middle"></i> There are no <strong>Students</strong> at the moment 
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                    {/each}
-
-                </div>
-
-                {:else}
+                <!-- {#if activeQueue == null}
                     <div class="alert alert-info alert-border-left alert-dismissible fade show" role="alert">
                         <i class="ri-airplay-line me-3 align-middle"></i> There are no <strong>Active Queues</strong> at the moment 
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                     
-                {/if}
+                {/if} -->
+
+
+                <div class="row g-3">
+
+                    {#each activeQueueStudents as queueStudent}
+                        <ActiveQueueStudentCard {queueStudent}/>
+                    {:else}
+                        {#if activeQueue}
+                        <div class="alert alert-info alert-border-left alert-dismissible fade show" role="alert">
+                            <i class="ri-airplay-line me-3 align-middle"></i> There are no <strong>Students</strong> at the moment 
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        {/if}
+                    {/each}
+
+                </div>
+
+                
             {/if}
         {/if}  
 
