@@ -122,7 +122,7 @@ class AuthController extends Controller
 
         if (env('ENABLE_SMS') == true) {
             sendSMS(
-                "Boofey - Your verification code is: {$verificationCode->code}",
+                "Boofey! Your OTP is: {$verificationCode->code}. Please do not disclose this. Thank you.",
                 $user->phone
             );
         }
