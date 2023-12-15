@@ -37,7 +37,7 @@ import { navigating } from '$app/stores';
         <div class="vertical-overlay"></div>
     <!-- {/if} -->
     
-        <div class="main-content" class:ms-0={user.roles[0].name == "pos"}>
+        <div class="main-content">
             <div class="page-content">
                 <div class="container-fluid">
                      <!-- start page title -->

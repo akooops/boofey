@@ -23,7 +23,7 @@
     import { navigating } from '$app/stores';
 
     import { fade } from 'svelte/transition';
-import CloseQueueModal from "$lib/modals/CloseQueueModal.svelte";
+import CloseQueueModal from "./CloseQueueModal.svelte";
 	import QueueCard from "./QueueCard.svelte";
 	import ActiveQueueStudentCard from "./ActiveQueueStudentCard.svelte";
 	import ViewAllQueuesModal from "./ViewAllQueuesModal.svelte";
@@ -132,7 +132,7 @@ import CloseQueueModal from "$lib/modals/CloseQueueModal.svelte";
                     <ViewQueueModal />
                     <EditQueueModalSimple /> 
                     <DeleteQueueModal />
-                    <CloseQueueModal />
+                    <CloseQueueModal queue={activeQueue}/>
 
                 </div>
             </div><!-- end card header -->
@@ -206,7 +206,7 @@ import CloseQueueModal from "$lib/modals/CloseQueueModal.svelte";
 </div> -->
 
 <AddQueueStudentModalSimple queue={activeQueue} {canteen}/>
-<ExitQueueStudent />
+<ExitQueueStudent route={"queues"}/>
 <ViewAllQueuesModal {queuesList} {activeQueue} {canteen} {queuesPagination}/>
 
     
