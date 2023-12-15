@@ -158,6 +158,7 @@ import CloseQueueModal from "$lib/modals/CloseQueueModal.svelte";
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                     {/each}
+                    
                 </div>
 
                 {:else}

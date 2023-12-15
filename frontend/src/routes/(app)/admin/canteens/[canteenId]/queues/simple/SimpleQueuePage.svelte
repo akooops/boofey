@@ -8,6 +8,7 @@
 	import ViewQueueModal from "$lib/modals/view/ViewQueueModal.svelte";
 	import EditQueueModalSimple from "./EditQueueModalSimple.svelte";
 	import DeleteQueueModal from "$lib/modals/delete/DeleteQueueModal.svelte";
+    import AddQueueStudentModalSimple from "./AddQueueStudentModalSimple.svelte"
 
     import { goto } from '$app/navigation';
 
@@ -126,7 +127,8 @@ import CloseQueueModal from "$lib/modals/CloseQueueModal.svelte";
 
                     
                     
-                    <AddQueueModal {canteen}/>
+                    <!-- <AddQueueModal {canteen}/> -->
+
                     <ViewQueueModal />
                     <EditQueueModalSimple /> 
                     <DeleteQueueModal />
@@ -141,11 +143,17 @@ import CloseQueueModal from "$lib/modals/CloseQueueModal.svelte";
                 <lord-icon src="https://cdn.lordicon.com/xjovhxra.json" trigger="loop" colors="primary:#695eef,secondary:#73dce9" style="width:120px;height:120px"></lord-icon>
             </div>
         {:else}
-        <h4 class="card-title mb-0 flex-grow-1 mb-3">Active Queue Students</h4>
-
+        <div class="card-header align-items-center d-flex mb-3">
+            <h4 class="card-title mb-0 flex-grow-1">Active Queue Students</h4>
+            {#if JSON.parse(sessionStorage.getItem("permissions")).includes("queueStudents.store.simplified")}
+            <button type="button" data-bs-toggle="modal" data-bs-target="#addQueueStudentModal" class="btn btn-primary waves-effect waves-light flex-shrink-0"><i class="ri-add-line align-bottom me-1"></i>Add Student</button>
+            {/if}
+        </div>
         {#if JSON.parse(sessionStorage.getItem("permissions")).includes("queues.index.simplified")}
             {#if activeQueue}
             <!-- <QueueCard queue={activeQueue} /> -->
+            <div class="row g-3">
+
                 {#each activeQueueStudents as queueStudent}
                      <ActiveQueueStudentCard {queueStudent}/>
                 {:else}
@@ -154,7 +162,8 @@ import CloseQueueModal from "$lib/modals/CloseQueueModal.svelte";
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
                 {/each}
-
+            
+            </div>
             {:else}
                 <div class="alert alert-info alert-border-left alert-dismissible fade show" role="alert">
                     <i class="ri-airplay-line me-3 align-middle"></i> There are no <strong>Active Queues</strong> at the moment 
@@ -196,7 +205,7 @@ import CloseQueueModal from "$lib/modals/CloseQueueModal.svelte";
     </div>
 </div> -->
 
-
+<AddQueueStudentModalSimple queue={activeQueue} {canteen}/>
 <ExitQueueStudent />
 <ViewAllQueuesModal {queuesList} {activeQueue} {canteen} {queuesPagination}/>
 

@@ -5,28 +5,24 @@
     import { redirector } from "$lib/api/auth";
     import Accordion from "$lib/components/Accordion.svelte";
     import {loadDefaultDate} from "$lib/init/initFlatpickr.js"
-    import StudentsTableCollapse from "../collapses/StudentsTableCollapse.svelte"; 
+    import StudentsTableCollapseSimple from "./StudentsTableCollapseSimple.svelte"; 
 
     let close
     let form 
     let errors
 let loading = false 
-    let startedAt
-    let exitedAt
-    let exited = true
     let resetStudent
     let studentId = ""
     export let queue
-
+    export let canteen
     async function save(){
 loading = true
         errors = {}
         let formData = new FormData(form)
-        formData.set("exited",exited)
         if(studentId){
             formData.set("student_id",studentId)
         }
-        formData.set("simplified",false)
+        formData.set("simplified",true)
 
         let res = await fetch(PathAddQueueStudent(queue.id),{
             headers:{
@@ -43,7 +39,7 @@ loading = true
             close.click()
             let text = `Added a new student to the  queue` 
             toast(text,"success")
-            invalidate("queueStudents:refresh")
+            invalidate("queues:refresh")
             reset()
         }else {
             errors = res.errors
@@ -55,10 +51,7 @@ loading = true
     }
 
     function reset(){
-        loadDefaultDate(startedAt,Date.now())
-        if(exitedAt){
-            loadDefaultDate(exitedAt,Date.now())
-        }
+       
         form.reset()
         resetStudent()
         studentId = ""
@@ -85,7 +78,7 @@ loading = true
     
                         <div class="row g-3" class:d-none={loading}>
                             <!-- Base Example -->
-                                    <StudentsTableCollapse collapse={true} on:select={(e) => studentId = e.detail.studentId} title={"Students"} bind:resetStudent/>            
+                                    <StudentsTableCollapseSimple collapse={true} on:select={(e) => studentId = e.detail.studentId} title={"Students"} schoolId={canteen?.school?.id} bind:resetStudent/>            
                                 {#if errors?.student_id}
                                 <strong class="text-danger ms-1 my-2">{errors.student_id[0]}</strong>
                                 {/if}
@@ -93,40 +86,7 @@ loading = true
                         <form  on:submit|preventDefault={save} bind:this={form}>
                          <div class="row g-3">
 
-                                <div>
-                                    <div>
-                                        <label for="firstName" class="form-label">Started At</label>
-                                        <input type="text" name="started_at" class="form-control" data-provider="flatpickr" data-date-format="Y-m-d" data-enable-time id="from" bind:this={startedAt}>
-                                        {#if errors?.started_at}
-                                        <strong class="text-danger ms-1 my-2">{errors.started_at[0]}</strong>
-                                        {/if}
-                                    </div>
-                                </div>
-
-                                <div class="row ps-3 g-3">
-                                    <!-- Switches Color -->
-                                    <div class="form-check form-switch col" >
-                                        <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck1" bind:checked={exited}>
-                                        <label class="form-check-label" for="SwitchCheck1">exited</label>
-                                    </div><!-- Switches Color -->
-
-                                </div>
-                                
-                               {#if exited}
-                               <div>
-                                    <div>
-                                        <label for="firstName" class="form-label">Exited At</label>
-                                        <input type="text" name="exited_at" class="form-control" data-provider="flatpickr" data-date-format="Y-m-d" data-enable-time id="from" bind:this={exitedAt}>
-                                        {#if errors?.exited_at}
-                                        <strong class="text-danger ms-1 my-2">{errors.exited_at[0]}</strong>
-                                        {/if}
-                                    </div>
-                                </div>
-                                {/if}
-
-                        
-
-
+                     
                                 <div class="hstack gap-2 justify-content-end">
                                     <button type="button" class="btn btn-light fw-light" data-bs-dismiss="modal" bind:this={close}>Close</button>
                                     <input type="submit" class="btn btn-primary waves-effect waves-light" value="Save">
