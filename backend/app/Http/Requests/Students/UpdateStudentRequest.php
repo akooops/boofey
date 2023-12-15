@@ -50,6 +50,10 @@ class UpdateStudentRequest  extends FormRequest
         }
 
         if($currentRoute === 'parents.students.update'){
+            if (!is_null($student->face_id)) {
+                throw ValidationException::withMessages(['file' => [__('translations.face_already_indexed')]]);
+            }
+        
             $rules = [
                 'file' => 'file|mimes:jpeg,png'
             ];

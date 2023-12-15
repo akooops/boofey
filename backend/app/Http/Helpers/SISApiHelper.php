@@ -106,10 +106,23 @@ function registerStudents($SuperiorID, $father){
         if(is_null($sis)) return;
 
         foreach($result as $student){
+            $student = (object)$student;
+
+            preg_match('/\d+/', $student->EnglishGradeName, $matches);
+            $grade = null;
+
+            if (!empty($matches)) {
+                $number = $matches[0];
+                
+                $grade = $number;
+            } else {
+                $grade = 0;
+            }
+
             $student = Student::create([
-                'firstname' => $result->EnglishFirstName.' '.$result->EnglishSecondName,
-                'lastname' => $result->EnglishLastName,
-                'class' => preg_match('/\d+/', $result->EnglishGradeName, $matches)[0],
+                'firstname' => $student->EnglishFirstName.' '.$student->EnglishSecondName,
+                'lastname' => $student->EnglishLastName,
+                'class' => $grade,
                 'father_id' => $father->id,
                 'school_id' => $sis->id,
                 'academic_year_id' => $sis->currentAcademicYear->id ?? null,
