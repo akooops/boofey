@@ -38,6 +38,11 @@ class QueueStudent extends Model
 
     public function getNumberAttribute()
     {
-        return $this->queue->students()->where('started_at', '<=', $this->started_at)->count();
+        $queueStudentNumber = QueueStudent::where([
+            'queue_id' => $this->queue_id,
+        ])->where('started_at', '<=', $this->started_at)
+        ->count();
+
+        return $queueStudentNumber;
     }
 }
