@@ -31,6 +31,18 @@ function uploadFace($image, $faceID = null)
 
     if(file_exists($imagePath) != true) return;
 
+    $response = $rekognition->detectFaces([
+        'Image' => [
+            'Bytes' => file_get_contents($imagePath),
+        ],
+    ]);
+    
+    $detectedFaces = $response->get('FaceDetails');
+    
+    if (empty($detectedFaces)) {
+        return ['status' => 'nothing'];;
+    } 
+
     if(is_null($faceID) == false){
         $rekognition->deleteFaces([
             'CollectionId' => $collectionId,
