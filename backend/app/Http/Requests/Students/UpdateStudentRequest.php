@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Students;
 
 use App\Rules\CanChangeSchool;
+use App\Rules\CanUpdateStudentImage;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Http\JsonResponse;
@@ -50,12 +51,8 @@ class UpdateStudentRequest  extends FormRequest
         }
 
         if($currentRoute === 'parents.students.update'){
-            if (!is_null($student->face_id)) {
-                throw ValidationException::withMessages(['file' => [__('translations.face_already_indexed')]]);
-            }
-        
             $rules = [
-                'file' => 'required|file|mimes:jpeg,png'
+                'file' => ['required', 'file', 'mimes:jpeg,png', new CanUpdateStudentImage($student->id)]
             ];
         }
 
