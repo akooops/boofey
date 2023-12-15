@@ -78,7 +78,7 @@ class AuthController extends Controller
         
         $user->verificationCodes()->save($verificationCode);
 
-        if (config('app.debug') != true) {
+        if (env('ENABLE_SMS') == true) {
             sendSMS(
                 "Boofey - Your verification code is: {$verificationCode->code}",
                 $user->phone
@@ -120,7 +120,7 @@ class AuthController extends Controller
         
         $user->verificationCodes()->save($verificationCode);
 
-        if (config('app.debug') != true) {
+        if (env('ENABLE_SMS') == true) {
             sendSMS(
                 "Boofey - Your verification code is: {$verificationCode->code}",
                 $user->phone
@@ -134,7 +134,7 @@ class AuthController extends Controller
             ]
         ];
 
-        if (config('app.debug')) {
+        if (env('ENABLE_SMS') == false) {
             $response['data'] = [
                 'verificationCode' => $verificationCode->code,
                 'phone' => $user->phone

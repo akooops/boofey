@@ -35,7 +35,7 @@ class UsersController extends Controller
         
         $user->verificationCodes()->save($verificationCode);
 
-        if (config('app.debug') != true) {
+        if (env('ENABLE_SMS') == true) {
             sendSMS(
                 "Boofey - Your verification code is: {$verificationCode->code}",
                 $user->phone
@@ -46,7 +46,7 @@ class UsersController extends Controller
             'status' => 'success',
         ];
 
-        if (config('app.debug')) {
+        if (env('ENABLE_SMS') == false) {
             $response['data'] = [
                 'verificationCode' => $verificationCode->code
             ];
@@ -109,7 +109,7 @@ class UsersController extends Controller
         $passwordReset->generateToken();
         $passwordReset->save();
 
-        if (config('app.debug') != true) {
+        if (env('ENABLE_SMS') == true) {
             sendSMS(
                 "Boofey - Your password reset token is: {$passwordReset->token}",
                 $request->input('phone')
@@ -120,7 +120,7 @@ class UsersController extends Controller
             'status' => 'success',
         ];
 
-        if (config('app.debug')) {
+        if (env('ENABLE_SMS') == false) {
             $response['data'] = [
                 'passwordReset' => $passwordReset->token
             ];
