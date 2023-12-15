@@ -45,7 +45,7 @@
                             <a class="nav-link fs-15" href="#services">Services</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link fs-15" href="#contact">FAQ</a>
+                            <a class="nav-link fs-15" href="#faq">FAQ</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link fs-15" href="#contact">Contact</a>
@@ -321,7 +321,7 @@
 
 
         <!-- start faqs -->
-        <section class="section">
+        <section class="section" id="faq">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-lg-8">
@@ -495,7 +495,7 @@
         </section> -->
 
         <!-- start Work Process -->
-        <section class="section">
+        <section class="section" id="contact">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-lg-8">
@@ -509,8 +509,8 @@
                 <!-- end row -->
 
                 <div class="row text-center">
-                    <div class="col-lg-4">
-                        <div class="process-card mt-4">
+                    <div class="col-lg-12">
+                        <div class="process-card ">
                             <div class="process-arrow-img d-none d-lg-block">
                                 <img src="assets/images/landing/process-arrow-img.png" alt="" class="img-fluid">
                             </div>
