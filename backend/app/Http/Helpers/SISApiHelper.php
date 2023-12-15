@@ -30,7 +30,7 @@ function registerFather($identity_number){
             $username = strtolower($result->SuperiorName.' '.$result->SuperiorID);
             $username = str_replace(' ', '_', $username);
 
-            $phone = substr($result->SMSNumber, 3);
+            $phone = '0'.substr($result->SMSNumber, 4);
 
             $user = User::create([
                 'username' => $username,
