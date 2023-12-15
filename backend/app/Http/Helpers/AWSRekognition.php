@@ -95,7 +95,10 @@ function uploadFace($image, $faceID = null)
 
         $faceId = $faceRecords[0]['Face']['FaceId'];
         
-        return $faceId;
+        return [
+            'status' => 'success',
+            'faceId' => $faceId
+        ];
     } else {
         return ['status' => 'nothing'];;
     }

@@ -98,7 +98,7 @@ class StudentsController extends Controller
                 'school_id' => $school->id,
                 'father_id' => $father->id,
                 'file_id' => $file->id,
-                'face_id' => $face
+                'face_id' => $face['faceId']
             ]
         ));
 
@@ -209,7 +209,7 @@ class StudentsController extends Controller
         
         $student->update([
             'file_id' => $file->id,
-            'face_id' => $face
+            'face_id' => $face['faceId']
         ]);
 
         /*

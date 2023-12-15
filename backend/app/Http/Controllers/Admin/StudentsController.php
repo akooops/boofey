@@ -202,7 +202,7 @@ class StudentsController extends Controller
                 'school_id' => $school->id,
                 'file_id' => $file->id,
                 'archived' => $archived,
-                'face_id' => $face
+                'face_id' => $face['faceId']
             ]
         ));
 
@@ -284,7 +284,7 @@ class StudentsController extends Controller
             [
                 'file_id' => $file->id,
                 'archived' => $archived,
-                'face_id' => $face
+                'face_id' => $face['faceId']
             ]
         ));
 
