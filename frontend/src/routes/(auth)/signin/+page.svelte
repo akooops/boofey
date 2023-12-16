@@ -19,6 +19,7 @@
     let resendAvailable = true
     let time = "01:00"
     let timeLeft = 58
+    let cencoredPhone
 
 
     async function sendId(){
@@ -34,6 +35,7 @@
         res = await res.json()
         if(res.status == "success") {
             phone = res.data.phone
+            cencoredPhone = 'x'.repeat(phone.length - 3) + phone.slice(-3);
             step = "verification"
 
         }else {
@@ -155,6 +157,24 @@ function updateTimer() {
         }
     }
 
+    function paste(){
+        let clipboardData = (event.clipboardData || window.clipboardData);
+        let pastedText = clipboardData.getData('text');
+
+        for(let i=1;i<=6;i++){
+            let input =  document.getElementById('digit' + i + '-input');            
+            input.value = pastedText[i-1] == null ? "" : pastedText[i-1]
+        }
+
+        if(pastedText.length >= 6){
+            sendPhone()
+        }else {
+            let input =  document.getElementById('digit' + pastedText.length + '-input');
+            input.focus()
+        }
+        
+    }
+
 
 
 </script>
@@ -167,8 +187,13 @@ function updateTimer() {
                 <div class="text-center mt-2">
                     <h5 class="text-primary">Welcome Back !</h5>
                     <p class="text-muted">Sign in to continue to Boofey.</p>
-                    <lord-icon src="https://cdn.lordicon.com/yodhlnxj.json" trigger="loop" colors="primary:#0ab39c" class="avatar-xl">
-                    </lord-icon>
+                    <div class="mb-4">
+                        <div class="avatar-lg mx-auto">
+                            <div class="avatar-title bg-light text-primary display-5 rounded-circle">
+                                <i class="ri-bank-card-2-line"></i>
+                            </div>
+                        </div>
+                    </div>
 
                 </div>
 
@@ -218,7 +243,7 @@ function updateTimer() {
 
                 <div class="p-2 ">
                     <div class="text-muted text-center mb-4 mx-lg-3">
-                        <p>Please enter the 6 digits code sent to this phone number : <span class="text-primary">{phone}</span> </p>
+                        <p>Please enter the 6 digits code sent to this phone number : <span class="text-primary">{cencoredPhone}</span> </p>
                     </div>
 
                     <form autocomplete="off" on:submit|preventDefault={sendPhone} bind:this={form}>
@@ -226,7 +251,7 @@ function updateTimer() {
                             <div class="col-2">
                                 <div class="mb-3">
                                     <label for="digit1-input" class="visually-hidden">Digit 1</label>
-                                    <input type="text" name="1" class="form-control form-control-lg bg-light border-light text-center p-0 p-0"  on:keyup={event => moveToNext(1, event)} maxLength="1" id="digit1-input">
+                                    <input type="text" name="1" class="form-control form-control-lg bg-light border-light text-center p-0 p-0" on:paste={paste} on:keyup={event => moveToNext(1, event)} maxLength="1" id="digit1-input">
                                 </div>
                             </div><!-- end col -->
                     

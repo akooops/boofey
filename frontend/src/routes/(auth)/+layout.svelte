@@ -8,7 +8,7 @@
 <div class="auth-page-wrapper pt-5">
     <!-- auth page bg -->
     <div class="auth-one-bg-position auth-one-bg" id="auth-particles">
-        <div class="bg-overlay"></div>
+        <div class="bg-overlay" style="background:linear-gradient(to right,#e16f28,#e12828);"></div>
 
         <div class="shape">
             <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1440 120">
@@ -25,7 +25,7 @@
                     <div class="text-center mt-sm-5 mb-4 text-white-50">
                         <div>
                             <a href="index.html" class="d-inline-block auth-logo">
-                                <img src="/assets/images/logo.svg" alt="" height="30">
+                                <img src="/assets/images/logo-white.svg" alt="" height="30">
                             </a>
                         </div>
                         <p class="mt-3 fs-15 fw-medium">Best system for managing canteens</p>

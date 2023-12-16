@@ -27,7 +27,7 @@
 </script>
 
 
-<header id="page-topbar">
+<header id="page-topbar" class:start-0={user.roles[0].name == "pos"}>
     <div class="layout-width">
     <div class="navbar-header">
         <div class="d-flex">
@@ -53,7 +53,7 @@
             </div>
 
 
-            <button type="button" class="btn btn-sm px-3 fs-16 header-item vertical-menu-btn topnav-hamburger" id="topnav-hamburger-icon" >
+            <button type="button" class="btn btn-sm px-3 fs-16 header-item vertical-menu-btn topnav-hamburger" id="topnav-hamburger-icon" class:d-none={user.roles[0].name == "pos"}>
                 <span class="hamburger-icon">
                     <span></span>
                     <span></span>

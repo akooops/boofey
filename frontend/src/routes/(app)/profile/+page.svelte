@@ -15,7 +15,7 @@ function settings(){
 
 
 <div class="profile-foreground position-relative mx-n4 mt-n4">
-    <div class="profile-wid-bg">
+    <div class="profile-wid-bg" >
         <!-- <img src="assets/images/profile-bg.jpg" alt="" class="profile-wid-img" /> -->
     </div>
 </div>
@@ -86,9 +86,18 @@ function settings(){
                 <!--end tab-pane-->
             </div>
             <!--end tab-content-->
+            
         </div>
     </div>
     <!--end col-->
 </div>
 <!--end row-->
+
+<style>
+
+.profile-wid-bg:before {
+    background:linear-gradient(to top,#ff4141,#ff7f41) !important;
+}
+
+</style>
 

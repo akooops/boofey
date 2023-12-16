@@ -112,9 +112,9 @@ loading = true
     function reset(){
         editImage = false
         form.reset()
-        selectClass.selectedIndex = 0
+        // selectClass.selectedIndex = 0
         errors = {}
-        resetSchool()
+        // resetSchool()
         parentId = schoolId = ""
         stopCam()
         captured = false;
@@ -363,7 +363,7 @@ loading = true
                                 <div class="hstack gap-2 justify-content-end">
                                     <button type="button" class="btn btn-light fw-light" data-bs-dismiss="modal" bind:this={close}>{translation.close[localStorage.getItem("language")]}</button>
                                     {#if !$studentStore.subscribed}
-                                    <button type="button" class="btn btn-danger waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#deleteStudentModal" data-bs-dismiss="modal">{translation.delete[localStorage.getItem("language")]}</button>
+                                    <!-- <button type="button" class="btn btn-danger waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#deleteStudentModal" data-bs-dismiss="modal">{translation.delete[localStorage.getItem("language")]}</button> -->
                                     {/if}
                                     <input type="submit" class="btn btn-primary waves-effect waves-light" value="{translation.save[localStorage.getItem("language")]}">
                                 </div>

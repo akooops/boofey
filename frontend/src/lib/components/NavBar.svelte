@@ -106,7 +106,7 @@ onMount(() => {
 
 
 
-<div class="app-menu navbar-menu">
+<div class="app-menu navbar-menu" class:d-none={user.roles[0].name == "pos"}>
     <!-- LOGO -->
     <div class="navbar-brand-box">
         <!-- Dark Logo-->
