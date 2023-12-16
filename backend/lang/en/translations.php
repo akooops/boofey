@@ -27,4 +27,6 @@ return [
 
     'identity_number_not_found' => 'It looks like this identity numbers doesn\'t exist in our databases, please try again',
     'can_geneate_otp' => 'This student isn\'t subscribed, so you can\'t generate an otp',
+
+    'should_upload_face' => 'Please, add a face to this student before trying to subscribing it'
 ];
