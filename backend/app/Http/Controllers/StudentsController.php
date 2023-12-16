@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Students\OtpStudentRequest;
 use App\Models\Student;
 use Illuminate\Http\Request;
 use App\Http\Requests\Students\StoreStudentRequest;
@@ -227,7 +228,7 @@ class StudentsController extends Controller
         ]);
     }
 
-    public function otp(Student $student, Request $request) 
+    public function otp(Student $student, OtpStudentRequest $request) 
     {
         $father = $request->get('father');
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Students;
 
+use App\Rules\CanGenerateOtp;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Http\JsonResponse;
@@ -26,12 +27,24 @@ class OtpStudentRequest extends FormRequest
      */
     public function rules()
     {
+        $student = request()->route('student');
+
         $currentRoute = Route::currentRouteName();
 
         $rules = [
             'otp_expires_later' => 'required|boolean',
             'otp_expires_at' => 'required_if:otp_expires_later,true|nullable|date_format:Y-m-d H:i:s,Y-m-d H:i|after_or_equal:now'    
         ];
+
+        if($currentRoute === 'parents.students.otp'){
+            $this->merge([
+                'student_id' => $student->id,
+            ]);
+
+            $rules = [
+                'student_id' => [new CanGenerateOtp($student->id)]
+            ];
+        }
 
         return $rules;
     }
