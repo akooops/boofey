@@ -35,10 +35,9 @@ Route::group(['namespace' => 'App\Http\Controllers', 'middleware' => ['auth:sanc
 
     /* -------------------------------------------------------------------------------- */
     /* Students Routes */
-    Route::resource('students', StudentsController::class)->except(['create', 'store', 'edit', 'update'])->names([
+    Route::resource('students', StudentsController::class)->except(['create', 'store', 'edit', 'update', 'destroy'])->names([
         'index' => 'parent.students.index',
         'show' => 'parent.students.show',
-        'destroy' => 'parent.students.destroy',
     ]);
 
     //Route::post('students', 'StudentsController@store')->name('parents.students.store');

@@ -276,6 +276,8 @@ class StudentsController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
+
+     /*
     public function destroy(Student $student, Request $request) 
     {
         $father = $request->get('father');
@@ -312,4 +314,5 @@ class StudentsController extends Controller
             'status' => 'success'
         ]);
     }
+    */
 }
