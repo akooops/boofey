@@ -31,7 +31,7 @@ function registerFather($identity_number){
             $username = str_replace(' ', '_', $username);
 
             $position = strpos($result->SMSNumber, '96605') !== false ? strpos($result->SMSNumber, '96605') : strpos($result->SMSNumber, '9665');
-            $phone = substr($result->SMSNumber, $position + strlen('96605'));
+            $phone = '05'.substr($result->SMSNumber, $position + strlen('96605'));
 
             //$phone = '0'.substr($result->SMSNumber, 4);
             //$phone = substr($result->SMSNumber, 4);
