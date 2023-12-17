@@ -547,6 +547,6 @@ export function DefaultGetQueries(url){
 }
 
 export function returnUrl(father){
-    return `https://localhost:5173/paymentReturn/${father}`
+    return `${window.location.origin}/paymentReturn/${father}`
 }
 

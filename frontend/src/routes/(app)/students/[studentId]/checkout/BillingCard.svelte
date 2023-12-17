@@ -3,7 +3,7 @@
     import BillingInfo from "./BillingInfo.svelte";
 	import PaymentSelection from "./PaymentSelection.svelte";
     import { redirector } from "$lib/api/auth";
-    import { PathPay,PathCheckPaymentRef,PathPayementRedirection } from "$lib/api/paths";
+    import { PathPay,PathCheckPaymentRef,PathPaymentRedirection } from "$lib/api/paths";
     import { toast } from "$lib/components/toast.js";
     import {translation} from "$lib/translation.js"
     import { page } from '$app/stores';  

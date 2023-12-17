@@ -69,6 +69,7 @@
 
 
 async function sendPhone(){
+    if(loading) return;
     loading = true
 
     errors = {}
@@ -117,8 +118,6 @@ async function sendPhone(){
     }
 
 
-
-    resendAvailable = false
     loading = false
 
 }
@@ -173,6 +172,16 @@ function updateTimer() {
             input.focus()
         }
         
+    }
+
+    function checkLength(e){
+        let input = e.target
+        input.value = input.value.slice(0,input.maxLength)
+        let text = "" + input.value
+        if(text.length >= 6){
+            sendPhone()
+        }
+
     }
 
 
@@ -248,43 +257,10 @@ function updateTimer() {
 
                     <form autocomplete="off" on:submit|preventDefault={sendPhone} bind:this={form}>
                         <div class="row">
-                            <div class="col-2">
+                            <div class="col-12">
                                 <div class="mb-3">
                                     <label for="digit1-input" class="visually-hidden">Digit 1</label>
-                                    <input type="text" name="1" class="form-control form-control-lg bg-light border-light text-center p-0 p-0" on:paste={paste} on:keyup={event => moveToNext(1, event)} maxLength="1" id="digit1-input">
-                                </div>
-                            </div><!-- end col -->
-                    
-                            <div class="col-2">
-                                <div class="mb-3">
-                                    <label for="digit2-input" class="visually-hidden">Digit 2</label>
-                                    <input type="text" name="2" class="form-control form-control-lg bg-light border-light text-center p-0" on:keyup={event => moveToNext(2, event)} maxLength="1" id="digit2-input">
-                                </div>
-                            </div><!-- end col -->
-                    
-                            <div class="col-2">
-                                <div class="mb-3">
-                                    <label for="digit3-input" class="visually-hidden">Digit 3</label>
-                                    <input type="text" name="3" class="form-control form-control-lg bg-light border-light text-center p-0"  on:keyup={event => moveToNext(3, event)} maxLength="1" id="digit3-input">
-                                </div>
-                            </div><!-- end col -->
-                    
-                            <div class="col-2">
-                                <div class="mb-3">
-                                    <label for="digit4-input" class="visually-hidden">Digit 4</label>
-                                    <input type="text" name="4" class="form-control form-control-lg bg-light border-light text-center p-0"  on:keyup={event => moveToNext(4, event)} maxLength="1" id="digit4-input">
-                                </div>
-                            </div><!-- end col -->
-                            <div class="col-2">
-                                <div class="mb-3">
-                                    <label for="digit5-input" class="visually-hidden">Digit 5</label>
-                                    <input type="text" name="5" class="form-control form-control-lg bg-light border-light text-center p-0"  on:keyup={event => moveToNext(5, event)} maxLength="1" id="digit5-input">
-                                </div>
-                            </div><!-- end col -->
-                            <div class="col-2">
-                                <div class="mb-3">
-                                    <label for="digit6-input" class="visually-hidden">Digit 6</label>
-                                    <input type="text" name="6" class="form-control form-control-lg bg-light border-light text-center p-0"  on:keyup={event => moveToNext(6, event)} maxLength="1" id="digit6-input">
+                                    <input type="number" name="1" class="form-control form-control-lg bg-light border-light text-center p-0 p-0" on:input={checkLength} maxLength="6" id="digit1-input">
                                 </div>
                             </div><!-- end col -->
                         </div>
