@@ -30,12 +30,7 @@ function registerFather($identity_number){
             $username = strtolower($result->SuperiorName.' '.$result->SuperiorID);
             $username = str_replace(' ', '_', $username);
 
-            $position = strpos($result->SMSNumber, '96605') !== false ? strpos($result->SMSNumber, '96605') : strpos($result->SMSNumber, '9665');
-            $phone = substr($result->SMSNumber, $position + strlen('96605'));
-
-            $phone = '05' . $phone;
-
-            //$phone = '0'.substr($result->SMSNumber, 4);
+            $phone = '0'.substr($result->SMSNumber, 4);
             //$phone = substr($result->SMSNumber, 4);
 
             $user = User::create([
