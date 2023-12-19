@@ -1,0 +1,94 @@
+<div class="row justify-content-center">
+    <div class="col-lg-10">
+        <div class="card">
+            <div class="bg-secondary-subtle position-relative">
+                <div class="card-body p-5">
+                    <div class="text-center">
+                        <h3>Terms of Use</h3>
+                        <p class="mb-0 text-muted">Last update: 1/12/2023</p>
+                    </div>
+                </div>
+                <div class="shape">
+                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs" width="1440" height="60" preserveAspectRatio="none" viewBox="0 0 1440 60">
+                        <g mask="url(&quot;#SvgjsMask1001&quot;)" fill="none">
+                            <path d="M 0,4 C 144,13 432,48 720,49 C 1008,50 1296,17 1440,9L1440 60L0 60z" style="fill: var(--vz-secondary-bg);"></path>
+                        </g>
+                        <defs>
+                            <mask id="SvgjsMask1001">
+                                <rect width="1440" height="60" fill="#ffffff"></rect>
+                            </mask>
+                        </defs>
+                    </svg>
+                </div>
+            </div>
+            <div class="card-body p-4">
+                <div>
+                    <h5>1. Introduction</h5>
+                    <p class="text-muted">Welcome to Boofey, a service dedicated to providing nutritious meal plans for school canteens. These Terms govern your access to and use of our website, mobile application, and services.</p>
+                </div>
+                
+                <div>
+                    <h5>2. Scope of Services</h5>
+                    <p class="text-muted">Boofey offers fixed meal plan subscriptions for school canteens. Our services are intended for parents and guardians of school-aged children to ensure their daily nutritional needs are met through balanced meals.</p>
+                </div>
+                
+                <div>
+                    <h5>3. User Eligibility and Registration</h5>
+                    <p class="text-muted">To subscribe to our services, users must be 18 years or older. Registration requires providing accurate information, and users are responsible for maintaining the confidentiality of their account.</p>
+                </div>
+                
+                <div>
+                    <h5>4. Subscription Terms and Billing</h5>
+                    <p class="text-muted">Subscriptions are billed in advance and are non-refundable. Payment is due at the beginning of each subscription period. The subscription cannot be canceled, refunded, or paused once started, and days missed by the child cannot be reimbursed.</p>
+                </div>
+                
+                <div>
+                    <h5>5. Menu and Allergies</h5>
+                    <p class="text-muted">Boofey provides a fixed menu. It is the parent's or guardian's responsibility to check the menu for allergens. Boofey does not accommodate individual allergies or dietary requirements.</p>
+                </div>
+                
+                <div>
+                    <h5>6. Intellectual Property Rights</h5>
+                    <p class="text-muted">All content on Boofey's platforms is owned by Boofey and protected by intellectual property laws. Users may not use this content outside of the services without permission.</p>
+                </div>
+                
+                <div>
+                    <h5>7. User Conduct and Prohibited Uses</h5>
+                    <p class="text-muted">Users agree not to misuse our services, including any form of hacking, infringement of third-party rights, or any illegal activities.</p>
+                </div>
+                
+                <div>
+                    <h5>8. Liability and Indemnification</h5>
+                    <p class="text-muted">Boofey is not liable for any indirect or consequential damages arising from the use of our services. Users agree to indemnify Boofey against all claims and liabilities related to their account.</p>
+                </div>
+                
+                <div>
+                    <h5>9. Privacy and Data Protection</h5>
+                    <p class="text-muted">Boofey is committed to protecting user data. Personal information collected is used only for providing and improving our services and is not shared with third parties, except as required by law.</p>
+                </div>
+                
+                <div>
+                    <h5>10. Modifications to Terms and Services</h5>
+                    <p class="text-muted">Boofey reserves the right to modify these Terms and services at any time. Continued use of the services after changes constitutes acceptance of the new Terms.</p>
+                </div>
+                
+                <div>
+                    <h5>11. Governing Law and Jurisdiction</h5>
+                    <p class="text-muted">These Terms are governed by the laws of the Kingdom of Saudi Arabia. Disputes arising under these Terms shall be resolved in Kingdom of Saudi Arabia courts.</p>
+                </div>
+                
+                <div>
+                    <h5>12. Contact Information and Customer Support</h5>
+                    <p class="text-muted">For support or inquiries, please contact us at info@boofey.app</p>
+                </div>
+                
+                <div>
+                    <h5>13. Miscellaneous</h5>
+                    <p class="text-muted">These Terms constitute the entire agreement between Boofey and the user. If any part of these Terms is held invalid or unenforceable, the remaining parts will remain in effect.</p>
+                </div>
+
+
+            </div>
+        </div>
+    </div><!--end col-->
+</div><!--end row-->

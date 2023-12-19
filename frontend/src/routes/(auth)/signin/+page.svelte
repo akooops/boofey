@@ -216,7 +216,7 @@ function updateTimer() {
                             <strong class="text-danger ms-1 my-2">{errors.identity_number[0]}</strong>
                         {/if}
                         <div class="mb-4">
-                            <p class="mb-0 fs-13 text-muted fst-italic">By signing in you accept our <a href="#" class="text-primary text-decoration-underline fst-normal fw-semibold">Terms of use </a> and &#160<a href="#" class="text-primary text-decoration-underline fst-normal fw-semibold">privacy policy</a></p>
+                            <p class="mb-0 fs-13 text-muted fst-italic">By signing in you accept our <a href="/terms-of-use" target="_blank" class="text-primary text-decoration-underline fst-normal fw-semibold">Terms of use </a> and &#160<a href="/privacy-policy" target="_blank" class="text-primary text-decoration-underline fst-normal fw-semibold" >privacy policy</a></p>
                         </div>
                         <div class="text-center mt-4">
                             <button class="btn btn-primary w-100 btn-load" type="submit" disabled={loading}>
