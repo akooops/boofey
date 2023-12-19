@@ -44,7 +44,7 @@ class UpdateStudentRequest  extends FormRequest
             $rules['academic_year_id'] = 'required|exists:academic_years,id';
             $rules['father_id'] = 'required|exists:fathers,id';
             $rules['nfc_id'] = 'nullable|string|unique:students,nfc_id,'.$student->id;
-            $rules['face_id'] = 'nullable|string|unique:students,face_id,'.$student->id;
+            //$rules['face_id'] = 'nullable|string|unique:students,face_id,'.$student->id;
             $rules['onhold'] = 'required|boolean';
             $rules['edit_image'] = 'required|boolean';
             $rules['file'] = 'required_if:edit_image,true|file|mimes:jpeg,png';

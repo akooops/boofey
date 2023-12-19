@@ -42,7 +42,7 @@ class StoreStudentRequest extends FormRequest
             $rules['academic_year_id'] = 'required|exists:academic_years,id';
             $rules['father_id'] = 'required|exists:fathers,id';
             $rules['nfc_id'] = 'nullable|string|unique:students,nfc_id';
-            $rules['face_id'] = 'nullable|string|unique:students,face_id';
+            //$rules['face_id'] = 'nullable|string|unique:students,face_id';
             $rules['onhold'] = 'required|boolean';
         }
 
