@@ -50,9 +50,8 @@ function destroy(){
                     {/if}
         
                 
-                
                 {:else if operation?.status == "success"}
-                    <i class="ri-check-double-line text-success fs-1 align-middle"></i>
+                    <i class="ri-check-double-line text-success fs-1 align-middle" use:destroy></i>
                 {/if}
 
             </div>

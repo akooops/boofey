@@ -20,6 +20,13 @@ export const routes = [
       itemHref:() => "/canteens"
     },
     {
+      path: /^\/canteens\/\d+\/qr-exit$/,
+      title: "QR Exit",
+      item: "Canteens",
+      active: "Qr Exit",
+      itemHref:() => "/canteens"
+    },
+    {
       path: /^\/canteens\/\d+\/queues\/\d+\/qr-exit$/,
       title: "Qr Exit",
       item: "Queues",
