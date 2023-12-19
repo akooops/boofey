@@ -174,13 +174,13 @@ loading = true
                                     <strong class="text-danger ms-1 my-2">{errors.nfc_id[0]}</strong>
                                     {/if}
                                 </div>
-                                <div class="col-lg-12">
+                                <!-- <div class="col-lg-12">
                                     <label for="studentname" class="form-label" >Face ID</label>
                                     <input type="text" name="face_id" class="form-control" id="face_id" placeholder="Enter Studentname name"  bind:value={$studentStore.face_id}>
                                     {#if errors?.face_id}
                                     <strong class="text-danger ms-1 my-2">{errors.face_id[0]}</strong>
                                     {/if}
-                                </div>
+                                </div> -->
                                 <div class="row ps-3 g-3">
                                     <!-- Switches Color -->
                                     <div class="form-check form-switch col" >
