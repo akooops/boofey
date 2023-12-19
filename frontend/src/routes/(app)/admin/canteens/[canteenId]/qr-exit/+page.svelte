@@ -8,6 +8,7 @@ import { page } from '$app/stores';
 import {Html5QrcodeScanner} from "html5-qrcode";
 import {Html5Qrcode} from "html5-qrcode";
 import { beforeNavigate } from "$app/navigation";
+	import QrOperation from './QrOperation.svelte';
 
 
 let stream
@@ -24,6 +25,8 @@ let boxSize = 250
 let fps = 24
 let config = { fps: 24, qrbox: { width: 250, height: 250 } };
 let qrOutput = ""
+let timeout = false
+let operations = []
 onMount(async () => {
     camerasList = await Html5Qrcode.getCameras()
     camera = camerasList[0] 
@@ -33,7 +36,7 @@ onMount(async () => {
     fps = config.fps
     boxSize = config.qrbox.width
 
-   qrScanner = new Html5Qrcode("stream")
+    qrScanner = new Html5Qrcode("stream")
 
     
 })
@@ -65,15 +68,27 @@ async function stopCam(){
 }
 
 async function exitQueue(result){
+    if(timeout) return;
     errors = {}
-    stopCam()
+    // stopCam()
     loading = true 
+    timeout = true
+    setTimeout(async () => {
+        timeout = false
+        status = "neutral";
+        // await qrScanner.start()
+    }, 1200); 
+
+
+    let newIndex = operations.push({status:"loading"})
+    operations = operations
+
     try {
-        console.log(result)
         result = result.split("=")[1]
     }catch(e){
         loading = false
         errors.json = ["Qr code isn't in the correct format"]
+        operations[newIndex - 1] = {status:"error",errors:{json:["Qr code isn't in the correct format"]}}
         return;
     }
     let formData = new FormData()
@@ -94,15 +109,13 @@ async function exitQueue(result){
     loading = false
     if(res.status == "success") {
         status = "success"
+        operations[newIndex - 1] = {status:"success"}
     }else {
         errors = res.errors
         status = "error"
+        operations[newIndex - 1] = {status:"error",errors:res.errors}
     }   
 
-    setTimeout(async () => {
-        status = "neutral";
-        await qrScanner.start()
-    }, 1200); 
 
 
 }
@@ -140,6 +153,7 @@ function changeType(){
 
 
 function listenInput(event) {
+        if(laserScan == false) return;
         let key = event.key;
         if (key === '\n' || key === '\r' || key == "Enter") {
             // QR code scan is complete
@@ -154,9 +168,18 @@ beforeNavigate( () => {
     document.removeEventListener('keydown', this.listenInput);
 })
 
-
-
 document.addEventListener('keydown',listenInput)
+
+
+
+function destroyOperation(e){
+    operations.splice(e.detail.index,1)
+    operations = operations
+}
+
+
+
+
 
 </script>
 {#if JSON.parse(sessionStorage.getItem("permissions")).includes("queues.exit")}
@@ -174,13 +197,13 @@ document.addEventListener('keydown',listenInput)
                     <!-- Switches Color -->
            
 
-                    <button type="button" data-bs-toggle="modal" data-bs-target="#QrSettings" class="btn btn-light btn-icon waves-effect me-2"><i class="  ri-settings-4-line fs-4"></i></button>
                     <!-- <button type="button"  class="btn btn-info waves-effect waves-light" on:click={switchCamera}>Switch Camera</button> -->
                     {#if laserScan == false}
+                        <button type="button" data-bs-toggle="modal" data-bs-target="#QrSettings" class="btn btn-light btn-icon waves-effect me-2"><i class="  ri-settings-4-line fs-4"></i></button>
                         {#if cameraActive}
-                        <button type="button"  class="btn btn-danger waves-effect waves-light" on:click={stopCam}>Stop Qr Scanner</button>
+                        <button type="button" class="btn btn-danger waves-effect waves-light" on:click={stopCam}>Stop Qr Scanner</button>
                         {:else}
-                        <button type="button"  class="btn btn-primary waves-effect waves-light" on:click={startCam}>Launch Qr Scanner</button>
+                        <button type="button" class="btn btn-primary waves-effect waves-light" on:click={startCam}>Launch Qr Scanner</button>
                         {/if}
                     {/if}
                 </div>
@@ -190,7 +213,7 @@ document.addEventListener('keydown',listenInput)
                 <input type="text" name="firstname" class="form-control" id="firstName" bind:value={qrOutput}>
             {/if}
 
-            {#if noCamera || Object.keys(errors).length > 0}
+            {#if noCamera} <!-- Object.keys(errors).length > 0 -->
             <div class="card-body">
                 <!-- Danger Alert -->
                 {#if noCamera}
@@ -199,7 +222,7 @@ document.addEventListener('keydown',listenInput)
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
                 {/if}
-                {#if errors?.json}
+                <!-- {#if errors?.json}
                 <div class="alert alert-danger alert-border-left alert-dismissible fade show" role="alert">
                     <i class="ri-error-warning-line me-3 align-middle"></i> {errors.json[0]}
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -222,15 +245,14 @@ document.addEventListener('keydown',listenInput)
                     <i class="ri-error-warning-line me-3 align-middle"></i> {errors.queue_id[0]}
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
-                {/if}
+                {/if} -->
             </div>
             {/if}
             
         </div><!-- end card -->
     </div>
     <!-- <span class="VideoContainer"> -->
-        {#if loading}
-        <!-- Border spinner -->
+        <!-- {#if loading}
         <div class="row align-items-center justify-content-center">
             <div class="spinner-border text-primary" role="status">
                 <span class="sr-only">Loading...</span>
@@ -246,14 +268,21 @@ document.addEventListener('keydown',listenInput)
             <div class="row  text-center">
                 <i class="ri-check-double-line text-success fs-1 align-middle"></i>
             </div>
-        {/if}
+        {/if} -->
+        <div class="row mt-4">
+            {#each operations as operation,index (operation)}
+                <QrOperation {index} {operation} on:destroy={destroyOperation}/>
+            {/each}
+        </div>
         <div id="stream">
 
         </div>
         <!-- <video  bind:this={stream}></video> -->
         <!-- </span> -->
-    <!-- end col -->
+     
+
 </div>
+
 {/if}
 
 
