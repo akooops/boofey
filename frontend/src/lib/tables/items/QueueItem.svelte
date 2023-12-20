@@ -12,10 +12,13 @@
         $queueStore = JSON.parse(JSON.stringify(queue));
     }
 
+    let queueStudentsToolTip
+
+
     function openQueueStudents(){
         let toolTipInstance = bootstrap.Tooltip.getOrCreateInstance(queueStudentsToolTip)
         // goto(`/admin/queues/${queue.id}/queueStudents`)
-        goto(`queues/${activeQueue.id}/queueStudents`)
+        goto(`queues/${queue.id}/queueStudents`)
         
         toolTipInstance.hide()
     }
@@ -38,8 +41,9 @@
     
     <td>
         <div class="hstack gap-3 flex-wrap">
-           
-            
+            {#if JSON.parse(sessionStorage.getItem("permissions")).includes("queueStudents.index")}
+            <span on:click={openQueueStudents} bind:this={queueStudentsToolTip}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Queues" ><i class="bx bxs-graduation"></i></a></span>
+            {/if}
             {#if JSON.parse(sessionStorage.getItem("permissions")).includes("queues.show")}
             <span data-bs-toggle="modal" data-bs-target="#viewQueueModal" on:click={setQueue}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="View" ><i class="ri-eye-fill"></i></a></span>
             {/if}

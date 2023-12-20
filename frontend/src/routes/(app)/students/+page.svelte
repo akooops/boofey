@@ -55,11 +55,6 @@
                         <SearchTable type={translation.student[localStorage.getItem("language")]}/>
                         <StudentsTable {studentsList} />
                         <Pagination {...studentsPagination} />
-                     
-                        
-
-
-
                     </div>
             </div> -->
 
