@@ -103,6 +103,10 @@ class Student extends Model
     {
         $today = Carbon::today();
 
+        dd($this->belongsToMany(Queue::class, 'queue_students', 'student_id', 'queue_id')
+        ->where('queues.type', 0)
+        ->whereDate('queues.started_at', $today)
+        ->count());
         return $this->belongsToMany(Queue::class, 'queue_students', 'student_id', 'queue_id')
         ->where('queues.type', 0)
         ->whereDate('queues.started_at', $today)
