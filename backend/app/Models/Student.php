@@ -102,10 +102,12 @@ class Student extends Model
     public function getTookMainMealTodayAttribute()
     {
         $today = Carbon::today();
+        $startOfDay = $today->startOfDay();
+        $endOfDay = $today->endOfDay();
 
         $mealCount = $this->queues()
             ->where('queues.type', 0)
-            ->whereDate('queues.started_at', '=', $today->toDateString())
+            ->whereBetween('queues.started_at', [$startOfDay, $endOfDay])
             ->count();
 
         return $mealCount > 0;
