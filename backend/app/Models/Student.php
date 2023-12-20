@@ -104,19 +104,11 @@ class Student extends Model
         $today = Carbon::today();
 
         $mealCount = $this->queues()
-        ->where('queues.type', 0)
-        ->whereDate('queues.started_at', $today)
-        ->count();
+            ->where('queues.type', 0)
+            ->whereDate('queues.started_at', $today)
+            ->count();
 
-        dd($mealCount);
-        dd($this->belongsToMany(Queue::class, 'queue_students', 'student_id', 'queue_id')
-        ->where('queues.type', 0)
-        ->whereDate('queues.started_at', $today)
-        ->count());
-        return $this->belongsToMany(Queue::class, 'queue_students', 'student_id', 'queue_id')
-        ->where('queues.type', 0)
-        ->whereDate('queues.started_at', $today)
-        ->count() > 0;
+        return $mealCount;
     }
 
     function getSubscribedAttribute() {  
