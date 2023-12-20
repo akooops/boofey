@@ -93,20 +93,23 @@ class Student extends Model
     {
         $today = Carbon::today();
 
-        return $this->belongsToMany(Queue::class, 'queue_students', 'student_id', 'queue_id')
+        $mealCount = $this->belongsToMany(Queue::class, 'queue_students', 'student_id', 'queue_id')
         ->where('queues.type', 1)
-        ->whereDate('queues.started_at', $today)
-        ->count() > 0;
+        ->whereDate('queues.created_at', $today->toDateString())
+        ->count();
+		
+        return $mealCount > 0;
     }
 
     public function getTookMainMealTodayAttribute()
     {
         $today = Carbon::today();
 
-        $mealCount = $this->queues()
-            ->whereDate('queues.started_at', $today)
-            ->count();
-
+        $mealCount = $this->belongsToMany(Queue::class, 'queue_students', 'student_id', 'queue_id')
+        ->where('queues.type', 0)
+        ->whereDate('queues.created_at', $today->toDateString())
+        ->count();
+		
         return $mealCount > 0;
     }
 
