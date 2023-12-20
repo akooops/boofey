@@ -21,6 +21,8 @@
     let pending = true
     let error
 
+    let IsFree = false
+
 
     let states = ["active","",""]
     let addressId
@@ -45,6 +47,11 @@
     })
 
     async function proceed(index,e){
+        if(IsFree){
+            states = ["done","done","active"]
+            pay()
+            return;
+        }
         addressId = e.detail.addressId != null ? e.detail.addressId : addressId
         paymentMethodId = e.detail.paymentMethodId != null ? e.detail.paymentMethodId : paymentMethodId
         states[index] = "done"
@@ -71,9 +78,11 @@
     }
 
     export async function free(appliedCoupon){
-        states = ["done","done","active"]
-        couponId = appliedCoupon
-        sendPayment()
+        IsFree = true
+        
+        // states = ["done","done","active"]
+        // couponId = appliedCoupon
+        // sendPayment()
     }
 
     export async function sendPayment(){
@@ -241,7 +250,7 @@
 
 
                 <div class="tab-pane fade {states[1] == "active" ? "show active" : ""}" id="pills-payment" role="tabpanel" aria-labelledby="pills-payment-tab">
-                    <PaymentSelection billingId={addressId} {data} {paymentMethods} on:proceed={(e) => proceed(1,e)} on:back={(e) => back(1)}/>
+                    <PaymentSelection billingId={addressId} {IsFree} {data} {paymentMethods} on:proceed={(e) => proceed(1,e)} on:back={(e) => back(1)}/>
                 </div>
                 <!-- end tab pane -->
 

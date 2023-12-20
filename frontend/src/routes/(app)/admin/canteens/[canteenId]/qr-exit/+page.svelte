@@ -83,14 +83,14 @@ async function exitQueue(result){
     let newIndex = operations.push({status:"loading"})
     operations = operations
 
-    try {
-        result = result.split("=")[1]
-    }catch(e){
-        loading = false
-        errors.json = ["Qr code isn't in the correct format"]
-        operations[newIndex - 1] = {status:"error",errors:{json:["Qr code isn't in the correct format"]}}
-        return;
-    }
+    // try {
+    //     result = result.split("=")[1]
+    // }catch(e){
+    //     loading = false
+    //     errors.json = ["Qr code isn't in the correct format"]
+    //     operations[newIndex - 1] = {status:"error",errors:{json:["Qr code isn't in the correct format"]}}
+    //     return;
+    // }
     let formData = new FormData()
     formData.set("student_id",result)
 
