@@ -105,7 +105,6 @@ class Student extends Model
 
         $mealCount = $this->queues()
             ->where('queues.type', 0)
-            ->whereDate('queues.started_at', $today)
             ->count();
 
         return $mealCount;
