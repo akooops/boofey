@@ -105,9 +105,10 @@ class Student extends Model
 
         $mealCount = $this->queues()
             ->where('queues.type', 0)
+            ->whereDate('queues.started_at', '=', $today->toDateString())
             ->count();
 
-        return $mealCount;
+        return $mealCount > 0;
     }
 
     function getSubscribedAttribute() {  
