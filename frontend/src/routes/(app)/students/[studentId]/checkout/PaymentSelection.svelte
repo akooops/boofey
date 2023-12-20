@@ -10,6 +10,7 @@
     export let data
     export let paymentMethods
     export let billingId
+    export let IsFree
     let loading = false
     let paymentMethodId
     let add = true
@@ -22,6 +23,11 @@
     }
 
     async function SendPaymentMethod(){
+        if(IsFree){
+            dispatch("proceed",{paymentMethodId})
+            return;
+        }
+
         if(add){
             addCard()
         }
