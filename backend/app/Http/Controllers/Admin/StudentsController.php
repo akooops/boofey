@@ -284,7 +284,7 @@ class StudentsController extends Controller
             [
                 'file_id' => $file->id,
                 'archived' => $archived,
-                'face_id' => $face['faceId']
+                'face_id' => ($face == null) ? $student->face_id : $face['faceId']
             ]
         ));
 
