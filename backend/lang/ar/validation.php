@@ -214,7 +214,8 @@ return [
         'return_url'            => 'رابط الرجوع',
         'verification_code'     => 'كود التأكيد',
         'old_password'          => 'كلمة السر الحالية',
-        'login'                 => 'معلومات الدخول'
+        'login'                 => 'معلومات الدخول',
+        'identity_number'       => 'رقم الهوية'
     ],
 
 ];
