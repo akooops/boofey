@@ -1,5 +1,7 @@
 <script>
     import {onMount} from "svelte"
+    import {translation} from "$lib/translation.js"
+
     onMount(() => {
 
     })
@@ -28,7 +30,7 @@
                                 <img src="/assets/images/logo-white.svg" alt="" height="30">
                             </a>
                         </div>
-                        <p class="mt-3 fs-15 fw-medium">Best system for managing canteens</p>
+                        <p class="mt-3 fs-15 fw-medium">{translation.bestSystem[localStorage.getItem("language")]}</p>
                     </div>
                 </div>
             </div>
@@ -48,7 +50,7 @@
                 <div class="col-lg-12">
                     <div class="text-center">
                         <p class="mb-0 text-muted">&copy;
-                            {new Date().getFullYear()} Boofy. Crafted with <i class="mdi mdi-heart text-danger"></i> by <a href="http://digiprime.net" target="_blank" class="fw-semibold text-primary text-decoration-underline"> Digital Prime IT </a>
+                            {new Date().getFullYear()} {@html translation.crafted[localStorage.getItem("language")]}
                         </p>
                     </div>
                 </div>

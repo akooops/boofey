@@ -1095,6 +1095,30 @@ export let translation = {
         en:"Get In Touch",
         ar:"ابقى على تواصل"
     },
+    idNumber:{
+        en:"Indentity Number",
+        ar:"رقم التعريف"
+    },
+    enterIdNumber:{
+        en:"Enter Identity Number",
+        ar:"ادخل رقم التعريف"
+    },
+    acceptTermsPrivacy:{
+        en:`By signing in you accept our <a href="/terms-of-use" target="_blank" class="text-primary text-decoration-underline fst-normal fw-semibold">Terms of use </a> and &#160<a href="/privacy-policy" target="_blank" class="text-primary text-decoration-underline fst-normal fw-semibold" >privacy policy</a>`,
+        ar:`من خلال تسجيلك فانت توافق على <a href="/terms-of-use" target="_blank" class="text-primary text-decoration-underline fst-normal fw-semibold">شروط الاستخدام</a> و <a href="/privacy-policy" target="_blank" class="text-primary text-decoration-underline fst-normal fw-semibold" > سياسة الخصوصية </a>`
+    },
+    submit:{
+        en:"Submit",
+        ar:"تاكيد"
+    },
+    bestSystem:{
+        en:"Best system for managing canteens",
+        ar:"أفضل نظام لإدارة المقاصف"
+    },
+    crafted:{
+        en:`Boofy. Crafted with <i class="mdi mdi-heart text-danger"></i> by <a href="http://digiprime.net" target="_blank" class="fw-semibold text-primary text-decoration-underline"> Digital Prime IT </a>`,
+        ar:`بوفي. صنع ب<i class="mdi mdi-heart text-danger"></i> من طرف <a href="http://digiprime.net" target="_blank" class="fw-semibold text-primary text-decoration-underline"> Digital Prime IT </a>`
+    }
 
 
 

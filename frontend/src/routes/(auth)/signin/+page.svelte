@@ -27,6 +27,7 @@
         errors = {}
         let formData = new FormData(form)
         idNumber = formData.get("identity_number")
+        formData.set("lang",localStorage.getItem("language"))
         let res = await fetch(PathSendId(),{
             method:"POST",
             body:formData
@@ -86,6 +87,7 @@ async function sendPhone(){
     formData = new FormData()
     formData.set("verification_code",allValues.join(''))
     formData.set("phone",phone)
+    formData.set("lang",localStorage.getItem("language"))
 
     let res = await fetch(PathSendIdVerification(),{
             method:"POST",
@@ -194,8 +196,8 @@ function updateTimer() {
 
             <div class="card-body p-4">
                 <div class="text-center mt-2">
-                    <h5 class="text-primary">Welcome Back !</h5>
-                    <p class="text-muted">Sign in to continue to Boofey.</p>
+                    <h5 class="text-primary">{translation.welcomeBack[localStorage.getItem("language")]}</h5>
+                    <p class="text-muted">{translation.signInToContinue[localStorage.getItem("language")]} Boofey.</p>
                     <div class="mb-4">
                         <div class="avatar-lg mx-auto">
                             <div class="avatar-title bg-light text-primary display-5 rounded-circle">
@@ -209,21 +211,21 @@ function updateTimer() {
                 <div class="p-2">
                     <form on:submit|preventDefault={sendId} bind:this={form}>
                         <div class="mb-4">
-                            <label class="form-label">Idnetity Number</label>
-                            <input type="text" class="form-control" name="identity_number" id="cleave-phone" placeholder="Enter Identity Number">
+                            <label class="form-label">{translation.idNumber[localStorage.getItem("language")]}</label>
+                            <input type="text" class="form-control" name="identity_number" id="cleave-phone" placeholder={translation.enterIdNumber[localStorage.getItem("language")]}>
                         </div>
                         {#if errors?.identity_number}
                             <strong class="text-danger ms-1 my-2">{errors.identity_number[0]}</strong>
                         {/if}
                         <div class="mb-4">
-                            <p class="mb-0 fs-13 text-muted fst-italic">By signing in you accept our <a href="/terms-of-use" target="_blank" class="text-primary text-decoration-underline fst-normal fw-semibold">Terms of use </a> and &#160<a href="/privacy-policy" target="_blank" class="text-primary text-decoration-underline fst-normal fw-semibold" >privacy policy</a></p>
+                            <p class="mb-0 fs-13 text-muted fst-italic">{@html translation.acceptTermsPrivacy[localStorage.getItem("language")]}</p>
                         </div>
                         <div class="text-center mt-4">
                             <button class="btn btn-primary w-100 btn-load" type="submit" disabled={loading}>
                                 {#if loading}
                                 <span class="spinner-border " role="status"></span>
                                 {:else}
-                                Submit
+                                {translation.submit[localStorage.getItem("language")]}
                                 {/if}                                        
                             </button>
                         </div>
@@ -243,8 +245,8 @@ function updateTimer() {
 
             <div class="card-body p-4">
                 <div class="text-center mt-2">
-                    <h5 class="text-primary">Welcome Back !</h5>
-                    <p class="text-muted">Sign in to continue to Boofey.</p>
+                    <h5 class="text-primary">{translation.welcomeBack[localStorage.getItem("language")]}</h5>
+                    <p class="text-muted">{translation.signInToContinue[localStorage.getItem("language")]} Boofey.</p>
                     <lord-icon src="https://cdn.lordicon.com/rhvddzym.json" trigger="loop" colors="primary:#0ab39c" class="avatar-xl">
                     </lord-icon>
 
@@ -252,7 +254,7 @@ function updateTimer() {
 
                 <div class="p-2 ">
                     <div class="text-muted text-center mb-4 mx-lg-3">
-                        <p>Please enter the 6 digits code sent to this phone number : <span class="text-primary">{cencoredPhone}</span> </p>
+                        <p>{translation.enterSix[localStorage.getItem("language")]} : <span class="text-primary">{cencoredPhone}</span> </p>
                     </div>
 
                     <form autocomplete="off" on:submit|preventDefault={sendPhone} bind:this={form}>
@@ -280,7 +282,7 @@ function updateTimer() {
                             {#if loading}
                             <span class="spinner-border " role="status"></span>
                             {:else}
-                            Confirm
+                            {translation.confirm[localStorage.getItem("language")]}
                             {/if}                                        
                         </button>
                     </div>
@@ -291,9 +293,9 @@ function updateTimer() {
 
         <div class="mt-4 text-center">
             {#if resendAvailable}
-            <p class="mb-0">Didn't receive the code ? <a href="javascript:void(0);" on:click={resendId} class="fw-semibold text-primary text-decoration-underline"> Resend  </a> </p>
+            <p class="mb-0">{translation.didntReceiveCode[localStorage.getItem("language")]} {translation["?"][localStorage.getItem("language")]} <a href="javascript:void(0);" on:click={resendId} class="fw-semibold text-primary text-decoration-underline"> {translation.resend[localStorage.getItem("language")]}  </a> </p>
             {:else}
-            <p class="mb-0">You need to wait <span>{time}</span> in order to resend again  </p>
+            <p class="mb-0">{translation.youNeedToWait[localStorage.getItem("language")]} <span>{time}</span> {translation.inOrderToResend[localStorage.getItem("language")]} </p>
             
 
             {/if}
