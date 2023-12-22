@@ -21,6 +21,12 @@ class NoActiveQueue implements Rule
     public function passes($attribute, $value)
     {
         $queue = Queue::findOrFail($this->queueId);
+
+        if($queue->studentsInCount != 0){
+            $this->error = 2;
+            return false;
+        }
+
         $queueClosed = is_null($queue->closed_at) ? 'closing' : 'opening';
 
         $today = Carbon::today();
@@ -51,6 +57,10 @@ class NoActiveQueue implements Rule
     {
         if($this->error == 0){
             return 'It exists an active queue for this canteen for today, consider closing it before opening this queue';
+        }
+
+        if($this->error == 2){
+            return 'There still students in that queue that are not exited';
         }
 
         return 'This queue can\'t be opened for today';
