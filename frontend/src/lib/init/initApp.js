@@ -1935,7 +1935,11 @@ function resetLayout() {
 
 
 
-export function initApp() {
+export function initApp(language) {
+    if(language){
+        initLanguage();
+        return;
+    }
     InitVars()
     setDefaultAttribute();
     twoColumnMenuGenerate();

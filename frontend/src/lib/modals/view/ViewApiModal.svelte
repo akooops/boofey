@@ -1,8 +1,17 @@
 
 <script>
-import { getContext } from "svelte"
+import { getContext, onMount } from "svelte"
+import QRCodeStyling from "qr-code-styling";
+import printJS from 'print-js'
+
 let isCopied = false
 let {apiStore} = getContext("apiStore")
+let {canteenStore} = getContext("canteenStore")
+
+let view 
+let width = 200
+let height = 200
+let qrInstance
 
 
 let animationValue = "iOwqS7PMGO2kNNRh9UE8wvOWbZTmoMYAblxqVOfxCHweUaVKrXwucPa24LR7iQLu"
@@ -49,6 +58,42 @@ function startAnimation(){
     intervalId = setInterval(getNextApi, 1);
 }
 
+apiStore.subscribe(() => {
+    if(qrInstance){
+        qrInstance.update({
+                width,
+                height,
+                type: "png",
+                data:$apiStore
+        })
+
+    }
+})
+onMount(() => {
+    
+    qrInstance = new QRCodeStyling({
+            width,
+            height,
+            type: "png",
+        });
+
+    qrInstance.append(view);
+})
+
+
+async function downLoad(){
+        await qrInstance.download({
+            name:$canteenStore.name,
+            extension:"png"
+        })
+
+    }
+
+    async function print(){
+        // printJS('qrImage', 'html')
+        printJS({ printable: 'qrImage', type: 'html', header: `Boofey - ${$canteenStore.name}`})
+    }
+
 </script>
 
 
@@ -83,6 +128,13 @@ function startAnimation(){
                                         <!-- <button type="button" class="btn btn-primary btn-label waves-effect waves-light" on:click={copyApiKey}> </button> -->
 
                                 </div>
+                            </div>
+                            <div bind:this={view} class="text-center" id="qrImage">
+                            </div>
+                            <div class="text-center hstack gap-2 justify-content-center">
+                                
+                                <button type="button" class="btn btn-primary waves-effect waves-light" on:click={downLoad}>Download</button>
+                                <button type="button" class="btn btn-primary waves-effect waves-light" on:click={print}>Print</button>
                             </div>
                      
                             <div>

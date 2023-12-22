@@ -905,5 +905,200 @@ export let translation = {
             <li><span class="text-info fw-semibold">تجنب التعديل: </span> لا تستخدم الصور المعدلة ببرامج تحرير الصور</li>
             <li><span class="text-info fw-semibold">حجم الصورة: </span> اتبع توجيهات التطبيق بخصوص حجم وتنسيق الصورة المطلوب</li>
         </ol>`
-    }
+    },
+    home:{
+        en:"Home",
+        ar:"الرئيسية"
+    },
+    services:{
+        en:"Services",
+        ar:"الخدمات"
+    },
+    faq:{
+        en:"FAQ",
+        ar:"الاسئلة الشائعة"
+    },
+    contact:{
+        en:"Contact",
+        ar:"تواصل"
+    },
+    goToCOntrol:{
+        en:"Go To Control Panel",
+        ar:"اذهب الى لوحة التحكم"
+    },
+    heroTitle:{
+        en:`Boofey <span class="text-primary">Nourishing</span> the Next Generation `,
+        ar:`بوفي <span class="text-primary">يغذي</span> الجيل القادم`
+    },
+    heroSubTitle:{
+        en:"Our mission is simple: to transform school canteens into hubs of nutrition and taste. We partner with schools to provide students with meals that are not just satisfying, but also nourishing and balanced.",
+        ar:"مهمتنا بسيطة: تحويل المقاصف المدرسية إلى مراكز للتغذية والذوق. نحن نتشارك مع المدارس لتزويد الطلاب بوجبات ليست مرضية فحسب، بل مغذية ومتوازنة أيضًا."
+
+    },
+    subscribeNow:{
+        en:"Subscribe Now",
+        ar:"اشترك الان"
+    },
+    whyChooseBoofey:{
+        en:"Why Choose Boofey?",
+        ar:"لماذا تختار بوفي؟"
+    },
+    nutritionFirst: {
+        en:"Nutrition First",
+        ar:"التغذية اولا"
+    },
+    nutritionFirstParagraph:{
+        en:"Our menus are crafted by nutrition experts, ensuring each meal is a balanced blend of essential nutrients.",
+        ar:"تم إعداد قوائم الطعام لدينا من قبل خبراء التغذية، مما يضمن أن كل وجبة عبارة عن مزيج متوازن من العناصر الغذائية الأساسية."
+    },
+    locallySourced:{
+        en:"Locally Sourced",
+        ar:"مصدر محلي"
+    },
+    locallySourcedParagraph:{
+        en:"We believe in supporting our community. That's why we source fresh, seasonal ingredients from local farmers and suppliers.",
+        ar:"نحن نؤمن بدعم مجتمعنا. ولهذا السبب نستورد المكونات الموسمية الطازجة من المزارعين والموردين المحليين."
+    },
+    tailoredMenus:{
+        en:"Tailored Menus",
+        ar:"قوائم مخصصة"
+    },
+    tailoredMenusParagraph:{
+        en:"Understanding diverse tastes and dietary needs, we offer a range of options and choices.",
+        ar:"من خلال فهم الأذواق والاحتياجات الغذائية المتنوعة، فإننا نقدم مجموعة من الخيارات والاختيارات."
+    },
+    sustainability:{
+        en:"Sustainability Commitment",
+        ar:"الالتزام بالاستدامة"        
+    },
+    sustainabilityParagraph:{
+        en:"We're dedicated to eco-friendly practices, reducing waste, and promoting sustainability in all our operations.",
+        ar:"نحن ملتزمون بالممارسات الصديقة للبيئة، والحد من النفايات، وتعزيز الاستدامة في جميع عملياتنا."
+    },
+    easyOnlineSub:{
+        en:"Easy Online Subscription for Parents",
+        ar:"اشتراك سهل عبر الإنترنت للآباء"
+    },
+    convenientFlexible:{
+        en:"Convenient & Flexible",
+        ar:"مريحة ومرنة"
+    },
+    convenientFlexibleParagraph:{
+        en:"Subscribe to our meal plans easily through our online portal. Choose a package that fits your child's needs and schedule.",
+        ar:"اشترك في خطط وجباتنا بسهولة من خلال بوابتنا الإلكترونية. اختر الحزمة التي تناسب احتياجات طفلك وجدوله الزمني."
+    },
+    transparentPricing:{
+        en:"Transparent Pricing",
+        ar:"شفافية التسعير"
+    },
+    transparentPricingParagraph:{
+        en:"Clear, upfront pricing with no hidden fees. Pick the plan that works best for your budget.",
+        ar:"أسعار واضحة ومقدمة بدون أي رسوم مخفية. اختر الخطة التي تناسب ميزانيتك بشكل أفضل."
+    },
+    hasslePayment:{
+        en:"Hassle-Free Payments",
+        ar:"مدفوعات خالية من المتاعب"
+    },
+    hasslePaymentParagraph:{
+        en:"Secure and straightforward payment process, with options for customization and changes as needed.",
+        ar:"عملية دفع آمنة ومباشرة، مع خيارات للتخصيص والتغييرات حسب الحاجة."
+    },
+    stayInformed:{
+        en:"Stay Informed",
+        ar:"البقاء على علم"
+    },
+    stayInformedParagraph:{
+        en:"Receive regular updates about menus, nutritional information, and special offers directly through the portal.",
+        ar:"احصل على تحديثات منتظمة حول قوائم الطعام والمعلومات الغذائية والعروض الخاصة مباشرة من خلال البوابة."
+    },
+    ctaSentence:{
+        en:"subscribe to Boofey and bring daily nutritious delight to your child's school meals!",
+        ar:"اشترك في Boofey واحصل على متعة مغذية يومية لوجبات طفلك المدرسية!"
+    },
+    faqLong:{
+        en:"Frequently Asked Questions",
+        ar:"الاسئلة الشائعة"
+    },
+    faqSubTitle:{
+        en:"If you can not find answer to your question in our FAQ, you can always contact us or email us. We will answer you shortly!",
+        ar:"إذا لم تتمكن من العثور على إجابة لسؤالك في الأسئلة الشائعة، فيمكنك دائمًا الاتصال بنا أو مراسلتنا عبر البريد الإلكتروني. سوف نقوم بالرد عليك قريبا!"
+    },
+    emailUs:{
+        en:"Email Us",
+        ar:"ارسل لنا عبر البريد الإلكتروني"
+    },
+    typeOfMeals:{
+        en:"What types of meal plans does Boofey offer?",
+        ar:"ما أنواع خطط الوجبات التي يقدمها Boofey؟"
+    },
+    typeOfMealsAnswer:{
+        en:"Boofey offers fixed, nutritious meal plans designed to cater to a variety of tastes.",
+        ar:"يقدم Boofey خطط وجبات ثابتة ومغذية مصممة لتلبية مجموعة متنوعة من الأذواق."
+    },
+    ensureNutritiousMeals:{
+        en:"How do you ensure meals are nutritious?",
+        ar:"كيف تتأكد من أن الوجبات مغذية؟"
+    },
+    ensureNutritiousMealsAnswer:{
+        en:"Our menus, crafted by nutrition experts, focus on balanced diets that provide essential nutrients for growing children.",
+        ar:"تركز قوائمنا، التي أعدها خبراء التغذية، على الأنظمة الغذائية المتوازنة التي توفر العناصر الغذائية الأساسية للأطفال في مرحلة النمو."
+    },
+    customizeMeals:{
+        en:"Can I customize my child’s meals?",
+        ar:"هل يمكنني تخصيص وجبات طفلي؟",
+    },
+    customizeMealsAnswer:{
+        en:"Our meal plans are fixed and cannot be customized to ensure consistency and efficiency in our meal preparation.",
+        ar:"خطط الوجبات لدينا ثابتة ولا يمكن تخصيصها لضمان الاتساق والكفاءة في إعداد وجباتنا."
+    },
+    ingredientsSource:{
+        en:"How are the ingredients sourced?",
+        ar:"كيف يتم الحصول على المكونات؟"
+    },
+    ingredientsSourceAnswer:{
+        en:"We prioritize locally sourced, seasonal ingredients to support our community and ensure freshness.",
+        ar:"نحن نعطي الأولوية للمكونات الموسمية من مصادر محلية لدعم مجتمعنا وضمان نضارتها."
+    },
+    foodAllergies:{
+        en:"What is the policy regarding food allergies?",
+        ar:"ما هي السياسة المتعلقة بالحساسية الغذائية؟"
+    },
+    foodAllergiesAnswer:{
+        en:"Parents are responsible for checking our fixed menus for potential allergens. We provide detailed menu information to assist parents in this process.",
+        ar:"يتحمل الآباء مسؤولية التحقق من قوائمنا الثابتة بحثًا عن مسببات الحساسية المحتملة. نحن نقدم معلومات مفصلة عن القائمة لمساعدة الآباء في هذه العملية."
+    },
+    subPolicy:{
+        en:"What is the subscription policy?",
+        ar:"ما هي سياسة الاشتراك؟"
+    },
+    subPolicyAnswer:{
+        en:"Once a subscription starts, it cannot be cancelled, refunded, or paused. Missed days by the child are not subject to reimbursement.",
+        ar:"بمجرد بدء الاشتراك، لا يمكن إلغاؤه أو استرداده أو إيقافه مؤقتًا. الأيام الضائعة من قبل الطفل لا تخضع للسداد."
+    },
+    foodSafety:{
+        en:"How is food safety managed in the canteens?",
+        ar:"كيف تتم إدارة سلامة الغذاء في المقاصف؟"
+    },
+    foodSafetyAnswer:{
+        en:"Food safety is our top priority. We adhere to strict hygiene standards and conduct regular safety audits.",
+        ar:"سلامة الغذاء هي أولويتنا القصوى. نحن نلتزم بمعايير النظافة الصارمة ونجري عمليات تدقيق منتظمة للسلامة."
+    },
+    feedBack:{
+        en:"How do I provide feedback or suggestions?",
+        ar:"كيف يمكنني تقديم الملاحظات أو الاقتراحات؟"
+    },
+    feedBackAnswer:{
+        en:"We welcome feedback and suggestions! Please contact us through our website or the parent portal.",
+        ar:"نحن نرحب بالملاحظات والاقتراحات! يرجى التواصل معنا عبر موقعنا الإلكتروني أو البوابة الأم."
+    },
+    getInTouch:{
+        en:"Get In Touch",
+        ar:"ابقى على تواصل"
+    },
+
+
+
+
+
+
 }

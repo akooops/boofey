@@ -86,7 +86,7 @@ async function load(){
                 nameInput: 'input#card-name-input'
             },
             placeholders: {
-                number: '•••• •••• •••• ••••',
+                number: '••••••••••••••••',
                 name: 'Full Name',
                 expiry: '••/••',
                 cvc: '•••'
