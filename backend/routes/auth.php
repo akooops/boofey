@@ -13,8 +13,8 @@ Route::group(['prefix' => 'auth', 'namespace' => 'App\Http\Controllers\Auth', 'm
     Route::post('register', 'AuthController@register');
 
     Route::post('admin/login', 'AuthController@loginAdmin')->name('login');
-    Route::post('login', 'AuthController@login')->name('parent.login');
+    Route::post('login', 'AuthController@login')->name('parent.login')->middleware(['set.locale']);
 
-    Route::post('otp', 'AuthController@otp');
+    Route::post('otp', 'AuthController@otp')->middleware(['set.locale']);;
     Route::post('tokens/refresh', 'AuthController@refreshTokens');
 });
