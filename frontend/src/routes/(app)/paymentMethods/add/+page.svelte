@@ -27,7 +27,7 @@ export let data
 $: payFort = data.paymentMethodInitResponse.data
 $: fatherId = data.fatherId
 let expiry_date
-
+let expiryFormatted
 let params 
 
 function slash(event){
@@ -68,6 +68,12 @@ onMount(() => {
 
 })
 
+$: {
+    if(expiry_date){
+        expiryFormatted = expiry_date.replace(/ /g,'').split("/")
+    }
+}
+
 let cardForm
 let cardNumber = ""
 </script>
@@ -84,7 +90,7 @@ let cardNumber = ""
                 <input type="hidden" name="return_url" value="{returnUrl(fatherId)}" />
                 <input type="hidden" name="merchant_reference" id="merchant_reference" value="{payFort.merchant_reference}" />
                 <input type="hidden" name="remember_me" value="YES" />
-                <input type="hidden"name="expiry_date" value="{`${expiry_date?.[5]}${expiry_date?.[6]}${expiry_date?.[0]}${expiry_date?.[1]}`}">
+                <input type="hidden"name="expiry_date" value="{`${expiryFormatted?.[1]}${expiryFormatted?.[0]}`}">
                 <input type="hidden"name="card_number" value="{cardNumber.replace(/ /g,'')}">
                 <input type="hidden"name="remember_me" value="YES">
 

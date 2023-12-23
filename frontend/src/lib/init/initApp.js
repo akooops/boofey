@@ -26,7 +26,7 @@ function setLanguage(lang) {
         if (lang == "en") {
             document.getElementById("header-lang-img").src = "/assets/images/flags/us.svg";
         } else if (lang == "ar") {
-            document.getElementById("header-lang-img").src = "/assets/images/flags/ae.svg";
+            document.getElementById("header-lang-img").src = "/assets/images/flags/sa.svg";
         }
         localStorage.setItem("language", lang);
         

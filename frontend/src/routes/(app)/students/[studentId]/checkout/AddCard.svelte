@@ -57,6 +57,7 @@ async function load(){
 }
     let payFort
     let expiry_date
+    let expiryFormatted
     
     let params 
     
@@ -86,7 +87,7 @@ async function load(){
                 nameInput: 'input#card-name-input'
             },
             placeholders: {
-                number: '••••••••••••••••',
+                number: '•••• •••• •••• ••••',
                 name: 'Full Name',
                 expiry: '••/••',
                 cvc: '•••'
@@ -96,6 +97,14 @@ async function load(){
             },
         });
     }
+
+    $: {
+        if(expiry_date){
+            expiryFormatted = expiry_date.replace(/ /g,'').split("/")
+        }
+    }
+
+   
     
     </script>
     {#if payFort}
@@ -111,7 +120,7 @@ async function load(){
                     <input type="hidden" name="return_url" value="{`${returnUrl(data.userResponse.data.father.id)}?student=${studentId}&package=${packageId}&billing=${billingId}`}" />
                     <input type="hidden" name="merchant_reference" id="merchant_reference" value="{payFort.merchant_reference}" />
                     <!-- <input type="hidden" name="remember_me" value="YES" /> -->
-                    <input type="hidden"name="expiry_date" value="{`${expiry_date?.[5]}${expiry_date?.[6]}${expiry_date?.[0]}${expiry_date?.[1]}`}">
+                    <input type="hidden"name="expiry_date" value="{`${expiryFormatted?.[1]}${expiryFormatted?.[0]}`}">
                     <input type="hidden"name="card_number" value="{cardNumber.replace(/ /g,'')}">
                     <input type="hidden"name="remember_me" value="YES">
                     
