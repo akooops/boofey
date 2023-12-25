@@ -21,6 +21,8 @@ class UpdateSubscriptions extends Command
         $students = Student::all();
 
         foreach ($students as $student) {
+            if($student->school->isTodayBreak == true) continue;
+
             $activeSubscription = $student->activeSubscription;
 
             if ($activeSubscription && $student->onhold != true) {

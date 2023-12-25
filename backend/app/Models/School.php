@@ -10,6 +10,8 @@ class School extends Model
 {
     use HasFactory;
 
+    protected $appends = ["isTodayBreak"];
+
     protected $fillable = [
         'name',
         'name_ar',
@@ -75,5 +77,26 @@ class School extends Model
         ]);
 
         $academicYear->save();
+    }
+
+    public function getIsTodayBreakAttribute()
+    {
+        $currentAcademicYear = $this->currentAcademicYear;
+
+        if (!$currentAcademicYear) return false; 
+
+        $academicBreaks = $currentAcademicYear->academicBreaks;
+        $today = Carbon::now()->toDateString();
+
+        foreach ($academicBreaks as $academicBreak) {
+            $breakFrom = Carbon::parse($academicBreak->from)->toDateString();
+            $breakTo = Carbon::parse($academicBreak->to)->toDateString();
+
+            if ($today >= $breakFrom && $today <= $breakTo) {
+                return true; 
+            }
+        }
+
+        return false; 
     }
 }
