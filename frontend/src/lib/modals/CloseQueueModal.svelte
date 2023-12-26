@@ -29,6 +29,8 @@
             let text = `Queue closed` 
             toast(text,"success")
             invalidate("queues:refresh")
+        }else {
+            errors = res.errors
         }
 
     }

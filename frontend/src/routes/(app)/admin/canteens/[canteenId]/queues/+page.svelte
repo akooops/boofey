@@ -69,7 +69,6 @@ import CloseQueueModal from "$lib/modals/CloseQueueModal.svelte";
                     <ViewQueueModal />
                     <EditQueueModal /> 
                     <DeleteQueueModal />
-                    <DeleteQueueModal />
                     <CloseQueueModal />
 
                 </div>
