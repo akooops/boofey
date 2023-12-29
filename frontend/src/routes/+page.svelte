@@ -38,17 +38,34 @@ import {translation} from "$lib/translation.js"
                     <img src="/assets/images/logo.svg" class="card-logo card-logo-dark" alt="logo dark" height="20">
                     <img src="/assets/images/logo.svg" class="card-logo card-logo-light" alt="logo light" height="20">
                 </a>
-                <button class="navbar-toggler py-0 fs-20 text-body" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <div class="d-flex">
+                <div class="dropdown ms-1 topbar-head-dropdown d-lg-none header-item col-6">
+                    <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <img id="header-lang-img" src="/assets/images/flags/us.svg" alt="Header Language" height="20" class="rounded">
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-end">
+    
+                        <!-- item-->
+                        <a href="javascript:void(0);" class="dropdown-item notify-item language py-2" data-lang="en" title="English">
+                            <img src="/assets/images/flags/us.svg" alt="user-image" class="me-2 rounded" height="18">
+                            <span class="align-middle">English</span>
+                        </a>
+    
+                        <!-- item-->
+                        <a href="javascript:void(0);" class="dropdown-item notify-item language" data-lang="ar" title="Arabic">
+                            <img src="/assets/images/flags/sa.svg" alt="user-image" class="me-2 rounded" height="18">
+                            <span class="align-middle">العربية</span>
+                        </a>
+                    </div>
+                </div>
+                <button class="navbar-toggler border-0  py-0 fs-20 text-body col-6" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <i class="mdi mdi-menu"></i>
                 </button>
-
+                </div>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mx-auto mt-2 mt-lg-0" id="navbar-example">
                         <li class="nav-item">
                             <a class="nav-link fs-15 active" href="#hero">{translation.home[localStorage.getItem("language")]}</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link fs-15" href="#services">{translation.services[localStorage.getItem("language")]}</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link fs-15" href="#faq">{translation.faq[localStorage.getItem("language")]}</a>
@@ -68,7 +85,7 @@ import {translation} from "$lib/translation.js"
                         {/if}
                     </div>
 
-                    <div class="dropdown ms-1 topbar-head-dropdown header-item">
+                    <div class="dropdown ms-1 topbar-head-dropdown header-item d-sm-none d-lg-flex">
                         <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <img id="header-lang-img" src="/assets/images/flags/us.svg" alt="Header Language" height="20" class="rounded">
                         </button>
@@ -88,6 +105,7 @@ import {translation} from "$lib/translation.js"
                         </div>
                     </div>
                 </div>
+                
 
             </div>
         </nav>
@@ -528,8 +546,6 @@ import {translation} from "$lib/translation.js"
                     <div class="col-lg-8">
                         <div class="text-center mb-5">
                             <h3 class="mb-3 fw-semibold">{translation.getInTouch[localStorage.getItem("language")]}</h3>
-                            <p class="text-muted mb-4 ff-secondary">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do..</p>
                         </div>
                     </div>
                 </div>

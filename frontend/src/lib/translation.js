@@ -940,8 +940,8 @@ export let translation = {
         ar:"اشترك الان"
     },
     whyChooseBoofey:{
-        en:"Why Choose Boofey?",
-        ar:"لماذا تختار بوفي؟"
+        en:"Why Boofey?",
+        ar:"لماذا بوفي؟"
     },
     nutritionFirst: {
         en:"Nutrition First",
