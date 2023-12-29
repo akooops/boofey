@@ -29,7 +29,7 @@ export async function load({fetch,url,depends,params}) {
     }
     
     
-    return {userResponse,tabTitle:"The best canteens solution",arTabTitle:""}
+    return {userResponse,tabTitle:"The best canteens solution", arTabTitle:"أفضل نظام مطاعم في العالم العربي"}
 };
 
 

@@ -68,6 +68,9 @@ import {translation} from "$lib/translation.js"
                             <a class="nav-link fs-15 active" href="#hero">{translation.home[localStorage.getItem("language")]}</a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link fs-15" href="#services">{translation.whyChooseBoofey[localStorage.getItem("language")]}</a>
+                        </li>                    
+                        <li class="nav-item">
                             <a class="nav-link fs-15" href="#faq">{translation.faq[localStorage.getItem("language")]}</a>
                         </li>
                         <li class="nav-item">
@@ -554,9 +557,6 @@ import {translation} from "$lib/translation.js"
                 <div class="row text-center">
                     <div class="col-lg-12">
                         <div class="process-card ">
-                            <div class="process-arrow-img d-none d-lg-block">
-                                <img src="assets/images/landing/process-arrow-img.png" alt="" class="img-fluid">
-                            </div>
                             <div class="avatar-sm icon-effect mx-auto mb-4">
                                 <div class="avatar-title bg-transparent text-success rounded-circle h1">
                                     <i class="ri-user-follow-line"></i>
@@ -631,25 +631,6 @@ import {translation} from "$lib/translation.js"
                 </div>
             </div>
         </section> -->
-
-        <!-- Start footer -->
-        <footer class="custom-footer bg-dark py-5 position-relative">
-            <div class="container">
-
-
-                <div class="row text-center text-sm-start align-items-center ">
-                    <div class="col-sm-6">
-
-                        <div>
-                            <p class="copy-rights mb-0">
-                               {new Date().getFullYear()} © Boofey
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </footer>
-        <!-- end footer -->
 
         <!--start back-to-top-->
         <button onclick="topFunction()" class="btn btn-danger btn-icon landing-back-top" id="back-to-top">
