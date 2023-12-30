@@ -72,7 +72,7 @@
                 
             {#if $navigating?.from?.route?.id == $navigating?.to?.route?.id  && $navigating}
                 <div class="text-center">
-                    <lord-icon src="https://cdn.lordicon.com/xjovhxra.json" trigger="loop" colors="primary:#695eef,secondary:#73dce9" style="width:120px;height:120px"></lord-icon>
+                    <lord-icon src="https://cdn.lordicon.com/xjovhxra.json" trigger="loop" colors="primary:#E16F28,secondary:#73dce9" style="width:120px;height:120px"></lord-icon>
                 </div>
             {:else}
                 {#each canteensList as canteen,_ (canteen.id)}

@@ -47,14 +47,14 @@
                 {#if loading }
                 <div class="mt-2">
                     <div class="text-center">
-                        <lord-icon src="https://cdn.lordicon.com/xjovhxra.json" trigger="loop" colors="primary:#695eef,secondary:#73dce9" style="width:120px;height:120px"></lord-icon>
+                        <lord-icon src="https://cdn.lordicon.com/xjovhxra.json" trigger="loop" colors="primary:#E16F28,secondary:#73dce9" style="width:120px;height:120px"></lord-icon>
                     </div>
                 </div>
                 {/if}
                 
 
                 <div class="mt-2" class:d-none={loading}>
-                    <lord-icon src="https://cdn.lordicon.com/gwvmctbb.json" trigger="loop" colors="primary:#695eef,secondary:#73dce9" style="width:100px;height:100px"></lord-icon>
+                    <lord-icon src="https://cdn.lordicon.com/gwvmctbb.json" trigger="loop" colors="primary:#E16F28,secondary:#73dce9" style="width:100px;height:100px"></lord-icon>
                     <h4 class="mb-3 mt-4">Are you Sure ?</h4>
                     <p class="text-muted fs-15 mb-4">Are you Sure You want <span class="text-primary">{$queueStudentStore?.student?.fullname}</span> to exit the Queue ?</p>
                     {#if errors?.close}

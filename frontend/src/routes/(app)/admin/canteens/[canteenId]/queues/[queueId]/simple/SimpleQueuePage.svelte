@@ -139,7 +139,7 @@ import CloseQueueModal from "./CloseQueueModal.svelte";
 
         {#if $navigating?.from?.route?.id == $navigating?.to?.route?.id  && $navigating}
             <div class="text-center">
-                <lord-icon src="https://cdn.lordicon.com/xjovhxra.json" trigger="loop" colors="primary:#695eef,secondary:#73dce9" style="width:120px;height:120px"></lord-icon>
+                <lord-icon src="https://cdn.lordicon.com/xjovhxra.json" trigger="loop" colors="primary:#E16F28,secondary:#73dce9" style="width:120px;height:120px"></lord-icon>
             </div>
         {:else}
         <h4 class="card-title mb-0 flex-grow-1 mb-3">Queue #{currentQueue.id}</h4>
