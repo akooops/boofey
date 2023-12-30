@@ -47,12 +47,12 @@
     })
 
     async function proceed(index,e){
-        if(IsFree){
+        addressId = e.detail.addressId != null ? e.detail.addressId : addressId
+        if(IsFree || env.PUBLIC_PAYMENT_REDIRECTION == "true"){
             states = ["done","done","active"]
             pay()
             return;
         }
-        addressId = e.detail.addressId != null ? e.detail.addressId : addressId
         paymentMethodId = e.detail.paymentMethodId != null ? e.detail.paymentMethodId : paymentMethodId
         states[index] = "done"
         states[index+1] = "active"

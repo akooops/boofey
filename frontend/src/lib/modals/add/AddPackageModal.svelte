@@ -6,6 +6,8 @@
     import Accordion from "$lib/components/Accordion.svelte";
     import SchoolsTableCollapse from "../collapses/SchoolsTableCollapse.svelte";
     import { bill,formatTimestamp } from "$lib/utils.js";
+    import {loadDefaultDate} from "$lib/init/initFlatpickr.js"
+
 
     export let general
     export let schoolId
@@ -154,7 +156,7 @@ loading = true
                                     <strong class="text-danger ms-1 my-2">{errors.should_start_later[0]}</strong>
                                     {/if}
                                 </div>
-                                <div class="col-xxl-6" class:d-none={!shouldStartLater}>
+                                <div class="col-xxl-12" class:d-none={!shouldStartLater}>
                                     <label for="from" class="form-label">Should Sart At</label> 
                                     <input type="text" name="should_start_at" class="form-control" placeholder="Insert start date" data-provider="flatpickr"  data-minDate="{formatTimestamp(Date.now())}"  data-date-format="Y-m-d" id="from" bind:this={shouldStartAtInput}>
                                     {#if errors?.should_start_at}

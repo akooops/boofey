@@ -4,6 +4,8 @@
     import { invalidate } from '$app/navigation';
     import { getContext, onMount } from "svelte";
     import { redirector } from "$lib/api/auth";
+    import { formatTimestamp } from "$lib/utils.js";
+    import {loadDefaultDate} from "$lib/init/initFlatpickr.js"
     
     export let general = false
     let packageName
@@ -19,6 +21,10 @@
 let loading = false
     let {packageStore} = getContext("packageStore")
     let packageStoreInstance
+
+    let shouldStartLater = false
+    let shouldStartAtInput
+
     
 
     async function save(){
@@ -31,6 +37,7 @@ loading = true
         formData.set("yearly",packageStoreInstance.yearly)
         formData.set("hidden",packageStoreInstance.hidden)
         formData.set("popular",packageStoreInstance.popular)
+        formData.set("should_start_later",shouldStartLater)
         
         // formData.append("name",packageName)
     
@@ -68,6 +75,7 @@ loading = true
     }
 
     function reset(){
+        loadDefaultDate(shouldStartAtInput,Date.now())
         errors = {}
 
     }
@@ -77,8 +85,7 @@ loading = true
         packageStoreInstance = JSON.parse(JSON.stringify($packageStore))
         sale = packageStoreInstance.sale_price ? true : false
         tax = packageStoreInstance.tax ? true : false
-
-
+        shouldStartLater = packageStoreInstance?.should_start_at != null
     })
 
     </script>
@@ -136,6 +143,26 @@ loading = true
                                     <strong class="text-danger ms-1 my-2">{errors.description_ar[0]}</strong>
                                     {/if}
                                 </div>
+
+                                <div class="row ps-3 g-3">
+                                    <!-- Switches Color -->
+                                    <div class="form-check form-switch col" >
+                                        <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck1" bind:checked={shouldStartLater}>
+                                        <label class="form-check-label" for="SwitchCheck1">Should Start Later</label>
+                                    </div><!-- Switches Color -->
+                                    {#if errors?.should_start_later}
+                                    <strong class="text-danger ms-1 my-2">{errors.should_start_later[0]}</strong>
+                                    {/if}
+                                </div>
+                                <div class="col-xxl-12" class:d-none={!shouldStartLater}>
+                                    <label for="from" class="form-label">Should Sart At</label> 
+                                    <input type="text" name="should_start_at" class="form-control" placeholder="Insert start date" data-provider="flatpickr"  data-minDate="{formatTimestamp(Date.now())}"  data-date-format="Y-m-d" id="from" bind:this={shouldStartAtInput} bind:value={packageStoreInstance.should_start_at}>
+                                    {#if errors?.should_start_at}
+                                    <strong class="text-danger ms-1 my-2">{errors.should_start_at[0]}</strong>
+                                    {/if}
+                                </div>
+
+
                                 <div class="row g-3 ps-3">
                                     <!-- Switches Color -->
                                     <div class="form-check form-switch col" >
@@ -152,6 +179,10 @@ loading = true
                                     </div>
 
                                 </div>
+
+                          
+                                
+
                                 {#if !packageStoreInstance.yearly}
                                 <div>
                                     <label for="days" class="form-label">Package Days</label>
