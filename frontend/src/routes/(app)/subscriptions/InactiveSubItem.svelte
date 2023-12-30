@@ -54,7 +54,7 @@
     {#if sub.should_started_at == null}
             <span class="badge bg-warning-subtle text-warning">{translation.notScheduled[localStorage.getItem("language")]}</span>
     {:else}
-        sub.started_at
+        sub.should_started_at
     {/if}
     </td>
     <td>{sub.started_at == null ? "unset" : sub.started_at}</td>

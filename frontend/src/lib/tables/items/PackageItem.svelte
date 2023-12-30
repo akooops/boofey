@@ -20,6 +20,13 @@
         <td>{packageObj.name}</td>
         <td>{packageObj.name_ar}</td>
         <td><span class="badge border border-primary text-primary">{packageObj.code}</span></td>
+        <td>
+            {#if packageObj.should_started_at == null}
+            <span class="badge bg-warning-subtle text-warning">not scheduled</span>
+            {:else}
+                packageObj.should_started_at
+            {/if}
+        </td>
         {#if general}
         <td>
             <div class="d-flex gap-2 align-items-center">

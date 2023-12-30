@@ -5,6 +5,7 @@
     import { redirector } from "$lib/api/auth";
     import Accordion from "$lib/components/Accordion.svelte";
     import SchoolsTableCollapse from "../collapses/SchoolsTableCollapse.svelte";
+    import { bill,formatTimestamp } from "$lib/utils.js";
 
     export let general
     export let schoolId
@@ -20,6 +21,8 @@
     let popular = false
     let errors
 let loading = false
+let shouldStartLater = false
+    let shouldStartAtInput
 
     async function save(){
 loading = true
@@ -31,6 +34,7 @@ loading = true
         formData.set("hidden",hidden)
         formData.set("popular",popular)
         formData.set("school_id",schoolId)
+        formData.set("should_start_later",shouldStartLater)
 
         // formData.append("name",packageName)
         
@@ -68,9 +72,10 @@ loading = true
     }
 
     function reset(){
+        loadDefaultDate(shouldStartAtInput,Date.now())
         form.reset()
         features = []
-        yearly = sale = tax = hidden = popular = false
+        yearly = sale = tax = hidden = popular = shouldStartLater = false
         if(general) resetSchool()
         schoolId = ""
         errors = {}
@@ -137,6 +142,23 @@ loading = true
                                     <textarea class="form-control" name="description_ar" id="exampleFormControlTextarea5" dir="rtl" placeholder="ادخل وصف الباقة"  rows="3"></textarea>
                                     {#if errors?.description_ar}
                                     <strong class="text-danger ms-1 my-2">{errors.description_ar[0]}</strong>
+                                    {/if}
+                                </div>
+                                <div class="row ps-3 g-3">
+                                    <!-- Switches Color -->
+                                    <div class="form-check form-switch col" >
+                                        <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck1" bind:checked={shouldStartLater}>
+                                        <label class="form-check-label" for="SwitchCheck1">Should Start Later</label>
+                                    </div><!-- Switches Color -->
+                                    {#if errors?.should_start_later}
+                                    <strong class="text-danger ms-1 my-2">{errors.should_start_later[0]}</strong>
+                                    {/if}
+                                </div>
+                                <div class="col-xxl-6" class:d-none={!shouldStartLater}>
+                                    <label for="from" class="form-label">Should Sart At</label> 
+                                    <input type="text" name="should_start_at" class="form-control" placeholder="Insert start date" data-provider="flatpickr"  data-minDate="{formatTimestamp(Date.now())}"  data-date-format="Y-m-d" id="from" bind:this={shouldStartAtInput}>
+                                    {#if errors?.should_start_at}
+                                    <strong class="text-danger ms-1 my-2">{errors.should_start_at[0]}</strong>
                                     {/if}
                                 </div>
                                 <div class="row g-3 ps-3">

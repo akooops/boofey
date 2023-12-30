@@ -31,6 +31,7 @@
                     <th scope="col">Name</th>
                     <th scope="col">Arabic Name</th>
                     <th scope="col">Code</th>
+                    <th scope="col">Should Start At</th>
                     {#if general}
                     <th scope="col">School</th>
                     {/if}

@@ -51,7 +51,7 @@
             sub.started_at
         {/if}
     </td>
-    <td>{sub.started_at == null ? "unset" : sub.started_at}</td>
+    <td>{sub.should_started_at == null ? "unset" : sub.started_at}</td>
     <!-- <td>
         {#if sub.status == "scheduled"}
         <span class="badge bg-info-subtle text-info ms-1">Scheduled</span>
