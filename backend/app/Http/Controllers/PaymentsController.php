@@ -300,7 +300,7 @@ class PaymentsController extends Controller
 
         if(!is_null($paymentMethod)){
             $payload['token_name'] = $paymentMethod->token_name;
-            $signature = array_push($signature, 'token_name=='.$paymentMethod->token_name);
+            $signature[] = 'token_name=='.$paymentMethod->token_name;
         }
 
         $payload['signature'] = $this->calculateSignature($signature);
