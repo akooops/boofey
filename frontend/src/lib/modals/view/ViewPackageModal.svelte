@@ -33,6 +33,9 @@
              <ViewRow>
                 Arabic Description : <span class="fw-normal">{$packageStore.description_ar}</span>
              </ViewRow>
+             <ViewRow>
+                Should Start At : <span class="fw-normal">{$packageStore.should_start_at}</span>
+             </ViewRow>
 
             <ViewRow>
                Code : <span class="badge border border-primary text-primary">{$packageStore.code}</span>
