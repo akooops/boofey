@@ -168,9 +168,9 @@ class SubscriptionsController extends Controller
 
         $subscription = Subscription::create([
             'initiated_at' => now(),
-            'should_start_at' => is_null($package->should_start_at) ? $package->should_start_at : null,
+            'should_start_at' => is_null($package->should_start_at) == false ? $package->should_start_at : null,
             'exclude_from_calculation' => $request->get('exclude_from_calculation'),
-            'student_id' => $student->id,
+            'student_id' => $student->id
         ]);
 
         if($request->get('apply_discount') == true && $request->get('apply_coupon') == false)

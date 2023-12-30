@@ -204,7 +204,7 @@ class SubscriptionsController extends Controller
             'initiated_at' => now(),
             'exclude_from_calculation' => 1,
             'student_id' => $student->id,
-            'should_start_at' => is_null($package->should_start_at) ? $package->should_start_at : null,
+            'should_start_at' => is_null($package->should_start_at) == false ? $package->should_start_at : null,
         ]);
 
         $subscription->applyDiscount(null);
