@@ -20,13 +20,13 @@ include __DIR__ . '/auth.php';
 include __DIR__ . '/admin.php';
 include __DIR__ . '/sync.php';
 
-Route::group(['namespace' => 'App\Http\Controllers', 'middleware' => ['auth:sanctum', 'convert.bool.string', 'verified', 'set.locale']], function(){    
+Route::group(['namespace' => 'App\Http\Controllers', 'middleware' => ['auth:sanctum', 'permission', 'convert.bool.string', 'verified', 'set.locale']], function(){    
     Route::get('profiles', 'ProfilesController@show')->name('profile.show');
     Route::post('profiles', 'ProfilesController@update')->name('update.update');
     Route::post('passwordReset', 'ProfilesController@passwordReset')->name('profile.passwordReset');
 });
 
-Route::group(['namespace' => 'App\Http\Controllers', 'middleware' => ['auth:sanctum', 'check.father', 'convert.bool.string', 'verified', 'set.locale']], function(){ 
+Route::group(['namespace' => 'App\Http\Controllers', 'middleware' => ['auth:sanctum', 'permission', 'check.father', 'convert.bool.string', 'verified', 'set.locale']], function(){ 
     /* -------------------------------------------------------------------------------- */
     /* Schools Routes */
     Route::get('schools', 'SchoolsController@index')->name('parents.schools.index');
@@ -87,7 +87,7 @@ Route::group(['namespace' => 'App\Http\Controllers', 'middleware' => ['auth:sanc
     Route::delete('paymentMethods/{paymentMethod}', 'PaymentMethodsController@destroy')->name('parents.paymentMethods.destroy');
 });
 
-Route::group(['namespace' => 'App\Http\Controllers', 'middleware' => ['auth:sanctum', 'convert.bool.string']], function(){ 
+Route::group(['namespace' => 'App\Http\Controllers', 'middleware' => ['auth:sanctum', 'permission', 'convert.bool.string']], function(){ 
     Route::post('users/generateVerificationCode', 'UsersController@generateVerificationCode')->name('parents.users.generateVerificationCode')->middleware('throttle:20,1');
     Route::post('users/verify', 'UsersController@verify')->name('parents.users.verify');
 
