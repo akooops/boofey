@@ -922,7 +922,7 @@ export let translation = {
         en:"Contact",
         ar:"تواصل"
     },
-    goToCOntrol:{
+    goToControl:{
         en:"Go To Control Panel",
         ar:"اذهب الى لوحة التحكم"
     },

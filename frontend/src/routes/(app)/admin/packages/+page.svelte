@@ -8,6 +8,8 @@
     import { fade } from 'svelte/transition';
     import { page } from '$app/stores';
     import { goto } from '$app/navigation';
+    import {InitFlatPickr} from "$lib/init/initFlatpickr.js"
+
 
     export let data
     $: packagesList = data.packagesResponse.data.packages
@@ -19,6 +21,7 @@
     let hidden = "all"
     onMount(() => {
         initToolTip(packagesPage)
+        InitFlatPickr()
 
         let state = $page.url.searchParams.get("popular")
         if(state != null){
