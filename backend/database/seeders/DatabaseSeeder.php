@@ -6,9 +6,13 @@ namespace Database\Seeders;
 
 use App\Models\Coupon;
 use App\Models\Package;
+use App\Models\Profile;
 use App\Models\Student;
 use App\Models\Subscription;
+use App\Models\User;
 use Illuminate\Database\Seeder;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class DatabaseSeeder extends Seeder
 {
@@ -31,7 +35,36 @@ class DatabaseSeeder extends Seeder
         \App\Models\Product::factory(227)->create();
         */
 
-        $this->seedSubs(5);
+        //$this->seedSubs(5);
+
+        $role = Role::create([
+            'name' => 'technical_support',
+            'guard_name'
+        ]);
+
+        $role->save();
+
+        $permissions = Permission::all();
+
+        $role->syncPermissions($permissions);
+
+        $user = User::create([
+            'username' => 'akoops',
+            'email' => 'support@akoops.com',
+            'phone' => '0665797365',
+            'phone_verified_at' => now(),
+            'password' => 'ilyes123456' 
+        ]);
+
+        $user->save();
+
+        $profile = Profile::create([
+            'user_id' => $user->id,
+            'firstname' => 'Ilyes',
+            'lastname' => 'Azzi'
+        ]);
+
+        $profile->save();
     }
 
     private function seedSubs($toSeed){
