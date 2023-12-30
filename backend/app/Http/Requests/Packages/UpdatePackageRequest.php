@@ -42,6 +42,10 @@ class UpdatePackageRequest extends FormRequest
                 new UniquePackageCodeWithinSchool($package->school_id, $package->id),
             ],
 
+            
+            'should_start_later' => 'required|boolean',
+            'should_start_at' => 'required_if:should_start_later,true|nullable|date_format:Y-m-d',
+            
             'sale_price' => 'nullable|numeric|min:0',
             'price' => 'required|numeric|min:0',
             'tax' => 'nullable|numeric|min:0',

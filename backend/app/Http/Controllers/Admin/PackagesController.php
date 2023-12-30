@@ -157,6 +157,7 @@ class PackagesController extends Controller
         $package = Package::create(array_merge(
             $request->validated(),
             [
+                'should_start_at' => $request->get('should_start_later') == true ? $request->get('should_start_at') : null,
                 'school_id' => $school->id,
                 'days' => ($days === null) ? $request->input('days') : $days
             ]
@@ -206,6 +207,7 @@ class PackagesController extends Controller
         $package->update(array_merge(
             $request->validated(),
             [
+                'should_start_at' => $request->get('should_start_later') == true ? $request->get('should_start_at') : null,
                 'sale_price' => ($request->has('sale_price') || $request->input('sale_price') != null) ? $request->input('sale_price') : null,
                 'tax' => ($request->has('tax') || $request->input('tax') != null) ? $request->input('tax') : 0,
                 'days' => ($days === null) ? $request->input('days') : $days

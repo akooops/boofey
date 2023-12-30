@@ -22,8 +22,8 @@ class Profile extends Model
     public function image()
     {
         return $this->hasOne(File::class, 'id', 'file_id')->withDefault([
-            'path' => 'profiles',
-            'current_name' => 'default.png',
+            'path' => '',
+            'current_name' => 'default-profile.jpg',
         ]);
     }
 

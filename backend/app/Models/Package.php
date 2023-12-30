@@ -24,7 +24,8 @@ class Package extends Model
         'school_id',
         'tax',
         'hiddent',
-        'code'
+        'code',
+        'should_start_at'
     ];
 
     public function school()
