@@ -35,7 +35,7 @@ onMount(() => {
     InitFlatPickr()
     interval = setInterval(() => {
         invalidate("queueStudents:refresh")
-    }, 4000)
+    }, 10000)
 })
 
 setContext('queueStudentStore', {
@@ -49,6 +49,14 @@ beforeNavigate( () => {
     }
 })
 
+
+function resetInterval(){
+    clearInterval(interval)
+    interval = setInterval(() => {
+        invalidate("queueStudents:refresh")
+    }, 10000)
+}
+    
 
 
 
@@ -111,4 +119,4 @@ beforeNavigate( () => {
 <ViewQueueStudentModal /> 
 <EditQueueStudentModal />
 <DeleteQueueStudentModal />
-<ExitQueueStudent />
+<ExitQueueStudent  on:exit={resetInterval}/>

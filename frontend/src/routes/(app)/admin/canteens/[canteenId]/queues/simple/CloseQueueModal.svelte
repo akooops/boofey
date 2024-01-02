@@ -9,6 +9,7 @@
     let close
     let loading = false
     export let queue
+    export let counter
     let errors
 
     async function closeQueue(){

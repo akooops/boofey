@@ -4,7 +4,9 @@
     import { invalidate } from '$app/navigation';
     import { getContext } from "svelte";
     import { redirector } from "$lib/api/auth";
-    
+    import { createEventDispatcher } from 'svelte'
+
+    const dispatch = createEventDispatcher()
 
     let close
     let loading = false
@@ -29,7 +31,9 @@
             close.click()
             let text = `Student Exited Queue` 
             toast(text,"success")
+
             invalidate(`${route}:refresh`)
+            dispatch("exit")
         }
 
     }
