@@ -82,10 +82,12 @@ function registerFather($identity_number){
             $phone = '0'.substr($result->SMSNumber, 4);
 
             $user->update([
-                'username' => $username.'updated',
+                'username' => $username,
                 'email' => $result->Email,
                 'phone' => $phone,
             ]);
+
+            registerStudents($result->SuperiorID, $father);
 
             return [
                 'status' => 'success',
@@ -148,7 +150,7 @@ function registerStudents($SuperiorID, $father){
                 $student->save();
             }else{
                 $checkIfStudent->update([
-                    'firstname' => $student->EnglishFirstName.' '.$student->EnglishSecondName.'updated',
+                    'firstname' => $student->EnglishFirstName.' '.$student->EnglishSecondName,
                     'lastname' => $student->EnglishLastName,
                     'class' => $grade,
                 ]);
