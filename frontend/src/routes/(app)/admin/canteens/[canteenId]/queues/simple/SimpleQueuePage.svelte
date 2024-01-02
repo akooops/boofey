@@ -28,6 +28,7 @@ import CloseQueueModal from "./CloseQueueModal.svelte";
 	import ActiveQueueStudentCard from "./ActiveQueueStudentCard.svelte";
 	import ViewAllQueuesModal from "./ViewAllQueuesModal.svelte";
     import ExitQueueStudent from "$lib/modals/confirmation/ExitQueueStudent.svelte";
+    import { invalidate,beforeNavigate } from '$app/navigation';
 
 
     export let queuesList 
@@ -37,9 +38,13 @@ import CloseQueueModal from "./CloseQueueModal.svelte";
     export let activeQueueStudents
 
     let queuesPage
+    let interval
     onMount(() => {
         initToolTip(queuesPage)
         // InitFlatPickr()
+        interval = setInterval(() => {
+            invalidate("queues:refresh")
+        }, 4000)
 
     })
     setContext('queueStudentStore', {
@@ -67,6 +72,13 @@ import CloseQueueModal from "./CloseQueueModal.svelte";
         
         toolTipInstance.hide()
     }
+
+    beforeNavigate( () => {
+        if(interval){
+            clearInterval(interval)
+        }
+    })
+
 
     
     
