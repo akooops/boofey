@@ -156,17 +156,6 @@ import CloseQueueModal from "./CloseQueueModal.svelte";
 
                 {#each activeQueueStudents as queueStudent}
                      <ActiveQueueStudentCard {queueStudent}/>
-                     <ActiveQueueStudentCard {queueStudent}/>
-                     <ActiveQueueStudentCard {queueStudent}/>
-                     <ActiveQueueStudentCard {queueStudent}/>
-                     <ActiveQueueStudentCard {queueStudent}/>
-                     <ActiveQueueStudentCard {queueStudent}/>
-                     <ActiveQueueStudentCard {queueStudent}/>
-                     <ActiveQueueStudentCard {queueStudent}/>
-                     <ActiveQueueStudentCard {queueStudent}/>
-                     <ActiveQueueStudentCard {queueStudent}/>
-                     <ActiveQueueStudentCard {queueStudent}/>
-                     <ActiveQueueStudentCard {queueStudent}/>
                 {:else}
                 <div class="alert alert-info alert-border-left alert-dismissible fade show" role="alert">
                     <i class="ri-airplay-line me-3 align-middle"></i> There are no <strong>Students</strong> at the moment 
