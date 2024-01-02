@@ -31,7 +31,6 @@ function registerFather($identity_number){
             $username = str_replace(' ', '_', $username);
 
             $phone = '0'.substr($result->SMSNumber, 4);
-            //$phone = substr($result->SMSNumber, 4);
 
             $user = User::create([
                 'username' => $username,
@@ -76,6 +75,17 @@ function registerFather($identity_number){
             ];
         }else{
             $user = User::findOrFail($father->user_id);
+
+            $username = strtolower($result->SuperiorName.' '.$result->SuperiorID);
+            $username = str_replace(' ', '_', $username);
+
+            $phone = '0'.substr($result->SMSNumber, 4);
+
+            $user->update([
+                'username' => $username,
+                'email' => $result->Email,
+                'phone' => $phone,
+            ]);
 
             return [
                 'status' => 'success',
@@ -122,16 +132,27 @@ function registerStudents($SuperiorID, $father){
                 $grade = 0;
             }
 
-            $student = Student::create([
-                'firstname' => $student->EnglishFirstName.' '.$student->EnglishSecondName,
-                'lastname' => $student->EnglishLastName,
-                'class' => $grade,
-                'father_id' => $father->id,
-                'school_id' => $sis->id,
-                'academic_year_id' => $sis->currentAcademicYear->id ?? null,
-            ]);
+            $checkIfStudent = Student::where('sis_number', $student->StudentNumber)->first();
 
-            $student->save();
+            if($checkIfStudent == null){
+                $student = Student::create([
+                    'firstname' => $student->EnglishFirstName.' '.$student->EnglishSecondName,
+                    'lastname' => $student->EnglishLastName,
+                    'class' => $grade,
+                    'father_id' => $father->id,
+                    'school_id' => $sis->id,
+                    'academic_year_id' => $sis->currentAcademicYear->id ?? null,
+                    'sis_number' => $student->StudentNumber
+                ]);
+    
+                $student->save();
+            }else{
+                $checkIfStudent->update([
+                    'firstname' => $student->EnglishFirstName.' '.$student->EnglishSecondName.'updated',
+                    'lastname' => $student->EnglishLastName,
+                    'class' => $grade,
+                ]);
+            }
         }
     }
 }
