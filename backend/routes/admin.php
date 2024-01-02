@@ -129,7 +129,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'App\Http\Controllers\Admin', 
 
     /* -------------------------------------------------------------------------------- */
     /* Queues Students Routes */
-    Route::get('queues/{queue}/queueStudents', 'QueueStudentsController@index')->name('queueStudents.index');
+    Route::get('queues/{queue}/queueStudents', 'QueueStudentsController@index')->name('queueStudents.index')->middleware('throttle:5,0.15');
     Route::post('queues/{queue}/queueStudents', 'QueueStudentsController@store')->name('queueStudents.store');
 
     Route::resource('queueStudents', QueueStudentsController::class)->only(['show', 'destroy']);
