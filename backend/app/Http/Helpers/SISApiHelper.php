@@ -82,7 +82,7 @@ function registerFather($identity_number){
             $phone = '0'.substr($result->SMSNumber, 4);
 
             $user->update([
-                'username' => $username,
+                'username' => $username.'updated',
                 'email' => $result->Email,
                 'phone' => $phone,
             ]);
