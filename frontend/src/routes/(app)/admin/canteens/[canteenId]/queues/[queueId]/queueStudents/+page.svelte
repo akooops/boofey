@@ -35,7 +35,7 @@ onMount(() => {
     InitFlatPickr()
     interval = setInterval(() => {
         invalidate("queueStudents:refresh")
-    }, 60000)
+    }, 4000)
 })
 
 setContext('queueStudentStore', {

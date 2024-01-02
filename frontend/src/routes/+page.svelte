@@ -602,6 +602,20 @@ import {translation} from "$lib/translation.js"
             </div>
             <!-- end container -->
         </section>
+        <footer class="pb-5">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="text-center">
+                            <p class="mb-0 text-muted">&copy;
+                                {new Date().getFullYear()} {@html translation.crafted[localStorage.getItem("language")]}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
         <!-- end Work Process -->
 
         <!-- start team -->
@@ -639,6 +653,7 @@ import {translation} from "$lib/translation.js"
         <!--end back-to-top-->
 
     </div>
+
     <!-- end layout wrapper -->
 
 

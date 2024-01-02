@@ -14,7 +14,8 @@
             },
             method:"POST"
         }) 
-        window.location.href = `${window.location.origin}/signin`
+        let signInPath = user?.roles[0]?.name == "parent" ? "signin" : "admin/signin"
+        window.location.href = `${window.location.origin}/${signInPath}`
         // goto("/signin")    
 
 

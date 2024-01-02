@@ -74,18 +74,18 @@ import CloseQueueModal from "./CloseQueueModal.svelte";
 <div class="row"  in:fade={{duration: 200 }} bind:this={queuesPage}>
     <div class="col-lg-12">
         <div class="card">
-            <div class="card-header align-items-center d-flex">
+            <div class="card-header align-items-center d-flex flex-wrap">
 
-                <div class="d-flex gap-2 align-items-center flex-grow-1">
-                <div class="flex-shrink-0">
-                    <img src={canteen.school.logo.full_path} alt="" class="avatar-xs rounded-circle" />
-                </div>
-                <h4 class="card-title mb-0 flex-grow-1"><span class="text-primary">{canteen.school.name}</span> - <span class="text-primary">{canteen.name}</span> - Queue Managment</h4>
-            </div> 
+                <div class="d-flex gap-2 align-items-center col-sm-12 col-md-3">
+                    <div class="flex-shrink-0">
+                        <img src={canteen.school.logo.full_path} alt="" class="avatar-xs rounded-circle" />
+                    </div>
+                    <h4 class="card-title mb-0 flex-grow-1"><span class="text-primary">{canteen.school.name}</span> - <span class="text-primary">{canteen.name}</span> - Queue Managment</h4>
+                </div> 
 
                
-                <div class="flex-shrink-0">
-                    <div class="hstack gap-2 justify-content-end">
+                <div class="flex-shrink-0 col-sm-12 col-md-9">
+                    <div class="hstack gap-2 justify-content-md-end justify-content-sm-start">
 
                             {#if activeQueue && JSON.parse(sessionStorage.getItem("permissions")).includes("queues.close.simplified")}
                            
@@ -155,6 +155,17 @@ import CloseQueueModal from "./CloseQueueModal.svelte";
             <div class="row g-3">
 
                 {#each activeQueueStudents as queueStudent}
+                     <ActiveQueueStudentCard {queueStudent}/>
+                     <ActiveQueueStudentCard {queueStudent}/>
+                     <ActiveQueueStudentCard {queueStudent}/>
+                     <ActiveQueueStudentCard {queueStudent}/>
+                     <ActiveQueueStudentCard {queueStudent}/>
+                     <ActiveQueueStudentCard {queueStudent}/>
+                     <ActiveQueueStudentCard {queueStudent}/>
+                     <ActiveQueueStudentCard {queueStudent}/>
+                     <ActiveQueueStudentCard {queueStudent}/>
+                     <ActiveQueueStudentCard {queueStudent}/>
+                     <ActiveQueueStudentCard {queueStudent}/>
                      <ActiveQueueStudentCard {queueStudent}/>
                 {:else}
                 <div class="alert alert-info alert-border-left alert-dismissible fade show" role="alert">
