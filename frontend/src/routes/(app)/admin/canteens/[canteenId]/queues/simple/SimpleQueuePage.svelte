@@ -90,7 +90,7 @@ import CloseQueueModal from "./CloseQueueModal.svelte";
 </script>
 <div class="row"  in:fade={{duration: 200 }} bind:this={queuesPage}>
     <div class="col-lg-12">
-        <div class="card">
+        <div class="card mb-2">
             <div class="card-header align-items-center d-flex flex-wrap">
 
                 <div class="d-flex gap-2 align-items-center col-sm-12 col-md-3">
@@ -101,40 +101,40 @@ import CloseQueueModal from "./CloseQueueModal.svelte";
                 </div> 
 
                
-                <div class="flex-shrink-0 col-sm-12 col-md-9">
-                    <div class="d-flex gap-2 justify-content-md-end justify-content-sm-start flex-wrap">
+                <div class=" col-sm-12 col-md-9">
+                    <div class="d-flex gap-2 justify-content-md-end justify-content-xs-start flex-wrap">
 
                             {#if activeQueue && JSON.parse(sessionStorage.getItem("permissions")).includes("queues.close.simplified")}
                            
-                            <span data-bs-toggle="modal" class="col-auto"   data-bs-target="#closeQueueModal" >
+                            <span data-bs-toggle="modal" class="col-auto col-xs-2"   data-bs-target="#closeQueueModal" >
                                 <button type="button" class="btn  col-12 text-start btn-danger btn-label  waves-effect waves-light">
                                     <i class="ri-stop-circle-line label-icon align-middle fs-16 me-2"></i> Close queue
                                 </button>
                             </span>
 
                             {:else if JSON.parse(sessionStorage.getItem("permissions")).includes("queues.store.simplified")}
-                            <span data-bs-toggle="modal" class="col-auto"  data-bs-target="#addQueueModal">
+                            <span data-bs-toggle="modal" class="col-auto col-xs-2"  data-bs-target="#addQueueModal">
                                 <button type="button" class="btn  col-12 text-start btn-success btn-label  waves-effect waves-light">
                                     <i class="ri-add-line label-icon align-middle fs-16 me-2"></i> Open Queue
                                 </button>
                             </span>
                             {/if}
                             {#if JSON.parse(sessionStorage.getItem("permissions")).includes("queues.index.simplified")}
-                                <span  data-bs-toggle="modal" class="col-auto"  data-bs-target="#ViewAllQueuesModal">
+                                <span  data-bs-toggle="modal" class="col-auto col-xs-2"  data-bs-target="#ViewAllQueuesModal">
                                     <button type="button" class="btn  col-12 text-start btn-secondary btn-label  waves-effect waves-light">
                                         <i class="ri-team-line label-icon align-middle fs-16 me-2"></i> Queues
                                     </button>
                                 </span>
                             {/if}
                             {#if JSON.parse(sessionStorage.getItem("permissions")).includes("queues.exit.simplified")}
-                                <span on:click={openQrExit} bind:this={qrExit} class="col-6">
+                                <span on:click={openQrExit} bind:this={qrExit} class="col-auto col-xs-2 ">
                                     <button type="button" class="btn  col-12 text-start btn-info btn-label  waves-effect waves-light">
                                         <i class="ri-qr-code-line label-icon align-middle fs-16 me-2"></i> Qr Exit
                                     </button>
                                 </span>
                             {/if}
                             {#if JSON.parse(sessionStorage.getItem("permissions")).includes("orders.index")}
-                                <span on:click={openOrders} bind:this={orderToolTip} class="col-auto">
+                                <span on:click={openOrders} bind:this={orderToolTip} class="col-auto col-xs-2">
                                     <button type="button" class="btn  col-12 text-start btn-info btn-label  waves-effect waves-light">
                                         <i class="ri-survey-line label-icon align-middle fs-16 me-2"></i> POS
                                     </button>
@@ -154,7 +154,6 @@ import CloseQueueModal from "./CloseQueueModal.svelte";
                 </div>
             </div><!-- end card header -->
         </div><!-- end card -->
-
         {#if $navigating?.from?.route?.id == $navigating?.to?.route?.id  && $navigating}
             <div class="text-center">
                 <lord-icon src="https://cdn.lordicon.com/xjovhxra.json" trigger="loop" colors="primary:#E16F28,secondary:#73dce9" style="width:120px;height:120px"></lord-icon>
