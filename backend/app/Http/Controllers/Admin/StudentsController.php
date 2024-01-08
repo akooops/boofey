@@ -145,8 +145,35 @@ class StudentsController extends Controller
         $schoolId = $request->get('school_id');
         $school = School::findOrFail($schoolId);
 
-        $this->createStudent($request, $school);
+        $face = $this->createStudent($request, $school);
     
+        if(!is_null($face['status']) && $face['status'] == 'many'){
+            return response()->json([
+                'status' => 'error',
+                'errors' => [
+                    'file' => [__('translations.many_face_detected')]
+                ]
+            ], 422);
+        }
+
+        if(!is_null($face['status']) && $face['status'] == 'indexed'){
+            return response()->json([
+                'status' => 'error',
+                'errors' => [
+                    'file' => [__('translations.face_already_indexed')]
+                ]
+            ], 422);
+        }
+
+        if(!is_null($face['status']) && $face['status'] == 'nothing'){
+            return response()->json([
+                'status' => 'error',
+                'errors' => [
+                    'file' => [__('translations.no_face_detected')]
+                ]
+            ], 422);
+        }
+
         return response()->json([
             'status' => 'success'
         ]);
