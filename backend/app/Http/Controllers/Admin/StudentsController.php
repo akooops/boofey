@@ -247,7 +247,7 @@ class StudentsController extends Controller
 
         $student->save();
 
-        return null;
+        return ['status' => 'success'];
     }
 
     /**
