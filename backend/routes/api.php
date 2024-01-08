@@ -22,7 +22,7 @@ include __DIR__ . '/sync.php';
 
 Route::group(['namespace' => 'App\Http\Controllers', 'middleware' => ['auth:sanctum', 'permission', 'convert.bool.string', 'verified', 'set.locale']], function(){    
     Route::get('profiles', 'ProfilesController@show')->name('profile.show');
-    Route::post('profiles', 'ProfilesController@update')->name('update.update');
+    Route::post('profiles', 'ProfilesController@update')->name('profile.update');
     Route::post('passwordReset', 'ProfilesController@passwordReset')->name('profile.passwordReset');
 });
 
