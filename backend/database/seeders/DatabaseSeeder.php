@@ -39,7 +39,7 @@ class DatabaseSeeder extends Seeder
 
         $role = Role::create([
             'name' => 'technical_support',
-            'guard_name'
+            'guard_name' => 'web'
         ]);
 
         $role->save();
