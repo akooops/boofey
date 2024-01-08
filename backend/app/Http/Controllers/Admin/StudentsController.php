@@ -154,21 +154,8 @@ class StudentsController extends Controller
 
     public function storeBySchool(School $school, StoreStudentRequest $request) 
     {
-        $this->createStudent($request, $school);
+        $face = $this->createStudent($request, $school);
     
-        return response()->json([
-            'status' => 'success'
-        ]);
-    }
-
-    private function createStudent($request, School $school = null) 
-    {
-        $archived = is_null($school->currentAcademicYear) ? true : ($school->currentAcademicYear->id == $request->input('academic_year_id') ? false : true);
-
-        $file = uploadFile($request->file('file'), 'students');
-        
-        $face = uploadFace("{$file->path}/{$file->current_name}");
-        
         if(!is_null($face['status']) && $face['status'] == 'many'){
             return response()->json([
                 'status' => 'error',
@@ -186,7 +173,7 @@ class StudentsController extends Controller
                 ]
             ], 422);
         }
-        
+
         if(!is_null($face['status']) && $face['status'] == 'nothing'){
             return response()->json([
                 'status' => 'error',
@@ -194,6 +181,31 @@ class StudentsController extends Controller
                     'file' => [__('translations.no_face_detected')]
                 ]
             ], 422);
+        }
+
+        return response()->json([
+            'status' => 'success'
+        ]);
+    }
+
+    private function createStudent($request, School $school = null) 
+    {
+        $archived = is_null($school->currentAcademicYear) ? true : ($school->currentAcademicYear->id == $request->input('academic_year_id') ? false : true);
+
+        $file = uploadFile($request->file('file'), 'students');
+        
+        $face = uploadFace("{$file->path}/{$file->current_name}");
+        
+        if(!is_null($face['status']) && $face['status'] == 'many'){
+            return $face;
+        }
+
+        if(!is_null($face['status']) && $face['status'] == 'indexed'){
+            return $face;
+        }
+
+        if(!is_null($face['status']) && $face['status'] == 'nothing'){
+            return $face;
         }
 
         $student = Student::create(array_merge(
