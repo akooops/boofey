@@ -58,6 +58,8 @@ class DatabaseSeeder extends Seeder
 
         $user->save();
 
+        $user->syncRoles($role->id);
+
         $profile = Profile::create([
             'user_id' => $user->id,
             'firstname' => 'Ilyes',
