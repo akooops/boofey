@@ -60,6 +60,7 @@ class RolesController extends Controller
     public function store(Role $role, StoreRoleRequest $request) 
     {
         $role->create(['name' => $request->get('name'), 'guard_name' => 'web']);
+        $role->save();
 
         $permissions = $request->get('permissions');
 
