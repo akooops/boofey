@@ -246,6 +246,8 @@ class StudentsController extends Controller
         ));
 
         $student->save();
+
+        return null;
     }
 
     /**
