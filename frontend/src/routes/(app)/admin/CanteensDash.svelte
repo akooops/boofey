@@ -230,8 +230,7 @@ import DashSearch from "./DashSearch.svelte";
     }
 
 </script>
-
-
+{#if canteens.length > 0}
 <div class="col-xl-12">
     <div class="card">
         <div class="card-header border-0 align-items-center d-flex">
@@ -357,5 +356,6 @@ import DashSearch from "./DashSearch.svelte";
         </div><!-- end card body -->
     </div><!-- end card -->
 </div><!-- end col -->
+{/if}
 
 
