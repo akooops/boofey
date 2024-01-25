@@ -124,6 +124,13 @@ return [
             'level' => 'info',
             'days' => 14,
         ],
+
+        'rekognition' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/rekognition.log'),
+            'level' => 'info',
+            'days' => 14,
+        ],
     ],
 
 ];

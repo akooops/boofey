@@ -175,7 +175,7 @@ class StudentsController extends Controller
         if($request->file('file')) {
             $newFile = uploadFile($request->file('file'), 'students');
 
-            $face = uploadFace("{$newFile->path}/{$newFile->current_name}", $student->face_id);
+            $face = uploadFace("{$newFile->path}/{$newFile->current_name}", $student->face_id, $student);
 
             if(!is_null($face['status']) && $face['status'] == 'many'){
                 return response()->json([
