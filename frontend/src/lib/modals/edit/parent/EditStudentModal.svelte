@@ -10,6 +10,7 @@
     import { imageDataURLToFile } from "$lib/utils.js";
     import {translation} from "$lib/translation.js"
 
+    import { page } from '$app/stores';
 
     let close
     let studentname
@@ -41,6 +42,9 @@ let loading = false
 
     onMount(() => {
         window.addEventListener('resize', sizeSquare);
+
+
+
     });
 
     function sizeSquare(){
@@ -119,6 +123,9 @@ loading = true
         stopCam()
         captured = false;
         imageDataURL = null
+
+
+
     }
 
     function takeAnother(){
@@ -223,7 +230,7 @@ loading = true
 
                         <form  on:submit|preventDefault={save} bind:this={form}>
                          <div class="row g-3">
-
+                            
 
                                 <!-- <div class="col-xxl-6">
                                     <div>
@@ -269,6 +276,11 @@ loading = true
                                 </div> -->
                                 <!-- Info Alert -->
                                 <!-- Info Alert -->
+                                <!-- {#if $page.url.searchParams.get("noFace")}
+                                <div class="alert alert-warning alert-dismissible border-2 fade show p-4" role="alert">
+                                    {@html translation.noPicSub[localStorage.getItem("language")]}
+                                </div>
+                                {/if} -->
 
                                 <div class="alert alert-info alert-dismissible border-2 fade show p-4" role="alert">
                                   {@html translation.picGuide[localStorage.getItem("language")]}

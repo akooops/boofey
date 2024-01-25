@@ -2,6 +2,8 @@
     import { getContext } from "svelte"
     import { goto } from '$app/navigation';
     import {translation} from "$lib/translation.js"
+	import { onMount } from "svelte";
+    import { page } from '$app/stores';
 
 
     export let student
@@ -21,6 +23,26 @@
         toolTipInstance.hide()
     }
 
+    let editBtn
+
+    onMount(() => {
+        initToolTip(studentsPage)
+
+        // if($page.url.searchParams.get("noFace")){
+        //     if($page.url.searchParams.get("id") == student.id){
+        //         editBtn.click()
+        //     }
+        // }
+        
+        state = $page.url.searchParams.get("subscribed")
+        if(state != null){
+            subscribed = state == "true" ? "subscribed" : "not subscribed"
+        }
+
+    
+        
+        // InitFlatPickr()
+    })
 
 
 
@@ -68,7 +90,7 @@
             <span data-bs-toggle="modal" data-bs-target="#ViewQrStudentModal" on:click={setStudent}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="{translation.qrCode[localStorage.getItem("language")]}" ><i class="ri-qr-code-line"></i></a></span>
             <span on:click={openSubs}><a bind:this={subsToolTip} href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="{translation.subscription[localStorage.getItem("language")]}" ><i class="ri-money-dollar-circle-line"></i></a></span>
             <span data-bs-toggle="modal" data-bs-target="#viewStudentModal" on:click={setStudent}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="{translation.view[localStorage.getItem("language")]}" ><i class="ri-eye-fill"></i></a></span>
-            <span data-bs-toggle="modal" data-bs-target="#editStudentModal" on:click={setStudent}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="{translation.edit[localStorage.getItem("language")]}" ><i class="ri-edit-2-line"></i></a></span>
+            <span data-bs-toggle="modal" data-bs-target="#editStudentModal" on:click={setStudent} bind:this={editBtn}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="{translation.edit[localStorage.getItem("language")]}" ><i class="ri-edit-2-line"></i></a></span>
             <span data-bs-toggle="modal" data-bs-target="#deleteStudentModal" on:click={setStudent}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="{translation.delete[localStorage.getItem("language")]}"><i class="ri-delete-bin-line"></i></a></span>
         </div>
     </td>

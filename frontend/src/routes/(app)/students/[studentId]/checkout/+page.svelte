@@ -4,7 +4,9 @@
 import { phoneMask } from "$lib/inputMasks.js";
 import { onMount } from "svelte";
 import {translation} from "$lib/translation.js"
+    import { page } from '$app/stores';
 
+import { goto } from '$app/navigation';
 
 
     export let data
@@ -17,30 +19,38 @@ import {translation} from "$lib/translation.js"
     // $:productsList = data.orderResponse.data.order.order_items
     let free
     // let productsList = []
-        let couponId
-        onMount(() => {
-            phoneMask()
-        })
-        
+    let couponId
+    onMount(() => {
+        phoneMask()
+    })
     
+    $: {
+        if(data?.errors?.face_id[0]){
+            goto(`/students?noFace=true&id=${$page.params.studentId}`)
+        }
+    }
+
 
     </script>
 
     
     {#if data.status == "error"}
-    <div class="card card-body text-center">
+    <!-- <div class="card card-body text-center">
         
         <div class="row mb-3">
             <div class="mb-4">
                 <lord-icon src="https://cdn.lordicon.com/tdrtiskw.json" trigger="loop" colors="primary:#f06548,secondary:#f7b84b" style="width:120px;height:120px"></lord-icon>
                 <h5 class="text-danger">{translation.error[localStorage.getItem("language")]}</h5>
-                <!-- <p class="text-muted">{data?.error?.student_id[0]}</p> -->
                 <p class="text-muted">{data?.errors?.student_id[0]}</p>
                 <p class="text-muted">{translation.goBackTo[localStorage.getItem("language")]} <a href="/students" class="text-decoration-underline">{translation.students[localStorage.getItem("language")]}</a></p>
                 
             </div>
         </div>
+    </div> -->
+    <div class="text-center">
+        <lord-icon src="https://cdn.lordicon.com/xjovhxra.json" trigger="loop" colors="primary:#E16F28,secondary:#73dce9" style="width:120px;height:120px"></lord-icon>
     </div>
+
     {:else}
     
     <div class="row mb-3">
