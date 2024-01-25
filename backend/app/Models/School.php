@@ -92,7 +92,7 @@ class School extends Model
             $breakFrom = Carbon::parse($academicBreak->from)->toDateString();
             $breakTo = Carbon::parse($academicBreak->to)->toDateString();
 
-            if ($today >= $breakFrom && $today <= $breakTo) {
+            if (($today >= $breakFrom && $today <= $breakTo) || in_array(Carbon::parse($today)->dayOfWeek, [5, 6])) {
                 return true; 
             }
         }
