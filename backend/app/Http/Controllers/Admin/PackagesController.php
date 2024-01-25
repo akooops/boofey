@@ -9,6 +9,7 @@ use App\Http\Requests\Packages\StorePackageRequest;
 use App\Http\Requests\Packages\UpdatePackageRequest;
 use App\Models\File;
 use App\Models\School;
+use App\Models\Subscription;
 
 class PackagesController extends Controller
 {
@@ -229,8 +230,17 @@ class PackagesController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function destroy(DestroyPackageRequest $request, Package $package) 
+    public function destroy(Package $package) 
     {
+        $existingSubscription = Subscription::where('package_id', $package->id)->exists();
+
+        return response()->json([
+            'status' => 'error',
+            'errors' => [
+                'package_id' => ["This package have already subscribers"]
+            ]
+        ], 422);
+
         $package->delete();
 
         return response()->json([
