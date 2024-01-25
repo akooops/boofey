@@ -20,8 +20,6 @@ class NotifyExpiringSoonStudents extends Command
         $students = Student::all();
 
         foreach ($students as $student) {
-            if (config('app.debug')) break;
-
             // Check if the student has an active subscription and is not on hold
             $activeSubscription = $student->activeSubscription;
 
