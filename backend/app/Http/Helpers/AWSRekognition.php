@@ -9,8 +9,6 @@ function uploadFace($image, $faceID = null)
     // Replace these values with your own
     $collectionId = env('AWS_DEFAULT_COLLECTION');
     
-    $faceId = Str::random(6);
-
     // Create a Rekognition client
     $rekognition = new RekognitionClient([
         'version' => 'latest',
