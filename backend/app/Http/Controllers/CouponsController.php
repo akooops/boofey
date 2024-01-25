@@ -14,8 +14,10 @@ class CouponsController extends Controller
      */
     public function check(CheckCouponRequest $request) 
     {
-        $coupon = Coupon::where('code', $request->input('code'))->first();
+        $uppercasedCode = strtoupper($request->input('code'));
 
+        $coupon = Coupon::where('code', $uppercasedCode)->first();
+    
         $response = [
             'status' => 'success',
             'data' => [

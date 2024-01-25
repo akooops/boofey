@@ -56,7 +56,12 @@ class CouponsController extends Controller
      */
     public function store(StoreCouponRequest $request) 
     {
-        $coupon = Coupon::create(array_merge($request->validated()));
+        $coupon = Coupon::create(array_merge(
+            $request->validated(),
+            [
+                'code' => strtoupper($request->input('code'))
+            ]
+        ));
 
         $coupon->save();
 
@@ -92,7 +97,12 @@ class CouponsController extends Controller
      */
     public function update(Coupon $coupon, UpdateCouponRequest $request) 
     {
-        $coupon->update($request->validated());
+        $coupon->update(array_merge(
+            $request->validated(),
+            [
+                'code' => strtoupper($request->input('code'))
+            ]
+        ));
 
         return response()->json([
             'status' => 'success'
