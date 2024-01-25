@@ -186,13 +186,15 @@
             method:"POST",
             body:formData
         })
+
         res = await res.json()
-
-        
-        createForm(res.data.payload,res.data.url)
-        
-
-
+        if(res.status == "coupon") {
+            pending = false                    
+            let text = `Payment has been fullfilled` 
+            toast(text,"success")
+        }else{
+            createForm(res.data.payload,res.data.url)
+        }
     }
 
     function createForm(data,url){

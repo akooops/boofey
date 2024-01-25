@@ -252,7 +252,7 @@ class PaymentsController extends Controller
                 $subscription->start();
 
                 return response()->json([
-                    'status' => 'success',
+                    'status' => 'coupon',
                     'data' => [
                         'merchant_reference' => $subscription->ref
                     ]
