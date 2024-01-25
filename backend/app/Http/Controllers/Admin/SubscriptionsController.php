@@ -177,7 +177,9 @@ class SubscriptionsController extends Controller
             $subscription->applyDiscount($request->get('discount'));
         else if($request->get('apply_discount') == true && $request->get('apply_coupon') == true){
             $coupon = Coupon::findOrFail($request->get('coupon_id'));
-            $subscription->applyCoupon($coupon);
+            $student = Student::findOrFail($request->get('student_id'));
+
+            $subscription->applyCoupon($coupon, $student);
         }
         else
             $subscription->applyDiscount(null);
