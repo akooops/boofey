@@ -35,8 +35,11 @@ class UpdateSubscriptions extends Command
                     $inactiveSubscription = $student->inactiveSubscriptions()->first();
 
                     if ($inactiveSubscription !== null) {
-                        // Set the started_at of the first subscription to yesterday
                         $inactiveSubscription->activate();
+                    }else{
+                        if (env('ENABLE_SMS') == true) {
+                            sendSMS("Boofey - Your child {$student->full_name} subscription is expired, consider renewing the plan", $student->father->user->phone);                    
+                        }
                     }
                 }
 
@@ -44,11 +47,9 @@ class UpdateSubscriptions extends Command
             }
 
             if($student->onhold != true) {
-                // Find subscriptions with balance > 0, started_at is null, and order by should_start_at
                 $inactiveSubscription = $student->inactiveSubscriptions()->first();
 
                 if ($inactiveSubscription !== null) {
-                    // Set the started_at of the first subscription to yesterday
                     $inactiveSubscription->activate();
                 }
             }

@@ -30,14 +30,8 @@ class NotifyExpiringSoonStudents extends Command
                 $subscriptions = $student->inactiveSubscriptions()->get();
 
                 if ($subscriptions->isEmpty()) {
-                    if($activeSubscription->balance == 1){
-                        sendSMS("Boofey - Your child {$student->full_name} subscription will expire in one day, consider renewing the plan", $student->father->user->phone);
-                    }else if($activeSubscription->balance == 2){
+                    if($activeSubscription->balance == 2 && env('ENABLE_SMS') == true){
                         sendSMS("Boofey - Your child {$student->full_name} subscription will expire in two days, consider renewing the plan", $student->father->user->phone);
-                    }else if($activeSubscription->balance == 5){
-                        sendSMS("Boofey - Your child {$student->full_name} subscription will expire in five days, consider renewing the plan", $student->father->user->phone);
-                    }else if($activeSubscription->balance == 10){
-                        sendSMS("Boofey - Your child {$student->full_name} subscription will expire in ten days, consider renewing the plan", $student->father->user->phone);
                     }
                 }
             }
