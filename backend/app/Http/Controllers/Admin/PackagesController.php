@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Requests\Packages\DestroyPackageRequest;
 use App\Models\Package;
 use Illuminate\Http\Request;
 use App\Http\Requests\Packages\StorePackageRequest;
@@ -228,7 +229,7 @@ class PackagesController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Package $package) 
+    public function destroy(DestroyPackageRequest $request, Package $package) 
     {
         $package->delete();
 

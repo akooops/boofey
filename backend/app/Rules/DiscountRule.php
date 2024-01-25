@@ -11,7 +11,6 @@ class DiscountRule implements Rule
         $applyDiscount = request()->input('apply_discount');
         $applyCoupon = request()->input('apply_coupon');
 
-        // Check the conditions for both discount and coupon_id fields to be required
         return ($applyDiscount === true && $applyCoupon === false) || ($applyDiscount === false && $applyCoupon === true);
     }
 
