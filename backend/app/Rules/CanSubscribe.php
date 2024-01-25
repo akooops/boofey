@@ -10,8 +10,6 @@ use Illuminate\Contracts\Validation\Rule;
 
 class CanSubscribe implements Rule
 {
-    protected $shouldUploadFace = false;
-
     public function __construct()
     {
 
@@ -21,11 +19,6 @@ class CanSubscribe implements Rule
     {
         $student = Student::findOrFail($value);
 
-        if (is_null($student->face_id)) {
-            $this->shouldUploadFace = true;
-            return false; 
-        }
-
         $subscriptions = Subscription::where('student_id', $value)
             ->whereIn('status', ['active', 'inactive']);
 
@@ -34,9 +27,6 @@ class CanSubscribe implements Rule
 
     public function message()
     {
-        if($this->shouldUploadFace == true)
-            return __('translations.should_upload_face');
-
         return __('translations.can_subscribe');
     }
 }

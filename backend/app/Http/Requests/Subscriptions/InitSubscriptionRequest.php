@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Subscriptions;
 
 use App\Rules\CanSubscribe;
+use App\Rules\ShouldUploadFace;
 use App\Rules\UniqueUnexpiredSubscription;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\ValidationException;
@@ -28,9 +29,14 @@ class InitSubscriptionRequest extends FormRequest
      */
     public function rules()
     {
+        $this->merge([
+            'face_id' => null
+        ]);
+
         return [
             'package_id' => 'required|exists:packages,id',
-            'student_id' => ['required', 'exists:students,id', new CanSubscribe()]
+            'student_id' => ['required', 'exists:students,id', new CanSubscribe()],
+            'face_id' => [new ShouldUploadFace($this->input('student_id'))]
         ];
     }
 
