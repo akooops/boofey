@@ -39,8 +39,8 @@ class StoreSubscriptionRequest extends FormRequest
             'apply_discount' => 'required|boolean',
             'apply_coupon' => 'required_if:apply_discount,true|boolean',
 
-            'discount' => ['numeric', 'min:0', new DiscountRule()],
-            'coupon_id' => ['numeric', 'min:0', new DiscountRule()],            
+            'discount' => ['numeric', 'min:0', new DiscountRule],
+            'coupon_id' => ['numeric', 'min:0', new DiscountRule],            
 
             'exclude_from_calculation' => 'required|boolean',
 

@@ -6,14 +6,6 @@ use Illuminate\Contracts\Validation\Rule;
 
 class DiscountRule implements Rule
 {
-    protected $applyDiscount;
-    protected $applyCoupon;
-
-    public function __construct($applyDiscount)
-    {
-        $this->applyDiscount = $applyDiscount;
-    }
-
     public function passes($attribute, $value)
     {
         $applyDiscount = request()->input('apply_discount');
