@@ -105,4 +105,47 @@ class AWSController extends Controller
             ];
         }
     }
+
+    public function deleteFaces($image, $faceIdsToKeep)
+    {
+        // Initialize Rekognition client and collection ID
+        $rekognition = new RekognitionClient([
+            'version' => 'latest',
+            'region' => env('AWS_DEFAULT_REGION'),
+            'credentials' => [
+                'key' => env('AWS_ACCESS_KEY_ID'),
+                'secret' => env('AWS_SECRET_ACCESS_KEY'),
+            ],
+        ]);
+
+        $collectionId = 'BOOFEY';
+
+        // Detect faces in the specified image
+        $response = $rekognition->detectFaces([
+            'Image' => [
+                'Bytes' => file_get_contents($image),
+            ],
+        ]);
+
+        $faceIdsToKeep = Student::whereNotNull('face_id')->pluck('face_id')->toArray(); 
+
+        // List faces in the collection
+        $listFacesResponse = $rekognition->listFaces([
+            'CollectionId' => $collectionId,
+        ]);
+        
+        $faceRecords = $listFacesResponse->get('Faces');
+        
+        foreach ($faceRecords as $faceRecord) {
+            $faceId = $faceRecord['FaceId'];
+        
+            if (!in_array($faceId, $faceIdsToKeep)) {
+                // Delete the face
+                $rekognition->deleteFaces([
+                    'CollectionId' => $collectionId,
+                    'FaceIds' => [$faceId],
+                ]);
+            }
+        }
+    }
 }
