@@ -906,6 +906,10 @@ export let translation = {
             <li><span class="text-info fw-semibold">حجم الصورة: </span> اتبع توجيهات التطبيق بخصوص حجم وتنسيق الصورة المطلوب</li>
         </ol>`
     },
+    noPicSub:{
+        en:"Please add a Picture in order to subscribe this student",
+        ar:"من فضلك اضف صورة من اجل اشتراك الطالب"
+    },
     home:{
         en:"Home",
         ar:"الرئيسية"
@@ -1118,7 +1122,8 @@ export let translation = {
     crafted:{
         en:`Boofy. Crafted with <i class="mdi mdi-heart text-danger"></i> by <a href="http://digiprime.net" target="_blank" class="fw-semibold text-primary text-decoration-underline"> Digital Prime IT </a>`,
         ar:`بوفي. صنع ب<i class="mdi mdi-heart text-danger"></i> من طرف <a href="http://digiprime.net" target="_blank" class="fw-semibold text-primary text-decoration-underline"> Digital Prime IT </a>`
-    }
+    },
+    
 
 
 

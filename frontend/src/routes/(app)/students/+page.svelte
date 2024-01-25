@@ -16,14 +16,23 @@
 	import EditStudentModal from "$lib/modals/edit/parent/EditStudentModal.svelte";
 	import Qr from "./Qr.svelte";
 
+    import { goto } from '$app/navigation';
+    import { page } from '$app/stores';
+
 
     export let data
     $: studentsList = data.studentsResponse.data.students
     $: studentsPagination = data.studentsResponse.pagination
     let studentsPage 
 
+    let noFaceStudent = "Student"
+
     onMount(() => {
         initToolTip(studentsPage)
+        if($page.url.searchParams.get("noFace")){
+            let id = $page.url.searchParams.get("id")
+            noFaceStudent = studentsList.find(student => student.id == id).fullname;
+        }
     })
 
     setContext('studentStore', {
@@ -32,11 +41,18 @@
 
 
 
-    import { goto } from '$app/navigation';
 
 </script>
 <div class="row"  in:fade={{duration: 200 }}  bind:this={studentsPage}>
     <div class="col-lg-12">
+        {#if $page.url.searchParams.get("noFace")}
+        <!-- Warning Alert -->
+        <div class="alert alert-warning alert-border-left alert-dismissible fade show" role="alert">
+            <i class="ri-alert-line me-3 align-middle"></i>{@html translation.noPicSub[localStorage.getItem("language")]}  <strong class="text-primary">{noFaceStudent}</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+
+        {/if}
         <div class="card">
             <div class="card-header align-items-center d-flex">
                 <h4 class="card-title mb-0 flex-grow-1">{translation.studentsManagement[localStorage.getItem("language")]}</h4>
