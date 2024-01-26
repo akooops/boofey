@@ -13,16 +13,25 @@
 
     let subsToolTip
     let viewBtn
+    let editBtn
     async function openSubs(){
         let toolTipInstance = bootstrap.Tooltip.getOrCreateInstance(subsToolTip)        
         // goto(`/students/2/subscriptions`)
         toolTipInstance.hide()
         // goto(`/students/${student.id}/subscriptions`)
-        goto(`/students/${student.id}/choosePackage`)
+
+        if(student.face_id != null)
+            goto(`/students/${student.id}/choosePackage`)
+
+        edit();
     }
 
     function view(){
         viewBtn.click()
+    }
+
+    function edit(){
+        editBtn.click()
     }
 
 </script>
@@ -45,7 +54,7 @@
 
                     <div class="d-flex gap-2  mt-4 flex-wrap">
                         {#if student.face_id == null}
-                        <span  data-bs-toggle="modal" class="col-12" data-bs-target="#editStudentModal" on:click|stopPropagation={setStudent} >
+                        <span  data-bs-toggle="modal" class="col-12 d-none" data-bs-target="#editStudentModal" on:click|stopPropagation={setStudent} bind:this={editBtn}>
                             <button type="button" class="btn  col-12 text-start btn-soft-success btn-label  waves-effect waves-light">
                                 <i class="ri-edit-2-line label-icon align-middle fs-16 me-2"></i> {translation.edit[localStorage.getItem("language")]}
                             </button>

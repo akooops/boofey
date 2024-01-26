@@ -246,8 +246,8 @@ export let translation = {
         ar:"ولدت في"
     },
     subscribe:{
-        en:"Subscribe",
-        ar:"إشترك"
+        en:"Subscribe Now",
+        ar: "إشترك الآن"
     },
     actions:{
         en:"Actions",
@@ -874,7 +874,7 @@ export let translation = {
         en:"oops, it seems that there isn't any payment method added yet",
         ar:"اوبس, يبدو انه لا توجد اي طرق دفع بعد"
     },
-    picGuide:{
+    picGuideCamera:{
         en:`   <h6 class="fw-semibold mb-3 text-info">To Capture the Image</h6>
         <ol class="text-muted vstack gap-2 mb-4 text-info">
             <li> <span class="text-info fw-semibold">Lighting: </span>Take the picture in a well-lit area and avoid direct strong light</li>
@@ -882,13 +882,6 @@ export let translation = {
             <li><span class="text-info fw-semibold">Facing the Camera: </span>Ensure the child is looking directly at the camera and the face is centered in the image</li>
             <li><span class="text-info fw-semibold">Facial Expression: </span>The child's facial expression should be natural</li>
             <li><span class="text-info fw-semibold">Face Coverage: </span>Make sure the child is not wearing sunglasses, hats, or masks that cover the face</li>
-        </ol>
-        <h6 class="fw-semibold mb-3 text-info">To Upload the Image</h6>
-        <ol class="text-muted vstack gap-2 mb-4 text-info">
-            <li> <span class="text-info fw-semibold">Image Selection: </span>Choose a recent, high-quality image of the child</li>
-            <li><span class="text-info fw-semibold">Check for Clarity: </span>Ensure that the face in the image is clear and not blurry</li>
-            <li><span class="text-info fw-semibold">Avoid Editing: </span>Do not use images edited with photo editing software</li>
-            <li><span class="text-info fw-semibold">Image Size: </span>Follow the application's guidelines regarding the required size and format of the image</li>
         </ol>`,
         ar:`  <h6 class="fw-semibold mb-3 text-info">لالتقاط الصورة</h6>
         <ol class="text-muted vstack gap-2 mb-4 text-info">
@@ -897,7 +890,18 @@ export let translation = {
             <li><span class="text-info fw-semibold">مواجهة الكاميرا: </span>اجعل الطفل ينظر مباشرة نحو الكاميرا ويتوسط الوجه الصورة </li>
             <li><span class="text-info fw-semibold">تعبير الوجه: </span> يجب أن يكون تعبير وجه الطفل طبيعيًا </li>
             <li><span class="text-info fw-semibold">عدم تغطية الوجه: </span>تأكد من عدم ارتداء الطفل للنظارات الشمسية، القبعات، أو الكمامات التي قد تغطي الوجه </li>
-        </ol>
+        </ol>`
+    },
+    picGuideUpload:{
+        en:`  
+        <h6 class="fw-semibold mb-3 text-info">To Upload the Image</h6>
+        <ol class="text-muted vstack gap-2 mb-4 text-info">
+            <li> <span class="text-info fw-semibold">Image Selection: </span>Choose a recent, high-quality image of the child</li>
+            <li><span class="text-info fw-semibold">Check for Clarity: </span>Ensure that the face in the image is clear and not blurry</li>
+            <li><span class="text-info fw-semibold">Avoid Editing: </span>Do not use images edited with photo editing software</li>
+            <li><span class="text-info fw-semibold">Image Size: </span>Follow the application's guidelines regarding the required size and format of the image</li>
+        </ol>`,
+        ar:`
         <h6 class="fw-semibold mb-3 text-info">لرفع الصورة</h6>
         <ol class="text-muted vstack gap-2 mb-4 text-info">
             <li> <span class="text-info fw-semibold">اختيار الصورة: </span>اختر صورة حديثة للطفل وبجودة عالية</li>
@@ -1123,11 +1127,12 @@ export let translation = {
         en:`Boofy. Crafted with <i class="mdi mdi-heart text-danger"></i> by <a href="http://digiprime.net" target="_blank" class="fw-semibold text-primary text-decoration-underline"> Digital Prime IT </a>`,
         ar:`بوفي. صنع ب<i class="mdi mdi-heart text-danger"></i> من طرف <a href="http://digiprime.net" target="_blank" class="fw-semibold text-primary text-decoration-underline"> Digital Prime IT </a>`
     },
-    
-
-
-
-
-
-
+    warning: {
+        en: "Warning",
+        ar: "تحذير"
+    },
+    uploadFace: {
+        en: "Please, upload your child face before proceeding to the checkout",
+        ar: "الرجاء رفع صورة لوجه طفلكم قبل التوجه لعملية الدفع"
+    },
 }

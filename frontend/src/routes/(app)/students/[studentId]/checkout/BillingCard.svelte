@@ -189,6 +189,7 @@
 
         res = await res.json()
         if(res.status == "coupon") {
+            console.log('coupon');
             pending = false                    
             let text = `Payment has been fullfilled` 
             toast(text,"success")

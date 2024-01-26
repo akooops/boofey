@@ -9,6 +9,7 @@
     import { getContext } from 'svelte';
     import { imageDataURLToFile } from "$lib/utils.js";
     import {translation} from "$lib/translation.js"
+    import { goto } from '$app/navigation';
 
     import { page } from '$app/stores';
 
@@ -21,7 +22,7 @@ let loading = false
     let parentId = ""
     let schoolId = ""
     let resetSchool
-    let editImage = false
+    let editImage = true
     let {studentStore} = getContext("studentStore")
 
     let video 
@@ -94,11 +95,9 @@ loading = true
         res = await res.json()
         loading = false
         if(res.status == "success") {
+            goto(`/students/${$studentStore.id}/choosePackage`)
+            
             close.click()
-            let text = `Edit ${$studentStore.fullname} ` 
-            toast(text,"success")
-            invalidate("students:refresh")
-            reset()
         }else {
             errors = res.errors
         }
@@ -114,7 +113,7 @@ loading = true
     })
 
     function reset(){
-        editImage = false
+        editImage = true
         form.reset()
         // selectClass.selectedIndex = 0
         errors = {}
@@ -282,21 +281,11 @@ loading = true
                                 </div>
                                 {/if} -->
 
-                                <div class="alert alert-info alert-dismissible border-2 fade show p-4" role="alert">
-                                  {@html translation.picGuide[localStorage.getItem("language")]}
-                                </div>
+                                <div class="alert alert-warning alert-border-left alert-dismissible fade show" role="alert">
+                                    <i class="ri-alert-line me-3 align-middle"></i> <strong>{translation.warning[localStorage.getItem("language")]}</strong> - {translation.uploadFace[localStorage.getItem("language")]}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>                          
 
-                             
-
-
-                           
-                                <div class="row ps-3 g-3">
-                                    <div class="form-check form-switch col" >
-                                        <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck1" on:change={changeEditImage} bind:checked={editImage}>
-                                        <label class="form-check-label" for="SwitchCheck1">{translation.editImage[localStorage.getItem("language")]}</label>
-                                    </div>
-                                </div>
-                                
                                 <div class="row ps-3 g-3" class:none={!editImage}>
                                     <div class="form-check form-switch col" >
                                         <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck1" on:change={picType} bind:checked={useCamera} >
@@ -309,6 +298,10 @@ loading = true
                                 
 
                                     {#if useCamera}
+                                        <div class="alert alert-info alert-border-left alert-dismissible fade show" role="alert">
+                                            {@html translation.picGuideCamera[localStorage.getItem("language")]}    
+                                        </div>
+
                                         <div class:none={!editImage}>
                                         {#if captured}
                                         <button type="button"  class="btn btn-success waves-effect waves-light" on:click={takeAnother}>{translation.takeAnother[localStorage.getItem("language")]}</button>
@@ -319,6 +312,10 @@ loading = true
                                         {/if}
                                     </div>
                                     {:else}
+                                        <div class="alert alert-info alert-border-left alert-dismissible fade show" role="alert">
+                                            {@html translation.picGuideUpload[localStorage.getItem("language")]}    
+                                        </div>
+
                                         <div class:none={!editImage}>
                                             <label for="formFile" class="form-label">{translation.studentImage[localStorage.getItem("language")]}</label>
                                             <input class="form-control" name="file" type="file" id="formFile">
