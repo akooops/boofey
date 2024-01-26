@@ -1135,4 +1135,8 @@ export let translation = {
         en: "Please, upload your child face before proceeding to the checkout",
         ar: "الرجاء رفع صورة لوجه طفلكم قبل التوجه لعملية الدفع"
     },
+    checkMenu: {
+        en: "Check Menu",
+        ar: "تفقد القائمة"
+    },
 }

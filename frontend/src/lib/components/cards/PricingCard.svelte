@@ -1,6 +1,9 @@
 <script>
+import { getContext } from 'svelte';
 import { goto } from '$app/navigation';
 import {translation} from "$lib/translation.js"
+
+let {packageStore} = getContext("packageStore")
 
 export let packageObj
 export let studentId
@@ -9,6 +12,9 @@ function choose() {
     goto(`/students/${studentId}/checkout?package=${packageObj.id}`)
 }
 
+function setPackage(){
+    $packageStore = JSON.parse(JSON.stringify(packageObj));
+}
 </script>
 
 
@@ -57,6 +63,10 @@ function choose() {
                     {/each}
                 </ul>
                 <div class="mt-4">
+                    <a href="javascript:void(0);" class="btn w-100 waves-effect waves-light btn-soft-primary" on:click={setPackage} data-bs-toggle="modal" data-bs-target="#viewPackageMenuModal" >{translation.checkMenu[localStorage.getItem("language")]}</a>
+                </div>
+
+                <div class="mt-2">
                     <a href="javascript:void(0);" class="btn w-100 waves-effect waves-light {!packageObj.popular ? "btn-soft-info" : "btn-info"}" on:click={choose}>{translation.select[localStorage.getItem("language")]}</a>
                 </div>
             </div>

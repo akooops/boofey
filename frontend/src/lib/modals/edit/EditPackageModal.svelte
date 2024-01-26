@@ -25,7 +25,8 @@ let loading = false
     let shouldStartLater = false
     let shouldStartAtInput
 
-    
+    let menuEn
+    let menuAr
 
     async function save(){
 loading = true
@@ -38,7 +39,10 @@ loading = true
         formData.set("hidden",packageStoreInstance.hidden)
         formData.set("popular",packageStoreInstance.popular)
         formData.set("should_start_later",shouldStartLater)
-        
+
+        formData.set("menu_en",menuEn)
+        formData.set("menu_ar",menuAr)
+
         // formData.append("name",packageName)
     
         let res = await fetch(PathUpdatePackage(packageStoreInstance.id),{
@@ -87,6 +91,22 @@ loading = true
         tax = packageStoreInstance.tax ? true : false
         shouldStartLater = packageStoreInstance?.should_start_at != null
     })
+
+    import {Editor} from '@tadashi/svelte-editor-quill'
+
+    const options = {
+        theme: 'snow',
+        plainclipboard: true
+    }
+
+
+    function onTextChangeEn(event) {
+        menuEn = event.detail.html
+    }
+
+    function onTextChangeAr(event) {
+        menuAr = event.detail.html
+    }
 
     </script>
     
@@ -236,6 +256,24 @@ loading = true
                                     {/if}
                                 </div>
                                 {/if}
+
+                                <div>
+                                    <label for="code" class="form-label">Menu English</label>
+                                    <Editor {options} on:text-change={onTextChangeEn} data={packageStoreInstance.menu_en} />
+
+                                    {#if errors?.menu_en}
+                                    <strong class="text-danger ms-1 my-2">{errors.menu_en[0]}</strong>
+                                    {/if}
+                                </div>
+
+                                <div>
+                                    <label for="code" class="form-label">Menu Arabic</label>
+                                    <Editor {options} on:text-change={onTextChangeAr} data={packageStoreInstance.menu_ar} />
+                                    {#if errors?.menu_ar}
+                                    <strong class="text-danger ms-1 my-2">{errors.menu_ar[0]}</strong>
+                                    {/if}
+                                </div>
+
                                 <!-- <hr class="border border-primary  opacity-25"/> -->
                                 <div class="flex-shrink-0  text-end ">
                                     <button type="button"  on:click={addFeature} class=" align-self-end btn btn-primary waves-effect waves-light"><i class="ri-add-line align-bottom me-1"></i> Add Feature</button>

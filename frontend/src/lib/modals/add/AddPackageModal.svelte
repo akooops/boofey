@@ -8,7 +8,6 @@
     import { bill,formatTimestamp } from "$lib/utils.js";
     import {loadDefaultDate} from "$lib/init/initFlatpickr.js"
 
-
     export let general
     export let schoolId
     let resetSchool
@@ -26,6 +25,9 @@ let loading = false
 let shouldStartLater = false
     let shouldStartAtInput
 
+    let menuEn
+    let menuAr
+
     async function save(){
 loading = true
     
@@ -38,6 +40,8 @@ loading = true
         formData.set("school_id",schoolId)
         formData.set("should_start_later",shouldStartLater)
 
+        formData.set("menu_en",menuEn)
+        formData.set("menu_ar",menuAr)
         // formData.append("name",packageName)
         
         let res = await fetch(PathAddPackage(schoolId,general),{
@@ -82,10 +86,29 @@ loading = true
         schoolId = ""
         errors = {}
     }
+    import {Editor} from '@tadashi/svelte-editor-quill'
+
+    const options = {
+        theme: 'snow',
+        plainclipboard: true
+    }
+
     
+    function onTextChangeEn(event) {
+        menuEn = event.detail.html
+    }
+
+    function onTextChangeAr(event) {
+        menuAr = event.detail.html
+    }
     </script>
-    
-    
+
+<svelte:head>
+  <link rel="preconnect" href="https://cdn.quilljs.com" crossorigin>
+  <link rel="stylesheet" href="https://cdn.quilljs.com/1.3.7/quill.snow.css">
+</svelte:head>
+
+
     <div class="modal  fade" id="addPackageModal" tabindex="-1" aria-labelledby="exampleModalgridLabel" aria-modal="true"  on:hidden.bs.modal={reset}>
         <div class="modal-dialog modal-dialog-centered" >
             <div class="modal-content">
@@ -94,6 +117,7 @@ loading = true
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                             <div class="modal-body" >
+
                 {#if loading }
                 <div class="text-center">
                     <lord-icon src="https://cdn.lordicon.com/xjovhxra.json" trigger="loop" colors="primary:#E16F28,secondary:#73dce9" style="width:120px;height:120px"></lord-icon>
@@ -232,6 +256,26 @@ loading = true
                                     {/if}
                                 </div>
                                 {/if}
+
+                                <div>
+                                    <label for="code" class="form-label">Menu English</label>
+                                    <Editor {options} on:text-change={onTextChangeEn} data='' />
+
+                                    {#if errors?.menu_en}
+                                    <strong class="text-danger ms-1 my-2">{errors.menu_en[0]}</strong>
+                                    {/if}
+                                </div>
+
+                                <div>
+                                    <label for="code" class="form-label">Menu Arabic</label>
+                                    <Editor {options} on:text-change={onTextChangeAr} data='' />
+                                    {#if errors?.menu_ar}
+                                    <strong class="text-danger ms-1 my-2">{errors.menu_ar[0]}</strong>
+                                    {/if}
+                                </div>
+
+
+
                                 <!-- <hr class="border border-primary  opacity-25"/> -->
                                 <div class="flex-shrink-0  text-end ">
                                     <button type="button"  on:click={addFeature} class=" align-self-end btn btn-primary waves-effect waves-light"><i class="ri-add-line align-bottom me-1"></i> Add Feature</button>

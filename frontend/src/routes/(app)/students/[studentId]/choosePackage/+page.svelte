@@ -1,5 +1,10 @@
 <script>
+    import { setContext } from 'svelte';
+    import { writable } from 'svelte/store';
+
     import PricingCard from "$lib/components/cards/PricingCard.svelte"
+    import ViewPackageMenuModal from "$lib/modals/view/parent/ViewPackageMenuModal.svelte"
+
     import {translation} from "$lib/translation.js"
 
     export let data 
@@ -8,6 +13,10 @@
     $: yearlyPackages = data.yearlyPackages
 
     let active = "monthly"
+
+    setContext('packageStore', {
+	    packageStore: writable({})
+    });
 </script>
 
 
@@ -49,6 +58,8 @@
             </div><!-- end card header -->
         </div><!-- end card -->
     </div>
+
+    <ViewPackageMenuModal /> 
 
     <div class="row justify-content-center">
         <div class="col-xl-12">
