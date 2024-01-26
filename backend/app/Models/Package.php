@@ -23,7 +23,7 @@ class Package extends Model
         'popular',
         'school_id',
         'tax',
-        'hiddent',
+        'hidden',
         'code',
         'should_start_at',
         'menu_en',
