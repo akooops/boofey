@@ -40,8 +40,8 @@ loading = true
         formData.set("popular",packageStoreInstance.popular)
         formData.set("should_start_later",shouldStartLater)
 
-        formData.set("menu_en",menuEn)
-        formData.set("menu_ar",menuAr)
+        formData.set("menu_en",contentEnQuill.html)
+        formData.set("menu_ar",contentArQuill.html)
 
         // formData.append("name",packageName)
     
@@ -78,12 +78,6 @@ loading = true
         packageStoreInstance.package_features = packageStoreInstance.package_features
     }
 
-    function reset(){
-        loadDefaultDate(shouldStartAtInput,Date.now())
-        errors = {}
-
-    }
-
     packageStore.subscribe(() => {
 
         packageStoreInstance = JSON.parse(JSON.stringify($packageStore))
@@ -92,25 +86,51 @@ loading = true
         shouldStartLater = packageStoreInstance?.should_start_at != null
     })
 
-    import {Editor} from '@tadashi/svelte-editor-quill'
+    import { quill } from 'svelte-quill'
 
-    const options = {
-        theme: 'snow',
-        plainclipboard: true
+    const toolbar = [
+		[{header: 1}, {header: 2}],
+		['bold', 'italic', 'underline'],
+		[{list: 'ordered'}, {list: 'bullet'}],
+		['link',],
+	]
+
+    let options = {
+		modules: {
+			toolbar,
+		},
     }
+	
+    let editMenu = false;
 
+	let contentEnQuill = { html: '', text: ''};
+    let contentArQuill = { html: '', text: ''};
 
-    function onTextChangeEn(event) {
-        menuEn = event.detail.html
+    let contentEn = '';
+    let contentAr = '';
+
+    onMount(() => {
+        contentEn = packageStoreInstance.menu_en;
+        contentAr = packageStoreInstance.menu_ar;
+
+        editMenu = false;
+    });
+
+    $: contentEn = packageStoreInstance.menu_en; 
+    $: contentAr = packageStoreInstance.menu_ar; 
+    
+    function reset(){
+        loadDefaultDate(shouldStartAtInput,Date.now())
+        errors = {}
+        editMenu = false
     }
-
-    function onTextChangeAr(event) {
-        menuAr = event.detail.html
-    }
-
     </script>
     
-    
+    <svelte:head>
+    <link rel="preconnect" href="https://cdn.quilljs.com" crossorigin>
+    <link rel="stylesheet" href="https://cdn.quilljs.com/1.3.7/quill.snow.css">
+    </svelte:head>
+
     <div class="modal  fade" id="editPackageModal" tabindex="-1" aria-labelledby="exampleModalgridLabel" aria-modal="true"  on:hidden.bs.modal={reset}>
         <div class="modal-dialog modal-dialog-centered" >
             <div class="modal-content">
@@ -257,9 +277,19 @@ loading = true
                                 </div>
                                 {/if}
 
+                                <div class="row ps-3 g-3">
+                                    <!-- Switches Color -->
+                                    <div class="form-check form-switch col" >
+                                        <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck1" bind:checked={editMenu}>
+                                        <label class="form-check-label" for="SwitchCheck1">Edit Menu</label>
+                                    </div><!-- Switches Color -->
+
+                                </div>
+
+                                {#if editMenu}
                                 <div>
                                     <label for="code" class="form-label">Menu English</label>
-                                    <Editor {options} on:text-change={onTextChangeEn} data={packageStoreInstance.menu_en} />
+                                    <div class="edito h-auto" use:quill={options} on:text-change={e => contentEnQuill = e.detail}>{@html contentEn}</div>
 
                                     {#if errors?.menu_en}
                                     <strong class="text-danger ms-1 my-2">{errors.menu_en[0]}</strong>
@@ -268,11 +298,13 @@ loading = true
 
                                 <div>
                                     <label for="code" class="form-label">Menu Arabic</label>
-                                    <Editor {options} on:text-change={onTextChangeAr} data={packageStoreInstance.menu_ar} />
+                                    <div class="editor h-auto" use:quill={options} on:text-change={e => contentArQuill = e.detail}>{@html contentAr}</div>
+                                    
                                     {#if errors?.menu_ar}
                                     <strong class="text-danger ms-1 my-2">{errors.menu_ar[0]}</strong>
                                     {/if}
                                 </div>
+                                {/if}
 
                                 <!-- <hr class="border border-primary  opacity-25"/> -->
                                 <div class="flex-shrink-0  text-end ">
