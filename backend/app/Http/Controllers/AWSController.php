@@ -106,7 +106,7 @@ class AWSController extends Controller
         }
     }
 
-    public function deleteFaces($image, $faceIdsToKeep)
+    public function deleteFaces()
     {
         // Initialize Rekognition client and collection ID
         $rekognition = new RekognitionClient([
@@ -119,13 +119,6 @@ class AWSController extends Controller
         ]);
 
         $collectionId = 'BOOFEY';
-
-        // Detect faces in the specified image
-        $response = $rekognition->detectFaces([
-            'Image' => [
-                'Bytes' => file_get_contents($image),
-            ],
-        ]);
 
         $faceIdsToKeep = Student::whereNotNull('face_id')->pluck('face_id')->toArray(); 
 

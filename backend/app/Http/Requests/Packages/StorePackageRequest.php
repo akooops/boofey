@@ -36,6 +36,9 @@ class StorePackageRequest extends FormRequest
             'description' => 'nullable|string',
             'description_ar' => 'nullable|string',
 
+            'menu_en' => 'nullable|string',
+            'menu_ar' => 'nullable|string',
+
             'sale_price' => 'nullable|numeric|min:0',
             'price' => 'required|numeric|min:0',
             'tax' => 'nullable|numeric|min:0',

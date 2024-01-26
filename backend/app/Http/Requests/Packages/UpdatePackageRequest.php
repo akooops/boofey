@@ -35,6 +35,9 @@ class UpdatePackageRequest extends FormRequest
             'description' => 'nullable|string',
             'description_ar' => 'nullable|string',
 
+            'menu_en' => 'nullable|string',
+            'menu_ar' => 'nullable|string',
+            
             'code' => [
                 'required',
                 'string',

@@ -25,7 +25,9 @@ class Package extends Model
         'tax',
         'hiddent',
         'code',
-        'should_start_at'
+        'should_start_at',
+        'menu_en',
+        'menu_ar'
     ];
 
     public function school()
