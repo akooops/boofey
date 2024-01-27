@@ -172,5 +172,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'App\Http\Controllers\Admin', 
 
     Route::get('dashboards/doneByCanteens/{canteen}', 'DashboardsController@doneByCanteens')->name('dashboards.doneByCanteens');
     Route::get('dashboards/avgByCanteens/{canteen}', 'DashboardsController@avgByCanteens')->name('dashboards.avgByCanteens');
+
+    Route::get('reports/todaySubscribers/{school}', 'ReportsController@todaySubscribers')->name('reports.todaySubscribers');
 });
 
