@@ -49,11 +49,12 @@
         </div>
     </td>
     <td>
-        {#if student.subscribed}
-        <span class="badge bg-success-subtle text-success">Subscribed</span>
-        {:else}
-        <span class="badge bg-danger-subtle text-danger">Not Subscribed</span>
-        {/if}
+        <span class="badge 
+        {student.subscribedStatus == 'Active Subscription' 
+            ? 'bg-success-subtle text-success' 
+            : student.subscribedStatus == 'Preactive Subscription' || student.subscribedStatus == 'Inactive Subscription'
+                ? 'bg-warning-subtle text-warning' 
+                : 'bg-danger-subtle text-danger'}">{student.subscribedStatus}</span>
     </td>
     <td>
         <div class="d-flex gap-2 align-items-center">
