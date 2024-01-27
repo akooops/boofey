@@ -11,7 +11,7 @@ class Student extends Model
 {
     use HasFactory;
 
-    protected $appends = ['fullname', "subscribed", 'subscribedPackage', "tookSnackToday", 'tookMainMealToday', 'className', 'classNameAr', 'qrEnabled'];
+    protected $appends = ['fullname', "subscribed", "subscribedStatus", 'subscribedPackage', "tookSnackToday", 'tookMainMealToday', 'className', 'classNameAr', 'qrEnabled'];
 
     protected $fillable = [
         'name',
@@ -116,6 +116,25 @@ class Student extends Model
 
     function getSubscribedAttribute() {  
         return ($this->activeSubscription === null) ? false : true;
+    }
+
+    function getSubscribedStatusAttribute() {  
+        if(is_null($this->activeSubscription) == false) return "Active Subscription";
+        if(count($this->inactiveSubscriptions) > 0){
+
+            $inactiveSubscriptions = $this->inactiveSubscriptions()
+            ->where(function ($query) {
+                $query->whereNull('should_start_at')
+                    ->orWhere('should_start_at', '=', now()->addDay()->startOfDay());
+            })
+            ->count();
+
+            if($inactiveSubscriptions > 0) return "Preactive Subscription";
+
+            return "Inactive Subscription";
+        }
+
+        return "No Subscription";
     }
 
     public function getFullnameAttribute()
