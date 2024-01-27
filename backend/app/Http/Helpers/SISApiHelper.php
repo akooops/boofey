@@ -130,7 +130,7 @@ function registerStudents($SuperiorID, $father){
             if (!empty($matches)) {
                 $number = $matches[0];
                 
-                $grade = $number;
+                $grade = $number - 1;
             } else {
                 $grade = 0;
             }
