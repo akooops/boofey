@@ -140,12 +140,12 @@ class Student extends Model
             3 => 'Primary School - Grade 4',
             4 => 'Primary School - Grade 5',
             5 => 'Primary School - Grade 6',
-            6 => 'Middle  School - Grade 1',
-            7 => 'Middle  School - Grade 2',
-            8 => 'Middle  School - Grade 3',
-            9 => 'Secondary  School - Grade 1',
-            10 => 'Secondary  School - Grade 2',
-            11 => 'Secondary  School - Grade 3',
+            6 => 'Middle  School - Grade 7',
+            7 => 'Middle  School - Grade 8',
+            8 => 'Middle  School - Grade 9',
+            9 => 'Secondary  School - Grade 10',
+            10 => 'Secondary  School - Grade 11',
+            11 => 'Secondary  School - Grade 12',
         ];
 
         // Check if the provided number exists in the array
@@ -166,12 +166,12 @@ class Student extends Model
             3 => 'الطور الإبتدائي - السنة الرابعة',
             4 => 'الطور الإبتدائي - السنة الخامسة',
             5 => 'الطور الإبتدائي - السنة السادسة',
-            6 => 'الطور المتوسط - السنة الأولى',
-            7 => 'الطور المتوسط - السنة الثانية',
-            8 => 'الطور المتوسط - السنة الثالثة',
-            9 => 'الطور الثانوي - السنة الأولى',
-            10 => 'الطور الثانوي - السنة الثانية',
-            11 => 'الطور الثانوي - السنة الثالثة',
+            6 => 'الطور المتوسط - السنة السابعة',
+            7 => 'الطور المتوسط - السنة الثامنة',
+            8 => 'الطور المتوسط - السنة التاسعة',
+            9 => 'الطور الثانوي - السنة العاشرة',
+            10 => 'الطور الثانوي - السنة الحادي عشر',
+            11 => 'الطور الثانوي - السنة الثاني عشر',
         ];
 
         // Check if the provided number exists in the array

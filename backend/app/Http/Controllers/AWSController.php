@@ -66,34 +66,6 @@ class AWSController extends Controller
 
         $collectionId = 'BOOFEY'; // Replace with your collection ID
 
-        $result = $rekognition->detectFaces([
-            'CollectionId' => $collectionId,
-            'Image' => [
-                'Bytes' => file_get_contents($image),
-            ],
-            'Attributes' => ['ALL'],
-        ]);
-        
-        foreach ($result['FaceDetails'] as $faceDetail) {
-            $brightness = $faceDetail['Quality']['Brightness'];
-            $sharpness = $faceDetail['Quality']['Sharpness'];
-
-            $brightnessWeight = 0.6;
-            $sharpnessWeight = 0.4;
-
-            // Normalize values (assuming they are in the range [0, 1])
-            $normalizedBrightness = $brightness / 255.0; // Assuming brightness is in the range [0, 255]
-            $normalizedSharpness = $sharpness / 100.0;   // Assuming sharpness is in the range [0, 100]
-
-            // Calculate overall quality percentage
-            $qualityPercentage = ($brightnessWeight * $normalizedBrightness + $sharpnessWeight * $normalizedSharpness) * 100;
-
-            // Clip the value to the range [0, 100]
-            $qualityPercentage = max(0, min(100, $qualityPercentage));
-
-            dd($qualityPercentage);
-        }
-
         // Search for faces in the specified collection using the input image
         $response = $rekognition->searchFacesByImage([
             'CollectionId' => $collectionId,

@@ -177,6 +177,15 @@ class StudentsController extends Controller
 
             $face = uploadFace("{$newFile->path}/{$newFile->current_name}", $student->face_id, $student);
 
+            if(!is_null($face['status']) && $face['status'] == 'quality'){
+                return response()->json([
+                    'status' => 'error',
+                    'errors' => [
+                        'file' => [__('translations.poor_face_quality')]
+                    ]
+                ], 422);
+            }
+
             if(!is_null($face['status']) && $face['status'] == 'many'){
                 return response()->json([
                     'status' => 'error',

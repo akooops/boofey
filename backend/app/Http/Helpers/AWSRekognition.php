@@ -4,6 +4,7 @@ use Aws\Rekognition\RekognitionClient;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use PhpParser\Node\Stmt\Else_;
 
 function uploadFace($image, $faceID = null, $student = null)
 {
@@ -36,6 +37,7 @@ function uploadFace($image, $faceID = null, $student = null)
         'Image' => [
             'Bytes' => file_get_contents($imagePath),
         ],
+        'Attributes' => ['ALL'],
     ]);
     
     $detectedFaces = $response->get('FaceDetails');
@@ -49,6 +51,25 @@ function uploadFace($image, $faceID = null, $student = null)
         } 
 
         return ['status' => 'nothing'];
+    }else if(count($detectedFaces) > 1){
+        if(is_null($student) == false){
+            Log::channel('rekognition')->info($jobId.' Many Faces Detected');
+        }
+
+        return ['status' => 'many'];
+    }else{
+        $faceDetail = $detectedFaces[0];
+    
+        $brightness = $faceDetail['Quality']['Brightness'];
+        $sharpness = $faceDetail['Quality']['Sharpness'];
+    
+        if ($sharpness < 80 || $brightness < 55 || $brightness > 90) {
+            if(is_null($student) == false){
+                Log::channel('rekognition')->info($jobId.' Poor quality with sharpness '.$sharpness.' and brightness '.$brightness);
+            }
+
+            return ['status' => 'quality'];
+        }
     }
         
 
