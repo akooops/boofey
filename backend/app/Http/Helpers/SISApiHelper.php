@@ -121,7 +121,7 @@ function registerStudents($SuperiorID, $father){
         foreach($result as $student){
             $student = (object)$student;
 
-            if (strpos($student->SchoolName, 'girls') !== false) continue;
+            if (str_contains($student->SchoolName, 'boys') === false) continue;
             
             preg_match('/\d+/', $student->EnglishGradeName, $matches);
             $grade = null;
