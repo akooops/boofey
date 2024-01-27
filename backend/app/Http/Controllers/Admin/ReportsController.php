@@ -46,10 +46,15 @@ class ReportsController extends Controller
 
         $students = $students->get();
 
+        $today = Carbon::now();
+        $formattedDate = $today->format("M jS, Y");
+
         return response()->json([
             'status' => 'success',
             'data' => [
-                'students' => $students
+                'date' =>$formattedDate,
+                'count' => count($students),
+                'students' => $students,
             ]
         ]);
     }
