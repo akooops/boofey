@@ -31,9 +31,12 @@ class ReportsController extends Controller
         if($level && $grade){
             $students->where('class', $grade);
         }else{
-            if ($level) {
-                $students->where('class', '>=', ($level - 1) * 6)
-                            ->where('class', '<=', $level * 6);
+            if ($level == 0) {
+                $students->where('class', '>=', 0)->where('class', '<', 6);
+            }else if($level == 1){
+                $students->where('class', '>=', 6)->where('class', '<', 9);
+            }else if($level == 2){
+                $students->where('class', '>=', 9)->where('class', '<', 12);
             }
     
             if ($grade) {
