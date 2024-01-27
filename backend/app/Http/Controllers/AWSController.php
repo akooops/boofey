@@ -78,7 +78,20 @@ class AWSController extends Controller
             $brightness = $faceDetail['Quality']['Brightness'];
             $sharpness = $faceDetail['Quality']['Sharpness'];
 
-            dd($faceDetail['Quality']);
+            $brightnessWeight = 0.6;
+            $sharpnessWeight = 0.4;
+
+            // Normalize values (assuming they are in the range [0, 1])
+            $normalizedBrightness = $brightness / 255.0; // Assuming brightness is in the range [0, 255]
+            $normalizedSharpness = $sharpness / 100.0;   // Assuming sharpness is in the range [0, 100]
+
+            // Calculate overall quality percentage
+            $qualityPercentage = ($brightnessWeight * $normalizedBrightness + $sharpnessWeight * $normalizedSharpness) * 100;
+
+            // Clip the value to the range [0, 100]
+            $qualityPercentage = max(0, min(100, $qualityPercentage));
+
+            dd($qualityPercentage);
         }
 
         // Search for faces in the specified collection using the input image
