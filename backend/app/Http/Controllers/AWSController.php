@@ -66,6 +66,21 @@ class AWSController extends Controller
 
         $collectionId = 'BOOFEY'; // Replace with your collection ID
 
+        $result = $rekognition->detectFaces([
+            'CollectionId' => $collectionId,
+            'Image' => [
+                'Bytes' => file_get_contents($image),
+            ],
+            'Attributes' => ['ALL'],
+        ]);
+        
+        foreach ($result['FaceDetails'] as $faceDetail) {
+            $brightness = $faceDetail['Quality']['Brightness'];
+            $sharpness = $faceDetail['Quality']['Sharpness'];
+
+            dd($faceDetail['Quality']);
+        }
+
         // Search for faces in the specified collection using the input image
         $response = $rekognition->searchFacesByImage([
             'CollectionId' => $collectionId,
