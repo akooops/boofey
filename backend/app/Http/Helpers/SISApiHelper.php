@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Billing;
 use App\Models\Father;
 use App\Models\School;
 use App\Models\Student;
@@ -65,6 +66,20 @@ function registerFather($identity_number){
     
             $father->save();
 
+            $billing = Billing::create([
+                'firstname' => $result->SuperiorName,
+                'lastname' => '',
+                'email' => $result->Email,
+                'phone' => $phone,
+                'address' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                'state' => 'Riyadh',
+                'city' => 'Riyadh',
+                'zipcode' => '00000',
+                'father_id' => $father->id
+            ]);
+
+            $billing->save();
+
             registerStudents($result->SuperiorID, $father);
 
             return [
@@ -86,6 +101,20 @@ function registerFather($identity_number){
                 'email' => $result->Email,
                 'phone' => $phone,
             ]);
+
+            $billing = Billing::create([
+                'firstname' => $result->SuperiorName,
+                'lastname' => '',
+                'email' => $result->Email,
+                'phone' => $phone,
+                'address' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                'state' => 'Riyadh',
+                'city' => 'Riyadh',
+                'zipcode' => '00000',
+                'father_id' => $father->id
+            ]);
+
+            $billing->save();
 
             registerStudents($result->SuperiorID, $father);
 
