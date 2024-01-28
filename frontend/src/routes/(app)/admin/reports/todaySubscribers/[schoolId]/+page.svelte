@@ -15,6 +15,7 @@
     
     export let data
     let {selectedSchool} = getContext("selectedSchoolStore")
+    let {currentFilter} = getContext("currentFilterStore")
     
     $: count = data.todaySubs.data.count
     $: date = data.todaySubs.data.date
@@ -32,7 +33,7 @@
                 <img src={$selectedSchool?.logo?.full_path} alt="" class="avatar-xs rounded-circle" />
             </div>
             <div class="">
-                {$selectedSchool?.name} - 
+                {$selectedSchool?.name} - {$currentFilter}
             </div>
         </div>
         <div class="d-flex gap-3 align-items-center">
@@ -43,13 +44,12 @@
         </div>
     </div>
     <div class="row">
-        <div class="table-responsive">
-            <table class="table align-middle table-nowrap mb-0 border-top">
+        <div class="">
+            <table class="table align-middle mb-0 border-top">
                 <thead class="table-light">
                     <tr>
                         <th scope="col">ID</th>
                         <th scope="col">Student</th>
-                        <th scope="col">Status</th>
                         <th scope="col">Package</th>
                         <th scope="col">Class</th>
     
@@ -69,13 +69,6 @@
                                     {student.fullname}
                                 </div>
                             </div>
-                        </td>
-                        <td>
-                            {#if student.subscribed}
-                            <span class="badge bg-success-subtle text-success">{translation.subscribed[localStorage.getItem("language")]}</span>
-                            {:else}
-                            <span class="badge bg-danger-subtle text-danger">{translation.notSubscribed[localStorage.getItem("language")]}</span>
-                            {/if}
                         </td>
                         <td>
                             <div class="d-flex gap-2 align-items-center">
