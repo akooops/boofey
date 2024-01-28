@@ -37,5 +37,7 @@ Route::get('/search-face', [AWSController::class, 'index'])->name('search.index'
 Route::post('/search-face', [AWSController::class, 'searchFace'])->name('search.face');
 Route::get('/reset-aws', [AWSController::class, 'deleteFaces'])->name('reset.aws');
 
+/*
 Route::get('sms', [SMSController::class, 'index'])->name('sms.index');
 Route::post('sms', [SMSController::class, 'send'])->name('sms.send');
+*/
