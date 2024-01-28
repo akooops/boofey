@@ -2,16 +2,22 @@
 
 use Illuminate\Support\Facades\Http;
 
-function sendSMS($text, $number){
+function sendSMS($text, $numbers){
     $app_id = env("4JAWALY_API_KEY");
     $app_sec = env("4JAWALY_API_SECRET_KEY");
     $app_hash = base64_encode("{$app_id}:{$app_sec}");
+
+    $numbers = is_array($numbers) ? $numbers : [$numbers];
+
+    $formattedNumbers = array_map(function ($number) {
+        return "966" . substr($number, 1);
+    }, $numbers);
 
     $messages = [
         "messages" => [
             [
                 "text" => $text,
-                "numbers" => ["9665".substr($number, 2)],
+                "numbers" => $formattedNumbers,
                 "sender" => env("4JAWALY_SENDER_ID")
             ]
         ]
