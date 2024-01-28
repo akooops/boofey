@@ -26,5 +26,8 @@
         <button type="submit">Send SMS</button>
     </form>
 
+    @if(is_null($data))
+        {{$data}}
+    @endif
 </body>
 </html>

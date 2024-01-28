@@ -34,6 +34,6 @@ class SMSController extends Controller
 
         $result = sendSMS($request->input('message'), $numbers);
 
-        return redirect()->back()->with($result);
+        return view('sms', ['data' => $result]);
     }
 }
