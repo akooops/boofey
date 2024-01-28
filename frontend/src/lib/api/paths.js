@@ -533,6 +533,19 @@ export function PathLogOut(){
     return `${AUTH_DOMAIN}/logout`
 }
 
+// reports 
+
+export function PathGetTodaySubs(schoolId,{level,grade}={}){
+    const queryParams = new URLSearchParams();
+    if (level != null) {
+        queryParams.set("level", level);
+    }
+
+    if (grade != null) {
+        queryParams.set("grade", grade);
+    }
+    return `${ADMIN_DOMAIN}/reports/todaySubscribers/${schoolId}?${queryParams.toString()}`
+}
 
 
 export function DefaultGetQueries(url){

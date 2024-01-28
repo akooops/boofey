@@ -8,6 +8,7 @@
 
     let close
     let loading = false
+    let errors
     let {packageStore} = getContext("packageStore")
 
     async function deleteTarget(){
@@ -28,6 +29,8 @@ loading = true
             let text = `Deleted ${$packageStore.name} #${$packageStore.id}` 
             toast(text,"success")
             invalidate("packages:refresh")
+        }else {
+            errors = res.errors
         }
 
     }
@@ -55,6 +58,9 @@ loading = true
                     <lord-icon src="https://cdn.lordicon.com/gsqxdxog.json" trigger="loop" colors="primary:#f7b84b,secondary:#f06548" style="width:100px;height:100px"></lord-icon>
                     <h4 class="mb-3 mt-4">Are you Sure ?</h4>
                     <p class="text-muted fs-15 mb-4">Are you Sure You want to Delete <span class="text-primary">{`${$packageStore.name} #${$packageStore.id}`}</span> ?</p>
+                    {#if errors?.package_id}
+                        <strong class="text-danger ms-1 my-2">{errors.package_id[0]}</strong>
+                    {/if}
                     <div class="hstack gap-2 justify-content-center"> 
                         <button type="button" class="btn btn-light fw-light" data-bs-dismiss="modal" bind:this={close}>Close</button>
                         <button type="button" class="btn btn-danger waves-effect waves-light" on:click={deleteTarget}>Delete</button>
