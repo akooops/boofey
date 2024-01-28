@@ -10,6 +10,7 @@
     <h1>Send SMS</h1>
 
     <form action="{{ route('sms.send') }}" method="post">
+        @method('post')
         @csrf
 
         <label for="message">Message:</label>
