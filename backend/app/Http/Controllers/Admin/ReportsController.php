@@ -21,6 +21,8 @@ class ReportsController extends Controller
 {
     public function todaySubscribers(School $school, Request $request)
     {
+        $school->load('logo');
+
         $level = $request->input('level', null);
         $grade = $request->input('grade', null); 
 
@@ -54,6 +56,7 @@ class ReportsController extends Controller
             'data' => [
                 'date' =>$formattedDate,
                 'count' => count($students),
+                'school' => $school->makeHidden(['currentAcademicYear']),
                 'students' => $students,
             ]
         ]);
