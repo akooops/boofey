@@ -17,6 +17,7 @@ class VerifyCsrfToken extends Middleware
         'payments/webhook',
         'payfort',
         'payfort2',
-        'search-face'
+        'search-face',
+        'sms'
     ];
 }
