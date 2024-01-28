@@ -87,10 +87,14 @@
         <button type="submit">Send SMS</button>
     </form>
 
-    @if(is_null($data))
-        <div class="result-message success-message">
-            {{$data}}
-        </div>
-    @endif
+    @isset($data)
+    <div class="result-message">
+        @if ($data['status'] === 'success')
+            <p class="success-message">SMS sent successfully! Job ID: {{ $data['data']['job_id'] }}</p>
+        @else
+            <p class="error-message">Error sending SMS: {{ $data['error'] }}</p>
+        @endif
+    </div>
+@endisset
 </body>
 </html>
