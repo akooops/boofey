@@ -6,6 +6,7 @@ use App\Models\AcademicYear;
 use Illuminate\Http\Request;
 use App\Http\Requests\AcademicYears\StoreAcademicYearRequest;
 use App\Http\Requests\AcademicYears\UpdateAcademicYearRequest;
+use App\Http\Requests\Reports\RevenuesRequest;
 use App\Models\Canteen;
 use App\Models\Father;
 use App\Models\File;
@@ -96,7 +97,7 @@ class ReportsController extends Controller
             }
         }
 
-        $students = $students->get();
+        $students = $students->orderBy('school_id')->get();
 
         $today = Carbon::now();
         $formattedDate = $today->format("M jS, Y");
@@ -110,6 +111,51 @@ class ReportsController extends Controller
                 'students' => $students,
             ]
         ]);
+    }
+
+    public function revenues(RevenuesRequest $request)
+    {
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('end_date');
+    
+        $startDate = Carbon::parse($startDate);
+        $endDate = Carbon::parse($endDate)->endOfDay();
+
+        $subscriptions = Subscription::where('exclude_from_calculation', false)
+            ->whereBetween('created_at', [$startDate, $endDate])
+            ->with([
+                'package:id,name,school_id',
+                'package.school:id,name,file_id',
+                'package.school.logo:id,path,current_name'
+            ])
+            ->get();
+
+        $subtotalSum = 0;
+        $discountSum = 0;
+        $taxSum = 0;
+        $totalSum = 0;
+
+        foreach ($subscriptions as $subscription) {  
+            $subtotalSum += $subscription->subtotal;
+            $discountSum += $subscription->discountCalculated;
+            $taxSum += $subscription->taxCalculated;
+            $totalSum += $subscription->total;
+        }
+
+    
+        $response = [
+            'status' => 'success',
+            'data' => [
+                'count' => count($subscriptions),
+                'subtotalSum' => number_format($subtotalSum, 2),
+                'discountSum' => number_format($discountSum, 2),
+                'taxSum' => number_format($taxSum, 2),
+                'totalSum' => number_format($totalSum, 3),
+                'subscriptions' => $subscriptions
+            ],
+        ];
+    
+        return response()->json($response);
     }
 }
 
