@@ -69,7 +69,10 @@ class ReportsController extends Controller
         $grade = $request->input('grade', null); 
         $school = $request->input('school', null); 
 
-        $students = Student::whereHas('activeSubscription')->with(['image', 'activeSubscription.package']);
+        $students = Student::with([
+            'school:id,name,file_id',
+            'school.logo:id,path,current_name'
+        ])->whereHas('activeSubscription')->with(['image', 'activeSubscription.package']);
 
         if($school){
             $school = School::find($school);
