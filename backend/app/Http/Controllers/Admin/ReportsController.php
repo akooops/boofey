@@ -124,6 +124,8 @@ class ReportsController extends Controller
         $subscriptions = Subscription::where('exclude_from_calculation', false)
             ->whereBetween('created_at', [$startDate, $endDate])
             ->with([
+                'student:id,firstname,lastname,file_id',
+                'student.image:id,current_name,path',
                 'package:id,name,school_id',
                 'package.school:id,name,file_id',
                 'package.school.logo:id,path,current_name'
