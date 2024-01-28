@@ -45,14 +45,13 @@
 
     function selectSchool(school){
         selected = school
-        dispatch("select",{schoolId:selected.id})
+        dispatch("select",{schoolId:selected.id,school:selected})
     }
 
     function unSelectSchool(){
         selected = {}
-        dispatch("select",{schoolId:""})
-        openCollapse()
-
+        dispatch("select",{schoolId:"",school:null})
+        collapse && openCollapse();
     }  
 
     function search(e){

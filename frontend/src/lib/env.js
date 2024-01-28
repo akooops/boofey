@@ -58,6 +58,24 @@ export const routes = [
       active: "List",
     },
     {
+      path: /^\/reports$/,
+      title: "Reports",
+      item: "Reports",
+      active: "List",
+    },
+    {
+      path: /^\/reports\/todaySubscribers$/,
+      title: "Today Subscribers",
+      item: "Reports",
+      active: "Today Subscribers",
+    },
+    {
+      path: /^\/reports\/todaySubscribers\/\d+$/,
+      title: "Today Subscribers",
+      item: "Reports",
+      active: "Today Subscribers",
+    },
+    {
       path: /^\/orders$/,
       title: "Orders",
       item: "Orders",
