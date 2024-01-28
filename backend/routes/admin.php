@@ -177,6 +177,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'App\Http\Controllers\Admin', 
     Route::get('reports/subsriptionStatus', 'ReportsController@subsriptionStatus')->name('reports.subsriptionStatus');
     Route::get('reports/revenues', 'ReportsController@revenues')->name('reports.revenues');
 
-    Route::post('sms', 'SMSController@send')->name('sms.send');
+    Route::post('sms', 'SMSController@sendSMS')->name('sms.sendSMS');
+    Route::post('sms/parents', 'SMSController@sendParentsSMS')->name('sms.sendParentsSMS');
 });
 
