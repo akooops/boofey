@@ -62,12 +62,12 @@ import {translation} from "$lib/translation.js"
     },
     { title: "Reports",
         submenu: [
-            { title: "Daily Preparation", links: [], route:"/admin/reports/todaySubscribers",permission:"reports.index",icon:"ri-file-list-3-line"},
+            { title: "Daily Preparation", links: [], route:"/admin/reports/todaySubscribers",permission:"reports.todaySubscribers",icon:"ri-file-list-3-line"},
+            { title: "Subsription Status", links: [], route:"/admin/reports/subsriptionStatus",permission:"reports.subsriptionStatus",icon:"ri-survey-line"},
             
         ]
     },
   ];
-
 
   let menuItemsParent = [
     {
