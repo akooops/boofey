@@ -174,5 +174,6 @@ Route::group(['prefix' => 'admin', 'namespace' => 'App\Http\Controllers\Admin', 
     Route::get('dashboards/avgByCanteens/{canteen}', 'DashboardsController@avgByCanteens')->name('dashboards.avgByCanteens');
 
     Route::get('reports/todaySubscribers/{school}', 'ReportsController@todaySubscribers')->name('reports.todaySubscribers');
+    Route::get('reports/subsriptionStatus', 'ReportsController@subsriptionStatus')->name('reports.subsriptionStatus');
 });
 
