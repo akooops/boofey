@@ -1104,8 +1104,8 @@ export let translation = {
         ar:"ابقى على تواصل"
     },
     idNumber:{
-        en:"Indentity Number",
-        ar:"رقم التعريف"
+        en:"Guardian ID Number",
+        ar:"رقم هوية ولي الأمر"
     },
     enterIdNumber:{
         en:"Enter Identity Number",
