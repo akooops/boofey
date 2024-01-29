@@ -77,9 +77,9 @@ export const routes = [
     },
     {
       path: /^\/reports\/subsriptionStatus$/,
-      title: "Subsription Status",
+      title: "Subsription Statusp",
       item: "Reports",
-      active: "Subsription Status",
+      active: "Subsription Statusp",
     },
     {
       path: /^\/orders$/,

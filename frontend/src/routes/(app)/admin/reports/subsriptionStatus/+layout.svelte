@@ -27,7 +27,6 @@
         }
         level = level == null ? "all" : parseInt(level)
         grade = grade == null ? "all" : parseInt(grade)
-        console.log(level)
     })
 
     let grades = [

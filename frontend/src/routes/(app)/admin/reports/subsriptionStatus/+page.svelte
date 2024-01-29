@@ -57,7 +57,6 @@
                         <th scope="col">Student</th>
                         <th scope="col">School - package</th>
                         <th scope="col">Class</th>
-                        <th scope="col">Status</th>
                         <th scope="col">Plan User</th>
     
                     </tr>
@@ -88,13 +87,7 @@
                             </div>
                         </td>
                         <td>{student.className}</td>
-                        <td>
-                            {#if student.subscribed}
-                                <span class="badge bg-success-subtle text-success">{translation.subscribed[localStorage.getItem("language")]}</span>
-                            {:else}
-                                <span class="badge bg-danger-subtle text-danger">{translation.notSubscribed[localStorage.getItem("language")]}</span>
-                            {/if}
-                        </td>
+                        
                        
                         <td class="col-2">
                             <Progress now={student.active_subscription.balance} max={student.active_subscription.days}/>

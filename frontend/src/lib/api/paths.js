@@ -1,3 +1,5 @@
+import {formatTimestamp } from "$lib/utils.js";
+
 // export const DOMAIN = "https://boofey.akoops.com/"
 export const DOMAIN = "https://backend.boofey.app/"
 
@@ -559,6 +561,15 @@ export function PathGetSubStatus({school,level,grade}={}){
         queryParams.set("school", school);
     }
     return `${ADMIN_DOMAIN}/reports/subsriptionStatus?${queryParams.toString()}`
+}
+export function PathGetRevenues({start_date,end_date}={}){
+    const queryParams = new URLSearchParams();
+    start_date = start_date == null ? formatTimestamp(Date.now(),true) : start_date
+    end_date = end_date == null ? formatTimestamp(Date.now(),true) : end_date
+    queryParams.set("start_date", start_date);
+    queryParams.set("end_date", end_date);
+    
+    return `${ADMIN_DOMAIN}/reports/revenues?${queryParams.toString()}`
 }
 
 

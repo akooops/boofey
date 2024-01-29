@@ -1,7 +1,12 @@
-export function formatTimestamp(timestamp) {
+export function formatTimestamp(timestamp,onlydate) {
     try {
         const date = new Date(timestamp);
-        return `${date.toISOString().slice(0, 16).replace("T", " ")}`;
+        let formatted = `${date.toISOString().slice(0, 16).replace("T", " ")}`
+        if(onlydate){
+            return formatted.split(" ")[0]
+        }else{
+            return formatted;
+        }
     } catch {
         return "";
     }
