@@ -181,6 +181,16 @@ class SyncController extends Controller
             ]);
 
             $queueStudent->save();
+
+            $activeSubscription = $student->activeSubscription;
+
+            if (!$activeSubscription && $student->onhold != true) {
+                $inactiveSubscription = $student->inactiveSubscriptions()->first();
+
+                if ($inactiveSubscription !== null) {
+                    $inactiveSubscription->activate();
+                }
+            }
         }
 
         return response()->json([

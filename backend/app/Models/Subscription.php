@@ -136,10 +136,12 @@ class Subscription extends Model
 
         if($subscriptions != 0) return;
 
+        /*
         $today = Carbon::today(); 
         $should_start_at = Carbon::parse($this->should_start_at)->startOfDay(); 
 
         if ($this->should_start_at !== null && $today->lessThan($should_start_at)) return;
+        */
 
         if($this->student->onhold == true) return;
 

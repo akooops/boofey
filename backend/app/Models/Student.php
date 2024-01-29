@@ -115,22 +115,12 @@ class Student extends Model
     }
 
     function getSubscribedAttribute() {  
-        return ($this->activeSubscription === null) ? false : true;
+        return ($this->activeSubscription === null && count($this->inactiveSubscriptions) <= 0) ? false : true;
     }
 
     function getSubscribedStatusAttribute() {  
         if(is_null($this->activeSubscription) == false) return "Active Subscription";
         if(count($this->inactiveSubscriptions) > 0){
-
-            $inactiveSubscriptions = $this->inactiveSubscriptions()
-            ->where(function ($query) {
-                $query->whereNull('should_start_at')
-                    ->orWhere('should_start_at', '=', now()->addDay()->startOfDay());
-            })
-            ->count();
-
-            if($inactiveSubscriptions > 0) return "Preactive Subscription";
-
             return "Inactive Subscription";
         }
 
@@ -146,6 +136,8 @@ class Student extends Model
         $activeSubscription = $this->activeSubscription;
         if($activeSubscription !== null && $activeSubscription->package !== null){
             return $activeSubscription->package->code;
+        }else if(count($this->inactiveSubscriptions) > 0 && $this->inactiveSubscriptions[0]->package !== null){
+            return $this->inactiveSubscriptions[0]->package->code;
         }
 
         return null;

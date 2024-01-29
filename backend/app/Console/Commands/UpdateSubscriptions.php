@@ -28,6 +28,36 @@ class UpdateSubscriptions extends Command
             if ($activeSubscription && $student->onhold != true) {
                 $activeSubscription->decrement('balance');
 
+                if($activeSubscription->balance <= 0){
+                    $activeSubscription->expire();
+                    
+                    $inactiveSubscription = $student->inactiveSubscriptions()->first();
+
+                    if ($inactiveSubscription === null && env('ENABLE_SMS') == true) {
+                        sendSMS("Boofey - Your child {$student->full_name} subscription is expired, consider renewing the plan", $student->father->user->phone);                    
+                    }
+                }
+
+                continue;
+            }
+        }
+
+        $this->info('Subscriptions updated successfully.');
+    }
+
+    /*
+    public function handle()
+    {
+        $students = Student::all();
+
+        foreach ($students as $student) {
+            if($student->school->isTodayBreak == true) continue;
+
+            $activeSubscription = $student->activeSubscription;
+
+            if ($activeSubscription && $student->onhold != true) {
+                $activeSubscription->decrement('balance');
+
 
                 if($activeSubscription->balance <= 0){
                     $activeSubscription->expire();
@@ -57,4 +87,5 @@ class UpdateSubscriptions extends Command
 
         $this->info('Subscriptions updated successfully.');
     }
+    */
 }
