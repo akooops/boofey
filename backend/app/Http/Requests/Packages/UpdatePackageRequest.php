@@ -56,7 +56,7 @@ class UpdatePackageRequest extends FormRequest
             'yearly' => 'required|boolean',
             'hidden' => 'required|boolean',
 
-            'days' => 'required_if:yearly,false|integer',
+            'days' => 'required_if:yearly,false|integer|min:1',
 
             'popular' => 'required|boolean',
 
