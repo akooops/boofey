@@ -182,6 +182,7 @@ class SyncController extends Controller
 
             $queueStudent->save();
 
+            $student = Student::find($student['id']);
             $activeSubscription = $student->activeSubscription;
 
             if (!$activeSubscription && $student->onhold != true) {
