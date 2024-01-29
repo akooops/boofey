@@ -546,6 +546,20 @@ export function PathGetTodaySubs(schoolId,{level,grade}={}){
     }
     return `${ADMIN_DOMAIN}/reports/todaySubscribers/${schoolId}?${queryParams.toString()}`
 }
+export function PathGetSubStatus({school,level,grade}={}){
+    const queryParams = new URLSearchParams();
+    if (level != null) {
+        queryParams.set("level", level);
+    }
+
+    if (grade != null) {
+        queryParams.set("grade", grade);
+    }
+    if (school != null) {
+        queryParams.set("school", school);
+    }
+    return `${ADMIN_DOMAIN}/reports/subsriptionStatus?${queryParams.toString()}`
+}
 
 
 export function DefaultGetQueries(url){

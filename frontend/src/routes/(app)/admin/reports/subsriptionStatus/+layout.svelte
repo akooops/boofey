@@ -62,10 +62,17 @@
     });
 
     function selectSchool(e){
+        const url = new URL($page.url);
+        close.click()
+        
         if(e.detail.school != null){
-            close.click()
-            goto(`/admin/reports/todaySubscribers/${e.detail.school.id}`)
+            url.searchParams.set("school",e.detail.school.id)
+            
+        }else {
+            url.searchParams.delete("school")
         }
+        goto(url)
+
     }
 
     function applyFilters(){
@@ -97,7 +104,7 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header align-items-center d-flex d-print-none">
-                    <h4 class="card-title mb-0 flex-grow-1">Daily Preparation</h4>
+                    <h4 class="card-title mb-0 flex-grow-1">Subsription Status</h4>
                     <div class="flex-shrink-0">
                         <!-- <AddPaymentMethodModal /> -->
                     </div>

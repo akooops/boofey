@@ -76,6 +76,12 @@ export const routes = [
       active: "Daily Preparation",
     },
     {
+      path: /^\/reports\/subsriptionStatus$/,
+      title: "Subsription Status",
+      item: "Reports",
+      active: "Subsription Status",
+    },
+    {
       path: /^\/orders$/,
       title: "Orders",
       item: "Orders",
