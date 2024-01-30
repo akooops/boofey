@@ -49,6 +49,11 @@ class Student extends Model
         return $this->belongsTo(School::class);
     }
 
+    public function division()
+    {
+        return $this->belongsTo(Division::class);
+    }
+
     public function academicYear()
     {
         return $this->belongsTo(AcademicYear::class);

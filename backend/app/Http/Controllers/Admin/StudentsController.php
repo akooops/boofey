@@ -74,6 +74,7 @@ class StudentsController extends Controller
         $studentsQuery = Student::orderBy('id', 'DESC')->with([
             'image:id,path,current_name', 
             'academicYear:id,name,from,to,current',
+            'division:id,name',
             'father:id,user_id',
             'father.user:id,username,email,phone',
             'father.user.profile:id,user_id,firstname,lastname',
