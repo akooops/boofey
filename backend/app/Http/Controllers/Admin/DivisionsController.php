@@ -18,8 +18,12 @@ class DivisionsController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request) 
+    public function index(School $school, Request $request) 
     {
+        $school->load([
+            'logo:id,current_name,path'
+        ]);
+
         $perPage = limitPerPage($request->query('perPage', 10));
         $page = checkPageIfNull($request->query('page', 1));
         $search = checkIfSearchEmpty($request->query('search'));
@@ -37,7 +41,10 @@ class DivisionsController extends Controller
 
         $response = [
             'status' => 'success',
-            'data' => $divisions->items(), 
+            'data' => [
+                'divisions' => $divisions->items(), 
+                'school' => $school
+            ],
             'pagination' => handlePagination($divisions)
         ];
 
