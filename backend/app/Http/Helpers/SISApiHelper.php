@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Billing;
+use App\Models\Division;
 use App\Models\Father;
 use App\Models\School;
 use App\Models\Student;
@@ -136,6 +137,10 @@ function registerStudents($SuperiorID, $father){
         foreach($result as $student){
             $student = (object)$student;
 
+            $division = Division::where('name', $student->SchoolName)->first();
+ 
+            if(!$division) continue;
+
             //if (str_contains($student->SchoolName, 'boys') === false) continue;
             if($student->SchoolName != 'Sis boys') continue;
 
@@ -160,7 +165,8 @@ function registerStudents($SuperiorID, $father){
                     'father_id' => $father->id,
                     'school_id' => $sis->id,
                     'academic_year_id' => $sis->currentAcademicYear->id ?? null,
-                    'sis_number' => $student->StudentNumber
+                    'sis_number' => $student->StudentNumber,
+                    'division_id' => $division->id
                 ]);
     
                 $student->save();

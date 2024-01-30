@@ -69,7 +69,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'App\Http\Controllers\Admin', 
     /* -------------------------------------------------------------------------------- */
     /* Divisions Routes */
     Route::get('schools/{school}/divisions', 'DivisionsController@index')->name('divisions.index');
-    Route::post('schools/{school}/divisions', 'DivisionsController@store')->name('divisions.stor');
+    Route::post('schools/{school}/divisions', 'DivisionsController@store')->name('divisions.store');
 
     Route::resource('divisions', DivisionsController::class)->except(['create', 'edit', 'update']);
     Route::post('divisions/{division}/update', 'DivisionsController@update')->name('divisions.update');
