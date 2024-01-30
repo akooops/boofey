@@ -81,8 +81,18 @@
         <label for="message">Message:</label>
         <textarea name="message" id="message" cols="30" rows="5" required></textarea>
 
-        <label for="numbers">Array of Numbers (comma-separated):</label>
-        <input type="text" name="numbers" id="numbers" placeholder="500000001, 500000002, 500000003" required>
+        <label for="send_to">Send To:</label>
+        <select name="send_to" id="send_to" onchange="toggleCustomInput()" required>
+            <option value="all">All</option>
+            <option value="subscribed">Subscribed</option>
+            <option value="not_subscribed">Not Subscribed</option>
+            <option value="custom">Custom Numbers</option>
+        </select>
+
+        <div id="customInput" style="display: none;">
+            <label for="custom_numbers">Custom Numbers (comma-separated):</label>
+            <input type="text" name="custom_numbers" id="custom_numbers" placeholder="500000001, 500000002, 500000003">
+        </div>
 
         <button type="submit">Send SMS</button>
     </form>
@@ -96,5 +106,18 @@
         @endif
     </div>
 @endisset
+
+<script>
+    function toggleCustomInput() {
+        var sendTo = document.getElementById('send_to').value;
+        var customInput = document.getElementById('customInput');
+
+        if (sendTo === 'custom') {
+            customInput.style.display = 'block';
+        } else {
+            customInput.style.display = 'none';
+        }
+    }
+</script>
 </body>
 </html>

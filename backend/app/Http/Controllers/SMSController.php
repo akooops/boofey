@@ -10,6 +10,7 @@ use App\Models\AcademicYear;
 use App\Models\Father;
 use App\Models\File;
 use App\Models\School;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Scope;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
@@ -25,15 +26,52 @@ class SMSController extends Controller
     {
         $request->validate([
             'message' => 'required|string',
-            'numbers' => 'required|string',
+            'send_to' => 'required|string',
         ]);
 
-        $numbers = explode(',', $request->input('numbers'));
+        $sendTo = $request->input('send_to');
+        $numbers = [];
 
-        $numbers = array_map('trim', $numbers);
+        if ($sendTo === 'all') {
+            $numbers = $this->getAllNumbers();
+        } elseif ($sendTo === 'subscribed') {
+            $numbers = $this->getSubscribedNumbers();
+        } elseif ($sendTo === 'not_subscribed') {
+            $numbers = $this->getNotSubscribedNumbers();
+        } else {
+            $customNumbers = $request->input('custom_numbers');
+            $numbers = $this->validateCustomNumbers($customNumbers);
+        }
 
         $result = sendSMS($request->input('message'), $numbers);
 
         return view('sms', ['data' => $result]);
+    }
+
+    private function validateCustomNumbers($customNumbers)
+    {
+        $numbers = explode(',', $customNumbers);
+        $numbers = array_map('trim', $numbers);
+        // You may add additional validation logic here if needed
+        return $numbers;
+    }
+
+    private function getAllNumbers()
+    {
+        $phoneNumbers = User::whereHas('father')
+        ->pluck('phone')
+        ->toArray();
+
+        return $phoneNumbers;
+    }
+
+    private function getSubscribedNumbers()
+    {
+        return [];
+    }
+
+    private function getNotSubscribedNumbers()
+    {
+        return [];
     }
 }
