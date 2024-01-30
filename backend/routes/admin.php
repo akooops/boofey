@@ -67,6 +67,14 @@ Route::group(['prefix' => 'admin', 'namespace' => 'App\Http\Controllers\Admin', 
     Route::post('packages/{package}/update', 'PackagesController@update')->name('packages.update');
 
     /* -------------------------------------------------------------------------------- */
+    /* Divisions Routes */
+    Route::get('schools/{school}/divisions', 'DivisionsController@index')->name('divisions.index');
+    Route::post('schools/{school}/divisions', 'DivisionsController@store')->name('divisions.stor');
+
+    Route::resource('divisions', DivisionsController::class)->except(['create', 'edit', 'update']);
+    Route::post('divisions/{division}/update', 'DivisionsController@update')->name('divisions.update');
+
+    /* -------------------------------------------------------------------------------- */
     /* Canteens Routes */
     Route::get('schools/{school}/canteens', 'CanteensController@indexBySchool')->name('canteens.indexBySchool');
     Route::post('schools/{school}/canteens', 'CanteensController@storeBySchool')->name('canteens.storeBySchool');

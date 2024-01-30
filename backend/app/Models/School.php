@@ -30,6 +30,11 @@ class School extends Model
         return $this->hasMany(AcademicYear::class, 'school_id', 'id');
     }
 
+    public function Divisions()
+    {
+        return $this->hasMany(Division::class, 'school_id', 'id');
+    }
+
     public function canteens()
     {
         return $this->hasMany(Canteen::class, 'school_id', 'id');
