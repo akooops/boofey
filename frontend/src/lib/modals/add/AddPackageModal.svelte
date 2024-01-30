@@ -38,7 +38,7 @@ loading = true
         formData.set("hidden",hidden)
         formData.set("popular",popular)
         formData.set("school_id",schoolId)
-        formData.set("should_start_later",shouldStartLater)
+        // formData.set("should_start_later",shouldStartLater)
 
         formData.set("menu_en",menuEn)
         formData.set("menu_ar",menuAr)
@@ -78,7 +78,7 @@ loading = true
     }
 
     function reset(){
-        loadDefaultDate(shouldStartAtInput,Date.now())
+        // loadDefaultDate(shouldStartAtInput,Date.now())
         form.reset()
         features = []
         yearly = sale = tax = hidden = popular = shouldStartLater = false
@@ -170,12 +170,11 @@ loading = true
                                     <strong class="text-danger ms-1 my-2">{errors.description_ar[0]}</strong>
                                     {/if}
                                 </div>
-                                <div class="row ps-3 g-3">
-                                    <!-- Switches Color -->
+                                <!-- <div class="row ps-3 g-3">
                                     <div class="form-check form-switch col" >
                                         <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck1" bind:checked={shouldStartLater}>
                                         <label class="form-check-label" for="SwitchCheck1">Should Start Later</label>
-                                    </div><!-- Switches Color -->
+                                    </div>
                                     {#if errors?.should_start_later}
                                     <strong class="text-danger ms-1 my-2">{errors.should_start_later[0]}</strong>
                                     {/if}
@@ -186,7 +185,7 @@ loading = true
                                     {#if errors?.should_start_at}
                                     <strong class="text-danger ms-1 my-2">{errors.should_start_at[0]}</strong>
                                     {/if}
-                                </div>
+                                </div> -->
                                 <div class="row g-3 ps-3">
                                     <!-- Switches Color -->
                                     <div class="form-check form-switch col" >

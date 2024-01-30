@@ -38,7 +38,7 @@ loading = true
         formData.set("yearly",packageStoreInstance.yearly)
         formData.set("hidden",packageStoreInstance.hidden)
         formData.set("popular",packageStoreInstance.popular)
-        formData.set("should_start_later",shouldStartLater)
+        // formData.set("should_start_later",shouldStartLater)
 
         formData.set("menu_en",contentEnQuill.html)
         formData.set("menu_ar",contentArQuill.html)
@@ -83,7 +83,7 @@ loading = true
         packageStoreInstance = JSON.parse(JSON.stringify($packageStore))
         sale = packageStoreInstance.sale_price ? true : false
         tax = packageStoreInstance.tax ? true : false
-        shouldStartLater = packageStoreInstance?.should_start_at != null
+        // shouldStartLater = packageStoreInstance?.should_start_at != null
     })
 
     import { quill } from 'svelte-quill'
@@ -120,7 +120,7 @@ loading = true
     $: contentAr = packageStoreInstance.menu_ar; 
     
     function reset(){
-        loadDefaultDate(shouldStartAtInput,Date.now())
+        // loadDefaultDate(shouldStartAtInput,Date.now())
         errors = {}
         editMenu = false
     }
@@ -183,13 +183,13 @@ loading = true
                                     <strong class="text-danger ms-1 my-2">{errors.description_ar[0]}</strong>
                                     {/if}
                                 </div>
-
+<!-- 
                                 <div class="row ps-3 g-3">
-                                    <!-- Switches Color -->
+                                    
                                     <div class="form-check form-switch col" >
                                         <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck1" bind:checked={shouldStartLater}>
                                         <label class="form-check-label" for="SwitchCheck1">Should Start Later</label>
-                                    </div><!-- Switches Color -->
+                                    </div>
                                     {#if errors?.should_start_later}
                                     <strong class="text-danger ms-1 my-2">{errors.should_start_later[0]}</strong>
                                     {/if}
@@ -200,7 +200,7 @@ loading = true
                                     {#if errors?.should_start_at}
                                     <strong class="text-danger ms-1 my-2">{errors.should_start_at[0]}</strong>
                                     {/if}
-                                </div>
+                                </div> -->
 
 
                                 <div class="row g-3 ps-3">

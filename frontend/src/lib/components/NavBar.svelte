@@ -64,7 +64,7 @@ import {translation} from "$lib/translation.js"
         submenu: [
             { title: "Daily Preparation", links: [], route:"/admin/reports/todaySubscribers",permission:"reports.todaySubscribers",icon:"ri-file-list-3-line"},
             { title: "Subsription Status", links: [], route:"/admin/reports/subsriptionStatus",permission:"reports.subsriptionStatus",icon:"ri-survey-line"},
-            
+            { title: "Revenues", links: [], route:"/admin/reports/revenues",permission:"reports.revenues",icon:"ri-wallet-3-line"},
         ]
     },
   ];

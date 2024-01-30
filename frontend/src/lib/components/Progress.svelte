@@ -18,12 +18,14 @@
         }
     }
 
+    export let animation = true
+
 </script>
 
 <div class="d-flex gap-2 align-items-center">
-    <div class="flex-grow-1">
+    <div class="flex-grow-1 d-print-none">
             
-        <div class="progress progress-sm progress-label animated-progress">
+        <div class="progress progress-sm progress-label" class:animated-progress={animation}>
             <div class="progress-bar bg-gradient {bg}" role="progressbar"    style="width: {percentage}%"></div>
         </div>
     </div>

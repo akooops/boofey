@@ -148,8 +148,10 @@ import DashSearch from "./DashSearch.svelte";
 
     async function render(){
         pending = true
-        await getDoneByCanteens()
-        await getAvgByCanteens()
+        if(selectedCanteen){
+            await getDoneByCanteens()
+            await getAvgByCanteens()
+        }
         pending = false
         chart.updateOptions(CanteensOptions)
     }
