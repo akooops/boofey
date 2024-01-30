@@ -27,6 +27,18 @@ class ReportsController extends Controller
         $level = $request->input('level', null);
         $grade = $request->input('grade', null); 
 
+        $divisionId = $request->input('division', null);
+        $validDivision = $school->Divisions()->where('id', $divisionId)->exists();
+
+        if (!$validDivision) {
+            return response()->json([
+                'status' => 'error',
+                'errors' => [
+                    'division' => ['Invalid division ID for the specified school.']
+                ],
+            ], 422);
+        }
+
         $students = $school->students()
             ->whereHas('activeSubscription')
             ->with(['image', 'activeSubscription.package']);
@@ -52,6 +64,10 @@ class ReportsController extends Controller
         $today = Carbon::now();
         $formattedDate = $today->format("M jS, Y");
 
+        if ($divisionId) {
+            $students->where('division_id', $divisionId);
+        }
+
         return response()->json([
             'status' => 'success',
             'data' => [
@@ -59,6 +75,7 @@ class ReportsController extends Controller
                 'count' => count($students),
                 'school' => $school->makeHidden(['currentAcademicYear']),
                 'students' => $students,
+                'division' => $validDivision
             ]
         ]);
     }
