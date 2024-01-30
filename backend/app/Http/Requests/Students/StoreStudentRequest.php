@@ -40,6 +40,7 @@ class StoreStudentRequest extends FormRequest
 
         if ($currentRoute === 'students.store' || $currentRoute === 'students.storeBySchool') {
             $rules['academic_year_id'] = 'required|exists:academic_years,id';
+            $rules['division_id'] = 'required|exists:divisions,id';
             $rules['father_id'] = 'required|exists:fathers,id';
             $rules['nfc_id'] = 'nullable|string|unique:students,nfc_id';
             //$rules['face_id'] = 'nullable|string|unique:students,face_id';

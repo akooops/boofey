@@ -42,6 +42,7 @@ class UpdateStudentRequest  extends FormRequest
 
         if ($currentRoute === 'students.update') {
             $rules['academic_year_id'] = 'required|exists:academic_years,id';
+            $rules['division_id'] = 'required|exists:divisions,id';
             $rules['father_id'] = 'required|exists:fathers,id';
             $rules['nfc_id'] = 'nullable|string|unique:students,nfc_id,'.$student->id;
             //$rules['face_id'] = 'nullable|string|unique:students,face_id,'.$student->id;
