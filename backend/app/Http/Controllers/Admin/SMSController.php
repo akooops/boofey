@@ -84,6 +84,8 @@ class SMSController extends Controller
         $sms = [];
 
         foreach($students as $student){
+            echo $student->name;
+            
             $message = str_replace('%%parent_name%%', $student->father->user->profile->fullname, $message);
             $message = str_replace('%%student_name%%', $student->fullname, $message);
             $message = str_replace('%%remaining_days%%', $student->activeSubscription->balance, $message);
