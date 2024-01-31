@@ -25,6 +25,12 @@ class SendParentsSMSRequest extends FormRequest
      */
     public function rules()
     {
+        if (is_string($this->parents) && json_decode($this->parents) !== null) {
+            $this->merge([
+                'parents' => json_decode($this->parents, true),
+            ]);
+        }
+
         return [
             'message' => 'required|string',
             'parents' => 'required|string',

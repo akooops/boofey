@@ -25,6 +25,12 @@ class SendSMSRequest extends FormRequest
      */
     public function rules()
     {
+        if (is_string($this->numbers) && json_decode($this->numbers) !== null) {
+            $this->merge([
+                'numbers' => json_decode($this->numbers, true),
+            ]);
+        }
+
         return [
             'message' => 'required|string',
             'numbers' => 'required|string',
