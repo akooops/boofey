@@ -79,11 +79,11 @@ class SMSController extends Controller
 
     private function getSubscribedNumbers($message)
     {
-        $student = Student::whereHas('activeSubscription')->get();
+        $students = Student::whereHas('activeSubscription')->get();
 
         $sms = [];
 
-        foreach($student as $student){
+        foreach($students as $student){
             $message = str_replace('%%parent_name%%', $student->father->user->profile->fullname, $message);
             $message = str_replace('%%student_name%%', $student->fullname, $message);
             $message = str_replace('%%remaining_days%%', $student->activeSubscription->balance, $message);
