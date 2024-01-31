@@ -33,7 +33,7 @@ class SendSMSRequest extends FormRequest
 
         return [
             'message' => 'required|string',
-            'numbers' => 'required|string',
+            'numbers' => 'required|array',
             'numbers.*' => 'required|phone',     
         ];
     }
