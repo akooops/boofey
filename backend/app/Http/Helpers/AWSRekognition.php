@@ -63,7 +63,7 @@ function uploadFace($image, $faceID = null, $student = null)
         $brightness = $faceDetail['Quality']['Brightness'];
         $sharpness = $faceDetail['Quality']['Sharpness'];
     
-        if ($sharpness < 80 || $brightness < 55 || $brightness > 90) {
+        if ($sharpness < 75 || $brightness < 50 || $brightness > 92) {
             if(is_null($student) == false){
                 Log::channel('rekognition')->info($jobId.' Poor quality with sharpness '.$sharpness.' and brightness '.$brightness);
             }
