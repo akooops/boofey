@@ -151,6 +151,24 @@ export function PathDelParent(parentId){
 
 }
 
+////////
+export function PathGetDivisions(schoolId,{page,search}){
+    return `${ADMIN_DOMAIN}/schools/${schoolId}/divisions?page=${page}&search=${search}`
+
+}
+export function PathAddDivision(schoolId){
+    return `${ADMIN_DOMAIN}/schools/${schoolId}/divisions`
+
+}
+export function PathUpdateDivision(divisionId){
+    return `${ADMIN_DOMAIN}/divisions/${divisionId}/update`
+
+}
+export function PathDelDivision(divisionId){
+    return `${ADMIN_DOMAIN}/divisions/${divisionId}`
+
+}
+
 /////
 export function PathGetCanteens(schoolId,{page,search}){
     if(schoolId == null){
@@ -377,6 +395,8 @@ export function PathDelProduct(productId){
 
 //////
 
+
+
 export function PathGetOrders({page,search},canteenId){
     return `${ADMIN_DOMAIN}/canteens/${canteenId}/orders?page=${page}&search=${search}`
 }
@@ -537,7 +557,7 @@ export function PathLogOut(){
 
 // reports 
 
-export function PathGetTodaySubs(schoolId,{level,grade}={}){
+export function PathGetTodaySubs(schoolId,{level,grade,division}={}){
     const queryParams = new URLSearchParams();
     if (level != null) {
         queryParams.set("level", level);
@@ -545,6 +565,9 @@ export function PathGetTodaySubs(schoolId,{level,grade}={}){
 
     if (grade != null) {
         queryParams.set("grade", grade);
+    }
+    if (division != null) {
+        queryParams.set("division", division);
     }
     return `${ADMIN_DOMAIN}/reports/todaySubscribers/${schoolId}?${queryParams.toString()}`
 }

@@ -8,6 +8,8 @@
     import ParentsTableCollapse from "../collapses/ParentsTableCollapse.svelte";
 import SchoolsTableCollapse from "../collapses/SchoolsTableCollapse.svelte";
 import YearsTableCollapse from "../collapses/YearsTableCollapse.svelte";
+import DivisionsTableCollapse from "../collapses/DivisionsTableCollapse.svelte";
+
 import { getContext } from 'svelte';
 
     let close
@@ -20,9 +22,12 @@ let loading = false
     let parentId = ""
     let schoolId = ""
     let yearId = ""
+    let divisionId
     let resetParent
     let resetSchool
     let resetYear
+    let resetDivision
+
     let editImage = false
     let {studentStore} = getContext("studentStore")
 
@@ -40,6 +45,10 @@ loading = true
         if(yearId != ""){
             formData.set("academic_year_id",yearId)
         }
+        if(divisionId != ""){
+            formData.set("division_id",divisionId)
+        }
+    
         formData.set("edit_image",editImage)
     
     
@@ -75,7 +84,7 @@ loading = true
         parentId = $studentStore.father_id
         schoolId = $studentStore.school_id
         yearId = $studentStore.academic_year_id
-
+        divisionId = $studentStore.division_id
     })
 
     function reset(){
@@ -86,8 +95,10 @@ loading = true
         resetParent()
         resetSchool()
         resetYear()
+        resetDivision()
+
         onHold = false
-        parentId = schoolId = yearId = ""
+        parentId = schoolId = yearId = divisionId = ""
 
     }
 
@@ -125,6 +136,10 @@ loading = true
                                     <YearsTableCollapse collapse={true} {schoolId} on:select={(e) => yearId = e.detail.yearId} selected={$studentStore.academic_year} bind:resetYear title={"Student's Academic Year"}/>
                                 {#if errors?.academic_year_id}
                                 <strong class="text-danger ms-1 my-2">{errors.academic_year_id[0]}</strong>
+                                {/if}
+                                <DivisionsTableCollapse collapse={true} {schoolId} on:select={(e) => divisionId = e.detail.divisionId} selected={$studentStore.division} bind:resetDivision  title={"Student's Division"}/>
+                                {#if errors?.division_id}
+                                <strong class="text-danger ms-1 my-2">{errors.division_id[0]}</strong>
                                 {/if}
 
                         <form  on:submit|preventDefault={save} bind:this={form}>

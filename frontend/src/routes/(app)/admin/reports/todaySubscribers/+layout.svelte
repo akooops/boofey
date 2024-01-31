@@ -8,6 +8,8 @@
     import {initToolTip} from "$lib/init/initToolTip.js"
     import { fade } from 'svelte/transition';
     import SchoolsTableCollapse from '$lib/modals/collapses/SchoolsTableCollapse.svelte';
+    import DivisionsTableCollapse from "$lib/modals/collapses/DivisionsTableCollapse.svelte";
+
     import { page } from '$app/stores';
 
     export let data
@@ -27,7 +29,6 @@
         }
         level = level == null ? "all" : parseInt(level)
         grade = grade == null ? "all" : parseInt(grade)
-        console.log(level)
     })
 
     let grades = [
@@ -53,20 +54,24 @@
 
 
     let selectedSchool = writable({})
+    let selectedDivision = writable({})
     let currentFilter = writable("All")
     setContext('selectedSchoolStore', {
         selectedSchool,
+        selectedDivision
     });
     setContext('currentFilterStore', {
         currentFilter,
     });
 
     function selectSchool(e){
-        if(e.detail.school != null){
-            close.click()
-            goto(`/admin/reports/todaySubscribers/${e.detail.school.id}`)
-        }
+        $selectedSchool = e.detail.school
+        // if(e.detail.school != null){
+        //     close.click()
+        //     goto(`/admin/reports/todaySubscribers/${e.detail.school.id}`)
+        // }
     }
+
 
     function applyFilters(){
         const url = new URL($page.url);
@@ -90,6 +95,10 @@
 
         goto(url)
 
+    }
+    function applySchool(){
+            close.click()
+            goto(`/admin/reports/todaySubscribers/${$selectedSchool.id}?division=${$selectedDivision.id}`)
     }
 
     </script>
@@ -154,27 +163,34 @@
     
                 </div>
             </div><!-- end card -->
-    
         </div>
         
     </div>
 
-    <div class="modal  fade" id="selectSchool" tabindex="-1" aria-labelledby="exampleModalgridLabel" aria-modal="true" style="display: none;" >
+    <div class="modal  fade" id="selectSchool" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="exampleModalgridLabel" aria-modal="true" style="display: none;" >
 
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalgridLabel">Select School</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" bind:this={close}></button>
+                    <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
                 </div>
               
                 <div class="modal-body">
                   <!-- <div class="row mb-4">
                     
                     </div> -->
-                    <SchoolsTableCollapse collapse={false} on:select={selectSchool} selected={$selectedSchool} title={"Schools"}/>                     
-        
-            </div>
+                        <div class="row g-3">
+                        <SchoolsTableCollapse collapse={false} on:select={selectSchool} selected={$selectedSchool} title={"Schools"}/>        
+                        
+                        <DivisionsTableCollapse collapse={true} schoolId={$selectedSchool.id} on:select={(e) => $selectedDivision = e.detail.division}  selected={$selectedDivision} title={"Division"}/>
+                            
+                        </div>
+                        <div class="hstack gap-2 justify-content-end mt-4">
+                            <button type="button" class="btn btn-light fw-light hidden" data-bs-dismiss="modal" bind:this={close}>Close</button>
+                            <button type="button" class="btn btn-primary waves-effect waves-light" on:click={applySchool}>Apply</button>
+                        </div>
+                </div>
         </div>
     </div>
     </div>

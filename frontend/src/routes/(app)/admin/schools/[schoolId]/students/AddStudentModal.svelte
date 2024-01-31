@@ -8,6 +8,7 @@
     import ParentsTableCollapse from "$lib/modals/collapses/ParentsTableCollapse.svelte";
 import SchoolsTableCollapse from "$lib/modals/collapses/SchoolsTableCollapse.svelte";
 import YearsTableCollapse from "$lib/modals/collapses/YearsTableCollapse.svelte";
+import DivisionsTableCollapse from "$lib/modals/collapses/DivisionsTableCollapse.svelte";
 
     let close
     let studentname
@@ -18,8 +19,11 @@ let loading = false
     let onHold = false;
     let parentId = ""
     let yearId = ""
+    let divisionId = ""
+    
     let resetParent
     let resetYear
+    let resetDivision
     export let school
 
 
@@ -33,7 +37,9 @@ loading = true
         if(yearId != ""){
             formData.set("academic_year_id",yearId)
         }
-
+        if(divisionId != ""){
+            formData.set("division_id",divisionId)
+        }
 
         formData.set("onhold",onHold)
         
@@ -69,8 +75,11 @@ loading = true
         errors = {}
         resetParent()
         resetYear()
+        resetDivision()
+
         onHold = false
-        parentId =  yearId = ""
+        parentId =  yearId = divisionId = ""
+
 
     }
 
@@ -103,6 +112,10 @@ loading = true
                                 <YearsTableCollapse collapse={true} schoolId={school.id} on:select={(e) => yearId = e.detail.yearId} bind:resetYear  title={"Student's Academic Year"}/>
                                 {#if errors?.academic_year_id}
                                 <strong class="text-danger ms-1 my-2">{errors.academic_year_id[0]}</strong>
+                                {/if}
+                                <DivisionsTableCollapse collapse={true} schoolId{school.id} on:select={(e) => divisionId = e.detail.divisionId} bind:resetDivision  title={"Student's Division"}/>
+                                {#if errors?.division_id}
+                                <strong class="text-danger ms-1 my-2">{errors.division_id[0]}</strong>
                                 {/if}
 
                         <form  on:submit|preventDefault={save} bind:this={form}>

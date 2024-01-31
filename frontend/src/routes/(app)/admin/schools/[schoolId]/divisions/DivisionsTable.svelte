@@ -1,24 +1,24 @@
 <script>
-    import DeleteStudentModal from "$lib/modals/delete/DeleteStudentModal.svelte"
-	import ViewStudentModal from "$lib/modals/view/ViewStudentModal.svelte";
-	import EditStudentModal from "$lib/modals/edit/EditStudentModal.svelte";
-    import StudentItem from "./items/StudentItem.svelte";
+    import DeleteDivisionModal from "./DeleteDivisionModal.svelte"
+	import ViewDivisionModal from "./ViewDivisionModal.svelte";
+	import EditDivisionModal from "./EditDivisionModal.svelte";
+    import DivisionItem from "./DivisionItem.svelte";
     
     import { setContext } from 'svelte';
     import { writable } from 'svelte/store';
-	import Qr from "$lib/modals/view/Qr.svelte";
     import { navigating } from '$app/stores';
+
     
-    export let studentsList
-    setContext('studentStore', {
-	    studentStore: writable({})
+    export let divisionsList
+    setContext('divisionStore', {
+	    divisionStore: writable({})
     });
 
 </script>
 
 
 <div class="row pe-0">
-    <div class="table-responsive">
+    <div class="table-responsive">²
         <table class="table align-middle table-nowrap mb-0 border-top">
             <thead class="table-light">
                 <tr>
@@ -28,27 +28,24 @@
                         </div>
                     </th>
                     <th scope="col">ID</th>
-                    <th scope="col">Student</th>
-                    <th scope="col">Father</th>
-                    <th scope="col">Status</th>
-                    <th scope="col">School</th>
-                    <th scope="col">Division</th>
-                    <th scope="col">Class</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Arabic name</th>
                     <th scope="col">Action</th>
+
                 </tr>
-            </thead>
+             </thead>
             {#if $navigating == null || $navigating?.from?.route?.id != $navigating?.to?.route?.id}
             <tbody class="list">
-                {#each studentsList as student}
-                    <StudentItem {student}  />
+                {#each divisionsList as division}
+                    <DivisionItem {division} />
                 {/each}
             </tbody>
             {/if}
         </table>
-              <Qr />
-             <ViewStudentModal /> 
-             <DeleteStudentModal />
-             <EditStudentModal />
+            <EditDivisionModal />
+            <ViewDivisionModal />
+            <DeleteDivisionModal />
+
     </div>
 </div>
 

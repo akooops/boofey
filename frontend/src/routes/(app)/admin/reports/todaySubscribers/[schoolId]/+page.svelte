@@ -15,12 +15,14 @@
     
     export let data
     let {selectedSchool} = getContext("selectedSchoolStore")
+    let {selectedDivision} = getContext("selectedSchoolStore")
     let {currentFilter} = getContext("currentFilterStore")
     
     $: count = data.todaySubs.data.count
     $: date = data.todaySubs.data.date
     $: studentsList = data.todaySubs.data.students
     $: $selectedSchool = data.todaySubs.data.school
+    $: $selectedDivision = data?.todaySubs?.data?.division
     
 
 </script>
@@ -33,7 +35,7 @@
                 <img src={$selectedSchool?.logo?.full_path} alt="" class="avatar-xs rounded-circle" />
             </div>
             <div class="">
-                {$selectedSchool?.name} - {$currentFilter}
+                {$selectedSchool?.name} - {$selectedDivision != null ? `${$selectedDivision.name} -` : ""} {$currentFilter}
             </div>
         </div>
         <div class="d-flex gap-3 align-items-center">
@@ -51,6 +53,9 @@
                         <th scope="col">ID</th>
                         <th scope="col">Student</th>
                         <th scope="col">Package</th>
+                        {#if $selectedDivision?.name == null}
+                        <th scope="col">Division</th>
+                        {/if}
                         <th scope="col">Class</th>
     
                     </tr>
@@ -76,10 +81,19 @@
                                     <img src={$selectedSchool?.logo?.full_path} alt="" class="avatar-xs rounded-circle" />
                                 </div>
                                 <div class="flex-grow-1">
-                                    {$selectedSchool?.name} - {student.active_subscription.package?.name}
+                                    {$selectedSchool?.name} - {student.active_subscription?.package?.name}
                                 </div>
                             </div>
                         </td>
+                        {#if $selectedDivision?.name == null}
+                        <td>
+                            {#if student.division}
+                            {student.division.name}
+                            {:else}
+                            <span class="badge bg-danger-subtle text-danger">No Division</span>
+                            {/if}
+                        </td>
+                        {/if}
                         <td>{student.className}</td>
 
                     </tr>

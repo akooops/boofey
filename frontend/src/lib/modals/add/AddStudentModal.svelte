@@ -8,6 +8,7 @@
     import ParentsTableCollapse from "../collapses/ParentsTableCollapse.svelte";
 import SchoolsTableCollapse from "../collapses/SchoolsTableCollapse.svelte";
 import YearsTableCollapse from "../collapses/YearsTableCollapse.svelte";
+import DivisionsTableCollapse from "../collapses/DivisionsTableCollapse.svelte";
 
     let close
     let studentname
@@ -19,9 +20,11 @@ let loading = false
     let parentId = ""
     let schoolId = ""
     let yearId = ""
+    let divisionId = ""
     let resetParent
     let resetSchool
     let resetYear
+    let resetDivision
 
 
 
@@ -37,6 +40,9 @@ loading = true
         }
         if(yearId != ""){
             formData.set("academic_year_id",yearId)
+        }
+        if(divisionId != ""){
+            formData.set("division_id",divisionId)
         }
     
     
@@ -75,8 +81,9 @@ loading = true
         resetParent()
         resetSchool()
         resetYear()
+        resetDivision()
         onHold = false
-        parentId = schoolId = yearId = ""
+        parentId = schoolId = yearId = divisionId = ""
 
     }
 
@@ -106,7 +113,7 @@ loading = true
                                 <strong class="text-danger ms-1 my-2">{errors.father_id[0]}</strong>
                                 {/if}
                                                
-                                    <SchoolsTableCollapse collapse={true} on:select={(e) => schoolId = e.detail.schoolId} bind:resetSchool title={"Student's School"}/>                     
+                                <SchoolsTableCollapse collapse={true} on:select={(e) => schoolId = e.detail.schoolId} bind:resetSchool title={"Student's School"}/>                     
                                 {#if errors?.school_id}
                                 <strong class="text-danger ms-1 my-2">{errors.school_id[0]}</strong>
                                 {/if}
@@ -114,6 +121,10 @@ loading = true
                                 <YearsTableCollapse collapse={true} {schoolId} on:select={(e) => yearId = e.detail.yearId} bind:resetYear  title={"Student's Academic Year"}/>
                                 {#if errors?.academic_year_id}
                                 <strong class="text-danger ms-1 my-2">{errors.academic_year_id[0]}</strong>
+                                {/if}
+                                <DivisionsTableCollapse collapse={true} {schoolId} on:select={(e) => divisionId = e.detail.divisionId} bind:resetDivision  title={"Student's Division"}/>
+                                {#if errors?.division_id}
+                                <strong class="text-danger ms-1 my-2">{errors.division_id[0]}</strong>
                                 {/if}
 
                         <form  on:submit|preventDefault={save} bind:this={form}>
