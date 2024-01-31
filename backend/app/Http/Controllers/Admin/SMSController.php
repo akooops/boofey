@@ -16,9 +16,13 @@ class SMSController extends Controller
         $message = $request->input('message');
         $numbers = $request->input('numbers');
 
-        $result = sendSMS($message, $numbers);
+        return response()->json([
+            'status' => 'success'
+        ]);
 
-        return response()->json($result);
+        //$result = sendSMS($message, $numbers);
+
+        //return response()->json($result);
     }
 
     public function sendParentsSMS(SendParentsSMSRequest $request){
@@ -33,9 +37,13 @@ class SMSController extends Controller
         ->pluck('phone')
         ->toArray();
 
-        $result = sendSMS($message, $phoneNumbers);
+        return response()->json([
+            'status' => 'success'
+        ]);
 
-        return response()->json($result);
+        //$result = sendSMS($message, $phoneNumbers);
+
+        //return response()->json($result);
     }
 
     public function sendByCondition(SendByConditionSMSRequest $request)
