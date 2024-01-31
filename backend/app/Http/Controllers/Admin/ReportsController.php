@@ -29,9 +29,9 @@ class ReportsController extends Controller
 
         $divisionId = $request->input('division', null);
         $validDivision = null;
-        
-        if($divisionId){
-            $validDivision = $school->Divisions()->where('id', $divisionId)->exists();
+
+        if(is_null($divisionId) == false){
+            $validDivision = $school->Divisions()->where('id', $divisionId)->first();
 
             if (!$validDivision) {
                 return response()->json([
