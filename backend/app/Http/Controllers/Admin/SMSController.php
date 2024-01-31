@@ -6,6 +6,7 @@ use App\Http\Requests\SMS\SendByConditionSMSRequest;
 use App\Http\Requests\SMS\SendParentsSMSRequest;
 use App\Http\Requests\SMS\SendSMSRequest;
 use App\Models\Father;
+use App\Models\Student;
 use App\Models\User;
 
 class SMSController extends Controller
@@ -41,19 +42,21 @@ class SMSController extends Controller
     {
         $condition = $request->input('condition');
         $message = $request->input('message');
-        $sms = [];
+        $smsArr = [];
 
         if ($condition === 'all') {
-            $sms = $this->getAllNumbers($message);
+            $smsArr = $this->getAllNumbers($message);
         } elseif ($condition === 'subscribed') {
-            $numbers = $this->getSubscribedNumbers();
+            $smsArr = $this->getSubscribedNumbers($message);
         } elseif ($condition === 'not_subscribed') {
-            $numbers = $this->getNotSubscribedNumbers();
+            $smsArr = $this->getNotSubscribedNumbers($message);
         }
 
-        dd($sms);
+        dd($smsArr);
 
-        $result = sendSMS($request->input('message'), $numbers);
+        foreach($smsArr as $key => $sms){
+            $result = sendSMS($sms['message'], $sms['number']);
+        }
 
         return view('sms', ['data' => $result]);
     }
@@ -74,9 +77,24 @@ class SMSController extends Controller
         return $sms;
     }
 
-    private function getSubscribedNumbers()
+    private function getSubscribedNumbers($message)
     {
-        return [];
+        $student = Student::whereHas('activeSubscription')->get();
+
+        $sms = [];
+
+        foreach($student as $student){
+            $message = str_replace('%%parent_name%%', $student->father->user->profile->fullname, $message);
+            $message = str_replace('%%student_name%%', $student->fullname, $message);
+            $message = str_replace('%%remaining_days%%', $student->activeSubscription->balance, $message);
+
+            $sms[] = [
+                'number' => $student->father->user->phone,
+                'message' => $message
+            ];
+        }
+
+        return $sms;
     }
 
     private function getNotSubscribedNumbers()
