@@ -60,9 +60,7 @@ class SMSController extends Controller
 
     private function getAllNumbers($message)
     {
-        $users = User::whereHas('father')
-        ->pluck('phone')
-        ->get();
+        $users = User::whereHas('father')->get();
 
         $sms = [];
 
