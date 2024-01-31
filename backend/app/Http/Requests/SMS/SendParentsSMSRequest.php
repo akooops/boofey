@@ -27,7 +27,7 @@ class SendParentsSMSRequest extends FormRequest
     {
         return [
             'message' => 'required|string',
-            'parents' => 'required|array',
+            'parents' => 'required|string',
             'parents.*' => 'required|exists:fathers,id',     
         ];
     }

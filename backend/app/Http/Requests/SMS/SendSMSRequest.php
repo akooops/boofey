@@ -27,7 +27,7 @@ class SendSMSRequest extends FormRequest
     {
         return [
             'message' => 'required|string',
-            'numbers' => 'required|array',
+            'numbers' => 'required|string',
             'numbers.*' => 'required|phone',     
         ];
     }
