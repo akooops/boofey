@@ -29,12 +29,12 @@ class ReportsController extends Controller
         $grade = $request->input('grade', null); 
 
         $divisionId = $request->input('division', null);
-        $division = Division::find($divisionId);
+        $division = null;
 
         if(is_null($divisionId) == false){
-            $validDivision = $school->Divisions()->where('id', $divisionId)->first();
+            $division = $school->Divisions()->where('id', $divisionId)->first();
 
-            if (!$validDivision) {
+            if (!$division) {
                 return response()->json([
                     'status' => 'error',
                     'errors' => [
