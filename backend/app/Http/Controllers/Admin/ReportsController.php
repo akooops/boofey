@@ -28,15 +28,18 @@ class ReportsController extends Controller
         $grade = $request->input('grade', null); 
 
         $divisionId = $request->input('division', null);
-        $validDivision = $school->Divisions()->where('id', $divisionId)->exists();
 
-        if (!$validDivision) {
-            return response()->json([
-                'status' => 'error',
-                'errors' => [
-                    'division' => ['Invalid division ID for the specified school.']
-                ],
-            ], 422);
+        if($divisionId){
+            $validDivision = $school->Divisions()->where('id', $divisionId)->exists();
+
+            if (!$validDivision) {
+                return response()->json([
+                    'status' => 'error',
+                    'errors' => [
+                        'division' => ['Invalid division ID for the specified school.']
+                    ],
+                ], 422);
+            }    
         }
 
         $students = $school->students()
