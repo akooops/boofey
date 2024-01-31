@@ -8,6 +8,7 @@ use App\Http\Requests\AcademicYears\StoreAcademicYearRequest;
 use App\Http\Requests\AcademicYears\UpdateAcademicYearRequest;
 use App\Http\Requests\Reports\RevenuesRequest;
 use App\Models\Canteen;
+use App\Models\Division;
 use App\Models\Father;
 use App\Models\File;
 use App\Models\Order;
@@ -28,7 +29,7 @@ class ReportsController extends Controller
         $grade = $request->input('grade', null); 
 
         $divisionId = $request->input('division', null);
-        $validDivision = null;
+        $division = Division::find($divisionId);
 
         if(is_null($divisionId) == false){
             $validDivision = $school->Divisions()->where('id', $divisionId)->first();
@@ -78,8 +79,8 @@ class ReportsController extends Controller
                 'date' =>$formattedDate,
                 'count' => count($students),
                 'school' => $school->makeHidden(['currentAcademicYear']),
-                'students' => $students,
-                'division' => $validDivision
+                'students' => $students->makeHidden(['activeSubscription']),
+                'division' => $division
             ]
         ]);
     }
