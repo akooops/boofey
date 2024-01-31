@@ -66,6 +66,13 @@
             </div>
         </div>
     </td>
+    <td>
+        {#if student.division}
+        {student.division.name}
+        {:else}
+        <span class="badge bg-danger-subtle text-danger">No Division</span>
+        {/if}
+    </td>
     <td>{student.className}</td>
 
     <td>

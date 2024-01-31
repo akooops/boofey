@@ -15,6 +15,7 @@
     let packagesToolTip
     let canteensToolTip
     let studentsToolTip
+    let divisionToolTip
 
     function openAcademicYears(){
         let toolTipInstance = bootstrap.Tooltip.getOrCreateInstance(yearsToolTip)
@@ -36,6 +37,11 @@
         let toolTipInstance = bootstrap.Tooltip.getOrCreateInstance(studentsToolTip)
         toolTipInstance.hide()
         goto(`schools/${school.id}/students`)
+    }
+    function openSchoolDivision(){
+        let toolTipInstance = bootstrap.Tooltip.getOrCreateInstance(divisionToolTip)
+        toolTipInstance.hide()
+        goto(`schools/${school.id}/divisions`)
     }
 
 
@@ -81,7 +87,9 @@
     <td>
         <div class="hstack gap-3 flex-wrap">
             <span on:click={openSchoolStudents}><a bind:this={studentsToolTip} href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Students" ><i class="ri-user-2-line"></i></a></span>
-            
+            <!-- {#if JSON.parse(sessionStorage.getItem("permissions")).includes("divisions.index")} -->
+            <span on:click={openSchoolDivision}><a bind:this={divisionToolTip} href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Divisions" ><i class="ri-layout-2-line"></i></a></span>
+            <!-- {/if} -->
             {#if JSON.parse(sessionStorage.getItem("permissions")).includes("canteens.indexBySchool")}
             <span on:click={openCanteens}><a bind:this={canteensToolTip} href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Canteens" ><i class="ri-restaurant-2-fill"></i></a></span>
             {/if}

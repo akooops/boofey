@@ -35,7 +35,13 @@
                     {/if}
                 </ViewRow>
     
-    
+                <ViewRow>
+                    Devision : {#if $studentStore?.division}
+                    <span class="fw-normal">{$studentStore?.division?.name}</span>
+                    {:else}
+                    <span class="badge bg-danger-subtle text-danger">No Division</span>
+                    {/if}
+                </ViewRow>
                 <ViewRow>
                     Class : <span class="fw-normal">{$studentStore.className}</span>
                 </ViewRow>

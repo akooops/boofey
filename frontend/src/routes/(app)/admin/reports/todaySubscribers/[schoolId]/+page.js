@@ -7,8 +7,9 @@ export async function load({fetch,url,depends,params}) {
     depends('todaySubs:refresh');
     let level =  url.searchParams.get("level")
     let grade =  url.searchParams.get("grade")
+    let division =  url.searchParams.get("division")
 
-    let res = await fetch(PathGetTodaySubs(params.schoolId,{level,grade}),{
+    let res = await fetch(PathGetTodaySubs(params.schoolId,{level,grade,division}),{
         headers:{
             Authorization: `${localStorage.getItem("SID")}`
         }
