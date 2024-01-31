@@ -28,7 +28,8 @@ class ReportsController extends Controller
         $grade = $request->input('grade', null); 
 
         $divisionId = $request->input('division', null);
-
+        $validDivision = null;
+        
         if($divisionId){
             $validDivision = $school->Divisions()->where('id', $divisionId)->exists();
 
