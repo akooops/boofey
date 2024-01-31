@@ -90,7 +90,7 @@ class SMSController extends Controller
 
             $sms[] = [
                 'number' => $student->father->user->phone,
-                'message' => $message
+                'message' => $formattedMessage
             ];
         }
 
@@ -109,7 +109,7 @@ class SMSController extends Controller
 
             $sms[] = [
                 'number' => $student->father->user->phone,
-                'message' => $message
+                'message' => $formattedMessage
             ];
         }
 
