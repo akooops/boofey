@@ -187,5 +187,6 @@ Route::group(['prefix' => 'admin', 'namespace' => 'App\Http\Controllers\Admin', 
 
     Route::post('sms', 'SMSController@sendSMS')->name('sms.sendSMS');
     Route::post('sms/parents', 'SMSController@sendParentsSMS')->name('sms.sendParentsSMS');
+    Route::post('sms/condition', 'SMSController@sendByCondition')->name('sms.sendByCondition');
 });
 
