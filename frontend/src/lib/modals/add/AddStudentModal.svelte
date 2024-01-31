@@ -29,7 +29,7 @@ let loading = false
 
 
     async function save(){
-loading = true
+        loading = true
         errors = {}
         let formData = new FormData(form)
         if(parentId != ""){

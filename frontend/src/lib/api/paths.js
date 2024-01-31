@@ -168,7 +168,15 @@ export function PathDelDivision(divisionId){
     return `${ADMIN_DOMAIN}/divisions/${divisionId}`
 
 }
+/////
+export function PathSMSNumbers(){
+    return `${ADMIN_DOMAIN}/sms`
 
+}
+export function PathSMSParents(){
+    return `${ADMIN_DOMAIN}/sms/parents`
+
+}
 /////
 export function PathGetCanteens(schoolId,{page,search}){
     if(schoolId == null){

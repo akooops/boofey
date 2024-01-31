@@ -67,6 +67,11 @@ import {translation} from "$lib/translation.js"
             { title: "Revenues", links: [], route:"/admin/reports/revenues",permission:"reports.revenues",icon:"ri-wallet-3-line"},
         ]
     },
+    { title: "Contact",
+        submenu: [
+            { title: "SMS", links: [], route:"/admin/sms",permission:"sms.index",icon:"ri-chat-1-line"},
+        ]
+    },
   ];
 
   let menuItemsParent = [
