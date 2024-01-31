@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Requests\SMS\SendByConditionSMSRequest;
 use App\Http\Requests\SMS\SendParentsSMSRequest;
 use App\Http\Requests\SMS\SendSMSRequest;
 use App\Models\Father;
@@ -34,5 +35,54 @@ class SMSController extends Controller
         $result = sendSMS($message, $phoneNumbers);
 
         return response()->json($result);
+    }
+
+    public function sendByCondition(SendByConditionSMSRequest $request)
+    {
+        $condition = $request->input('condition');
+        $message = $request->input('message');
+        $sms = [];
+
+        if ($condition === 'all') {
+            $sms = $this->getAllNumbers($message);
+        } elseif ($condition === 'subscribed') {
+            $numbers = $this->getSubscribedNumbers();
+        } elseif ($condition === 'not_subscribed') {
+            $numbers = $this->getNotSubscribedNumbers();
+        }
+
+        dd($sms);
+
+        $result = sendSMS($request->input('message'), $numbers);
+
+        return view('sms', ['data' => $result]);
+    }
+
+    private function getAllNumbers($message)
+    {
+        $users = User::whereHas('father')
+        ->pluck('phone')
+        ->get();
+
+        $sms = [];
+
+        foreach($users as $user){
+            $sms[] = [
+                'number' => $user->phone,
+                'message' => str_replace('%%parent_name%%', $user->profile->fullname, $message)
+            ];
+        }
+
+        return $sms;
+    }
+
+    private function getSubscribedNumbers()
+    {
+        return [];
+    }
+
+    private function getNotSubscribedNumbers()
+    {
+        return [];
     }
 }
