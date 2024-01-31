@@ -84,11 +84,9 @@ class SMSController extends Controller
         $sms = [];
 
         foreach($students as $student){
-            echo $student->name;
-            
-            $message = str_replace('%%parent_name%%', $student->father->user->profile->fullname, $message);
-            $message = str_replace('%%student_name%%', $student->fullname, $message);
-            $message = str_replace('%%remaining_days%%', $student->activeSubscription->balance, $message);
+            $formattedMessage = str_replace('%%parent_name%%', $student->father->user->profile->fullname, $message);
+			$formattedMessage = str_replace('%%student_name%%', $student->fullname, $formattedMessage);
+			$formattedMessage = str_replace('%%remaining_days%%', $student->activeSubscription->balance, $formattedMessage);
 
             $sms[] = [
                 'number' => $student->father->user->phone,
@@ -99,8 +97,22 @@ class SMSController extends Controller
         return $sms;
     }
 
-    private function getNotSubscribedNumbers()
+    private function getNotSubscribedNumbers($message)
     {
-        return [];
+        $students = Student::doesntHave('activeSubscription')->get();
+
+        $sms = [];
+
+        foreach($students as $student){
+            $formattedMessage = str_replace('%%parent_name%%', $student->father->user->profile->fullname, $message);
+			$formattedMessage = str_replace('%%student_name%%', $student->fullname, $formattedMessage);
+
+            $sms[] = [
+                'number' => $student->father->user->phone,
+                'message' => $message
+            ];
+        }
+
+        return $sms;
     }
 }
