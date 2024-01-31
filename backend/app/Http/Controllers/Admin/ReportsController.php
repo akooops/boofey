@@ -69,7 +69,7 @@ class ReportsController extends Controller
         $formattedDate = $today->format("M jS, Y");
 
         if ($divisionId) {
-            $students->where('division_id', $divisionId);
+            $students = $students->where('division_id', $divisionId);
         }
 
         return response()->json([
