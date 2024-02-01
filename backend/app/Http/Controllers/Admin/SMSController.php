@@ -60,13 +60,17 @@ class SMSController extends Controller
             $smsArr = $this->getNotSubscribedNumbers($message);
         }
 
-        dd($smsArr);
+        return response()->json([
+            'status' => 'success'
+        ]);
 
         foreach($smsArr as $key => $sms){
             $result = sendSMS($sms['message'], $sms['number']);
         }
 
-        return view('sms', ['data' => $result]);
+        return response()->json([
+            'status' => 'success'
+        ]);
     }
 
     private function getAllNumbers($message)
