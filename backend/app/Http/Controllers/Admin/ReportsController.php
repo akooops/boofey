@@ -46,7 +46,7 @@ class ReportsController extends Controller
 
         $students = $school->students()
             ->whereHas('activeSubscription')
-            ->with(['image', 'activeSubscription.package', 'division:id,name']);
+            ->with(['image', 'activeSubscription', 'activeSubscription.package', 'division:id,name']);
 
         if($level && $grade){
             $students->where('class', $grade);
