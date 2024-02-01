@@ -44,7 +44,7 @@ class ReportsController extends Controller
             }    
         }
 
-        $students = $school->students()
+        $students = Student::where('school_id', $school->id)
             ->whereHas('activeSubscription')
             ->with(['image', 'activeSubscription', 'activeSubscription.package', 'division:id,name']);
 
