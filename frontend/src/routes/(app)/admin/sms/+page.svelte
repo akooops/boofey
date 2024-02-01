@@ -7,10 +7,11 @@
     import { invalidate } from '$app/navigation';
 
     import { writable } from 'svelte/store';
-    import { PathSMSNumbers, PathSMSParents, PathGetParents} from "$lib/api/paths";
+    import { PathSMSNumbers, PathSMSParents, PathGetParents, PathSMSCondition} from "$lib/api/paths";
     import { redirector } from "$lib/api/auth";
     import { phoneMask } from "$lib/inputMasks.js";
 import Pagination from "./pagination.svelte";
+import Accordion from "../../../../lib/components/Accordion.svelte";
 
 
     export let data
@@ -23,6 +24,7 @@ import Pagination from "./pagination.svelte";
     let parents = []
     let parentsPagination
     let page = 1
+    let conditionType = "all"
     
     let smsContent = writable({
         message:"",
@@ -34,7 +36,7 @@ import Pagination from "./pagination.svelte";
     });
 
     let smsPage
-    onMount(() => {
+    onMount(async () => {
         initToolTip(smsPage)
         
         if(JSON.parse(sessionStorage.getItem("permissions")).includes("sms.sendSMS")){
@@ -42,9 +44,19 @@ import Pagination from "./pagination.svelte";
         }else if(JSON.parse(sessionStorage.getItem("permissions")).includes("sms.sendParentsSMS")){
             selectedMethod = "parents"
         }
+        if(JSON.parse(sessionStorage.getItem("permissions")).includes("sms.sendParentsSMS")){
+            await searchParents()
+        }
     })
 
     function addNumber(){
+        if(numberInput.value.length != 10){
+            errors = {
+                numbers:["number needs to be 10 digits"]
+            }
+            return;
+        }
+
         if(numberInput.value != ""){
             $smsContent.numbers = [...$smsContent.numbers,numberInput.value]
             numberInput.value = ""
@@ -57,21 +69,21 @@ import Pagination from "./pagination.svelte";
         $smsContent.numbers = $smsContent.numbers
     }
 
-    async function searchParent(){
+    async function searchParents(){
         parents = []
-        if(parentInput.value != ""){
-            let res = await fetch(PathGetParents({page,search:parentInput.value}),{
-                headers:{
-                    Authorization: `${localStorage.getItem("SID")}`
-                }
-            })
-            redirector(res)
+        page = 1
+        let value = parentInput?.value ? parentInput.value : ""
+        let res = await fetch(PathGetParents({page,search:value}),{
+            headers:{
+                Authorization: `${localStorage.getItem("SID")}`
+            }
+        })
+        redirector(res)
 
 
-            let parentsResponse = await res.json() 
-            parents = parentsResponse.data.fathers
-            parentsPagination = parentsResponse.pagination
-        }
+        let parentsResponse = await res.json() 
+        parents = parentsResponse.data.fathers
+        parentsPagination = parentsResponse.pagination
     }
 
 
@@ -79,15 +91,18 @@ import Pagination from "./pagination.svelte";
         loading = true
         errors = {}
         let formData = new FormData(form)
+        let path
         if(selectedMethod == "parents"){
             let parentIds = $smsContent.parents.map(parent => parent.id);
             formData.set("parents",JSON.stringify(parentIds))
-        }else {
+            path = PathSMSParents()
+        }else if(selectedMethod == "numbers"){
             formData.set("numbers",JSON.stringify($smsContent.numbers))
+            path = PathSMSNumbers()
+        }else if(selectedMethod == "condition"){
+            path = PathSMSCondition()
 
         }
-        let path = selectedMethod == "numbers" ? PathSMSNumbers() : PathSMSParents()
-
         
         let res = await fetch(path,{
             headers:{
@@ -123,7 +138,7 @@ import Pagination from "./pagination.svelte";
 
     function changePage(e){
         page = e.detail
-        searchParent()
+        searchParents()
     }
 
     function addParent(id){
@@ -137,6 +152,10 @@ import Pagination from "./pagination.svelte";
 
     function removeParent(id){
         $smsContent.parents = $smsContent.parents.filter(parent => parent.id != id);
+    }
+
+    function addAlias(alias){
+        $smsContent.message += ` ${alias} `
     }
 
 
@@ -160,8 +179,25 @@ import Pagination from "./pagination.svelte";
                                     {#if errors?.message}
                                     <strong class="text-danger ms-1 my-2">{errors.message[0]}</strong>
                                     {/if}
+                                    {#if selectedMethod == "condition"}
+                                        <div class="hstack gap-2 mt-2">
+                                            <button class="btn btn-soft-info waves-effect waves-light" type="button" id="button-addon2" on:click={() => addAlias("%%parent_name%%")}>Parent Name</button>
+                                        
+                                            {#if conditionType == "subscribed"}
+
+                                            <button class="btn btn-soft-info waves-effect waves-light" type="button" id="button-addon2" on:click={() => addAlias("%%student_name%%")}>Student Name</button>
+                                            <button class="btn btn-soft-info waves-effect waves-light" type="button" id="button-addon2" on:click={() => addAlias("%%remaining_days%%")}>Remaining Days</button>
+
+                                            {:else if conditionType == "not_subscribed"}
+                                            <button class="btn btn-soft-info waves-effect waves-light" type="button" id="button-addon2" on:click={() => addAlias("%%student_name%%")}>Student Name</button>
+
+                                            {/if}
+                                        </div>
+                                    {/if}
+
                                 </div>
                                 <div>
+                                    <label  class="form-label">SMS Type</label>
                                     <select class="form-select mb-3" bind:value={selectedMethod}>
                                         {#if JSON.parse(sessionStorage.getItem("permissions")).includes("sms.sendSMS")}
                                         <option value="numbers">Numbers</option>
@@ -170,7 +206,7 @@ import Pagination from "./pagination.svelte";
                                         <option value="parents">Parents</option>
                                     {/if}
                                     <option value="condition">Condition</option>
-                                </select>
+                                    </select>
                                 </div>
                                 
                                 {#if selectedMethod == "numbers" && JSON.parse(sessionStorage.getItem("permissions")).includes("sms.sendSMS")}
@@ -196,7 +232,7 @@ import Pagination from "./pagination.svelte";
                                     <div class="col-xs-12 col-lg-6">
                                         <div class="input-group">
                                             <input type="text" class="form-control col-1" bind:this={parentInput} aria-describedby="button-addon2">
-                                            <button class="btn btn-primary waves-effect waves-light" type="button" id="button-addon2" on:click={searchParent}>Search</button>
+                                            <button class="btn btn-primary waves-effect waves-light" type="button" id="button-addon2" on:click={searchParents}>Search</button>
                                         </div>
                                         {#if errors?.parents}
                                         <strong class="text-danger ms-1 my-2">{errors.parents[0]}</strong>
@@ -204,63 +240,83 @@ import Pagination from "./pagination.svelte";
                                     </div>
 
                                     <div class="col-xs-12 col-lg-6"></div>
-                                    <div class="col-xs-12 col-lg-6">
-                                        <label for="role" class="form-label">Parents</label>
-                                        <ul class="list-group">
-                                            {#each parents as parent,i (parent.id)}
-                                            {#if $smsContent.parents.some(selectedParent => selectedParent.id == parent.id)}
-                                            <li class="list-group-item disabled bg-primary-subtle" type="button" on:click={() => addParent(parent.id)}>
-                                                <div class="d-flex align-items-center">
-                                                    <div class="flex-shrink-0">
-                                                        <img src={parent.user.profile.image.full_path} alt="" class="avatar-xs rounded-circle">
-                                                    </div>
-                                                    <div class="flex-grow-1 ms-2 text-truncate">
-                                                        {parent.user.username}
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            {:else}
-                                            <li class="list-group-item list-group-item-action" type="button" on:click={() => addParent(parent.id)}>
-                                                <div class="d-flex align-items-center">
-                                                    <div class="flex-shrink-0">
-                                                        <img src={parent.user.profile.image.full_path} alt="" class="avatar-xs rounded-circle">
-                                                    </div>
-                                                    <div class="flex-grow-1 ms-2 text-truncate">
-                                                        {parent.user.username}
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            {/if}
-                                            {/each}
 
-                                        </ul>
-                                        {#if parentsPagination}
-                                        <Pagination {...parentsPagination} on:page={changePage}/>
-                                        {/if}
+                                    <Accordion title="Parents" id="parentsSms">
+                                        <span class="row g-3">
+                                            <div class="col-xs-12 col-lg-6">
+                                                <label for="role" class="form-label">Parents</label>
+                                                <ul class="list-group">
+                                                    {#each parents as parent,i (parent.id)}
+                                                    {#if $smsContent.parents.some(selectedParent => selectedParent.id == parent.id)}
+                                                    <li class="list-group-item disabled bg-primary-subtle" type="button" on:click={() => addParent(parent.id)}>
+                                                        <div class="d-flex align-items-center">
+                                                            <div class="flex-shrink-0">
+                                                                <img src={parent.user.profile.image.full_path} alt="" class="avatar-xs rounded-circle">
+                                                            </div>
+                                                            <div class="flex-grow-1 ms-2 text-truncate">
+                                                                {parent.user.username}
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                    {:else}
+                                                    <li class="list-group-item list-group-item-action" type="button" on:click={() => addParent(parent.id)}>
+                                                        <div class="d-flex align-items-center">
+                                                            <div class="flex-shrink-0">
+                                                                <img src={parent.user.profile.image.full_path} alt="" class="avatar-xs rounded-circle">
+                                                            </div>
+                                                            <div class="flex-grow-1 ms-2 text-truncate">
+                                                                {parent.user.username}
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                    {/if}
+                                                    {/each}
+    
+                                                </ul>
+                                                {#if parentsPagination}
+                                                <Pagination {...parentsPagination} on:page={changePage}/>
+                                                {/if}
+                                            </div>
+                                            <div class="col-xs-12 col-lg-6">
+                                                <label for="role" class="form-label">Selected Parents</label>
+                                                <ul class="list-group">
+                                                    {#each $smsContent.parents as parent}
+                                                    <li class="list-group-item list-group-item-action selectedParent" type="button" on:click={() => removeParent(parent.id)}>
+                                                        <div class="d-flex align-items-center">
+                                                            <div class="flex-shrink-0">
+                                                                <img src={parent.user.profile.image.full_path} alt="" class="avatar-xs rounded-circle">
+                                                            </div>
+                                                            <div class="flex-grow-1 ms-2">
+                                                                {parent.user.username}
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                    {/each}
+    
+                                                </ul>
+    
+    
+                                            </div>
+
+                                        </span>
+
+
+                                    </Accordion>
+                                {:else if selectedMethod == "condition" }
+                                    <div>
+                                    <label  class="form-label">Condition Type</label>
+                                        <select class="form-select mb-3" name="condition" bind:value={conditionType}>
+                                            <option value="all">All</option>
+                                            <option value="subscribed">Subscribed</option>
+                                            <option value="not_subscribed">Not Subscribed</option>
+                                        </select>
                                     </div>
-                                    <div class="col-xs-12 col-lg-6">
-                                        <label for="role" class="form-label">Selected Parents</label>
-                                        <ul class="list-group">
-                                            {#each $smsContent.parents as parent}
-                                            <li class="list-group-item list-group-item-action selectedParent" type="button" on:click={() => removeParent(parent.id)}>
-                                                <div class="d-flex align-items-center">
-                                                    <div class="flex-shrink-0">
-                                                        <img src={parent.user.profile.image.full_path} alt="" class="avatar-xs rounded-circle">
-                                                    </div>
-                                                    <div class="flex-grow-1 ms-2">
-                                                        {parent.user.username}
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            {/each}
-
-                                        </ul>
-
-
-                                    </div>
-
+                                    
+                                    
 
                                 {/if}
+
+
                                 <div class="hstack gap-2 justify-content-end">
                                     <input type="submit" class="btn btn-primary waves-effect waves-light" value="Compose">
                                 </div>

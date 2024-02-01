@@ -106,8 +106,8 @@
                     <td></td>
                     <td></td>
                     <td class="text-end">{data.subtotalSum}</td>
-                    <td class="text-end">{data.taxSum}</td>
                     <td class="text-end">{data.discountSum}</td>
+                    <td class="text-end">{data.taxSum}</td>
                     <th class="text-end">{data.totalSum}</th>
                 </tr>
             </tbody>

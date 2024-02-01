@@ -177,6 +177,10 @@ export function PathSMSParents(){
     return `${ADMIN_DOMAIN}/sms/parents`
 
 }
+export function PathSMSCondition(){
+    return `${ADMIN_DOMAIN}/sms/condition`
+
+}
 /////
 export function PathGetCanteens(schoolId,{page,search}){
     if(schoolId == null){

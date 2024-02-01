@@ -98,7 +98,11 @@
     }
     function applySchool(){
             close.click()
-            goto(`/admin/reports/todaySubscribers/${$selectedSchool.id}?division=${$selectedDivision.id}`)
+            if($selectedDivision?.id){
+                goto(`/admin/reports/todaySubscribers/${$selectedSchool.id}?division=${$selectedDivision.id}`)
+            }else {
+                goto(`/admin/reports/todaySubscribers/${$selectedSchool.id}`)
+            }
     }
 
     </script>
