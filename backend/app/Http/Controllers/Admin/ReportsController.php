@@ -46,7 +46,7 @@ class ReportsController extends Controller
 
         $students = Student::where('school_id', $school->id)
             ->whereHas('activeSubscription')
-            ->with(['image', 'activeSubscription', 'activeSubscription.package', 'division:id,name']);
+            ->with(['image', 'activeSubscription.package', 'division:id,name']);
 
         if($level && $grade){
             $students->where('class', $grade);
@@ -79,7 +79,7 @@ class ReportsController extends Controller
                 'date' =>$formattedDate,
                 'count' => count($students),
                 'school' => $school->makeHidden(['currentAcademicYear']),
-                'students' => $students->makeHidden(['activeSubscription']),
+                'students' => $students,
                 'division' => $division
             ]
         ]);
