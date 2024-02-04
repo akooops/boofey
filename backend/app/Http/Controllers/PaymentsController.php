@@ -508,6 +508,8 @@ class PaymentsController extends Controller
                 'subscription_id' => $subscription->id
             ]);
 
+            $payment->applyBilling($responseData['merchant_extra1']);
+
             $payment->save();
         }else{
             $payment->update([
