@@ -142,7 +142,7 @@ function registerStudents($SuperiorID, $father){
             if(!$division) continue;
 
             //if (str_contains($student->SchoolName, 'boys') === false) continue;
-            if($student->SchoolName != 'Sis boys') continue;
+            if($student->SchoolName != 'Sis boys' || $student->SchoolName != 'Sis girls') continue;
 
             preg_match('/\d+/', $student->EnglishGradeName, $matches);
             $grade = null;
