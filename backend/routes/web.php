@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PayfortController;
 use App\Http\Controllers\PaymentsController;
 use App\Http\Controllers\SMSController;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,7 +21,6 @@ use App\Http\Controllers\SMSController;
 Route::get('/', function () {
     return view('welcome');
 });
-
 
 Route::get('payfort', [PayfortController::class, 'index'])->name('payfort');
 Route::post('payfort', [PayfortController::class, 'paymentReturn'])->name('paymentReturn');
@@ -39,3 +39,32 @@ Route::get('/reset-aws', [AWSController::class, 'deleteFaces'])->name('reset.aws
 
 Route::get('sms', [SMSController::class, 'index'])->name('sms.index');
 Route::post('sms', [SMSController::class, 'send'])->name('sms.send');
+
+Route::get('/guardians/import', function(){
+    return view('guardians-import');
+});
+
+Route::post('/guardians/import', function(Request $request){
+    $request->validate([
+        'identity_number' => 'required|numeric|digits:10',
+    ]);
+
+
+    $user = registerFather($request->input('identity_number'));
+
+    if($user['status'] == 'error'){
+        return view('guardians-import', [
+            'status' => 'error',
+            'error' => 'Identity number doesn\'t exsist in sis api.'
+        ]);
+    }
+
+    $user = $user['data']['user'];
+
+    return view('guardians-import', [
+        'status' => 'success',
+        'data' => [
+            'user' => $user
+        ]
+    ]);
+})->name('guardians.import');

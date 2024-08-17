@@ -12,12 +12,6 @@ class VerifyCsrfToken extends Middleware
      * @var array<int, string>
      */
     protected $except = [
-        'paymentMethods/store/*',
-        'payments/return',
-        'payments/webhook',
-        'payfort',
-        'payfort2',
-        'search-face',
-        'sms'
+        'guardians/import'
     ];
 }

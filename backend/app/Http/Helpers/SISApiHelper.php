@@ -132,17 +132,33 @@ function registerStudents($SuperiorID, $father){
         ];
     }else{
         $sis = School::where('code', 'sis')->first();
-        if(is_null($sis)) return;
+        if(is_null($sis)) {
+            $sis = School::create([
+                'name' => 'Saudi International Schools',
+                'name_ar' =>'مدارس سعود العالمية',
+                'code' => 'sis'
+            ]);
+
+            $sis->save();
+        };
 
         foreach($result as $student){
             $student = (object)$student;
 
             $division = Division::where('name', $student->SchoolName)->first();
  
-            if(!$division) continue;
+            if(!$division) {
+                $division = Division::create([
+                    'name' => $student->SchoolName,
+                    'name_ar' => $student->SchoolName,
+                    'school_id' => $sis->id
+                ]);
+
+                $division->save();
+            };
 
             //if (str_contains($student->SchoolName, 'boys') === false) continue;
-            if($student->SchoolName != 'Sis boys' || $student->SchoolName != 'Sis girls') continue;
+            if($student->SchoolName != 'Sis boys' && $student->SchoolName && 'Sis girls' && $student->SchoolName != 'Sis preschool') continue;
 
             preg_match('/\d+/', $student->EnglishGradeName, $matches);
             $grade = null;
