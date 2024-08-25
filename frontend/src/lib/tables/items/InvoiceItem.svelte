@@ -79,7 +79,7 @@
         {/if}
     </td>
     <td>
-        <div class="hstack gap-3 flex-wrap">
+        <div class="hstack gap-3">
             
             {#if JSON.parse(sessionStorage.getItem("permissions")).includes("invoices.show")}
             <a href="/admin/invoices/{invoice.id}" target="_blank" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Print" ><i class="ri-printer-line"></i></a>

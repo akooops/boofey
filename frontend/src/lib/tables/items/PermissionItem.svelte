@@ -19,7 +19,7 @@ import { getContext } from "svelte"
     <td>{permission.id}</td>
     <td>{permission.name}</td>
     <td>
-        <div class="hstack gap-3 flex-wrap">
+        <div class="hstack gap-3">
             
             {#if JSON.parse(sessionStorage.getItem("permissions")).includes("permissions.show")}
             <span data-bs-toggle="modal" data-bs-target="#viewPermissionModal" on:click={setPermission}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-title="View" ><i class="ri-eye-fill"></i></a></span>

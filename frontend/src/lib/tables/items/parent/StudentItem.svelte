@@ -86,7 +86,7 @@
     <td>{localStorage.getItem("language") == "ar" ? student.classNameAr : student.className}</td>
 
     <td>
-        <div class="hstack gap-3 flex-wrap">
+        <div class="hstack gap-3">
             <span data-bs-toggle="modal" data-bs-target="#ViewQrStudentModal" on:click={setStudent}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="{translation.qrCode[localStorage.getItem("language")]}" ><i class="ri-qr-code-line"></i></a></span>
             <span on:click={openSubs}><a bind:this={subsToolTip} href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="{translation.subscription[localStorage.getItem("language")]}" ><i class="ri-money-dollar-circle-line"></i></a></span>
             <span data-bs-toggle="modal" data-bs-target="#viewStudentModal" on:click={setStudent}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="{translation.view[localStorage.getItem("language")]}" ><i class="ri-eye-fill"></i></a></span>

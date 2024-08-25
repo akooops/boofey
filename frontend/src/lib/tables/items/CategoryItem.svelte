@@ -28,7 +28,7 @@
     <td>{category.name_ar}</td>
     <td><span class="badge bg-primary">{category.productsCount}</span></td>
     <td>
-        <div class="hstack gap-3 flex-wrap">
+        <div class="hstack gap-3">
             
             {#if JSON.parse(sessionStorage.getItem("permissions")).includes("categories.show")}
             <span data-bs-toggle="modal" data-bs-target="#viewCategoryModal" on:click={setCategory}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="View" ><i class="ri-eye-fill"></i></a></span>

@@ -83,7 +83,7 @@
         <td>{canteen.address}</td>
         <td>{canteen.address_ar}</td>
         <td>
-            <div class="hstack gap-3 flex-wrap">
+            <div class="hstack gap-3">
                 {#if JSON.parse(sessionStorage.getItem("permissions")).includes("orders.index")}
                     <span on:click={openOrders} bind:this={orderToolTip}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Orders" ><i class="ri-survey-line"></i></a></span>
                 {/if}

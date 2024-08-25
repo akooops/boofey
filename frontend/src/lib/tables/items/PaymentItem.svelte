@@ -49,7 +49,7 @@
     <td>{payment.paid_at}</td>
 
     <td>
-        <div class="hstack gap-3 flex-wrap">
+        <div class="hstack gap-3">
             
             {#if JSON.parse(sessionStorage.getItem("permissions")).includes("payments.show")}
             <span data-bs-toggle="modal" data-bs-target="#viewPaymentModal" on:click={setPayment}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="View" ><i class="ri-eye-fill"></i></a></span>

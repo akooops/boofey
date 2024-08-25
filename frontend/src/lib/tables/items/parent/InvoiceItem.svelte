@@ -77,7 +77,7 @@
         {/if}
     </td>
     <td>
-        <div class="hstack gap-3 flex-wrap">
+        <div class="hstack gap-3">
             
             <a href="/invoices/{invoice.id}" target="_blank" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="{translation.print[localStorage.getItem("language")]}" ><i class="ri-printer-line"></i></a>
         </div>

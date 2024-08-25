@@ -32,7 +32,7 @@
         <td>{year.to}</td>
         <td>{year.academicDays}</td>
         <td>
-            <div class="hstack gap-3 flex-wrap">
+            <div class="hstack gap-3">
                 {#if JSON.parse(sessionStorage.getItem("permissions")).includes("academicBreaks.index")}
                 <span on:click={openAcademicBreaks}><a href="/admin/schools/{year.school_id}/academicYears/{year.id}/academicBreaks"  target="_blank"  class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Academic Breaks" ><i class="ri-calendar-2-fill"></i></a></span>
                 {/if}

@@ -40,7 +40,7 @@
     <td>{queue.lastSyncedAt}</td>
     
     <td>
-        <div class="hstack gap-3 flex-wrap">
+        <div class="hstack gap-3">
             {#if JSON.parse(sessionStorage.getItem("permissions")).includes("queueStudents.index")}
             <span on:click={openQueueStudents} bind:this={queueStudentsToolTip}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Queues" ><i class="bx bxs-graduation"></i></a></span>
             {/if}

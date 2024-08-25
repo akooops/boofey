@@ -35,7 +35,7 @@
     <td>{ paymentMethod.expiry_date}</td>
     {/if}
     <td>
-        <div class="hstack gap-3 flex-wrap">
+        <div class="hstack gap-3">
             <span data-bs-toggle="modal" data-bs-target="#deletePaymentMethodModal" on:click={setPaymentMethod}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="{translation.delete[localStorage.getItem("language")]}"><i class="ri-delete-bin-line"></i></a></span>
         </div>
     </td>

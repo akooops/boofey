@@ -44,7 +44,7 @@
     </td>
 
     <td>
-        <div class="hstack gap-3 flex-wrap">
+        <div class="hstack gap-3">
             {#if JSON.parse(sessionStorage.getItem("permissions")).includes("queueStudents.exit")}
             <span data-bs-toggle="modal" data-bs-target="#exitQueueStudent" on:click={setQueueStudent}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Exit Queue" ><i class="ri-logout-box-r-line"></i></a></span>
             {/if}

@@ -51,7 +51,7 @@
 
 
     <td>
-        <div class="hstack gap-3 flex-wrap">
+        <div class="hstack gap-3">
             <!-- {#if JSON.parse(sessionStorage.getItem("permissions")).includes("orders.show")} -->
             {#if JSON.parse(sessionStorage.getItem("permissions")).includes("invoices.show")}
             {#if sub?.invoice == null}

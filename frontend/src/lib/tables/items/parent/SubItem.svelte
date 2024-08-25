@@ -59,7 +59,7 @@
 
 
     <td>
-        <div class="hstack gap-3 flex-wrap">
+        <div class="hstack gap-3">
             {#if sub?.invoice == null}
                 <span data-bs-toggle="modal" data-bs-target="#genSubInvoiceModal" on:click={setSub}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="{translation.genInvoice[localStorage.getItem("language")]}" ><i class="ri-file-paper-2-line"></i></a></span>
             {:else}

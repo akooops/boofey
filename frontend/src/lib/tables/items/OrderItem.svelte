@@ -33,7 +33,7 @@
     <td>{order.subtotal} SAR</td>
     <td>{order.total} SAR</td>
     <td>
-        <div class="hstack gap-3 flex-wrap">
+        <div class="hstack gap-3">
             {#if JSON.parse(sessionStorage.getItem("permissions")).includes("orders.show")}
             <a href="/admin/orders/{order.id}" target="_blank" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="View" ><i class="ri-eye-fill"></i></a>
             {/if}

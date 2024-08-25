@@ -85,7 +85,7 @@
     </td>
 
     <td>
-        <div class="hstack gap-3 flex-wrap">
+        <div class="hstack gap-3">
             <span on:click={openSchoolStudents}><a bind:this={studentsToolTip} href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Students" ><i class="ri-user-2-line"></i></a></span>
             <!-- {#if JSON.parse(sessionStorage.getItem("permissions")).includes("divisions.index")} -->
             <span on:click={openSchoolDivision}><a bind:this={divisionToolTip} href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Divisions" ><i class="ri-layout-2-line"></i></a></span>

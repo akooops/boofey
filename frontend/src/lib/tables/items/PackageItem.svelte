@@ -71,7 +71,7 @@
             {/if}
         </td>
             <td>
-            <div class="hstack gap-3 flex-wrap">
+            <div class="hstack gap-3">
                 
                 
                 

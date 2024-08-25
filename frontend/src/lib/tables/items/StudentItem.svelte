@@ -95,7 +95,7 @@
     <td>{student.className}</td>
 
     <td>
-        <div class="hstack gap-3 flex-wrap">
+        <div class="hstack gap-3">
             <!-- <span data-bs-toggle="modal"><a href="/students/{student.id}/subscriptions" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Subscribtion" ><i class="ri-money-dollar-circle-line"></i></a></span> -->
             {#if JSON.parse(sessionStorage.getItem("permissions")).includes("students.notify-parent") && student.face_id == null && notified == false}
             <span on:click={notifyStudent}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Notify" ><i class="ri-notification-3-line"></i></a></span>
