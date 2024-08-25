@@ -1,10 +1,12 @@
 <script>
     import { getContext } from "svelte"
     import { goto } from '$app/navigation';
+    import { invalidate } from '$app/navigation';
+    import { redirector } from "$lib/api/auth";
 
     export let student
 
-
+    let notified = false
     let {studentStore} = getContext("studentStore")
     
     function setStudent(){
@@ -16,6 +18,23 @@
         let toolTipInstance = bootstrap.Tooltip.getOrCreateInstance(subsToolTip)
         goto(`/admin/students/${student.id}/subscriptions`)
         toolTipInstance.hide()
+    }
+
+    async function notifyStudent(){
+        let res = await fetch(`https://backend.boofey.app/api/admin/students/${student.id}/notify-parent`,{
+            headers:{
+                Authorization: `${localStorage.getItem("SID")}`
+            },
+            method:"POST",
+        })
+        redirector(res)
+
+        res = await res.json()
+        if(res.status == "success") {
+            // invalidate("students:refresh")
+            notified = true
+        }else {
+        }
     }
 
 
@@ -78,6 +97,9 @@
     <td>
         <div class="hstack gap-3 flex-wrap">
             <!-- <span data-bs-toggle="modal"><a href="/students/{student.id}/subscriptions" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Subscribtion" ><i class="ri-money-dollar-circle-line"></i></a></span> -->
+            {#if JSON.parse(sessionStorage.getItem("permissions")).includes("students.notify-parent") && student.face_id == null && notified == false}
+            <span on:click={notifyStudent}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Notify" ><i class="ri-notification-3-line"></i></a></span>
+            {/if}
             {#if JSON.parse(sessionStorage.getItem("permissions")).includes("students.otp")}
                 <span data-bs-toggle="modal" data-bs-target="#ViewQrStudentModal" on:click={setStudent}><a href="javascript:void(0);" class="fs-15" data-bs-toggle="tooltip" data-bs-original-title="Qr Code" ><i class="ri-qr-code-line"></i></a></span>
             {/if}
