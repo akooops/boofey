@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en" data-layout="vertical" data-layout-style="default" data-sidebar="light" data-topbar="light" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable" data-bs-theme="light" data-layout-width="fluid" data-layout-position="fixed" data-sidebar-visibility="show">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" href="./favicon.png" />
+		<meta name="viewport" content="width=device-width" />
+
+		<script>
+			// Get a reference to the <html> tag
+			var htmlTag = document.querySelector('html');
+			// Set an attribute (e.g., data-theme) with a value
+			if(localStorage.getItem("language") == null){
+				localStorage.setItem("language","en")
+			}
+			let dir = localStorage.getItem("language") == "ar" ? "rtl" : "ltr"
+			htmlTag.setAttribute('dir', dir);
+			
+			let link = document.createElement('link');
+			link.type = 'text/css';
+			link.rel = 'stylesheet';
+
+			link.href = `/assets/css/bootstrap${localStorage.getItem("language") == "ar" ? "-rtl" : ""}.min.css`
+
+			document.head.appendChild(link);
+
+			link = document.createElement('link');
+			link.type = 'text/css';
+			link.rel = 'stylesheet';
+			link.href = `/assets/css/app${localStorage.getItem("language") == "ar" ? "-rtl" : ""}.min.css`
+			
+			document.head.appendChild(link);
+
+			if(localStorage.getItem("language") == "ar"){
+				link = document.createElement('link');
+				link.type = 'text/css';
+				link.rel = 'stylesheet';
+				link.href = `/assets/css/arFonts.css`
+				
+				document.head.appendChild(link);
+			}
+
+
+		</script>
+ 		<!-- App favicon -->
+		 
+		<link rel="shortcut icon" href="/assets/images/logo.ico">
+    	<!-- jsvectormap css -->
+		<link href="/assets/libs/jsvectormap/css/jsvectormap.min.css" rel="stylesheet" type="text/css" />
+
+		<!--Swiper slider css-->
+		<link href="/assets/libs/swiper/swiper-bundle.min.css" rel="stylesheet" type="text/css" />
+
+		<!-- Layout config Js -->
+		<script src="/assets/js/layout.js"></script>
+		<!-- Bootstrap Css -->
+		<!-- Icons Css -->
+		<link href="/assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+		<!-- App Css-->
+		<!-- custom Css-->
+		<link href="/assets/css/custom.min.css" rel="stylesheet" type="text/css" />
+		<link href="/assets/css/colors.css" rel="stylesheet" type="text/css" />
+
+		
+		
+
+		
+		<link rel="modulepreload" href="./_app/immutable/entry/start.6dc208ca.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/scheduler.726ac76d.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/singletons.df66ea99.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/paths.7846b4ff.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/control.f5b05b5f.js">
+		<link rel="modulepreload" href="./_app/immutable/entry/app.31bf5a3d.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/preload-helper.a4192956.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/index.8a5ed380.js">
+	</head>
+	<body data-sveltekit-preload-data="hover">
+		<div style="display: contents">
+			<script>
+				{
+					__sveltekit_jepq28 = {
+						base: new URL(".", location).pathname.slice(0, -1),
+						env: {}
+					};
+
+					const element = document.currentScript.parentElement;
+
+					Promise.all([
+						import("./_app/immutable/entry/start.6dc208ca.js"),
+						import("./_app/immutable/entry/app.31bf5a3d.js")
+					]).then(([kit, app]) => {
+						kit.start(app, element);
+					});
+				}
+			</script>
+		</div>
+		  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+		  <!-- JAVASCRIPT -->
+		  <script src="/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+		  <script src="/assets/libs/simplebar/simplebar.min.js"></script>
+		  <script src="/assets/libs/node-waves/waves.min.js"></script>
+		  <script src="/assets/libs/feather-icons/feather.min.js"></script>
+		  <script src="/assets/js/pages/plugins/lord-icon-2.1.0.js"></script>
+		  <script src="/assets/js/plugins.js"></script>
+		  <!-- apexcharts -->
+		  <!-- <script src="/assets/libs/apexcharts/apexcharts.min.js"></script> -->
+		  
+		  <!-- Vector map-->
+		  <!-- <script src="/assets/libs/jsvectormap/js/jsvectormap.min.js"></script>
+		  <script src="/assets/libs/jsvectormap/maps/world-merc.js"></script> -->
+	  
+		  <!--Swiper slider js-->
+		  <script src="/assets/libs/swiper/swiper-bundle.min.js"></script>
+		  
+		  <!-- Dashboard init -->
+		  <!-- <div id="calendar"></div> -->
+
+
+		  <script src="/assets/js/pages/dashboard-ecommerce.init.js"></script>
+		  <script src="/assets/libs/card/card.js"></script>
+		  <script src="/assets/js/pages/landing.init.js"></script>
+
+		  <!-- <script src="/assets/js/app.js" defer></script> -->
+		  <!-- App js -->
+		  <!-- <script src="/assets/libs/fullcalendar/index.global.min.js"></script> -->
+		  <!-- <script src="/assets/js/pages/calendar.init.js"></script> -->
+
+	</body>
+</html>

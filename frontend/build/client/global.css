@@ -1,0 +1,6 @@
+.code-outline-highlight {
+    stroke: var(--vz-primary) !important;
+}
+.scan-region-highlight-svg{
+    stroke: var(--vz-primary) !important;
+}

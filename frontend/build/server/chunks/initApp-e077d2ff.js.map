@@ -1,0 +1,1 @@
+{"version":3,"file":"initApp-e077d2ff.js","sources":["../../../.svelte-kit/adapter-node/chunks/initApp.js"],"sourcesContent":["localStorage.getItem(\"language\");\nnew Event(\"resize\");\n"],"names":[],"mappings":"AAAA,YAAY,CAAC,OAAO,CAAC,UAAU,CAAC,CAAC;AACjC,IAAI,KAAK,CAAC,QAAQ,CAAC"}
