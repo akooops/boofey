@@ -133,6 +133,16 @@ class QueueStudentsController extends Controller
             ));
         }
 
+        $student = Student::find($request->get('student_id'));
+        $activeSubscription = $student->activeSubscription;
+
+        if (!$activeSubscription && $student->onhold != true) {
+            $inactiveSubscription = $student->inactiveSubscriptions()->first();
+
+            if ($inactiveSubscription !== null) {
+                $inactiveSubscription->activate();
+            }
+        }
 
         $queueStudent->save();
 

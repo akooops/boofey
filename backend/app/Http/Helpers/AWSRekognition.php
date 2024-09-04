@@ -184,3 +184,121 @@ function removeFace($faceID){
 
     return false;
 }
+
+function uploadFaceByS3($s3_object_bucket, $s3_object_name)
+{
+    $collectionId = env('AWS_DEFAULT_COLLECTION');
+    
+    $rekognition = new RekognitionClient([
+        'version' => 'latest',
+        'region' => env('AWS_DEFAULT_REGION'),
+        'credentials' => [
+            'key' => env('AWS_ACCESS_KEY_ID'),
+            'secret' => env('AWS_SECRET_ACCESS_KEY'),
+        ],
+    ]);
+
+    $collections = $rekognition->listCollections();
+
+    if (in_array($collectionId, $collections['CollectionIds']) == false) {
+        $rekognition->createCollection(['CollectionId' => $collectionId]);
+    }
+    
+    $response = $rekognition->detectFaces([
+        'Image' => [
+            "S3Object" => [
+                "Bucket" => $s3_object_bucket,
+                "Name" => $s3_object_name,
+            ],
+        ],
+        'Attributes' => ['ALL'],
+    ]);
+    
+    $detectedFaces = $response->get('FaceDetails');
+    
+    if (empty($detectedFaces)) {
+        return [
+            'status' => 'error',
+            'code' => 400,
+            'message' => 'No face detected',
+            'details' => 'The image does not contain a recognizable face.'
+        ];
+    } elseif (count($detectedFaces) > 1) {
+        return [
+            'status' => 'error',
+            'code' => 400,
+            'message' => 'Multiple faces detected',
+            'details' => 'The image contains multiple faces. Please provide an image with a single face.'
+        ];
+    }
+    
+    $faceDetail = $detectedFaces[0];
+    $brightness = $faceDetail['Quality']['Brightness'];
+    $sharpness = $faceDetail['Quality']['Sharpness'];
+    
+    if ($sharpness < 60 || $brightness < 45 || $brightness > 92) {
+        return [
+            'status' => 'error',
+            'code' => 400,
+            'message' => 'Poor image quality',
+            'details' => "Face quality is not sufficient for indexing. Brightness: $brightness, Sharpness: $sharpness"
+        ];
+    }
+    
+    $response = $rekognition->searchFacesByImage([
+        'CollectionId' => $collectionId,
+        'Image' => [
+            'S3Object' => [
+                'Bucket' => $s3_object_bucket,
+                'Name' => $s3_object_name,
+            ],
+        ],
+        'FaceMatchThreshold' => 96, 
+        'MaxFaces' => 1,
+    ]);
+    
+    $faceMatches = $response->get('FaceMatches');
+    
+    if (!empty($faceMatches)) {
+        $faceId = $faceMatches[0]['Face']['FaceId'];
+
+        return [
+            'status' => 'success',
+            'code' => 200,
+            'message' => 'Face indexed successfully',
+            'details' => [
+                'faceId' => $faceId
+            ]
+        ];
+    }
+    
+    $response = $rekognition->indexFaces([
+        'CollectionId' => $collectionId,
+        'Image' => [
+            'S3Object' => [
+                'Bucket' => $s3_object_bucket,
+                'Name' => $s3_object_name,
+            ],
+        ],
+        'DetectionAttributes' => ['ALL'],
+    ]);
+    
+    $faceRecords = $response->get('FaceRecords');
+    
+    if (!empty($faceRecords)) {
+        $faceId = $faceRecords[0]['Face']['FaceId'];
+        return [
+            'status' => 'success',
+            'code' => 200,
+            'message' => 'Face indexed successfully',
+            'details' => ['faceId' => $faceId]
+        ];
+    }
+    
+    return [
+        'status' => 'error',
+        'code' => 500,
+        'message' => 'Face indexing failed',
+        'details' => 'The face could not be indexed for an unknown reason.'
+    ];
+}

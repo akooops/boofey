@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Requests\Students\NotifyStudentParentRequest;
 use App\Http\Requests\Students\OtpStudentRequest;
 use App\Models\Student;
 use Illuminate\Http\Request;
@@ -99,7 +100,8 @@ class StudentsController extends Controller
                     ->orWhereRaw("CONCAT(firstname, ' ', lastname) LIKE ?", ['%' . $search . '%'])
                     ->orWhereRaw("CONCAT(lastname, ' ', firstname) LIKE ?", ['%' . $search . '%'])
                     ->orWhere('nfc_id', 'like', '%' . $search . '%')
-                    ->orWhere('face_id', 'like', '%' . $search . '%');
+                    ->orWhere('face_id', 'like', '%' . $search . '%')
+                    ->orWhere('sis_number', 'like', '%' . $search . '%');
             })
             ->orWhereHas('school', function ($schoolQuery) use ($search) {
                 $schoolQuery->where('name', 'like', '%' . $search . '%')
@@ -404,6 +406,15 @@ class StudentsController extends Controller
         $student->delete();
 
         removeFile($file);
+
+        return response()->json([
+            'status' => 'success'
+        ]);
+    }
+
+    public function notifyParent(Student $student, NotifyStudentParentRequest $request) 
+    {
+        $result = notifyParent($student->father, $student);
 
         return response()->json([
             'status' => 'success'

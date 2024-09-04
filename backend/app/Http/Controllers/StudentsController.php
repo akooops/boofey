@@ -2,15 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Students\CheckStudentFaceRequest;
+use App\Http\Requests\Students\CheckStudentSubscriptionRequest;
 use App\Http\Requests\Students\OtpStudentRequest;
 use App\Models\Student;
 use Illuminate\Http\Request;
 use App\Http\Requests\Students\StoreStudentRequest;
 use App\Http\Requests\Students\UpdateStudentRequest;
+use App\Http\Requests\Students\UploadStudentFaceRequest;
 use App\Models\AcademicYear;
 use App\Models\Father;
 use App\Models\File;
 use App\Models\School;
+use Aws\S3\S3Client;
 use Illuminate\Database\Eloquent\Scope;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -325,4 +329,150 @@ class StudentsController extends Controller
         ]);
     }
     */
+
+    public function uploadFace(UploadStudentFaceRequest $request){
+        $student = Student::where('sis_number', $request->sis_number)->first();
+
+        $s3ObjectBucket = $request->s3_object_bucket;
+        $s3ObjectName = $request->s3_object_name;
+
+        $result = uploadFaceByS3($s3ObjectBucket, $s3ObjectName);
+
+        if ($result['status'] === 'error') {
+            return response()->json($result, $result['code']);
+        }
+
+        $faceId = $result['details']['faceId'];
+
+        if(
+            Student::where('face_id', $faceId)->whereNot('id', $student->id)->exists()
+        ){
+            return response()->json([
+                'status' => 'error',
+                'code' => 700,
+                'message' => 'Face data belongs to another student.',
+                'details' => "We found that the face you are trying to index is assined to another student before."
+            ], 700);
+        }
+
+        try {
+            $s3 = new S3Client([
+                'version' => 'latest',
+                'region' => env('AWS_DEFAULT_REGION'),
+                'credentials' => [
+                    'key' => env('AWS_ACCESS_KEY_ID'),
+                    'secret' => env('AWS_SECRET_ACCESS_KEY'),
+                ],
+            ]);
+    
+            $resultS3 = $s3->getObject([
+                'Bucket' => $s3ObjectBucket,
+                'Key' => $s3ObjectName
+            ]);
+    
+            if (!file_exists(public_path('temp'))) {
+                mkdir(public_path('temp'), 0755, true);
+            }
+            
+            $filename = uniqid() . '.jpg';
+            $tempPath = public_path('temp/' . $filename);
+
+            file_put_contents($tempPath, $resultS3['Body']);
+    
+            $uploadedFile = new \Illuminate\Http\UploadedFile(
+                $tempPath,
+                $filename,
+                $resultS3['ContentType'],
+                null,
+                true
+            );
+    
+            $newFile = uploadFile($uploadedFile, 'students');
+        
+            // Remove old file if exists
+            if ($student->file_id) {
+                $oldFile = File::find($student->file_id);
+                if ($oldFile) {
+                    removeFile($oldFile);
+                }
+            }
+    
+            if($newFile){
+                $student->update([
+                    'file_id' => $newFile->id,
+                ]);
+            }
+        } catch (\Exception $e) {
+            
+        }
+
+        $student->update(['face_id' => $faceId]);
+
+        return response()->json([
+            'status' => 'success',
+            'code' => 200,
+            'message' => 'Face uploaded and updated successfully'
+        ]);
+    }
+
+    public function checkFaces(CheckStudentFaceRequest $request)
+    {
+        $sisNumbers = $request->input('sis_numbers');
+    
+        $response = [];
+    
+        foreach ($sisNumbers as $sisNumber) {
+            $student = Student::where('sis_number', $sisNumber)->first();
+    
+            $response[] = [
+                'sis_number' => $sisNumber,
+                'fullname' => $student->fullname,
+                'face_indexed' => !empty($student->face_id),
+            ];
+        }
+    
+        return response()->json([
+            'status' => 'success',
+            'data' => $response,
+        ]);
+    }
+
+    public function checkSubscriptions(CheckStudentSubscriptionRequest $request)
+    {
+        $sisNumbers = $request->input('sis_numbers');
+
+        $response = [];
+
+        foreach ($sisNumbers as $sisNumber) {
+            $student = Student::where('sis_number', $sisNumber)->first();
+
+            $subscriptionStatus = $student->subscribedStatus;
+            $remainingDays = 0;
+
+            if ($student->subscribed) {
+                $activeSubscription = $student->activeSubscription;
+                if ($activeSubscription !== null) {
+                    $remainingDays = $activeSubscription->balance;
+                }
+
+                $inactiveSubscription = $student->inactiveSubscriptions->first();
+                if ($inactiveSubscription !== null) {
+                    $remainingDays = $inactiveSubscription->balance;
+                }
+            }
+
+            $response[] = [
+                'sis_number' => $sisNumber,
+                'fullname' => $student->fullname,
+                'subscribed' => $student->subscribed,
+                'subscription_status' => $subscriptionStatus,
+                'remaining_days' => $remainingDays,
+            ];
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'data' => $response,
+        ]);
+    }
 }

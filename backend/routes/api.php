@@ -98,6 +98,10 @@ Route::group(['namespace' => 'App\Http\Controllers', 'middleware' => ['auth:sanc
 Route::group(['namespace' => 'App\Http\Controllers', 'middleware' => ['convert.bool.string']], function(){ 
     Route::post('users/generatePasswordResetToken', 'UsersController@generatePasswordResetToken')->name('users.generatePasswordResetToken')->middleware('throttle:1,1');
     Route::post('users/passwordReset', 'UsersController@passwordReset')->name('users.passwordReset');
+
+    Route::post('students/upload-face', 'StudentsController@uploadFace')->name('students.upload-face')->middleware('verify.apikey:false');
+    Route::post('students/check-faces', 'StudentsController@checkFaces')->name('students.check-faces')->middleware('verify.apikey:false');
+    Route::post('students/check-subscriptions', 'StudentsController@checkSubscriptions')->name('students.check-subscriptions')->middleware('verify.apikey:false');
 });
 
 Route::group(['namespace' => 'App\Http\Controllers', 'middleware' => ['convert.bool.string']], function(){ 

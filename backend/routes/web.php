@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PayfortController;
 use App\Http\Controllers\PaymentsController;
 use App\Http\Controllers\SMSController;
+use App\Models\Father;
 use Illuminate\Http\Request;
 
 /*
@@ -68,3 +69,13 @@ Route::post('/guardians/import', function(Request $request){
         ]
     ]);
 })->name('guardians.import');
+
+Route::get('/guardians/import-all', function(Request $request){
+    $id = $request->input('id', 50);
+
+    $fathers = \App\Models\Father::where('id', '<=', $id)->get();
+
+    foreach($fathers as $father){
+        $user = registerFather($father->identity_number);
+    }
+});

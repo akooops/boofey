@@ -105,6 +105,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'App\Http\Controllers\Admin', 
     Route::resource('students', StudentsController::class)->except(['create', 'edit', 'update']);
     Route::post('students/{student}/update', 'StudentsController@update')->name('students.update');
     Route::post('students/{student}/otp', 'StudentsController@otp')->name('students.otp');
+    Route::post('students/{student}/notify-parent', 'StudentsController@notifyParent')->name('students.notify-parent');
 
     /* -------------------------------------------------------------------------------- */
     /* Subscriptions Routes */

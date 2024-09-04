@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Crypt;
 
 class VerifyApiKey
 {
-    public function handle(Request $request, Closure $next)
+    public function handle(Request $request, Closure $next, $isCanteen = true)
     {
         $apiKey = $request->header('X-Api-Key') ?? $request->query('api_key');
 
@@ -25,18 +25,27 @@ class VerifyApiKey
             ], 401);
         }
         
-        $canteen = Canteen::where('api_key', $apiKey)->first();
+        if($isCanteen === true){
+            $canteen = Canteen::where('api_key', $apiKey)->first();
 
-        if (!$canteen) {
-            return response()->json([
-                'status' => 'error',
-                'errors' => [
-                    '401' => 'Invalid API key.'
-                ]
-            ], 401);
+            if (!$canteen) {
+                return response()->json([
+                    'status' => 'error',
+                    'errors' => [
+                        '401' => 'Invalid API key.'
+                    ]
+                ], 401);
+            }
+    
+            $request->attributes->add(['canteen' => $canteen]);
+        } else{
+            if ($apiKey !== env('APP_API_KEY')) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Invalid API key',
+                ], 401);
+            }    
         }
-
-        $request->attributes->add(['canteen' => $canteen]);
 
         return $next($request);
     }

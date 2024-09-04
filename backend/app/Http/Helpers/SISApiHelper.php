@@ -157,9 +157,6 @@ function registerStudents($SuperiorID, $father){
                 $division->save();
             };
 
-            //if (str_contains($student->SchoolName, 'boys') === false) continue;
-            if($student->SchoolName != 'Sis boys' && $student->SchoolName && 'Sis girls' && $student->SchoolName != 'Sis preschool') continue;
-
             preg_match('/\d+/', $student->EnglishGradeName, $matches);
             $grade = null;
 
@@ -196,3 +193,28 @@ function registerStudents($SuperiorID, $father){
         }
     }
 }
+
+function notifyParent($father, $student){
+    $apiUrl = 'https://ds.sis.edu.sa/BoofeyUpload.php';
+    $apiKey = 'hM9C75UfR5IaBF5c2Qs2RxiAed3DUNHE6nlnXcZGdAz6Kc0yjKl3xPfZ3322';
+
+    $response = Http::get($apiUrl, [
+        'api_key' => $apiKey,
+        'phone' => "+966" . substr($father->user->phone, 1),
+        'parentName' => $father->user->profile->fullname,
+        'studentName' => $student->fullname,
+    ]);
+
+    $result = (object)$response->json();
+
+    if (isset($result->error)) {
+        return [
+            'status' => 'error',
+        ];
+    }else{
+        return [
+            'status' => 'success',
+        ];
+    }
+}
+
