@@ -128,6 +128,15 @@ class PaymentsController extends Controller
 
         $subscription = Subscription::findOrFail($request->input('subscription_id'));
 
+        if ($subscription->payment && $subscription->payment->status == 14) {
+            return response()->json([
+                'status' => 'success',
+                'data' => [
+                    'merchant_reference' => $subscription->ref
+                ]
+            ]);
+        }
+        
         if($request->has('coupon_id') && $request->input('coupon_id') != null){
             $coupon = Coupon::findOrFail($request->get('coupon_id'));
 

@@ -63,7 +63,7 @@ function uploadFace($image, $faceID = null, $student = null)
         $brightness = $faceDetail['Quality']['Brightness'];
         $sharpness = $faceDetail['Quality']['Sharpness'];
     
-        if ($sharpness < 60 || $brightness < 45 || $brightness > 92) {
+        if ($sharpness < 65 || $brightness < 55 || $brightness > 92) {
             if(is_null($student) == false){
                 Log::channel('rekognition')->info($jobId.' Poor quality with sharpness '.$sharpness.' and brightness '.$brightness);
             }
@@ -88,7 +88,7 @@ function uploadFace($image, $faceID = null, $student = null)
             'Image' => [
                 'Bytes' => file_get_contents($imagePath),
             ],
-            'FaceMatchThreshold' => 96, 
+            'FaceMatchThreshold' => 98, 
             'MaxFaces' => 1,
         ]);
 
@@ -236,7 +236,7 @@ function uploadFaceByS3($s3_object_bucket, $s3_object_name)
     $brightness = $faceDetail['Quality']['Brightness'];
     $sharpness = $faceDetail['Quality']['Sharpness'];
     
-    if ($sharpness < 60 || $brightness < 45 || $brightness > 92) {
+    if ($sharpness < 65 || $brightness < 55 || $brightness > 92) {
         return [
             'status' => 'error',
             'code' => 400,
@@ -253,7 +253,7 @@ function uploadFaceByS3($s3_object_bucket, $s3_object_name)
                 'Name' => $s3_object_name,
             ],
         ],
-        'FaceMatchThreshold' => 96, 
+        'FaceMatchThreshold' => 98, 
         'MaxFaces' => 1,
     ]);
     

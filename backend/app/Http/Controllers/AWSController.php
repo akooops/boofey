@@ -80,14 +80,14 @@ class AWSController extends Controller
         $brightness = $faceDetail['Quality']['Brightness'];
         $sharpness = $faceDetail['Quality']['Sharpness'];
 
-        dd("shar ".$sharpness." brigth ".$brightness);
+        echo("shar ".$sharpness." brigth ".$brightness);
         // Search for faces in the specified collection using the input image
         $response = $rekognition->searchFacesByImage([
             'CollectionId' => $collectionId,
             'Image' => [
                 'Bytes' => file_get_contents($image),
             ],
-            'FaceMatchThreshold' => 80, // Adjust the confidence threshold as needed
+            'FaceMatchThreshold' => 98, // Adjust the confidence threshold as needed
             'MaxFaces' => 3, // Retrieve information for the top matching face
         ]);
 
